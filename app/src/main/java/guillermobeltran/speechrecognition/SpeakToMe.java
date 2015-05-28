@@ -27,13 +27,13 @@ public class SpeakToMe extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_to_me);
-
+        //Looks for the txtSpeechInput
         txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
         btnSpeak = (ImageButton) findViewById(imageButton);
 
-        // hide the action bar
+        // Crashed the app so commented it out
 //        getActionBar().hide();
-
+        //when the button gets clicked
         btnSpeak.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -70,11 +70,11 @@ public class SpeakToMe extends Activity {
 
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && null != data) {
+                if (resultCode == RESULT_OK && data != null) {
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    txtSpeechInput.setText(result.get(0));
+                    txtSpeechInput.setText(result.get(0));//setting the text to what we said
                 }
                 break;
             }
