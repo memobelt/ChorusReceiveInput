@@ -6,8 +6,11 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.hardware.Camera;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,6 +24,7 @@ public class SpeakToMe extends Activity {
 
     private TextView txtSpeechInput;
     private ImageButton btnSpeak;
+    private ImageButton btnCam;
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
     @Override
@@ -82,11 +86,8 @@ public class SpeakToMe extends Activity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_speak_to_me, menu);
-        return true;
+    public void takePic(View view){
+        Intent intent = new Intent(this, OpenCamera.class);
+        startActivity(intent);
     }
-
 }
