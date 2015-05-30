@@ -21,17 +21,20 @@ import java.util.Date;
  * Created by Memo on 5/29/15.
  */
 public class OpenCamera extends Activity {
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
     private Uri fileUri;
-    private ImageButton btnCam;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_speak_to_me);
-        btnCam = (ImageButton) findViewById(imageButton2);
-        btnCam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        setContentView(R.layout.activity_speak_to_me);
+//        btnCam = (ImageButton) findViewById(imageButton2);
+//        btnCam.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
                 // create Intent to take a picture and return control to the calling application
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -40,12 +43,10 @@ public class OpenCamera extends Activity {
 
                 // start the image capture Intent
                 startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-            }
-        });
+//            }
+//        });
 
     }
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
 
     /** Create a file Uri for saving an image or video */
     private static Uri getOutputMediaFileUri(int type){
@@ -84,8 +85,7 @@ public class OpenCamera extends Activity {
         }
 
         return mediaFile;
-    }private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -93,7 +93,7 @@ public class OpenCamera extends Activity {
             if (resultCode == RESULT_OK) {
                 // Image captured and saved to fileUri specified in the Intent
                 Toast.makeText(this, "Image saved to:\n" +
-                        data.getData(), Toast.LENGTH_LONG).show();
+                        fileUri, Toast.LENGTH_LONG).show();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
             } else {
