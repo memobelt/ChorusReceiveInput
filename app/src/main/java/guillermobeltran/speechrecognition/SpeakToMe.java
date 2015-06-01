@@ -129,10 +129,7 @@ public class SpeakToMe extends Activity {
     public void takePic(View view){
         Context context = this;
         PackageManager packageManager = context.getPackageManager();
-        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) == false) {
-            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
             fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
@@ -140,6 +137,9 @@ public class SpeakToMe extends Activity {
 
             // start the image capture Intent
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        }
+        else {
+            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
         }
     }
     private static Uri getOutputMediaFileUri(int type){
