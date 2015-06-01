@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_gradient_start"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:debuggable="true">
 
     <TextView
         android:id="@+id/txtSpeechInput"
@@ -31,6 +31,7 @@
         android:weightSum="1">
 
         <ImageButton
+            android:contentDescription="@string/camera"
             android:layout_width="200sp"
             android:layout_height="144sp"
             android:id="@+id/imageButton2"
@@ -45,6 +46,7 @@
             android:onClick="takePic" />
 
         <ImageButton
+            android:contentDescription="@string/mic"
             android:layout_width="109dp"
             android:layout_height="144dp"
             android:id="@+id/imageButton"
