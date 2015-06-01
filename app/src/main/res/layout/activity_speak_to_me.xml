@@ -38,7 +38,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="56dp"
             android:src="@drawable/camera1"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:background="@null"
             android:layout_weight="0.1"
             android:clickable="false"

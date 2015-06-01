@@ -1,6 +1,8 @@
 -- Merging decision tree log ---
 manifest
 ADDED from AndroidManifest.xml:2:1
+	android:required
+		ADDED from AndroidManifest.xml:3:50
 	xmlns:android
 		ADDED from AndroidManifest.xml:2:11
 	package
@@ -61,20 +63,6 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:21:17
 	android:name
 		ADDED from AndroidManifest.xml:21:27
-activity#guillermobeltran.speechrecognition.OpenCamera
-ADDED from AndroidManifest.xml:24:9
-	android:label
-		ADDED from AndroidManifest.xml:26:13
-	android:parentActivityName
-		ADDED from AndroidManifest.xml:27:13
-	android:name
-		ADDED from AndroidManifest.xml:25:13
-meta-data#android.support.PARENT_ACTIVITY
-ADDED from AndroidManifest.xml:28:13
-	android:name
-		ADDED from AndroidManifest.xml:29:17
-	android:value
-		ADDED from AndroidManifest.xml:30:17
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:22.1.1:20:5
