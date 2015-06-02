@@ -11,6 +11,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.media.Image;
 import android.media.MediaRecorder;
@@ -24,11 +25,13 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import static guillermobeltran.speechrecognition.R.id.imageButton;
 import static guillermobeltran.speechrecognition.R.id.imageButton2;
+import static guillermobeltran.speechrecognition.R.id.linearLayout;
 
 
 public class SpeakToMe extends Activity {
@@ -105,7 +108,27 @@ public class SpeakToMe extends Activity {
                     // Image captured and saved to fileUri specified in the Intent
 
                     btnCam.setImageURI(fileUri);
-                    btnCam.setScaleType(ImageView.ScaleType.FIT_XY);
+                    btnCam.setScaleType(ImageView.ScaleType.CENTER);
+
+//                    BitmapFactory.Options options = new BitmapFactory.Options();
+//                    options.inJustDecodeBounds = true;
+//                    BitmapFactory.decodeFile(fileUri.getPath(), options);
+//                    int width = options.outWidth;
+//                    int height = options.outHeight;
+//
+//                    android.view.ViewGroup.LayoutParams layoutParams = btnCam.getLayoutParams();
+//                    if(layoutParams.height > layoutParams.width) {
+//                        int tempWidth = layoutParams.width;
+//                        layoutParams.width = layoutParams.height;
+//                        layoutParams.height = tempWidth;
+//                        btnSpeak.setImageURI(fileUri);
+//                    }
+//                    else{
+//                        int tempWidth = layoutParams.width;
+//                        layoutParams.width = layoutParams.height;
+//                        layoutParams.height = tempWidth;
+//                    }
+//                    btnCam.setLayoutParams(layoutParams);
                     if (oldfileUri != null){
                         File file = new File(oldfileUri.getPath());
                         if (file.exists()){

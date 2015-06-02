@@ -2,7 +2,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_gradient_start"
-    android:orientation="vertical"
     android:debuggable="true">
 
     <TextView
@@ -11,10 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textSize="24sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"
+        android:layout_marginBottom="50dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,23 +26,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
-        android:weightSum="1">
-
-        <ImageButton
-            android:contentDescription="@string/camera"
-            android:layout_width="fill_parent"
-            android:layout_height="200sp"
-            android:id="@+id/imageButton2"
-            android:layout_below="@+id/txtSpeechInput"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="56dp"
-            android:src="@drawable/camera1"
-            android:scaleType="fitCenter"
-            android:background="@null"
-            android:layout_weight="0.1"
-            android:clickable="false"
-            android:onClick="takePic" />
+        android:weightSum="1"
+        android:layout_below="@+id/txtSpeechInput">
 
         <ImageButton
             android:contentDescription="@string/mic"
@@ -52,7 +36,8 @@
             android:id="@+id/imageButton"
             android:src="@drawable/mic1"
             android:background="@null"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,6 +48,17 @@
             android:textSize="15sp"
             android:textStyle="normal"
             android:layout_gravity="center_horizontal" />
+
+        <ImageButton
+            android:contentDescription="@string/camera"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/imageButton2"
+            android:src="@drawable/camera1"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:clickable="false"
+            android:onClick="takePic" />
 
     </LinearLayout>
 
