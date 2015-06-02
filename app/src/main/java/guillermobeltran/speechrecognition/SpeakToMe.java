@@ -42,6 +42,7 @@ public class SpeakToMe extends Activity {
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
     private Uri fileUri;
+    private Uri oldfileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +103,16 @@ public class SpeakToMe extends Activity {
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE: {
                 if (resultCode == RESULT_OK) {
                     // Image captured and saved to fileUri specified in the Intent
+
                     btnCam.setImageURI(fileUri);
                     btnCam.setScaleType(ImageView.ScaleType.FIT_XY);
+                    if (oldfileUri != null){
+                        File file = new File(oldfileUri.getPath());
+                        if (file.exists()){
+                            file.delete();
+                        }
+//                        getApplicationContext().getContentResolver().delete(oldfileUri,null,null);
+                    }
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
                 } else {
@@ -131,7 +140,9 @@ public class SpeakToMe extends Activity {
         PackageManager packageManager = context.getPackageManager();
         if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
+            if (fileUri != null){
+                oldfileUri = fileUri;
+            }
             fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
 

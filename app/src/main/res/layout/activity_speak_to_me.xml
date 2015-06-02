@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="normal" />
@@ -32,8 +32,8 @@
 
         <ImageButton
             android:contentDescription="@string/camera"
-            android:layout_width="200sp"
-            android:layout_height="144sp"
+            android:layout_width="fill_parent"
+            android:layout_height="200sp"
             android:id="@+id/imageButton2"
             android:layout_below="@+id/txtSpeechInput"
             android:layout_centerHorizontal="true"
@@ -52,8 +52,7 @@
             android:id="@+id/imageButton"
             android:src="@drawable/mic1"
             android:background="@null"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center_horizontal" />
+            android:scaleType="fitCenter" />
 
         <TextView
             android:layout_width="wrap_content"
