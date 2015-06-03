@@ -244,6 +244,9 @@ public class SpeakToMe extends Activity {
         }
             return cam;
     }
+    /*
+    TODO: Fix the orientation problem. Delete previous photo if new one is selected. Figure out why it doesn't work on the first iteration. Scaling needs help.
+     */
     public void takePic(Camera cam){
 //        Context context = this;
 //        PackageManager packageManager = context.getPackageManager();
