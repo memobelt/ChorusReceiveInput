@@ -13,7 +13,8 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="normal"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="50dp"
+        android:visibility="visible" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,7 +28,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:weightSum="1"
-        android:layout_below="@+id/txtSpeechInput">
+        android:layout_below="@+id/txtSpeechInput"
+        android:visibility="visible">
 
         <ImageButton
             android:contentDescription="@string/mic"
@@ -49,17 +51,52 @@
             android:textStyle="normal"
             android:layout_gravity="center_horizontal" />
 
-        <ImageButton
-            android:contentDescription="@string/camera"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/imageButton2"
-            android:src="@drawable/camera1"
-            android:scaleType="centerInside"
-            android:background="@null"
-            android:clickable="false"
-            android:onClick="takePic" />
+            android:layout_height="0dp"
+            android:layout_weight="0.88">
 
+            <ImageButton
+                android:contentDescription="@string/camera"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageButton2"
+                android:src="@drawable/camera1"
+                android:scaleType="centerInside"
+                android:background="@null"
+                android:clickable="false" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/pictureLayout">
+
+        <SurfaceView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:id="@+id/surfaceView"
+            android:layout_columnWeight="3"
+            android:layout_rowWeight="1"
+            android:layout_weight="5"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/imageButton3"
+            android:src="@drawable/camera1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:contentDescription="@string/camera"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_weight="1" />
     </LinearLayout>
 
 

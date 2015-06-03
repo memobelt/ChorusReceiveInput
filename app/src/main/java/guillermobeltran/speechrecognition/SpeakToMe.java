@@ -1,6 +1,8 @@
 package guillermobeltran.speechrecognition;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +15,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.media.Image;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -22,6 +25,9 @@ import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,7 +37,10 @@ import android.widget.Toast;
 
 import static guillermobeltran.speechrecognition.R.id.imageButton;
 import static guillermobeltran.speechrecognition.R.id.imageButton2;
+import static guillermobeltran.speechrecognition.R.id.imageButton3;
 import static guillermobeltran.speechrecognition.R.id.linearLayout;
+import static guillermobeltran.speechrecognition.R.id.pictureLayout;
+import static guillermobeltran.speechrecognition.R.id.surfaceView;
 
 
 public class SpeakToMe extends Activity {
@@ -39,11 +48,17 @@ public class SpeakToMe extends Activity {
     private TextView txtSpeechInput;
     private ImageButton btnSpeak;
     private ImageButton btnCam;
+    private ImageButton btnCam2;
+    private SurfaceView surface;
+    private LinearLayout linearLayout;
+    private LinearLayout pictureLayout;
+    private Camera _camera;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 200;
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 300;
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final String TAG = "SpeakToMe";
     private Uri fileUri;
     private Uri oldfileUri;
 
@@ -55,6 +70,10 @@ public class SpeakToMe extends Activity {
         txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
         btnSpeak = (ImageButton) findViewById(imageButton);
         btnCam = (ImageButton) findViewById(imageButton2);
+        surface = (SurfaceView) findViewById(R.id.surfaceView);
+        btnCam2 = (ImageButton) findViewById(imageButton3);
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        pictureLayout = (LinearLayout) findViewById(R.id.pictureLayout);
 
         // Crashed the app so commented it out
 //        getActionBar().hide();
@@ -66,7 +85,27 @@ public class SpeakToMe extends Activity {
                 promptSpeechInput();
             }
         });
-
+        btnCam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Camera.getNumberOfCameras()>0) {
+                    _camera = setPrev();
+                    txtSpeechInput.setVisibility(view.GONE);
+//                int vis = txtSpeechInput.getVisibility();
+                    linearLayout.setVisibility(view.GONE);
+                    pictureLayout.setVisibility(view.VISIBLE);
+                }
+            }
+        });
+        btnCam2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                takePic(_camera);
+                pictureLayout.setVisibility(v.GONE);
+                txtSpeechInput.setVisibility(v.VISIBLE);
+                linearLayout.setVisibility(v.VISIBLE);
+            }
+        });
     }
     /**
      * Showing google speech input dialog
@@ -158,23 +197,171 @@ public class SpeakToMe extends Activity {
         }
     }
 
-    public void takePic(View view){
-        Context context = this;
-        PackageManager packageManager = context.getPackageManager();
-        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (fileUri != null){
-                oldfileUri = fileUri;
+    public Camera setPrev(){
+        int numCams = Camera.getNumberOfCameras();
+        Camera cam = null;
+        Boolean isBack = false;
+        if (numCams > 0) {
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+            for (int camID = 0; camID < numCams; camID++) {
+                Camera.getCameraInfo(camID, cameraInfo);
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                    isBack = true;
+                    try {
+                        cam = Camera.open(camID);
+                        setCameraDisplayOrientation(this, camID, cam);
+                        break;
+                    } catch (RuntimeException e) {
+                        Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+                    }
+                }
             }
-            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+            if (!isBack) {
+                for (int camID = 0; camID < numCams; camID++) {
+                    Camera.getCameraInfo(camID, cameraInfo);
+                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                        try {
+                            cam = Camera.open(camID);
+                            setCameraDisplayOrientation(this, camID, cam);
+                        } catch (RuntimeException e) {
+                            Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+                        }
+                    }
+                }
+            }
+//            final LinearLayout layOut = (LinearLayout) findViewById(linearLayout);
+//            layOut.setVisibility(View.INVISIBLE);
+//            surfaceView.setVisibility(View.VISIBLE);
+//            txtSpeechInput.setVisibility(View.INVISIBLE);
+            SurfaceHolder surfaceHolder = surface.getHolder();
+            //        surfaceHolder.addCallback(this);
+            try {
+                cam.setPreviewDisplay(surfaceHolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            cam.startPreview();
+        }
+            return cam;
+    }
+    public void takePic(Camera cam){
+//        Context context = this;
+//        PackageManager packageManager = context.getPackageManager();
+//        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+//            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            if (fileUri != null){
+//                oldfileUri = fileUri;
+//            }
+//            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+//
+//            // start the image capture Intent
+//            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+//        }
+//        else {
+//            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
+//        }
+//        int numCams = Camera.getNumberOfCameras();
+//        Camera cam = null;
+//        Boolean isBack = false;
+//        if (numCams > 0){
+//            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+//            for(int camID = 0; camID < numCams; camID++) {
+//                Camera.getCameraInfo(camID, cameraInfo);
+//                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+//                    isBack = true;
+//                    try {
+//                        cam = Camera.open(camID);
+//                        setCameraDisplayOrientation(this, camID, cam);
+//                        break;
+//                    } catch (RuntimeException e) {
+//                        Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+//                    }
+//                }
+//            }
+//            if (!isBack){
+//                for(int camID = 0; camID < numCams; camID++) {
+//                    Camera.getCameraInfo(camID, cameraInfo);
+//                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+//                        try {
+//                            cam = Camera.open(camID);
+//                            setCameraDisplayOrientation(this, camID, cam);
+//                        } catch (RuntimeException e) {
+//                            Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+//                        }
+//                    }
+//                }
+//            }
+////            final LinearLayout layOut = (LinearLayout) findViewById(linearLayout);
+////            layOut.setVisibility(View.INVISIBLE);
+////            surfaceView.setVisibility(View.VISIBLE);
+////            txtSpeechInput.setVisibility(View.INVISIBLE);
+//            SurfaceHolder surfaceHolder = surface.getHolder();
+//    //        surfaceHolder.addCallback(this);
+//            try {
+//                cam.setPreviewDisplay(surfaceHolder);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            cam.startPreview();
+            final Camera.ShutterCallback shutter = new Camera.ShutterCallback() {
+                @Override
+                public void onShutter() {
+                    AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                    mgr.playSoundEffect(AudioManager.FLAG_PLAY_SOUND);
+                }
+            };
+            final Camera finalCam = cam;
+            final Camera.PictureCallback jpeg = new Camera.PictureCallback() {
+                @Override
+                public void onPictureTaken(byte[] bytes, Camera camera) {
+                    File file = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+                    try {
+                        FileOutputStream fos = new FileOutputStream(file);
+                        fos.write(bytes);
+                        fos.close();
+                        Toast.makeText(getApplicationContext(), "New Image saved:" + file, Toast.LENGTH_LONG).show();
+                    } catch (Exception error) {
+                        Log.d(TAG, "File" + file
+                                + "not saved: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), "Image could not be saved.", Toast.LENGTH_LONG).show();
+                    }
+//                    layOut.setVisibility(View.VISIBLE);
+//                    surfaceView.setVisibility(View.INVISIBLE);
+//                    txtSpeechInput.setVisibility(View.VISIBLE);
+                    finalCam.release();
+                    btnCam.setImageURI(Uri.fromFile(file));
+                    btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                }
+            };
+        cam.takePicture(shutter,null,jpeg);
+    }
+//        else{
+//            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
+//        }
 
-            // start the image capture Intent
-            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    public static void setCameraDisplayOrientation(Activity activity,
+                                                   int cameraId, android.hardware.Camera camera) {
+        android.hardware.Camera.CameraInfo info =  new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
         }
-        else {
-            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
         }
+        camera.setDisplayOrientation(result);
     }
     private static Uri getOutputMediaFileUri(int type){
         return Uri.fromFile(getOutputMediaFile(type));
