@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gradient_start"
+    android:debuggable="true"
+    tools:context=".TakePicture">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:id="@+id/pictureLayout">
+
+        <SurfaceView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:id="@+id/picturePreview"
+            android:layout_columnWeight="3"
+            android:layout_rowWeight="1"
+            android:layout_weight="5"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/takePicture"
+            android:src="@drawable/camera1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:contentDescription="@string/camera"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_weight="1"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+
+
+</RelativeLayout>

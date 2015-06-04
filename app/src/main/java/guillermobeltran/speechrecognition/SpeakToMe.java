@@ -12,19 +12,17 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.media.AudioManager;
-import android.media.Image;
-import android.media.MediaRecorder;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.Menu;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -38,16 +36,13 @@ import android.widget.Toast;
 import static guillermobeltran.speechrecognition.R.id.imageButton;
 import static guillermobeltran.speechrecognition.R.id.imageButton2;
 import static guillermobeltran.speechrecognition.R.id.imageButton3;
-import static guillermobeltran.speechrecognition.R.id.linearLayout;
-import static guillermobeltran.speechrecognition.R.id.pictureLayout;
-import static guillermobeltran.speechrecognition.R.id.surfaceView;
 
 
 public class SpeakToMe extends Activity {
 
     private TextView txtSpeechInput;
-    private ImageButton btnSpeak;
-    private ImageButton btnCam;
+    private ImageButton _btnSpeak;
+    private ImageButton _btnCam;
     private ImageButton btnCam2;
     private SurfaceView surface;
     private LinearLayout linearLayout;
@@ -68,44 +63,32 @@ public class SpeakToMe extends Activity {
         setContentView(R.layout.activity_speak_to_me);
         //Looks for the txtSpeechInput
         txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
-        btnSpeak = (ImageButton) findViewById(imageButton);
-        btnCam = (ImageButton) findViewById(imageButton2);
+        _btnSpeak = (ImageButton) findViewById(imageButton);
+        _btnCam = (ImageButton) findViewById(imageButton2);
         surface = (SurfaceView) findViewById(R.id.surfaceView);
         btnCam2 = (ImageButton) findViewById(imageButton3);
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
         pictureLayout = (LinearLayout) findViewById(R.id.pictureLayout);
-
         // Crashed the app so commented it out
 //        getActionBar().hide();
         //when the button gets clicked
-        btnSpeak.setOnClickListener(new View.OnClickListener() {
+        _btnSpeak.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 promptSpeechInput();
             }
         });
-        btnCam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(Camera.getNumberOfCameras()>0) {
-                    _camera = setPrev();
-                    txtSpeechInput.setVisibility(view.GONE);
-//                int vis = txtSpeechInput.getVisibility();
-                    linearLayout.setVisibility(view.GONE);
-                    pictureLayout.setVisibility(view.VISIBLE);
-                }
-            }
-        });
         btnCam2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                takePic(_camera);
-                pictureLayout.setVisibility(v.GONE);
-                txtSpeechInput.setVisibility(v.VISIBLE);
-                linearLayout.setVisibility(v.VISIBLE);
+//                SetUp(2);
             }
         });
+    }
+    public void newTake(View view){
+        Intent intent = new Intent(getApplicationContext(), TakePicture.class);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
     /**
      * Showing google speech input dialog
@@ -144,37 +127,24 @@ public class SpeakToMe extends Activity {
             }
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE: {
                 if (resultCode == RESULT_OK) {
-                    // Image captured and saved to fileUri specified in the Intent
-
-                    btnCam.setImageURI(fileUri);
-                    btnCam.setScaleType(ImageView.ScaleType.CENTER);
-
-//                    BitmapFactory.Options options = new BitmapFactory.Options();
-//                    options.inJustDecodeBounds = true;
-//                    BitmapFactory.decodeFile(fileUri.getPath(), options);
-//                    int width = options.outWidth;
-//                    int height = options.outHeight;
-//
-//                    android.view.ViewGroup.LayoutParams layoutParams = btnCam.getLayoutParams();
-//                    if(layoutParams.height > layoutParams.width) {
-//                        int tempWidth = layoutParams.width;
-//                        layoutParams.width = layoutParams.height;
-//                        layoutParams.height = tempWidth;
-//                        btnSpeak.setImageURI(fileUri);
-//                    }
-//                    else{
-//                        int tempWidth = layoutParams.width;
-//                        layoutParams.width = layoutParams.height;
-//                        layoutParams.height = tempWidth;
-//                    }
-//                    btnCam.setLayoutParams(layoutParams);
-                    if (oldfileUri != null){
-                        File file = new File(oldfileUri.getPath());
-                        if (file.exists()){
-                            file.delete();
-                        }
-//                        getApplicationContext().getContentResolver().delete(oldfileUri,null,null);
+                    String stringuri = data.getStringExtra("FILE_URI");
+                    Uri uri = Uri.parse(stringuri);
+                    File file = new File(uri.getPath());
+                    ExifInterface rotation = null;
+                    try {
+                        rotation = new ExifInterface(file.getAbsolutePath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                    Bitmap scaledbm = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
+                    scaledbm = Bitmap.createScaledBitmap(scaledbm, _btnCam.getWidth(), _btnCam.getHeight(), true);
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(90);
+                    Bitmap rotatedbm = Bitmap.createBitmap(scaledbm, 0, 0, scaledbm.getWidth(), scaledbm.getHeight(), matrix, true);
+                    _btnCam.setImageBitmap(rotatedbm);
+                    _btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    file.delete();
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
                 } else {
@@ -240,14 +210,15 @@ public class SpeakToMe extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            Camera.Parameters param = cam.getParameters();
+            param.setFlashMode(param.FLASH_MODE_AUTO);
+            param.setFocusMode(param.FOCUS_MODE_CONTINUOUS_PICTURE);
+            cam.setParameters(param);
             cam.startPreview();
         }
-            return cam;
+        return cam;
     }
-    /*
-    TODO: Fix the orientation problem. Delete previous photo if new one is selected. Figure out why it doesn't work on the first iteration. Scaling needs help.
-     */
-    public void takePic(Camera cam){
+    public void takePic(final Camera cam){
 //        Context context = this;
 //        PackageManager packageManager = context.getPackageManager();
 //        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
@@ -314,7 +285,6 @@ public class SpeakToMe extends Activity {
                     mgr.playSoundEffect(AudioManager.FLAG_PLAY_SOUND);
                 }
             };
-            final Camera finalCam = cam;
             final Camera.PictureCallback jpeg = new Camera.PictureCallback() {
                 @Override
                 public void onPictureTaken(byte[] bytes, Camera camera) {
@@ -323,21 +293,35 @@ public class SpeakToMe extends Activity {
                         FileOutputStream fos = new FileOutputStream(file);
                         fos.write(bytes);
                         fos.close();
-                        Toast.makeText(getApplicationContext(), "New Image saved:" + file, Toast.LENGTH_LONG).show();
+                        ExifInterface rotation = new ExifInterface(file.getAbsolutePath());
+                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                        Bitmap scaledbm = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
+                        scaledbm = Bitmap.createScaledBitmap(scaledbm, _btnCam.getWidth(), _btnCam.getHeight(), true);
+                        Matrix matrix = new Matrix();
+                        String a = rotation.getAttribute(rotation.TAG_ORIENTATION);
+                        matrix.postRotate(90);
+                        Bitmap rotatedbm = Bitmap.createBitmap(scaledbm, 0, 0, scaledbm.getWidth(), scaledbm.getHeight(), matrix, true);
+//                    file.delete();
+//                    _btnCam.setImageURI(Uri.fromFile(file));
+                        _btnCam.setImageBitmap(rotatedbm);
+                        _btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//                        Toast.makeText(getApplicationContext(), "New Image saved:" + file, Toast.LENGTH_LONG).show();
                     } catch (Exception error) {
                         Log.d(TAG, "File" + file
                                 + "not saved: " + error.getMessage());
                         Toast.makeText(getApplicationContext(), "Image could not be saved.", Toast.LENGTH_LONG).show();
                     }
-//                    layOut.setVisibility(View.VISIBLE);
-//                    surfaceView.setVisibility(View.INVISIBLE);
-//                    txtSpeechInput.setVisibility(View.VISIBLE);
-                    finalCam.release();
-                    btnCam.setImageURI(Uri.fromFile(file));
-                    btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
             };
-        cam.takePicture(shutter,null,jpeg);
+        Camera.AutoFocusCallback autoFocusCallback = new Camera.AutoFocusCallback() {
+            @Override
+            public void onAutoFocus(boolean b, Camera camera) {
+                if(b) {
+                    cam.takePicture(shutter, null, jpeg);
+                }
+            }
+        };
+        cam.autoFocus(autoFocusCallback);
     }
 //        else{
 //            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();

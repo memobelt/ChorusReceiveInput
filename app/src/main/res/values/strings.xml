@@ -10,5 +10,6 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="camera">Camera Button</string>
     <string name="mic">Microphone Button</string>
+    <string name="title_activity_take_picture">TakePicture</string>
 
 </resources>
