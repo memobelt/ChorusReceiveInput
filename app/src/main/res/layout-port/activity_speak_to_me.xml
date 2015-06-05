@@ -66,39 +66,36 @@
                 android:src="@drawable/camera1"
                 android:scaleType="centerInside"
                 android:background="@null"
-                android:onClick="newTake" />
+                android:onClick="takePic" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turn right"
+                android:id="@+id/turnRight"
+                android:layout_gravity="right|bottom"
+                android:visibility="gone" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turn Left"
+                android:id="@+id/turnLeft"
+                android:layout_gravity="left|bottom"
+                android:visibility="gone" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OK"
+                android:id="@+id/okButton"
+                android:layout_gravity="center_horizontal|bottom"
+                android:visibility="gone" />
 
         </FrameLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:id="@+id/pictureLayout">
-
-        <SurfaceView
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:id="@+id/surfaceView"
-            android:layout_columnWeight="3"
-            android:layout_rowWeight="1"
-            android:layout_weight="5"
-            android:visibility="visible" />
-
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/imageButton3"
-            android:src="@drawable/camera1"
-            android:scaleType="fitCenter"
-            android:background="@null"
-            android:contentDescription="@string/camera"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:layout_weight="1" />
     </LinearLayout>
 
 

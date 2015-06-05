@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static guillermobeltran.speechrecognition.R.id.surfaceView;
 import static guillermobeltran.speechrecognition.R.id.takePicture;
 import static guillermobeltran.speechrecognition.R.id.picturePreview;
 
@@ -47,6 +46,7 @@ public class TakePicture extends Activity {
     private Uri _uri;
     private static final String TAG = "TakePicture";
     public static final int MEDIA_TYPE_IMAGE = 1;
+    private Boolean _calledHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class TakePicture extends Activity {
         setContentView(R.layout.activity_take_picture);
         _btnCam = (ImageButton) findViewById(takePicture);
         _surface = (SurfaceView) findViewById(picturePreview);
+        _calledHome = false;
         _btnCam.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -95,10 +96,17 @@ public class TakePicture extends Activity {
             SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                    try {
-                        _camera.setPreviewDisplay(surfaceHolder);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (_calledHome){
+                        Intent intent = new Intent();
+                        setResult(RESULT_FIRST_USER,intent);
+                        finish();
+                    }
+                    else {
+                        try {
+                            _camera.setPreviewDisplay(surfaceHolder);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -109,8 +117,9 @@ public class TakePicture extends Activity {
 
                 @Override
                 public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-                    Log.d(TAG,"Surface destroyed");
+                    Log.d(TAG, "Surface destroyed");
                     _camera.release();
+                    _calledHome = true;
                 }
             };
             surfaceHolder.addCallback(callback);
@@ -164,31 +173,16 @@ public class TakePicture extends Activity {
                     FileOutputStream fos = new FileOutputStream(file);
                     fos.write(bytes);
                     fos.close();
-//                    ExifInterface rotation = new ExifInterface(file.getAbsolutePath());
-//                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-//                    Bitmap scaledbm = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
-//                    scaledbm = Bitmap.createScaledBitmap(scaledbm, _btnCam.getWidth(), _btnCam.getHeight(), true);
-//                    Matrix matrix = new Matrix();
-//                    String a = rotation.getAttribute(rotation.TAG_ORIENTATION);
-//                    matrix.postRotate(90);
-//                    Bitmap rotatedbm = Bitmap.createBitmap(scaledbm, 0, 0, scaledbm.getWidth(), scaledbm.getHeight(), matrix, true);
-//        //                    file.delete();
-//                    _camera.release();
-//        //                    btnCam.setImageURI(Uri.fromFile(file));
-//                    _btnCam.setImageBitmap(rotatedbm);
-//                    btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//                    Toast.makeText(getApplicationContext(), "New Image saved:" + file, Toast.LENGTH_LONG).show();
                 } catch (Exception error) {
                     Log.d(TAG, "File" + file
                             + "not saved: " + error.getMessage());
-//                    Toast.makeText(getApplicationContext(), "Image could not be saved.", Toast.LENGTH_LONG).show();
                 }
                 Intent intent = new Intent();
                 if(_uri != null){
                     setResult(RESULT_OK, intent);
                     intent.putExtra("FILE_URI",_uri.toString());
                 }else{
-                    setResult(0,intent);
+                    setResult(RESULT_CANCELED,intent);
                 }
                 finish();
             }

@@ -28,6 +28,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,27 +37,22 @@ import android.widget.Toast;
 
 import static guillermobeltran.speechrecognition.R.id.imageButton;
 import static guillermobeltran.speechrecognition.R.id.imageButton2;
-import static guillermobeltran.speechrecognition.R.id.imageButton3;
+import static guillermobeltran.speechrecognition.R.id.turnRight;
+import static guillermobeltran.speechrecognition.R.id.turnLeft;
+import static guillermobeltran.speechrecognition.R.id.okButton;
 
 
 public class SpeakToMe extends Activity {
 
     private TextView txtSpeechInput;
-    private ImageButton _btnSpeak;
-    private ImageButton _btnCam;
-    private ImageButton btnCam2;
-    private SurfaceView surface;
-    private LinearLayout linearLayout;
-    private LinearLayout pictureLayout;
-    private Camera _camera;
+    private Bitmap _finalBm;
+    private ImageButton _btnSpeak, _btnCam;
+    private Button _rButton, _lButton, _okButton;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 200;
-    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 300;
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
     private static final String TAG = "SpeakToMe";
-    private Uri fileUri;
-    private Uri oldfileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +62,10 @@ public class SpeakToMe extends Activity {
         txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
         _btnSpeak = (ImageButton) findViewById(imageButton);
         _btnCam = (ImageButton) findViewById(imageButton2);
-        surface = (SurfaceView) findViewById(R.id.surfaceView);
-        btnCam2 = (ImageButton) findViewById(imageButton3);
-        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
-        pictureLayout = (LinearLayout) findViewById(R.id.pictureLayout);
+        _rButton = (Button) findViewById(turnRight);
+        _lButton = (Button) findViewById(turnLeft);
+        _okButton = (Button) findViewById(okButton);
+
         // Crashed the app so commented it out
 //        getActionBar().hide();
         //when the button gets clicked
@@ -80,23 +76,48 @@ public class SpeakToMe extends Activity {
                 promptSpeechInput();
             }
         });
-        btnCam2.setOnClickListener(new View.OnClickListener(){
+        _rButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v){
-//                SetUp(2);
+            public void onClick(View v) {
+                rotate(1);
+            }
+        });
+        _lButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                rotate(-1);
+            }
+        });
+        _okButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                rotate(0);
             }
         });
     }
-    public void newTake(View view){
-//        Intent intent = new Intent(getApplicationContext(), TakePicture.class);
-//        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-
-            // start the image capture Intent
-            startActivityForResult(intent, 300);
+    public void rotate(int direction){
+        Matrix matrix = new Matrix();
+        if (direction==1){
+            matrix.postRotate(90);
+        }else if(direction==-1){
+            matrix.preRotate(90);
+        }else{
+            _rButton.setVisibility(View.GONE);
+            _lButton.setVisibility(View.GONE);
+            _okButton.setVisibility(View.GONE);
+        }
+        _finalBm = Bitmap.createBitmap(_finalBm, 0, 0, _finalBm.getWidth(), _finalBm.getHeight(), matrix, true);
+        _btnCam.setImageBitmap(_finalBm);
+        _btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
     }
+    public void takePic(View view){
+        Intent intent = new Intent(getApplicationContext(), TakePicture.class);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
     /**
      * Showing google speech input dialog
      * */
@@ -146,194 +167,20 @@ public class SpeakToMe extends Activity {
                     BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                     Bitmap scaledbm = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
                     scaledbm = Bitmap.createScaledBitmap(scaledbm, _btnCam.getWidth(), _btnCam.getHeight(), true);
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(90);
-                    Bitmap rotatedbm = Bitmap.createBitmap(scaledbm, 0, 0, scaledbm.getWidth(), scaledbm.getHeight(), matrix, true);
-                    _btnCam.setImageBitmap(rotatedbm);
+                    _finalBm = Bitmap.createBitmap(scaledbm, 0, 0, scaledbm.getWidth(), scaledbm.getHeight(), null, true);
+                    _btnCam.setImageBitmap(_finalBm);
                     _btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     file.delete();
+                    _rButton.setVisibility(View.VISIBLE);
+                    _lButton.setVisibility(View.VISIBLE);
+                    _okButton.setVisibility(View.VISIBLE);
                 } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
-                }
-                break;
-            }
-            case 300: {
-                if (resultCode == RESULT_OK) {
-                    // Video captured and saved to fileUri specified in the Intent
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    _btnCam.setImageBitmap(imageBitmap);
-                } else if (resultCode == RESULT_CANCELED) {
-                    Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Operation canceled\n", Toast.LENGTH_LONG).show();
                 }
                 break;
             }
         }
     }
-
-    public Camera setPrev(){
-        int numCams = Camera.getNumberOfCameras();
-        Camera cam = null;
-        Boolean isBack = false;
-        if (numCams > 0) {
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-            for (int camID = 0; camID < numCams; camID++) {
-                Camera.getCameraInfo(camID, cameraInfo);
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                    isBack = true;
-                    try {
-                        cam = Camera.open(camID);
-                        setCameraDisplayOrientation(this, camID, cam);
-                        break;
-                    } catch (RuntimeException e) {
-                        Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
-                    }
-                }
-            }
-            if (!isBack) {
-                for (int camID = 0; camID < numCams; camID++) {
-                    Camera.getCameraInfo(camID, cameraInfo);
-                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                        try {
-                            cam = Camera.open(camID);
-                            setCameraDisplayOrientation(this, camID, cam);
-                        } catch (RuntimeException e) {
-                            Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
-                        }
-                    }
-                }
-            }
-//            final LinearLayout layOut = (LinearLayout) findViewById(linearLayout);
-//            layOut.setVisibility(View.INVISIBLE);
-//            surfaceView.setVisibility(View.VISIBLE);
-//            txtSpeechInput.setVisibility(View.INVISIBLE);
-            SurfaceHolder surfaceHolder = surface.getHolder();
-            //        surfaceHolder.addCallback(this);
-            try {
-                cam.setPreviewDisplay(surfaceHolder);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Camera.Parameters param = cam.getParameters();
-            param.setFlashMode(param.FLASH_MODE_AUTO);
-            param.setFocusMode(param.FOCUS_MODE_CONTINUOUS_PICTURE);
-            cam.setParameters(param);
-            cam.startPreview();
-        }
-        return cam;
-    }
-    public void takePic(final Camera cam){
-//        Context context = this;
-//        PackageManager packageManager = context.getPackageManager();
-//        if(packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-//            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            if (fileUri != null){
-//                oldfileUri = fileUri;
-//            }
-//            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-//
-//            // start the image capture Intent
-//            startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-//        }
-//        else {
-//            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
-//        }
-//        int numCams = Camera.getNumberOfCameras();
-//        Camera cam = null;
-//        Boolean isBack = false;
-//        if (numCams > 0){
-//            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-//            for(int camID = 0; camID < numCams; camID++) {
-//                Camera.getCameraInfo(camID, cameraInfo);
-//                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-//                    isBack = true;
-//                    try {
-//                        cam = Camera.open(camID);
-//                        setCameraDisplayOrientation(this, camID, cam);
-//                        break;
-//                    } catch (RuntimeException e) {
-//                        Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
-//                    }
-//                }
-//            }
-//            if (!isBack){
-//                for(int camID = 0; camID < numCams; camID++) {
-//                    Camera.getCameraInfo(camID, cameraInfo);
-//                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-//                        try {
-//                            cam = Camera.open(camID);
-//                            setCameraDisplayOrientation(this, camID, cam);
-//                        } catch (RuntimeException e) {
-//                            Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
-//                        }
-//                    }
-//                }
-//            }
-////            final LinearLayout layOut = (LinearLayout) findViewById(linearLayout);
-////            layOut.setVisibility(View.INVISIBLE);
-////            surfaceView.setVisibility(View.VISIBLE);
-////            txtSpeechInput.setVisibility(View.INVISIBLE);
-//            SurfaceHolder surfaceHolder = surface.getHolder();
-//    //        surfaceHolder.addCallback(this);
-//            try {
-//                cam.setPreviewDisplay(surfaceHolder);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            cam.startPreview();
-            final Camera.ShutterCallback shutter = new Camera.ShutterCallback() {
-                @Override
-                public void onShutter() {
-                    AudioManager mgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                    mgr.playSoundEffect(AudioManager.FLAG_PLAY_SOUND);
-                }
-            };
-            final Camera.PictureCallback jpeg = new Camera.PictureCallback() {
-                @Override
-                public void onPictureTaken(byte[] bytes, Camera camera) {
-                    File file = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-                    try {
-                        FileOutputStream fos = new FileOutputStream(file);
-                        fos.write(bytes);
-                        fos.close();
-                        ExifInterface rotation = new ExifInterface(file.getAbsolutePath());
-                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                        Bitmap scaledbm = BitmapFactory.decodeFile(file.getAbsolutePath(), bmOptions);
-                        scaledbm = Bitmap.createScaledBitmap(scaledbm, _btnCam.getWidth(), _btnCam.getHeight(), true);
-                        Matrix matrix = new Matrix();
-                        String a = rotation.getAttribute(rotation.TAG_ORIENTATION);
-                        matrix.postRotate(90);
-                        Bitmap rotatedbm = Bitmap.createBitmap(scaledbm, 0, 0, scaledbm.getWidth(), scaledbm.getHeight(), matrix, true);
-//                    file.delete();
-//                    _btnCam.setImageURI(Uri.fromFile(file));
-                        _btnCam.setImageBitmap(rotatedbm);
-                        _btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//                        Toast.makeText(getApplicationContext(), "New Image saved:" + file, Toast.LENGTH_LONG).show();
-                    } catch (Exception error) {
-                        Log.d(TAG, "File" + file
-                                + "not saved: " + error.getMessage());
-                        Toast.makeText(getApplicationContext(), "Image could not be saved.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            };
-        Camera.AutoFocusCallback autoFocusCallback = new Camera.AutoFocusCallback() {
-            @Override
-            public void onAutoFocus(boolean b, Camera camera) {
-                if(b) {
-                    cam.takePicture(shutter, null, jpeg);
-                }
-            }
-        };
-        cam.autoFocus(autoFocusCallback);
-    }
-//        else{
-//            Toast.makeText(this, "This device does not have a camera.", Toast.LENGTH_SHORT).show();
-//        }
 
     public static void setCameraDisplayOrientation(Activity activity,
                                                    int cameraId, android.hardware.Camera camera) {
@@ -367,7 +214,7 @@ public class SpeakToMe extends Activity {
         // using Environment.getExternalStorageState() before doing this.
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), ".SpeechRecog");
+                Environment.DIRECTORY_PICTURES), "SpeechRecog");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
