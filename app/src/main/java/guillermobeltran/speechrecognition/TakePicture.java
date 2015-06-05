@@ -3,27 +3,17 @@ package guillermobeltran.speechrecognition;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.media.AudioManager;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Environment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,30 +21,27 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static guillermobeltran.speechrecognition.R.id.takePicture;
 import static guillermobeltran.speechrecognition.R.id.picturePreview;
+import static guillermobeltran.speechrecognition.R.id.takePicture;
 
-/*
-TODO: Fix the landscape error. Figure out whether the picture is taken in landscape or not and send that in intent? Then intent takes care of it?
-A bit hacky but bette than having landscaped photo come out as portrait.
- */
+
 public class TakePicture extends Activity {
 
     private ImageButton _btnCam;
     private SurfaceView _surface;
     private Camera _camera;
     private Uri _uri;
-    private static final String TAG = "TakePicture";
-    public static final int MEDIA_TYPE_IMAGE = 1;
     private Boolean _calledHome;
+    private static final String TAG = "TakePicture";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_picture);
+        //initialize relevant materials
         _btnCam = (ImageButton) findViewById(takePicture);
         _surface = (SurfaceView) findViewById(picturePreview);
-        _calledHome = false;
+        _calledHome = false;//this is to keep track of whether the user went back home
         _btnCam.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -64,6 +51,7 @@ public class TakePicture extends Activity {
         int numCams = Camera.getNumberOfCameras();
         _camera = null;
         Boolean isBack = false;
+        //get the back facing camera and if there is none get the front facing camera
         if (numCams > 0) {
             Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
             for (int camID = 0; camID < numCams; camID++) {
@@ -87,22 +75,23 @@ public class TakePicture extends Activity {
                             _camera = Camera.open(camID);
                             setCameraDisplayOrientation(this, camID, _camera);
                         } catch (RuntimeException e) {
-                            Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+                            Log.e(TAG, "Front Camera failed to open: " + e.getLocalizedMessage());
                         }
                     }
                 }
             }
             SurfaceHolder surfaceHolder = _surface.getHolder();
+            //callback ensures the preview display is ready before it is set
             SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
                 @Override
                 public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                    if (_calledHome){
+                    if (_calledHome){//if the user pressed home we will go back to SpeakToMe
                         Intent intent = new Intent();
                         setResult(RESULT_FIRST_USER,intent);
                         finish();
                     }
                     else {
-                        try {
+                        try {//setDisplay
                             _camera.setPreviewDisplay(surfaceHolder);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -115,6 +104,7 @@ public class TakePicture extends Activity {
                     Log.d(TAG,"Surface Changed");
                 }
 
+                //when surface is destroyed camera must be released
                 @Override
                 public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
                     Log.d(TAG, "Surface destroyed");
@@ -123,16 +113,22 @@ public class TakePicture extends Activity {
                 }
             };
             surfaceHolder.addCallback(callback);
-
+            //set parameters
             Camera.Parameters param = _camera.getParameters();
             param.setFlashMode(param.FLASH_MODE_AUTO);
             param.setFocusMode(param.FOCUS_MODE_CONTINUOUS_PICTURE);
             _camera.setParameters(param);
             _camera.startPreview();
+        }else{//if there are no cameras
+            Intent intent = new Intent();
+            setResult(RESULT_FIRST_USER,intent);
+            finish();
         }
 
     }
-
+    /*
+    Set's the display orientation of the camera to match that of the phone. Found online.
+     */
     public static void setCameraDisplayOrientation(Activity activity,
                                                    int cameraId, android.hardware.Camera camera) {
         android.hardware.Camera.CameraInfo info =  new android.hardware.Camera.CameraInfo();
@@ -156,7 +152,11 @@ public class TakePicture extends Activity {
         }
         camera.setDisplayOrientation(result);
     }
+    /*
+    Take the picture and saves it to a newly created file
+     */
     public void takePic(){
+        //It's supposed to play a shutter sound when camera is clicked. Don't think it works
         final Camera.ShutterCallback shutter = new Camera.ShutterCallback() {
             @Override
             public void onShutter() {
@@ -164,10 +164,11 @@ public class TakePicture extends Activity {
                 mgr.playSoundEffect(AudioManager.FLAG_PLAY_SOUND);
             }
         };
+        //What to do when the picture is taken. It saves the picture to a file places the URI in an intent
         final Camera.PictureCallback jpeg = new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] bytes, Camera camera) {
-                _uri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                _uri = getOutputMediaFileUri();
                 File file = new File(_uri.getPath());
                 try {
                     FileOutputStream fos = new FileOutputStream(file);
@@ -187,6 +188,7 @@ public class TakePicture extends Activity {
                 finish();
             }
         };
+        //Waits for the camera to focus before taking a picture
         Camera.AutoFocusCallback autoFocusCallback = new Camera.AutoFocusCallback() {
             @Override
             public void onAutoFocus(boolean b, Camera camera) {
@@ -195,13 +197,18 @@ public class TakePicture extends Activity {
                 }
             }
         };
+        //Starts the picture taking
         _camera.autoFocus(autoFocusCallback);
     }
-    private static Uri getOutputMediaFileUri(int type){
-        return Uri.fromFile(getOutputMediaFile(type));
+    /*
+    Get uri from created file
+     */
+    private static Uri getOutputMediaFileUri(){
+        return Uri.fromFile(getOutputMediaFile());
     }
+
     /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
+    private static File getOutputMediaFile(){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -221,12 +228,8 @@ public class TakePicture extends Activity {
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-        } else {
-            return null;
-        }
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_"+ timeStamp + ".jpg");
 
         return mediaFile;
     }
