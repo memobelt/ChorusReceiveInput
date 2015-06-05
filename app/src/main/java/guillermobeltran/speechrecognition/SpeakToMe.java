@@ -57,8 +57,6 @@ public class SpeakToMe extends Activity {
         });
     }
     public void newTake(View view){
-//        Intent intent = new Intent(getApplicationContext(), TakePicture.class);
-//        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = getOutputMediaFile();
         if (photoFile != null){
