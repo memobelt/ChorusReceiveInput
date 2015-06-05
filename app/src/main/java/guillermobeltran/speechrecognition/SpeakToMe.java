@@ -21,6 +21,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.Surface;
@@ -87,8 +88,14 @@ public class SpeakToMe extends Activity {
         });
     }
     public void newTake(View view){
-        Intent intent = new Intent(getApplicationContext(), TakePicture.class);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+//        Intent intent = new Intent(getApplicationContext(), TakePicture.class);
+//        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+
+            // start the image capture Intent
+            startActivityForResult(intent, 300);
     }
     /**
      * Showing google speech input dialog
@@ -152,11 +159,12 @@ public class SpeakToMe extends Activity {
                 }
                 break;
             }
-            case CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE: {
+            case 300: {
                 if (resultCode == RESULT_OK) {
                     // Video captured and saved to fileUri specified in the Intent
-                    Toast.makeText(this, "Video saved to:\n" +
-                            data.getData(), Toast.LENGTH_LONG).show();
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    _btnCam.setImageBitmap(imageBitmap);
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "Operation failed\n", Toast.LENGTH_LONG).show();
                 } else {
