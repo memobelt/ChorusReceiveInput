@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/takePicture"
-            android:src="@drawable/camera1"
+            android:src="@mipmap/camera1"
             android:scaleType="fitCenter"
             android:background="@null"
             android:contentDescription="@string/camera"
