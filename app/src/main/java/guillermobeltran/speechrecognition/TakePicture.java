@@ -50,81 +50,84 @@ public class TakePicture extends Activity {
         });
         int numCams = Camera.getNumberOfCameras();
         _camera = null;
-        Boolean isBack = false;
         //get the back facing camera and if there is none get the front facing camera
         if (numCams > 0) {
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-            for (int camID = 0; camID < numCams; camID++) {
-                Camera.getCameraInfo(camID, cameraInfo);
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                    isBack = true;
-                    try {
-                        _camera = Camera.open(camID);
-                        setCameraDisplayOrientation(this, camID, _camera);
-                        break;
-                    } catch (RuntimeException e) {
-                        Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
-                    }
-                }
-            }
-            if (!isBack) {
-                for (int camID = 0; camID < numCams; camID++) {
-                    Camera.getCameraInfo(camID, cameraInfo);
-                    if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                        try {
-                            _camera = Camera.open(camID);
-                            setCameraDisplayOrientation(this, camID, _camera);
-                        } catch (RuntimeException e) {
-                            Log.e(TAG, "Front Camera failed to open: " + e.getLocalizedMessage());
-                        }
-                    }
-                }
-            }
-            SurfaceHolder surfaceHolder = _surface.getHolder();
-            //callback ensures the preview display is ready before it is set
-            SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
-                @Override
-                public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                    if (_calledHome){//if the user pressed home we will go back to SpeakToMe
-                        Intent intent = new Intent();
-                        setResult(RESULT_FIRST_USER,intent);
-                        finish();
-                    }
-                    else {
-                        try {//setDisplay
-                            _camera.setPreviewDisplay(surfaceHolder);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-                    Log.d(TAG,"Surface Changed");
-                }
-
-                //when surface is destroyed camera must be released
-                @Override
-                public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-                    Log.d(TAG, "Surface destroyed");
-                    _camera.release();
-                    _calledHome = true;
-                }
-            };
-            surfaceHolder.addCallback(callback);
-            //set parameters
-            Camera.Parameters param = _camera.getParameters();
-            param.setFlashMode(param.FLASH_MODE_AUTO);
-            param.setFocusMode(param.FOCUS_MODE_CONTINUOUS_PICTURE);
-            _camera.setParameters(param);
-            _camera.startPreview();
+            initializeCamera(numCams);
         }else{//if there are no cameras
             Intent intent = new Intent();
             setResult(RESULT_FIRST_USER,intent);
             finish();
         }
 
+    }
+    public void initializeCamera(int numCams){
+        Boolean isBack = false;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        for (int camID = 0; camID < numCams; camID++) {
+            Camera.getCameraInfo(camID, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                isBack = true;
+                try {
+                    _camera = Camera.open(camID);
+                    setCameraDisplayOrientation(this, camID, _camera);
+                    break;
+                } catch (RuntimeException e) {
+                    Log.e(TAG, "Camera failed to open: " + e.getLocalizedMessage());
+                }
+            }
+        }
+        if (!isBack) {
+            for (int camID = 0; camID < numCams; camID++) {
+                Camera.getCameraInfo(camID, cameraInfo);
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    try {
+                        _camera = Camera.open(camID);
+                        setCameraDisplayOrientation(this, camID, _camera);
+                    } catch (RuntimeException e) {
+                        Log.e(TAG, "Front Camera failed to open: " + e.getLocalizedMessage());
+                    }
+                }
+            }
+        }
+        SurfaceHolder surfaceHolder = _surface.getHolder();
+        //callback ensures the preview display is ready before it is set
+        SurfaceHolder.Callback callback = new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder surfaceHolder) {
+                if (_calledHome){//if the user pressed home we will go back to SpeakToMe
+                    Intent intent = new Intent();
+                    setResult(RESULT_FIRST_USER,intent);
+                    finish();
+                }
+                else {
+                    try {//setDisplay
+                        _camera.setPreviewDisplay(surfaceHolder);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+                Log.d(TAG,"Surface Changed");
+            }
+
+            //when surface is destroyed camera must be released
+            @Override
+            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+                Log.d(TAG, "Surface destroyed");
+                _camera.release();
+                _calledHome = true;
+            }
+        };
+        surfaceHolder.addCallback(callback);
+        //set parameters
+        Camera.Parameters param = _camera.getParameters();
+        param.setFlashMode(param.FLASH_MODE_AUTO);
+        param.setFocusMode(param.FOCUS_MODE_CONTINUOUS_PICTURE);
+        _camera.setParameters(param);
+        _camera.startPreview();
     }
     /*
     Set's the display orientation of the camera to match that of the phone. Found online.
