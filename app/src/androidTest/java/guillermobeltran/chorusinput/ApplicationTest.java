@@ -1,4 +1,4 @@
-package guillermobeltran.speechrecognition;
+package guillermobeltran.chorusinput;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

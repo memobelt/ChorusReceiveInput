@@ -1,4 +1,4 @@
-package guillermobeltran.speechrecognition;
+package guillermobeltran.chorusinput;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -18,8 +18,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static guillermobeltran.speechrecognition.R.id.imageButton;
-import static guillermobeltran.speechrecognition.R.id.imageButton2;
+import static guillermobeltran.chorusinput.R.id.imageButton;
+import static guillermobeltran.chorusinput.R.id.imageButton2;
 
 
 public class SpeakToMe extends Activity {

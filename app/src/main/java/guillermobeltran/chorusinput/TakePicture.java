@@ -1,4 +1,4 @@
-package guillermobeltran.speechrecognition;
+package guillermobeltran.chorusinput;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static guillermobeltran.speechrecognition.R.id.picturePreview;
-import static guillermobeltran.speechrecognition.R.id.takePicture;
+import static guillermobeltran.chorusinput.R.id.picturePreview;
+import static guillermobeltran.chorusinput.R.id.takePicture;
 
 
 public class TakePicture extends Activity {
