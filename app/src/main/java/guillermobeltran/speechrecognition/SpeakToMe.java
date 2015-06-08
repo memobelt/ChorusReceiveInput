@@ -5,12 +5,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,9 +20,6 @@ import java.util.Locale;
 
 import static guillermobeltran.speechrecognition.R.id.imageButton;
 import static guillermobeltran.speechrecognition.R.id.imageButton2;
-import static guillermobeltran.speechrecognition.R.id.okButton;
-import static guillermobeltran.speechrecognition.R.id.turnLeft;
-import static guillermobeltran.speechrecognition.R.id.turnRight;
 
 
 public class SpeakToMe extends Activity {
@@ -32,7 +27,7 @@ public class SpeakToMe extends Activity {
     private TextView _txtSpeechInput;
     private Bitmap _finalBm;
     private ImageButton _btnSpeak, _btnCam;
-    private Button _btnRig, _btnLef, _btnOk;
+//    private Button _btnRig, _btnLef, _btnOk;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private static final int REQ_CODE_CAMERA_IMAGE = 200;
     private static final String TAG = "SpeakToMe";
@@ -45,36 +40,12 @@ public class SpeakToMe extends Activity {
         _txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
         _btnSpeak = (ImageButton) findViewById(imageButton);
         _btnCam = (ImageButton) findViewById(imageButton2);
-        _btnRig = (Button) findViewById(turnRight);
-        _btnLef = (Button) findViewById(turnLeft);
-        _btnOk = (Button) findViewById(okButton);
-        //Appropriate click listeners. Remove _btnSpeak? and use onClick in xml file?
+
         _btnSpeak.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 promptSpeechInput();
-            }
-        });
-        _btnRig.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                rotate(1);
-            }
-        });
-        _btnLef.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                rotate(-1);
-            }
-        });
-        _btnOk.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                rotate(0);
             }
         });
     }
@@ -136,37 +107,15 @@ public class SpeakToMe extends Activity {
                     _btnCam.setImageBitmap(_finalBm);
                     _btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                     file.delete();
-                    //for the user to rotate image because images can be displayed incorrectly
-                    _btnRig.setVisibility(View.VISIBLE);
-                    _btnLef.setVisibility(View.VISIBLE);
-                    _btnOk.setVisibility(View.VISIBLE);
+                    //for the user to rotate image because images can be displayed incorrectly\
 
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "Operation canceled\n", Toast.LENGTH_LONG).show();
+                }else if (resultCode==100){
+                    takePic(_btnCam.getRootView());
                 }
                 break;
             }
         }
-    }
-    /*
-    Rotate the image that is the btnCam appropriately.
-     */
-    public void rotate(int direction){
-        Matrix matrix = new Matrix();
-        if (direction == 1){
-            matrix.postRotate(90);
-        }
-        else if(direction == -1){
-            matrix.preRotate(90);
-        }
-        else{
-            //Removes the options from view
-            _btnRig.setVisibility(View.GONE);
-            _btnLef.setVisibility(View.GONE);
-            _btnOk.setVisibility(View.GONE);
-        }
-        _finalBm = Bitmap.createBitmap(_finalBm, 0, 0, _finalBm.getWidth(), _finalBm.getHeight(), matrix, true);
-        _btnCam.setImageBitmap(_finalBm);
-        _btnCam.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
     }
 }

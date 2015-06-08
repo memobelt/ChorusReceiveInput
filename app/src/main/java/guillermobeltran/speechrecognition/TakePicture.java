@@ -3,6 +3,7 @@ package guillermobeltran.speechrecognition;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -13,7 +14,10 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,9 +33,13 @@ public class TakePicture extends Activity {
 
     private ImageButton _btnCam;
     private SurfaceView _surface;
+    private ImageView _picture;
+    private FrameLayout _frameLayout;
+    private LinearLayout _pictureLayout;
+    private Bitmap _finalBm;
     private Camera _camera;
     private Uri _uri;
-    private Boolean _calledHome;
+    private Boolean _calledHome, _pictureTaken;
     private static final String TAG = "TakePicture";
 
     @Override
@@ -42,25 +50,27 @@ public class TakePicture extends Activity {
         _btnCam = (ImageButton) findViewById(takePicture);
         _surface = (SurfaceView) findViewById(picturePreview);
         _calledHome = false;//this is to keep track of whether the user went back home
-        _btnCam.setOnClickListener(new View.OnClickListener(){
+        _btnCam.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 takePic();
             }
         });
-        int numCams = Camera.getNumberOfCameras();
-        _camera = null;
         //get the back facing camera and if there is none get the front facing camera
-        if (numCams > 0) {
-            initializeCamera(numCams);
-        }else{//if there are no cameras
-            Intent intent = new Intent();
-            setResult(RESULT_FIRST_USER,intent);
-            finish();
+        if (_pictureTaken == null || _pictureTaken == false) {
+            if (Camera.getNumberOfCameras() > 0) {
+                _camera = null;
+                initializeCamera();
+            } else {//if there are no cameras
+                Intent intent = new Intent();
+                setResult(RESULT_FIRST_USER, intent);
+                finish();
+            }
         }
-
     }
-    public void initializeCamera(int numCams){
+
+    public void initializeCamera(){
+        int numCams = Camera.getNumberOfCameras();
         Boolean isBack = false;
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         for (int camID = 0; camID < numCams; camID++) {
@@ -181,14 +191,10 @@ public class TakePicture extends Activity {
                     Log.d(TAG, "File" + file
                             + "not saved: " + error.getMessage());
                 }
-                Intent intent = new Intent();
-                if(_uri != null){
-                    setResult(RESULT_OK, intent);
-                    intent.putExtra("FILE_URI",_uri.toString());
-                }else{
-                    setResult(RESULT_CANCELED,intent);
-                }
-                finish();
+                _camera.release();
+                Intent OrientIntent = new Intent(getApplicationContext(), OrientPicture.class);
+                OrientIntent.putExtra("FILE_URI", _uri.toString());
+                startActivityForResult(OrientIntent,0);
             }
         };
         //Waits for the camera to focus before taking a picture
@@ -203,9 +209,25 @@ public class TakePicture extends Activity {
         //Starts the picture taking
         _camera.autoFocus(autoFocusCallback);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            Intent intent = data;
+            setResult(RESULT_OK,intent);
+            finish();
+        }
+        else{
+            Intent intent = data;
+            setResult(100,intent);
+            finish();
+        }
+    }
+
     /*
-    Get uri from created file
-     */
+        Get uri from created file
+         */
     private static Uri getOutputMediaFileUri(){
         return Uri.fromFile(getOutputMediaFile());
     }

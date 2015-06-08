@@ -11,5 +11,6 @@
     <string name="camera">Camera Button</string>
     <string name="mic">Microphone Button</string>
     <string name="title_activity_take_picture">TakePicture</string>
+    <string name="title_activity_orient_picture">OrientPicture</string>
 
 </resources>

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -26,7 +27,15 @@
         <activity
             android:name=".TakePicture"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name=".OrientPicture"
+            android:label="@string/title_activity_orient_picture"
+            android:parentActivityName=".TakePicture" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="guillermobeltran.speechrecognition.TakePicture" />
         </activity>
     </application>
 
