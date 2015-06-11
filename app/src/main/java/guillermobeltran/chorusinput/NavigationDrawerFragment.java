@@ -1,5 +1,6 @@
 package guillermobeltran.chorusinput;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -77,7 +78,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
-        mDrawerLayout.OnClickListener;
     }
 
     @Override
@@ -191,8 +191,9 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (mCurrentSelectedPosition == R.string.title_section2){
-            Toast.makeText(getActivity(), "TES", Toast.LENGTH_SHORT).show();
+        if (mCurrentSelectedPosition == 0){
+            Intent intent = new Intent(getActivity(),SpeakToMe.class);
+            startActivity(intent);
         }
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
