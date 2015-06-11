@@ -5,10 +5,12 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static guillermobeltran.chorusinput.R.id.SendButton;
 import static guillermobeltran.chorusinput.R.id.imageButton;
 import static guillermobeltran.chorusinput.R.id.imageButton2;
 
@@ -27,6 +30,7 @@ public class SpeakToMe extends Activity {
     private TextView _txtSpeechInput;
     private Bitmap _finalBm;
     private ImageButton _btnSpeak, _btnCam;
+    private Button _sendButton;
 //    private Button _btnRig, _btnLef, _btnOk;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private static final int REQ_CODE_CAMERA_IMAGE = 200;
@@ -40,6 +44,7 @@ public class SpeakToMe extends Activity {
         _txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
         _btnSpeak = (ImageButton) findViewById(imageButton);
         _btnCam = (ImageButton) findViewById(imageButton2);
+        _sendButton = (Button) findViewById(SendButton);
 
         _btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -60,7 +65,7 @@ public class SpeakToMe extends Activity {
     /**
      * Showing google speech input dialog
      * */
-    private void promptSpeechInput() {
+    public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -74,6 +79,10 @@ public class SpeakToMe extends Activity {
                     getString(R.string.speech_not_supported),
                     Toast.LENGTH_SHORT).show();
         }
+    }
+    public void sendButton(View v){
+        Intent intent = new Intent(getApplicationContext(),ChorusRequester.class);
+        startActivity(intent);
     }
     /**
      * Receiving speech input or camera input
@@ -89,6 +98,9 @@ public class SpeakToMe extends Activity {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     _txtSpeechInput.setText(result.get(0));//setting the text to what we said
+                    if(result.get(0)!=null){
+                        _sendButton.setVisibility(View.VISIBLE);
+                    }
                 }
                 break;
             }
