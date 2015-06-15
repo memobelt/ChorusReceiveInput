@@ -57,7 +57,7 @@ public class AfterLogin extends ActionBarActivity
         if (position == 3){
 //            fragment = new ChatList();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ChatList.newInstance("work","pls"))
+                    .replace(R.id.container, ChatList.newInstance(position+1))
                     .commit();
         }
         else {
@@ -122,7 +122,6 @@ public class AfterLogin extends ActionBarActivity
 
     @Override
     public void onFragmentInteraction(String id) {
-        Toast.makeText(this,id,Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ChorusChat.class);
         intent.putExtra("ChatNum",id);
         startActivity(intent);
@@ -162,19 +161,10 @@ public class AfterLogin extends ActionBarActivity
 
         @Override
         public void onAttach(Activity activity) {
+            //this changes the title of the action bar
             super.onAttach(activity);
             ((AfterLogin) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
     }
-    private void displayView(){
-
-//        android.app.Fragment fragment = new ();
-//            if (fragment != null) {
-//                android.app.FragmentManager fragmentManager = getFragmentManager();
-//                fragmentManager.beginTransaction()
-//                        .replace(R.id.con, fragment).commit();
-//            }
-    }
-
 }

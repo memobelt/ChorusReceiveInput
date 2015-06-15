@@ -25,8 +25,6 @@ public class ChorusChat extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chorus_chat);
-    }
-    public void getChatConnected(View V){
         WebView wb = (WebView) findViewById(ChorusChatPage);
         WebSettings webSettings = wb.getSettings();
         webSettings.setJavaScriptEnabled(true);
