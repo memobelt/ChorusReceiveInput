@@ -106,6 +106,7 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section1),
                         getString(R.string.title_section2),
                         getString(R.string.title_section3),
+                        getString(R.string.title_section4),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
@@ -191,10 +192,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (mCurrentSelectedPosition == 0){
-            Intent intent = new Intent(getActivity(),SpeakToMe.class);
-            startActivity(intent);
-        }
+        Intent intent = null;
         if (mDrawerListView != null) {
             mDrawerListView.setItemChecked(position, true);
         }
@@ -203,6 +201,23 @@ public class NavigationDrawerFragment extends Fragment {
         }
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
+        }
+        if (mCurrentSelectedPosition == 1){
+            intent = new Intent(getActivity(),SpeakToMe.class);
+        }
+        else if (mCurrentSelectedPosition == 2){
+            intent = new Intent(getActivity(), ChorusRequester.class);
+        }
+        if(intent != null){
+            startActivityForResult(intent, 0);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(mDrawerListView != null){
+            mDrawerListView.setItemChecked(0, true);
         }
     }
 

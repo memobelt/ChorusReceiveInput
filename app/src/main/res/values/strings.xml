@@ -10,14 +10,18 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="camera">Camera Button</string>
     <string name="mic">Microphone Button</string>
-    <string name="title_activity_take_picture">TakePicture</string>
-    <string name="title_activity_orient_picture">OrientPicture</string>
-    <string name="title_activity_chorus_requester">ChorusRequester</string>
-    <string name="title_activity_after_login">AfterLogin</string>
 
-    <string name="title_section1">Submit a question</string>
-    <string name="title_section2">Review your questions</string>
-    <string name="title_section3">Answer a question</string>
+    <string name="title_activity_take_picture">Take Picture</string>
+    <string name="title_activity_orient_picture">Orient Picture</string>
+    <string name="title_activity_chorus_requester">Chorus Requester</string>
+    <string name="title_activity_after_login">After Login</string>
+    <string name="title_activity_chorus_chat">Chorus Chat</string>
+    <string name="title_activity_speak_to_me">Submit Input</string>
+
+    <string name="title_section1">Welcome to Chorus!</string>
+    <string name="title_section2">Submit a question</string>
+    <string name="title_section3">Review your questions</string>
+    <string name="title_section4">Answer a question</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

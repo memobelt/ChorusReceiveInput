@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,12 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class AfterLogin extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ChatList.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,10 +52,19 @@ public class AfterLogin extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+        android.app.Fragment fragment;
+        FragmentManager fragmentManager = getFragmentManager();
+        if (position == 3){
+//            fragment = new ChatList();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, ChatList.newInstance("work","pls"))
+                    .commit();
+        }
+        else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                    .commit();
+        }
     }
 
     public void onSectionAttached(int number) {
@@ -67,12 +78,12 @@ public class AfterLogin extends ActionBarActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
-    public void SpeakToMe(View v){
-        Intent intent = new Intent(this,SpeakToMe.class);
-        startActivity(intent);
-    }
+
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -107,6 +118,14 @@ public class AfterLogin extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+        Toast.makeText(this,id,Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ChorusChat.class);
+        intent.putExtra("ChatNum",id);
+        startActivity(intent);
     }
 
     /**
@@ -147,6 +166,15 @@ public class AfterLogin extends ActionBarActivity
             ((AfterLogin) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+    private void displayView(){
+
+//        android.app.Fragment fragment = new ();
+//            if (fragment != null) {
+//                android.app.FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction()
+//                        .replace(R.id.con, fragment).commit();
+//            }
     }
 
 }
