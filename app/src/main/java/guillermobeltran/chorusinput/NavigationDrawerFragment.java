@@ -207,6 +207,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
         else if (mCurrentSelectedPosition == 2){
             intent = new Intent(getActivity(), ChorusRequester.class);
+            intent.putExtra("Asking",false);
         }
         if(intent != null){
             startActivityForResult(intent, 0);

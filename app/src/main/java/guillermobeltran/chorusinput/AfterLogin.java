@@ -52,17 +52,15 @@ public class AfterLogin extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        android.app.Fragment fragment;
         FragmentManager fragmentManager = getFragmentManager();
         if (position == 3){
-//            fragment = new ChatList();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ChatList.newInstance(position+1))
                     .commit();
         }
         else {
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                    .replace(R.id.container, PlaceholderFragment.newInstance(1))
                     .commit();
         }
     }
@@ -82,6 +80,11 @@ public class AfterLogin extends ActionBarActivity
                 mTitle = getString(R.string.title_section4);
                 break;
         }
+    }
+
+    public void askQuestion(View v){
+        Intent intent = new Intent(this, SpeakToMe.class);
+        startActivity(intent);
     }
 
     public void restoreActionBar() {

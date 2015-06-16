@@ -20,5 +20,16 @@
             android:text="Hello! Welcome to Chorus. To get started hit the arrow on the top left and ask a question, review your questions or answer questions."
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal|top" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ASK THE CROWD"
+            android:id="@+id/askBtn"
+            android:layout_gravity="center_horizontal|bottom"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:onClick="askQuestion" />
     </FrameLayout>
 </RelativeLayout>
