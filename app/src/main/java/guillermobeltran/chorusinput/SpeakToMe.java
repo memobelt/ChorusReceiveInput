@@ -82,6 +82,8 @@ public class SpeakToMe extends Activity {
     }
     public void sendButton(View v){
         Intent intent = new Intent(getApplicationContext(),ChorusRequester.class);
+        intent.putExtra("Words", _txtSpeechInput.getText());
+        intent.putExtra("Asking",true);
         startActivity(intent);
     }
     /**

@@ -7,10 +7,10 @@
     <WebView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/ChorusWebpage"
+        android:id="@+id/ChorusRequesterPage"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>
