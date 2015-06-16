@@ -48,7 +48,7 @@ public class ChorusRequester extends Activity {
 //            wb.loadUrl("javascript:js/Class/Chat.requester.postChatRequester(ASDsdgfF )");
 //            wb.loadUrl("javascript:js/Class/Chat.requester.postChatRequester('qwer')");
         } else {
-            Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No internet connection available.", Toast.LENGTH_SHORT).show();
         }
     }
 }
