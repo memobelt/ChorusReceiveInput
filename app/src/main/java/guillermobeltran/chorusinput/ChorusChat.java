@@ -114,7 +114,7 @@ public class ChorusChat extends Activity {
         String words = intent.getStringExtra("Words");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("action", "fetchNewChatRequester");
-        params.put("role", "requester");
+        params.put("role", "crowd");
         params.put("task", task);
         params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
         params.put("lastChatId", "-1");
