@@ -60,7 +60,7 @@
             android:id="@+id/SendButton"
             android:layout_gravity="right"
             android:background="@android:color/holo_green_dark"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textSize="45dp"
             android:onClick="sendButton" />
 
