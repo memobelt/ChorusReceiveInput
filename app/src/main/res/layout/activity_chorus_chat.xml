@@ -1,16 +1,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="guillermobeltran.chorusinput.ChorusChat"
-    android:background="@color/bg_gradient_end">
+    tools:context="guillermobeltran.chorusinput.ChorusRequester"
+    android:background="@color/background_floating_material_light">
 
-    <WebView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/ChorusChatPage"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:visibility="visible" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/CrowdList"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="5"
+            android:layout_weight="5" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/editText"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="5"
+                android:layout_weight="5" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Send"
+                android:id="@+id/CrowdSend"
+                android:layout_weight="1"
+                android:onClick="sendText" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

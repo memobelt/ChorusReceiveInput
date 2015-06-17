@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,15 +30,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static guillermobeltran.chorusinput.R.id.RequesterList;
+import static guillermobeltran.chorusinput.R.id.editText1;
 
 public class ChorusRequester extends Activity {
     Intent _intent;
     ListView _requesterList;
+    EditText _editText;
     ArrayList<ChatLineInfo> chatLineInfoArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chorus_requester);
+        _requesterList = (ListView) findViewById(RequesterList);
+        _editText = (EditText) findViewById(editText1);
         _requesterList = (ListView) findViewById(RequesterList);
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -47,24 +52,22 @@ public class ChorusRequester extends Activity {
             if(getIntent().getExtras()!=null) {
                 _intent = getIntent();
                 if (_intent.getExtras().getBoolean("Asking")) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                postData();
-                                setChat();
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }).start();
+                    String words = _intent.getStringExtra("Words");
+                    postData(words);
                 }
             }
+            setChat();
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
     }
-    public void postData() {
+
+    public void requesterSend(View v){
+        postData(_editText.getText().toString());
+        _editText.setText("");
+    }
+
+    public void postData(String words) {
         //To be changed for actual website
         /*
         *  url: "php/chatProcess.php",
@@ -79,14 +82,12 @@ public class ChorusRequester extends Activity {
         },
         * */
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
-        Intent intent = getIntent();
-        String words = intent.getStringExtra("Words");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("action", "post");
         params.put("role", "requester");
         params.put("task", "6");
         params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
-        params.put("chatLine", "YO");
+        params.put("chatLine", words);
 
         AQuery aq = new AQuery(this);
         aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
@@ -113,8 +114,6 @@ public class ChorusRequester extends Activity {
         },
          */
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
-        Intent intent = getIntent();
-        String words = intent.getStringExtra("Words");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("action", "fetchNewChatRequester");
         params.put("role", "requester");
@@ -133,7 +132,7 @@ public class ChorusRequester extends Activity {
                         for (int n = 0; n < json.length();n++){
                             String[] lineInfo = json.get(n).toString().split("\"");
                             ChatLineInfo chatLineInfo = new ChatLineInfo();
-                            for(int i = 1; i < lineInfo.length; i+=4) {
+                            for(int i = 1; i < lineInfo.length; i+=4){
                                 switch (lineInfo[i]) {
                                     case "id":
                                         chatLineInfo.set_id(lineInfo[i + 2]);
