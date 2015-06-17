@@ -177,6 +177,7 @@ public class ChorusChat extends Activity {
                             }
                         };
                         ((AdapterView<ListAdapter>) _crowdList).setAdapter(adapter);
+                        _crowdList.setSelection(_crowdList.getCount()-1);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

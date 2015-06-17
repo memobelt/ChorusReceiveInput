@@ -179,6 +179,7 @@ public class ChorusRequester extends Activity {
                             }
                         };
                         ((AdapterView<ListAdapter>) _requesterList).setAdapter(adapter);
+                        _requesterList.setSelection(_requesterList.getCount()-1);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
