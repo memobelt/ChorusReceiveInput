@@ -1,6 +1,8 @@
 package guillermobeltran.chorusinput;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import guillermobeltran.chorusinput.Chats.AvailableChats;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ChatList extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match

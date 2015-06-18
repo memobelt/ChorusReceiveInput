@@ -1,25 +1,20 @@
 package guillermobeltran.chorusinput;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class AfterLogin extends ActionBarActivity
@@ -49,6 +44,7 @@ public class AfterLogin extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
@@ -133,6 +129,7 @@ public class AfterLogin extends ActionBarActivity
     /**
      * A placeholder fragment containing a simple view.
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
@@ -144,6 +141,7 @@ public class AfterLogin extends ActionBarActivity
          * Returns a new instance of this fragment for the given section
          * number.
          */
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -162,6 +160,7 @@ public class AfterLogin extends ActionBarActivity
             return rootView;
         }
 
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         @Override
         public void onAttach(Activity activity) {
             //this changes the title of the action bar
