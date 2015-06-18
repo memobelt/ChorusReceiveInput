@@ -48,7 +48,6 @@ public class ChorusRequester extends Activity {
         setContentView(R.layout.activity_chorus_requester);
         _requesterList = (ListView) findViewById(RequesterList);
         _editText = (EditText) findViewById(editText1);
-        _requesterList = (ListView) findViewById(RequesterList);
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -61,7 +60,6 @@ public class ChorusRequester extends Activity {
                     cli.postData(words,"6","requester",this);
                 }
             }
-            arrayList = new ArrayList<String>();
             adapter = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_list_item_1, arrayList){
                 @Override
@@ -82,45 +80,14 @@ public class ChorusRequester extends Activity {
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
-//        AlarmManager alarm = (AlarmManager) getApplicationContext()
-//                .getSystemService(Context.ALARM_SERVICE);
-//        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 10000, pendingIntent);;
-
     }
 
     public void requesterSend(View v){
         cli.postData(_editText.getText().toString(), "6", "requester", this);
         _editText.setText("");
-        new Thread(new update()).start();
-    }
-    class update implements Runnable{
-
-        @Override
-        public void run() {
-            String url = "http://128.237.179.10:8888/php/chatProcess.php";
-            Map<String, Object> params = cli.setUpParams(new HashMap<String, Object>(),
-                    "fetchNewChatRequester","requester","6");
-
-            AQuery aq = new AQuery(getApplicationContext());
-            aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
-
-                @Override
-                public void callback(String url, JSONArray json, AjaxStatus status) {
-                    if (json != null) {
-                        if (json.length()>chatLineInfoArrayList.size()){
-                            try {
-                                String[] lineInfo = json.get(json.length()-1).toString().split("\"");
-                                ChatLineInfo chatLineInfo = cli.getChatLineInfo(lineInfo,new ChatLineInfo());
-                                chatLineInfoArrayList.add(chatLineInfo);
-                                adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                                _requesterList.setSelection(_requesterList.getCount()-1);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            });
-        }
+        Map<String, Object> params = cli.setUpParams(new HashMap<String, Object>(),
+                "fetchNewChatRequester","requester","6");
+        new Thread(new UpdateChatList(cli, chatLineInfoArrayList,adapter,_requesterList, params,this))
+                .start();
     }
 }

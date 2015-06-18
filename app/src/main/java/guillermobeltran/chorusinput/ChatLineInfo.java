@@ -109,6 +109,7 @@ public class ChatLineInfo {
             }
         });
     }
+
     public void setChat(Activity activity, String role, String task,
                         final ArrayList<ChatLineInfo> chat_line_list, final ArrayList<String> arrayList,
                         final ArrayAdapter adapter, final ListView list_view) {
@@ -140,6 +141,7 @@ public class ChatLineInfo {
         });
 
     }
+
     public ChatLineInfo getChatLineInfo(String[] lineInfo, ChatLineInfo chatLineInfo){
         for(int i = 1; i < lineInfo.length; i+=4){
             switch (lineInfo[i]) {
@@ -171,6 +173,7 @@ public class ChatLineInfo {
         }
         return chatLineInfo;
     }
+
     public Map<String,Object> setUpParams(HashMap<String, Object> params, String action, String role, String task){
         params.put("action", action);
         params.put("role", role);

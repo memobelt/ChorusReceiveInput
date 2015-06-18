@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static guillermobeltran.chorusinput.R.id.CrowdList;
 import static guillermobeltran.chorusinput.R.id.editText;
@@ -28,6 +31,7 @@ public class ChorusChat extends Activity {
     ArrayList<String> arrayList = new ArrayList<String>();
     ChatLineInfo cli = new ChatLineInfo();
     ArrayAdapter adapter;
+    Handler _handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +39,12 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _crowdList = (ListView) findViewById(CrowdList);
         _editText = (EditText) findViewById(editText);
-        chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         _task = getIntent().getStringExtra("ChatNum");
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            String url = "http://128.237.179.10:8888/chat.php?task="+ _task;
+            chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
             adapter = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_list_item_1, arrayList){
                 @Override
@@ -58,7 +61,7 @@ public class ChorusChat extends Activity {
                 }
             };
             cli.setChat(this, "crowd", _task, chatLineInfoArrayList, arrayList, adapter, _crowdList);
-
+            _handler = new Handler();
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
@@ -67,5 +70,9 @@ public class ChorusChat extends Activity {
     public void sendText(View v){
         cli.postData(_editText.getText().toString(),_task,"crowd",this);
         _editText.setText("");
+        Map<String, Object> params = cli.setUpParams(new HashMap<String, Object>(),
+                "fetchNewChatRequester","crowd",_task);
+        new Thread(new UpdateChatList(cli, chatLineInfoArrayList,adapter,_crowdList, params,this))
+                .start();
     }
 }
