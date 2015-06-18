@@ -1,7 +1,10 @@
 package guillermobeltran.chorusinput;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -62,6 +65,7 @@ public class ChorusChat extends Activity {
             };
             cli.setChat(this, "crowd", _task, chatLineInfoArrayList, arrayList, adapter, _crowdList);
             _handler = new Handler();
+
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }

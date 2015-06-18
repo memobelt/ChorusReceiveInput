@@ -33,6 +33,8 @@ public class UpdateChatList implements Runnable {
         _listView = lv;
         _params = pa;
         _act = act;
+        ChorusRequester _a = (ChorusRequester) act;
+        _a.teset(_a.arrayList.get(0));
     }
 
     @Override

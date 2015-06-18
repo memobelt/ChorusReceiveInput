@@ -2,6 +2,7 @@ package guillermobeltran.chorusinput;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -77,6 +79,13 @@ public class ChorusRequester extends Activity {
             };
             cli.setChat(this, "requester","6", chatLineInfoArrayList, arrayList, adapter, _requesterList);
             _handler = new Handler();
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
+            broadcast_intent.putExtra("ArrayList", chatLineInfoArrayList.size());
+//            broadcast_intent.putExtra("")
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, broadcast_intent, 0);
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime(), 1000, pendingIntent);
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
@@ -85,9 +94,15 @@ public class ChorusRequester extends Activity {
     public void requesterSend(View v){
         cli.postData(_editText.getText().toString(), "6", "requester", this);
         _editText.setText("");
+        update();
+    }
+    public void update(){
         Map<String, Object> params = cli.setUpParams(new HashMap<String, Object>(),
                 "fetchNewChatRequester","requester","6");
         new Thread(new UpdateChatList(cli, chatLineInfoArrayList,adapter,_requesterList, params,this))
                 .start();
+    }
+    public void teset(String s){
+        Toast.makeText(this,"WOW",Toast.LENGTH_SHORT).show();
     }
 }
