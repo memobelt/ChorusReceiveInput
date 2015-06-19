@@ -32,6 +32,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static guillermobeltran.chorusinput.R.id.ChatList;
 import static guillermobeltran.chorusinput.R.id.editText;
@@ -46,6 +50,8 @@ public class ChorusChat extends Activity {
     ChatLineInfo _cli = new ChatLineInfo();
     ArrayAdapter _adapter;
     Handler _handler;
+    Runnable _updateChatList;
+    Boolean _canUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,7 @@ public class ChorusChat extends Activity {
         _editText = (EditText) findViewById(editText);
         _task = getIntent().getStringExtra("ChatNum");
         _role = getIntent().getStringExtra("Role");
+        _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -80,7 +87,8 @@ public class ChorusChat extends Activity {
                 }
             };
             setChat();
-            _handler = new Handler();
+//            _handler = new Handler();
+//            _handler.postDelayed(_updateChatList, 1000);
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
@@ -91,13 +99,13 @@ public class ChorusChat extends Activity {
         _editText.setText("");
     }
     public void setAlarmManager() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
-        broadcast_intent.putExtra("ArrayList", _chatLineInfoArrayList.size());
-//            broadcast_intent.putExtra("")
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, broadcast_intent, 0);
-        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime(), 100, pendingIntent);
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//        Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
+//        broadcast_intent.putExtra("ArrayList", _chatLineInfoArrayList.size());
+////            broadcast_intent.putExtra("")
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, broadcast_intent, 0);
+//        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                SystemClock.elapsedRealtime(), 100, pendingIntent);
     }
     public void setChat(){
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
@@ -118,7 +126,7 @@ public class ChorusChat extends Activity {
                         }
                         ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
                         _chatList.setSelection(_chatList.getCount() - 1);
-                        setAlarmManager();
+                        update();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -145,9 +153,39 @@ public class ChorusChat extends Activity {
 
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
-                new Thread(new UpdateChatList(_cli, _chatLineInfoArrayList, _adapter, _chatList, params,
-                        getParent()))
-                        .start();
+            }
+        });
+    }
+    public void onStop(){
+        super.onStop();
+        _canUpdate = false;
+    }
+    public void update(){
+//        Toast.makeText(getApplicationContext(), "Hm", Toast.LENGTH_SHORT).show();
+        String url = "http://128.237.179.10:8888/php/chatProcess.php";
+        AQuery aq = new AQuery(getParent());
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
+                _role, _task);
+        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+
+            @Override
+            public void callback(String url, JSONArray json, AjaxStatus status) {
+                if (json != null) {
+                    if (json.length() > _chatLineInfoArrayList.size()) {
+                        try {
+                            String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
+                            ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
+                            _chatLineInfoArrayList.add(chatLineInfo);
+                            _adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                            _chatList.setSelection(_chatList.getCount() - 1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(_canUpdate) {
+                        update();
+                    }
+                }
             }
         });
     }

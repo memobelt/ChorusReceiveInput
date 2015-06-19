@@ -25,9 +25,12 @@ public class AvailableChats {
 
     static {
         // Add 3 sample items.
-        addItem(new ChatNumber("1", "Chat 1"));
-        addItem(new ChatNumber("2", "Chat 2"));
-        addItem(new ChatNumber("3", "Chat 3"));
+        for(int i = 1; i<21; i++){
+            addItem(new ChatNumber(Integer.toString(i),"Chat "+ Integer.toString(i)));
+        }
+//        addItem(new ChatNumber("1", "Chat 1"));
+//        addItem(new ChatNumber("2", "Chat 2"));
+//        addItem(new ChatNumber("3", "Chat 3"));
     }
 
     private static void addItem(ChatNumber item) {
