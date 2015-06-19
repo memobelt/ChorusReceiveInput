@@ -193,6 +193,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void selectItem(int position) {
+
         mCurrentSelectedPosition = position;
         Intent intent = null;
         if (mDrawerListView != null) {
@@ -208,8 +209,10 @@ public class NavigationDrawerFragment extends Fragment {
             intent = new Intent(getActivity(),SpeakToMe.class);
         }
         else if (mCurrentSelectedPosition == 2){
-            intent = new Intent(getActivity(), ChorusRequester.class);
+            intent = new Intent(getActivity(), ChorusChat.class);
             intent.putExtra("Asking",false);
+            intent.putExtra("ChatNum","6");
+            intent.putExtra("Role","requester");
         }
         if(intent != null){
             startActivityForResult(intent, 0);

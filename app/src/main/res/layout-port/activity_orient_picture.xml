@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="guillermobeltran.chorusinput.OrientPicture"
-    android:background="@color/bg_gradient_start">
+    android:background="@color/background_floating_material_dark">
 
     <FrameLayout
         android:layout_width="fill_parent"

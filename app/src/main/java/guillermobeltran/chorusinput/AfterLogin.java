@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 
 
 public class AfterLogin extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ChatList.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, AvailableChats.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -51,7 +51,7 @@ public class AfterLogin extends ActionBarActivity
         FragmentManager fragmentManager = getFragmentManager();
         if (position == 3){
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ChatList.newInstance(position+1))
+                    .replace(R.id.container, AvailableChats.newInstance(position + 1))
                     .commit();
         }
         else {
@@ -123,6 +123,8 @@ public class AfterLogin extends ActionBarActivity
     public void onFragmentInteraction(String id) {
         Intent intent = new Intent(this, ChorusChat.class);
         intent.putExtra("ChatNum",id);
+        intent.putExtra("Asking",false);
+        intent.putExtra("Role","crowd");
         startActivity(intent);
     }
 

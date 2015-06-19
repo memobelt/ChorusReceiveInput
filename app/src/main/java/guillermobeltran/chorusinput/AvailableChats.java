@@ -2,6 +2,7 @@ package guillermobeltran.chorusinput;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,8 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import guillermobeltran.chorusinput.Chats.AvailableChats;
-
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -26,7 +25,7 @@ import guillermobeltran.chorusinput.Chats.AvailableChats;
  * interface.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ChatList extends Fragment implements AbsListView.OnItemClickListener {
+public class AvailableChats extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,8 +46,8 @@ public class ChatList extends Fragment implements AbsListView.OnItemClickListene
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static ChatList newInstance(int position) {
-        ChatList fragment = new ChatList();
+    public static AvailableChats newInstance(int position) {
+        AvailableChats fragment = new AvailableChats();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, position);
         fragment.setArguments(args);
@@ -59,7 +58,7 @@ public class ChatList extends Fragment implements AbsListView.OnItemClickListene
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ChatList() {
+    public AvailableChats() {
     }
 
     @Override
@@ -67,8 +66,22 @@ public class ChatList extends Fragment implements AbsListView.OnItemClickListene
         super.onCreate(savedInstanceState);
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<AvailableChats.ChatNumber>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, AvailableChats.ITEMS);
+        mAdapter = new ArrayAdapter<guillermobeltran.chorusinput.Chats.AvailableChats.ChatNumber>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1,
+                guillermobeltran.chorusinput.Chats.AvailableChats.ITEMS){
+            @Override
+            public View getView(int position, View convertView,
+                                ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                            /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.WHITE);
+
+                return view;
+            }
+        };
     }
 
     @Override
@@ -111,7 +124,7 @@ public class ChatList extends Fragment implements AbsListView.OnItemClickListene
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(AvailableChats.ITEMS.get(position).id);
+            mListener.onFragmentInteraction(guillermobeltran.chorusinput.Chats.AvailableChats.ITEMS.get(position).id);
         }
     }
 

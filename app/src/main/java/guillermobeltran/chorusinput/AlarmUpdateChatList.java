@@ -1,5 +1,6 @@
 package guillermobeltran.chorusinput;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,13 +31,15 @@ public class AlarmUpdateChatList extends BroadcastReceiver {
         params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
         params.put("lastChatId", "-1");
         final int size = intent.getExtras().getInt("ArrayList");
+        if(context instanceof Activity){
+            Toast.makeText(context,"omg",Toast.LENGTH_SHORT).show();
+        }
 
         aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
                     if (json.length()>size){
-                        Toast.makeText(context,"HAHA",Toast.LENGTH_SHORT).show();
                     }
                 }
             }

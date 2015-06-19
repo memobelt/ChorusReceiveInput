@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="guillermobeltran.chorusinput.ChorusRequester"
-    android:background="@color/background_floating_material_light">
+    tools:context="guillermobeltran.chorusinput.Chat"
+    android:background="@color/background_floating_material_dark">
 
     <LinearLayout
         android:orientation="vertical"
@@ -12,7 +12,7 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/CrowdList"
+            android:id="@+id/ChatList"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:visibility="visible"
@@ -35,7 +35,8 @@
                 android:layout_row="1"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="5"
-                android:layout_weight="5" />
+                android:layout_weight="5"
+                android:textColor="#ffffffff" />
 
             <Button
                 android:layout_width="0dp"

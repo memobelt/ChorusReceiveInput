@@ -33,8 +33,6 @@ public class UpdateChatList implements Runnable {
         _listView = lv;
         _params = pa;
         _act = act;
-        ChorusRequester _a = (ChorusRequester) act;
-        _a.teset(_a.arrayList.get(0));
     }
 
     @Override
@@ -49,7 +47,7 @@ public class UpdateChatList implements Runnable {
                     if (json.length()>_chatLineInfoArrayList.size()){
                         try {
                             String[] lineInfo = json.get(json.length()-1).toString().split("\"");
-                            ChatLineInfo chatLineInfo = _cli.getChatLineInfo(lineInfo,new ChatLineInfo());
+                            ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo,new ChatLineInfo());
                             _chatLineInfoArrayList.add(chatLineInfo);
                             _adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                             _listView.setSelection(_listView.getCount()-1);
