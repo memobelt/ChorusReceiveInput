@@ -4,3 +4,7 @@
 /.idea/libraries
 .DS_Store
 /build
+app/app.iml
+.idea/misc.xml
+.idea/dictionaries/jason.xml
+.idea/gradle.xml
