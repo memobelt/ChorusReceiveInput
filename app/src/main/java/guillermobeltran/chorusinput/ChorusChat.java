@@ -50,12 +50,12 @@ public class ChorusChat extends Activity {
     int numNotifications;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //initializations
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chorus_chat);
         _chatList = (ListView) findViewById(ChatList);
         _editText = (EditText) findViewById(editText);
         _canUpdate = true;
-
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         numNotifications=0;
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -63,19 +63,19 @@ public class ChorusChat extends Activity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()) {
-
-                WebView webview = (WebView) findViewById(webView);//load the webpage for chat
-                webview.loadUrl("http://128.237.179.10:8888/chat.php?task=" + _task);
-                WebSettings webSettings = webview.getSettings();
-                webSettings.setJavaScriptEnabled(true);
-
+            //only way for chat to work is to load the webpage so this does it in invisible webview
+            WebView webview = (WebView) findViewById(webView);
+            webview.loadUrl("http://128.237.179.10:8888/chat.php?task=" + _task);
+            WebSettings webSettings = webview.getSettings();
+            webSettings.setJavaScriptEnabled(true);
+            //get all the intents
             if (getIntent().getExtras().getBoolean("Asking")) {
                 String words = getIntent().getStringExtra("Words");
-                postData(words, _task, _role, this);
+                postData(words);
             }
             _task = getIntent().getStringExtra("ChatNum");
             _role = getIntent().getStringExtra("Role");
-
+            //make sure the text is white
             _adapter = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_list_item_1, _arrayList){
                 @Override
@@ -92,20 +92,21 @@ public class ChorusChat extends Activity {
                 }
             };
             setChat();
-//            _handler = new Handler();
-//            _handler.postDelayed(_updateChatList, 1000);
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
     }
-
+    //Get the text from the _editText widget. Checks against empty input.
     public void sendText(View v){
         if(_editText.getText().length()==0){
             Toast.makeText(this,"Can't have empty input",Toast.LENGTH_SHORT).show();
         }
-        postData(_editText.getText().toString(), _task, _role, this);
-        _editText.setText("");
+        else{
+            postData(_editText.getText().toString());
+            _editText.setText("");
+        }
     }
+    //TODO: Set alarm manager to check for updates
     public void setAlarmManager() {
 //        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 //        Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
@@ -115,6 +116,18 @@ public class ChorusChat extends Activity {
 //        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
 //                SystemClock.elapsedRealtime(), 100, pendingIntent);
     }
+    //sets up the parameters to send to the server
+    public HashMap<String,Object> setUpParams(HashMap<String, Object> params, String action, String role, String task){
+        params.put("action", action);
+        params.put("role", _role);
+        params.put("task", _task);
+        params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
+        if(action != "post") {
+            params.put("lastChatId", "-1");
+        }
+        return params;
+    }
+    //This sets the chat list so user can see all available chats.
     public void setChat(){
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
@@ -142,37 +155,11 @@ public class ChorusChat extends Activity {
             }
         });
     }
-    public HashMap<String,Object> setUpParams(HashMap<String, Object> params, String action, String role, String task){
-        params.put("action", action);
-        params.put("role", _role);
-        params.put("task", _task);
-        params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
-        if(action != "post") {
-            params.put("lastChatId", "-1");
-        }
-        return params;
-    }
-    public void postData(String words, String task, String role, Activity activity) {
-        String url = "http://128.237.179.10:8888/php/chatProcess.php";
-        AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post",
-                _role,_task);
-
-        params.put("chatLine", words);
-        aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-            @Override
-            public void callback(String url, JSONObject json, AjaxStatus status) {
-                status.getError();
-                status.getMessage();
-            }
-        });
-    }
-    public void onStop(){
-        super.onStop();
-        _canUpdate = false;
-    }
+    /*
+    Recursive function that constantly checks the server to see if there is a change in the chat
+    along with notification functionality.
+     */
     public void update(){
-//        Toast.makeText(getApplicationContext(), "Hm", Toast.LENGTH_SHORT).show();
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
@@ -214,10 +201,30 @@ public class ChorusChat extends Activity {
                         }
                     }
                 }
-                if(_canUpdate) {
+                if(_canUpdate) {//in order to stop recursion once app is closed.
                     update();
                 }
             }
         });
+    }
+    /*
+    Sends the string to the server to add chat list.
+     */
+    public void postData(String words) {
+        String url = "http://128.237.179.10:8888/php/chatProcess.php";
+        AQuery aq = new AQuery(this);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post",
+                _role,_task);
+
+        params.put("chatLine", words);
+        aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+            }
+        });
+    }
+    public void onStop(){//stops the recursion.
+        super.onStop();
+        _canUpdate = false;
     }
 }
