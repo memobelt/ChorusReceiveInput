@@ -21,6 +21,13 @@
             android:layout_columnWeight="5"
             android:layout_weight="5" />
 
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/webView"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

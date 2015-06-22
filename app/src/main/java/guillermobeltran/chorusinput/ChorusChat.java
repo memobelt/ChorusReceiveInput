@@ -13,6 +13,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -20,11 +22,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +35,7 @@ import java.util.Map;
 
 import static guillermobeltran.chorusinput.R.id.ChatList;
 import static guillermobeltran.chorusinput.R.id.editText;
+import static guillermobeltran.chorusinput.R.id.webView;
 
 
 public class ChorusChat extends Activity {
@@ -45,8 +46,6 @@ public class ChorusChat extends Activity {
     ArrayList<String> _arrayList = new ArrayList<String>();
     ChatLineInfo _cli = new ChatLineInfo();
     ArrayAdapter _adapter;
-    Handler _handler;
-    Runnable _updateChatList;
     Boolean _canUpdate;
     int numNotifications;
     @Override
@@ -55,19 +54,28 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _chatList = (ListView) findViewById(ChatList);
         _editText = (EditText) findViewById(editText);
-        _task = getIntent().getStringExtra("ChatNum");
-        _role = getIntent().getStringExtra("Role");
         _canUpdate = true;
+
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         numNotifications=0;
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
         if (networkInfo != null && networkInfo.isConnected()) {
+
+                WebView webview = (WebView) findViewById(webView);//load the webpage for chat
+                webview.loadUrl("http://128.237.179.10:8888/chat.php?task=" + _task);
+                WebSettings webSettings = webview.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+
             if (getIntent().getExtras().getBoolean("Asking")) {
                 String words = getIntent().getStringExtra("Words");
                 postData(words, _task, _role, this);
             }
+            _task = getIntent().getStringExtra("ChatNum");
+            _role = getIntent().getStringExtra("Role");
+
             _adapter = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_list_item_1, _arrayList){
                 @Override
@@ -92,6 +100,9 @@ public class ChorusChat extends Activity {
     }
 
     public void sendText(View v){
+        if(_editText.getText().length()==0){
+            Toast.makeText(this,"Can't have empty input",Toast.LENGTH_SHORT).show();
+        }
         postData(_editText.getText().toString(), _task, _role, this);
         _editText.setText("");
     }
@@ -109,8 +120,8 @@ public class ChorusChat extends Activity {
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
                 _role, _task);
         AQuery aq = new AQuery(this);
-        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
 
+        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
@@ -146,11 +157,7 @@ public class ChorusChat extends Activity {
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post",
                 _role,_task);
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        params.put("action", "post");
-//        params.put("role", "requester");
-//        params.put("task", "6");
-//        params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
+
         params.put("chatLine", words);
         aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
@@ -170,8 +177,8 @@ public class ChorusChat extends Activity {
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
                 _role, _task);
-        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
 
+        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
@@ -196,12 +203,12 @@ public class ChorusChat extends Activity {
                                     .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
                             if(numNotifications == 1) {
                                 mBuilder.setContentText("1 New Message");
-                            }
-                            else {
+                            } else {
                                 mBuilder.setContentText(Integer.toString(numNotifications)+" New Messages");
                             }
                             NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
                             nm.notify(0, mBuilder.build());
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
