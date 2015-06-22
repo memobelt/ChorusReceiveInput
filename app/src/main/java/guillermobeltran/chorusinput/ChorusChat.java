@@ -1,7 +1,6 @@
 package guillermobeltran.chorusinput;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,10 +32,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import static guillermobeltran.chorusinput.R.id.ChatList;
 import static guillermobeltran.chorusinput.R.id.editText;
@@ -52,7 +48,7 @@ public class ChorusChat extends Activity {
     Handler _handler;
     Runnable _updateChatList;
     Boolean _canUpdate;
-
+    int numNotifications;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +59,7 @@ public class ChorusChat extends Activity {
         _role = getIntent().getStringExtra("Role");
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
+        numNotifications=0;
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -189,6 +186,23 @@ public class ChorusChat extends Activity {
                                 ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
                             }
                             _chatList.setSelection(_chatList.getCount() - 1);
+
+                            numNotifications++;
+                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+                            viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+                            if(numNotifications == 1) {
+                                mBuilder.setContentText("1 New Message");
+                            }
+                            else {
+                                mBuilder.setContentText(Integer.toString(numNotifications)+" New Messages");
+                            }
+                            NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+                            nm.notify(0, mBuilder.build());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
