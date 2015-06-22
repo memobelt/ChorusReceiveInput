@@ -126,33 +126,41 @@ public class ChorusChat extends Activity {
                         }
                         ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
                         _chatList.setSelection(_chatList.getCount() - 1);
-                        update();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
+                update();
             }
         });
     }
-    public Map<String,Object> setUpParams(HashMap<String, Object> params, String action, String role, String task){
+    public HashMap<String,Object> setUpParams(HashMap<String, Object> params, String action, String role, String task){
         params.put("action", action);
-        params.put("role", role);
-        params.put("task", task);
+        params.put("role", _role);
+        params.put("task", _task);
         params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
-        params.put("lastChatId", "-1");
+        if(action != "post") {
+            params.put("lastChatId", "-1");
+        }
         return params;
     }
     public void postData(String words, String task, String role, Activity activity) {
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
+        AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post",
-                role,task);
+                _role,_task);
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        params.put("action", "post");
+//        params.put("role", "requester");
+//        params.put("task", "6");
+//        params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
         params.put("chatLine", words);
-        AQuery aq = new AQuery(activity);
         aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                status.getError();
+                status.getMessage();
             }
         });
     }
@@ -163,7 +171,7 @@ public class ChorusChat extends Activity {
     public void update(){
 //        Toast.makeText(getApplicationContext(), "Hm", Toast.LENGTH_SHORT).show();
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
-        AQuery aq = new AQuery(getParent());
+        AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
                 _role, _task);
         aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
@@ -177,14 +185,17 @@ public class ChorusChat extends Activity {
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                             _chatLineInfoArrayList.add(chatLineInfo);
                             _adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                            if(_chatList.getAdapter()==null){
+                                ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
+                            }
                             _chatList.setSelection(_chatList.getCount() - 1);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                    if(_canUpdate) {
-                        update();
-                    }
+                }
+                if(_canUpdate) {
+                    update();
                 }
             }
         });
