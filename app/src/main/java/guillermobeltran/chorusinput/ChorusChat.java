@@ -126,7 +126,6 @@ public class ChorusChat extends Activity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
                 update();
             }
