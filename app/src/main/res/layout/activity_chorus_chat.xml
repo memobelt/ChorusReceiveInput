@@ -9,6 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/webView"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -20,13 +27,6 @@
             android:layout_column="0"
             android:layout_columnWeight="5"
             android:layout_weight="5" />
-
-        <WebView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/webView"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone" />
 
         <LinearLayout
             android:orientation="horizontal"

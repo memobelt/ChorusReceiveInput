@@ -26,12 +26,39 @@ public class AlarmUpdateChatList extends BroadcastReceiver {
     int _size, numNotifications = 0;
     String _task,_role;
     ChorusChat chat = new ChorusChat();
+    Intent _intent;
     @Override
     public void onReceive(final Context context, Intent intent) {
-        chat.checkUpdate();
-//        if (chat._checkUpdate){
-//            Intent ntent = new Intent(context, UpdateService.class);
-//            ntent.putExtra("ArrayList", intent.getExtras().getInt("ArrayList"));
-//            context.startActivity(ntent);
+        _size = intent.getExtras().getInt("ArrayList");
+        _task = intent.getStringExtra("ChatNum");
+        _role = intent.getStringExtra("Role");
+        _intent = intent;
+        String url = "http://128.237.179.10:8888/php/chatProcess.php";
+        AQuery aq = new AQuery(context);
+        Map<String, Object> params = chat.setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
+        params.put("role", _role);
+        params.put("task", _task);
+        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+            @Override
+            public void callback(String url, JSONArray json, AjaxStatus status) {
+                status.getMessage();
+                if (json.length()>_size) {
+                    numNotifications = json.length() - _size;
+                    Intent viewIntent = new Intent(context, ChorusChat.class);
+                    viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0,
+                            viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                            .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                            .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+                        mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+                                "in chat " + _task);
+                    NotificationManagerCompat nm = NotificationManagerCompat.from(context);
+                    nm.notify(0, mBuilder.build());
+                    _size = json.length();
+                    _intent.putExtra("ArrayList",json.length());
+                }
+            }
+        });
     }
 }
