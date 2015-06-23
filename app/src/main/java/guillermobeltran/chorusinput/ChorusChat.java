@@ -1,6 +1,7 @@
 package guillermobeltran.chorusinput;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
@@ -29,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +49,7 @@ public class ChorusChat extends Activity {
     ArrayList<String> _arrayList = new ArrayList<String>();
     ChatLineInfo _cli = new ChatLineInfo();
     ArrayAdapter _adapter;
-    Boolean _canUpdate;
+    Boolean _canUpdate,_checkUpdate;
     int numNotifications;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,18 +109,8 @@ public class ChorusChat extends Activity {
             _editText.setText("");
         }
     }
-    //TODO: Set alarm manager to check for updates
-    public void setAlarmManager() {
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//        Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
-//        broadcast_intent.putExtra("ArrayList", _chatLineInfoArrayList.size());
-////            broadcast_intent.putExtra("")
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, broadcast_intent, 0);
-//        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                SystemClock.elapsedRealtime(), 100, pendingIntent);
-    }
     //sets up the parameters to send to the server
-    public HashMap<String,Object> setUpParams(HashMap<String, Object> params, String action, String role, String task){
+    public HashMap<String,Object> setUpParams(HashMap<String, Object> params, String action){
         params.put("action", action);
         params.put("role", _role);
         params.put("task", _task);
@@ -130,8 +123,7 @@ public class ChorusChat extends Activity {
     //This sets the chat list so user can see all available chats.
     public void setChat(){
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
-                _role, _task);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
         AQuery aq = new AQuery(this);
 
         aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
@@ -162,8 +154,7 @@ public class ChorusChat extends Activity {
     public void update(){
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
-                _role, _task);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
 
         aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
@@ -180,30 +171,30 @@ public class ChorusChat extends Activity {
                             }
                             _chatList.setSelection(_chatList.getCount() - 1);
 
-                            numNotifications++;
-                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-                            viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-                            if(numNotifications == 1) {
-                                mBuilder.setContentText("1 New Message");
-                            } else {
-                                mBuilder.setContentText(Integer.toString(numNotifications)+" New Messages");
-                            }
-                            NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
-                            nm.notify(0, mBuilder.build());
+//                            numNotifications++;
+//                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+//                            viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+//                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+//                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+//                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+//                            if(numNotifications == 1) {
+//                                mBuilder.setContentText("1 New Message");
+//                            } else {
+//                                mBuilder.setContentText(Integer.toString(numNotifications)+" New Messages");
+//                            }
+//                            NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+//                            nm.notify(0, mBuilder.build());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }
-                if(_canUpdate) {//in order to stop recursion once app is closed.
-                    update();
-                }
+//                if(_canUpdate) {//in order to stop recursion once app is closed.
+//                    update();
+//                }
             }
         });
     }
@@ -213,8 +204,7 @@ public class ChorusChat extends Activity {
     public void postData(String words) {
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post",
-                _role,_task);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post");
 
         params.put("chatLine", words);
         aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
@@ -223,8 +213,67 @@ public class ChorusChat extends Activity {
             }
         });
     }
+    //TODO: Set alarm manager to check for updates
+    public void setAlarmManager() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
+        broadcast_intent.putExtra("ArrayList", _chatLineInfoArrayList.size());
+        broadcast_intent.putExtra("ChatNum",_task);
+        broadcast_intent.putExtra("Role", _role);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1234, broadcast_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime(), 100, pendingIntent);
+    }
+    public void stopAlarmManager(){
+        Intent intentstop = new Intent(this, AlarmUpdateChatList.class);
+        PendingIntent senderstop = PendingIntent.getBroadcast(this,
+                1234, intentstop, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManagerstop = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManagerstop.cancel(senderstop);
+    }
     public void onStop(){//stops the recursion.
         super.onStop();
         _canUpdate = false;
+        setAlarmManager();
+    }
+    public void onResume(){
+        super.onResume();
+        stopAlarmManager();
+    }
+    public void checkUpdate(){
+        String url = "http://128.237.179.10:8888/php/chatProcess.php";
+        AQuery aq = new AQuery(this);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("action", "fetchNewChatRequester");
+        params.put("role", "crowd");
+        params.put("task", "6");
+        params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
+        params.put("lastChatId", "-1");
+        _checkUpdate = false;
+        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+            @Override
+            public void callback(String url, JSONArray json, AjaxStatus status) {
+                update();
+                if (json != null) {
+                    if (json.length() > _chatLineInfoArrayList.size()) {
+                        numNotifications++;
+                        Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+                        viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                                viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+                        if (numNotifications == 1) {
+                            mBuilder.setContentText("1 New Message");
+                        } else {
+                            mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages");
+                        }
+                        NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+                        nm.notify(0, mBuilder.build());
+                    }
+                }
+            }
+        });
     }
 }
