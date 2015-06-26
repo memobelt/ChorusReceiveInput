@@ -61,9 +61,6 @@
         <receiver
             android:name=".AlarmUpdateChatList"
             android:enabled="true" />
-        <receiver
-            android:name=".ChorusChat$AlarmUpdateChatList1"
-            android:enabled="true" />
 
         <service
             android:name=".UpdateService"

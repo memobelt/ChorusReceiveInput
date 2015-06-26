@@ -1,14 +1,20 @@
 package guillermobeltran.chorusinput;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
@@ -31,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +57,7 @@ public class ChorusChat extends Activity {
     ArrayAdapter _adapter;
     Boolean _canUpdate,_checkUpdate;
     int numNotifications,_size;
-   AlarmUpdateChatList1 _receiver = new AlarmUpdateChatList1();
+    static String _url = "http://128.237.184.183:8888/php/chatProcess.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initializations
@@ -76,7 +83,7 @@ public class ChorusChat extends Activity {
             _role = getIntent().getStringExtra("Role");
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
-            webview.loadUrl("http://128.237.179.10:8888/chat.php?task=" + _task);
+            webview.loadUrl("http://128.237.184.183:8888/chat.php?task=" + _task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
 //            webview.destroy();
@@ -112,7 +119,7 @@ public class ChorusChat extends Activity {
         }
     }
     //sets up the parameters to send to the server
-    public HashMap<String,Object> setUpParams(HashMap<String, Object> params, String action){
+    public  HashMap<String,Object> setUpParams(HashMap<String, Object> params, String action){
         params.put("action", action);
         params.put("role", _role);
         params.put("task", _task);
@@ -124,11 +131,10 @@ public class ChorusChat extends Activity {
     }
     //This sets the chat list so user can see all available chats.
     public void setChatLines(){
-        String url = "http://128.237.179.10:8888/php/chatProcess.php";
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
         AQuery aq = new AQuery(this);
 
-        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+        aq.ajax(_url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
@@ -154,11 +160,10 @@ public class ChorusChat extends Activity {
     along with notification functionality.
      */
     public void update(){
-        String url = "http://128.237.179.10:8888/php/chatProcess.php";
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
 
-        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+        aq.ajax(_url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
@@ -204,12 +209,11 @@ public class ChorusChat extends Activity {
     Sends the string to the server to add chat list.
      */
     public void postData(String words) {
-        String url = "http://128.237.179.10:8888/php/chatProcess.php";
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post");
 
         params.put("chatLine", words);
-        aq.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
+        aq.ajax(_url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
             }
@@ -217,18 +221,17 @@ public class ChorusChat extends Activity {
     }
     //TODO: Set alarm manager to check for updates
     public void setAlarmManager() {
-        _size = _chatLineInfoArrayList.size();
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent broadcast_intent = new Intent(this, AlarmUpdateChatList1.class);
+        Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
 //        broadcast_intent.putExtra("ArrayList", _chatLineInfoArrayList.size());
 //        broadcast_intent.putExtra("ChatNum",_task);
 //        broadcast_intent.putExtra("Role", _role);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1234, broadcast_intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime(), 100, pendingIntent);
+                SystemClock.elapsedRealtime(), 1000, pendingIntent);
     }
     public void stopAlarmManager(){
-        Intent intentstop = new Intent(this, AlarmUpdateChatList1.class);
+        Intent intentstop = new Intent(this, AlarmUpdateChatList.class);
         PendingIntent senderstop = PendingIntent.getBroadcast(this,
                 1234, intentstop, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManagerstop = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -237,81 +240,47 @@ public class ChorusChat extends Activity {
     public void onStop(){//stops the recursion.
         super.onStop();
         _canUpdate = false;
+        insertToDB();
         setAlarmManager();
     }
     public void onResume(){
         super.onResume();
         stopAlarmManager();
+//        deleteDB();
     }
-    public void checkUpdate(){
-        String url = "http://128.237.179.10:8888/php/chatProcess.php";
-        AQuery aq = new AQuery(this);
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("action", "fetchNewChatRequester");
-        params.put("role", "crowd");
-        params.put("task", "6");
-        params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
-        params.put("lastChatId", "-1");
-        _checkUpdate = false;
-        aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
-            @Override
-            public void callback(String url, JSONArray json, AjaxStatus status) {
-                update();
-                if (json != null) {
-                    if (json.length() > _chatLineInfoArrayList.size()) {
-                        numNotifications++;
-                        Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-                        viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                                viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-                        if (numNotifications == 1) {
-                            mBuilder.setContentText("1 New Message");
-                        } else {
-                            mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages");
-                        }
-                        NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
-                        nm.notify(0, mBuilder.build());
-                    }
-                }
-            }
-        });
+    public void deleteDB(){
+        DBHelper mDbHelper = new DBHelper(getApplicationContext());
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME,null,null);
+        db.rawQuery("DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME, null);
+        db.close();
+        mDbHelper.close();
     }
-    public class AlarmUpdateChatList1 extends BroadcastReceiver {
-        @Override
-        public void onReceive(final Context context, Intent intent) {
-//            _size = intent.getExtras().getInt("ArrayList");
-//            _task = intent.getStringExtra("ChatNum");
-//            _role = intent.getStringExtra("Role");
-            String url = "http://128.237.179.10:8888/php/chatProcess.php";
-            AQuery aq = new AQuery(context);
-            Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
-            params.put("role", _role);
-            params.put("task", _task);
-            aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
-                @Override
-                public void callback(String url, JSONArray json, AjaxStatus status) {
-                    status.getMessage();
-                    if (json.length()>_size) {
-                        numNotifications = json.length() - _size;
-                        Intent viewIntent = new Intent(context, ChorusChat.class);
-                        viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0,
-                                viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-                        mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-                                "in chat " + _task);
-                        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
-                        nm.notify(0, mBuilder.build());
-                        _size = json.length();
-                    }
-                }
-            });
-        }
-    }
+    public void insertToDB(){
+        DBHelper mDbHelper = new DBHelper(getApplicationContext());
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
+        String[] projection = {
+                DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK
+        };
+        String selection = DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK + "=?";
+        String[] selectionArgs = { _task };
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, _role);
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK, _task);
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE, _chatLineInfoArrayList.size());
+        int i = db.update(DatabaseContract.DatabaseEntry.TABLE_NAME,values,"task = "+_task,null);
+        if(i==0){
+            long newRowId = db.insertOrThrow(DatabaseContract.DatabaseEntry.TABLE_NAME, null, values);
+            if (newRowId == -1){
+                Toast.makeText(this,"Oh no",Toast.LENGTH_SHORT).show();
+            }
+        }
+//        cursor = db.query(DatabaseContract.DatabaseEntry.TABLE_NAME,null,null,null,null,null,null);
+//        cursor.getCount();
+        db.close();
+        mDbHelper.close();
+//        cursor.close();
+    }
 }
