@@ -15,8 +15,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/mic"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <service android:name=".ListenerServiceFromWear" >
+        android:theme="@style/AppTheme">
+        <service android:name="guillermobeltran.chorusinput.ListenerServiceFromWear">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
@@ -69,12 +69,12 @@
         <receiver
             android:name=".ChorusChat$AlarmUpdateChatList1"
             android:enabled="true" />
-
         <service
             android:name=".UpdateService"
             android:enabled="true"
             android:exported="true" >
         </service>
+
     </application>
 
 </manifest>
