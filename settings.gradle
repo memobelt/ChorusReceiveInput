@@ -1,1 +1,1 @@
-include ':app', ':android-query-full.0.26.8', ':wear'
+include ':mobile', ':wear', ':android-query-full.0.26.8'
