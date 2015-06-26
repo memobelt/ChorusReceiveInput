@@ -169,21 +169,8 @@ public class ChorusChat extends Activity {
                             }
                             _chatList.setSelection(_chatList.getCount() - 1);
 
-//                            numNotifications++;
-//                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-//                            viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-//                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-//                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-//                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-//                            if(numNotifications == 1) {
-//                                mBuilder.setContentText("1 New Message");
-//                            } else {
-//                                mBuilder.setContentText(Integer.toString(numNotifications)+" New Messages");
-//                            }
-//                            NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
-//                            nm.notify(0, mBuilder.build());
+                            Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+                            startActivity(intent);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
