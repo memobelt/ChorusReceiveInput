@@ -241,7 +241,7 @@ public class ChorusChat extends Activity {
         super.onStop();
         _canUpdate = false;
         insertToDB();
-        setAlarmManager();
+//        setAlarmManager();
     }
     public void onResume(){
         super.onResume();

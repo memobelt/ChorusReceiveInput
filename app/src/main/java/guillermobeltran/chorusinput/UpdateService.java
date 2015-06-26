@@ -52,7 +52,7 @@ public class UpdateService extends Service {
                 String role = cursor.getString(cursor.getColumnIndexOrThrow(
                         DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE));
                 int size = cursor.getInt(cursor.getColumnIndexOrThrow(
-                        DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE));
+                        DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE));
                 totalChats++;
                 notify(role,task,size);
                 list.add(task);
@@ -73,7 +73,7 @@ public class UpdateService extends Service {
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 status.getMessage();
                 if (json.length()>size) {
-                    numNotifications = json.length() - size;
+                    int numNotifications = json.length() - size;
                     Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
                     viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
@@ -82,12 +82,12 @@ public class UpdateService extends Service {
                             .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
                             .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
                     mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-                            "in chat " + task);
+                            "in Chat " + task);
                     NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
-                    callbackChats++;
-                    if(totalChats==callbackChats){
-                        nm.notify(0, mBuilder.build());
-                    }
+//                    callbackChats++;
+//                    if(totalChats==callbackChats){
+                        nm.notify(++callbackChats, mBuilder.build());
+//                    }
                 }
             }
         });
