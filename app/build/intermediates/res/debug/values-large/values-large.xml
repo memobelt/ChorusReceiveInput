@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values-large/refs.xml -->
+    <eat-comment/>
+    <item name="fragment_chatnumbers" type="layout">@layout/fragment_chatnumbers_grid</item>
+</resources>

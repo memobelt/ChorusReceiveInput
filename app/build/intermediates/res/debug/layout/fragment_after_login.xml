@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="guillermobeltran.chorusinput.AfterLogin$PlaceholderFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Hello! Welcome to Chorus. To get started hit the arrow on the top left and ask a question, review your questions or answer questions."
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal|top"
+            android:textColor="@color/background_material_light" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ASK THE CROWD"
+            android:id="@+id/askBtn"
+            android:layout_gravity="center_horizontal|bottom"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            android:onClick="askQuestion" />
+    </FrameLayout>
+</RelativeLayout>
+<!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/layout/fragment_after_login.xml -->

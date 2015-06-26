@@ -1,0 +1,6 @@
+/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/classes/debug
+/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-d2ac13c9e66dc437b0ffe2da2f352672e9d4bc19.jar
+/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-48fb7771371ebec9def551fbd603a0e2a4d52331.jar
+/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/pre-dexed/debug/android-query-full.0.26.8-425c27bf90677a8bb67106ebf8ff6c4e9d3224aa.jar
+/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/pre-dexed/debug/classes-397b84f28c2e7f051f883a0b37bdfcd3b534a0fb.jar
+/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/pre-dexed/debug/classes-d59f49a347b27bac5b07a697440b0d25da581f9e.jar

@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gradient_start"
+    android:debuggable="true"
+    tools:context=".TakePicture">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:id="@+id/pictureLayout">
+
+        <SurfaceView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:id="@+id/picturePreview"
+            android:layout_columnWeight="3"
+            android:layout_rowWeight="1"
+            android:layout_weight="5"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/takePicture"
+            android:src="@mipmap/camera1"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:contentDescription="@string/camera"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_weight="1"
+            android:focusableInTouchMode="false" />
+    </LinearLayout>
+    <!--<FrameLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:visibility="gone"-->
+        <!--android:id="@+id/frame">-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/setPicture" />-->
+
+        <!--<ImageButton-->
+            <!--android:layout_width="82dp"-->
+            <!--android:layout_height="82dp"-->
+            <!--android:id="@+id/turn_left"-->
+            <!--android:layout_gravity="right|center_vertical"-->
+            <!--android:src="@mipmap/rotate_left"-->
+            <!--android:scaleType="centerInside"-->
+            <!--android:background="@null"-->
+            <!--android:onClick="turnLeft" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="82dp"-->
+            <!--android:layout_height="82dp"-->
+            <!--android:id="@+id/ok"-->
+            <!--android:layout_gravity="center_horizontal|bottom"-->
+            <!--android:src="@mipmap/check_mark"-->
+            <!--android:onClick="ok" />-->
+
+        <!--<ImageButton-->
+            <!--android:layout_width="72dp"-->
+            <!--android:layout_height="72dp"-->
+            <!--android:id="@+id/turn_right"-->
+            <!--android:layout_gravity="left|center_vertical"-->
+            <!--android:src="@mipmap/rotate_right"-->
+            <!--android:scaleType="centerInside"-->
+            <!--android:background="@null"-->
+            <!--android:onClick="turnRight" />-->
+
+        <!--<ImageButton-->
+            <!--android:layout_width="75dp"-->
+            <!--android:layout_height="75dp"-->
+            <!--android:id="@+id/cancel1"-->
+            <!--android:layout_gravity="left|bottom"-->
+            <!--android:src="@mipmap/cancel"-->
+            <!--android:background="@null"-->
+            <!--android:onClick="cancel" />-->
+
+        <!--<ImageButton-->
+            <!--android:layout_width="75dp"-->
+            <!--android:layout_height="75dp"-->
+            <!--android:id="@+id/cancel2"-->
+            <!--android:layout_gravity="right|bottom"-->
+            <!--android:src="@mipmap/cancel"-->
+            <!--android:background="@null"-->
+            <!--android:onClick="cancel" />-->
+
+    <!--</FrameLayout>-->
+
+
+</RelativeLayout>
+<!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/layout-port/activity_take_picture.xml -->
