@@ -15,7 +15,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/mic"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <service android:name="guillermobeltran.chorusinput.ListenerServiceFromWear">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".SpeakToMe"
             android:label="@string/title_activity_speak_to_me"
