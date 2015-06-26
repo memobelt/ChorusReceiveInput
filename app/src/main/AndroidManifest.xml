@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="guillermobeltran.chorusinput" >
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/mic"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".SpeakToMe"
+            android:label="@string/title_activity_speak_to_me"
+            android:parentActivityName=".AfterLogin"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="guillermobeltran.chorusinput.AfterLogin" />
+        </activity>
+        <activity
+            android:name=".TakePicture"
+            android:label="@string/title_activity_take_picture"
+            android:parentActivityName=".SpeakToMe"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="guillermobeltran.chorusinput.SpeakToMe" />
+        </activity>
+        <activity
+            android:name=".OrientPicture"
+            android:label="@string/title_activity_orient_picture"
+            android:parentActivityName=".TakePicture" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="guillermobeltran.chorusinput.TakePicture" />
+        </activity>
+        <activity android:name=".AfterLogin" >
+            <intent-filter android:label="@string/app_name" >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ChorusChat"
+            android:label="@string/title_activity_chorus_chat"
+            android:parentActivityName=".AfterLogin" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="guillermobeltran.chorusinput.AfterLogin" />
+        </activity>
+
+        <receiver
+            android:name=".AlarmUpdateChatList"
+            android:enabled="true" />
+
+        <service
+            android:name=".UpdateService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+    </application>
+
+</manifest>
