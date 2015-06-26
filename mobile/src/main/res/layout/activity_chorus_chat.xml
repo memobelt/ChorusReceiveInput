@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="guillermobeltran.chorusinput.Chat"
+    android:background="@color/background_floating_material_dark">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/webView"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/ChatList"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="5"
+            android:layout_weight="5" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/editText"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="5"
+                android:layout_weight="5"
+                android:textColor="#ffffffff" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="Send"
+                android:id="@+id/CrowdSend"
+                android:layout_weight="1"
+                android:onClick="sendText" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
