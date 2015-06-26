@@ -19,7 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Memo on 6/17/15.
+ * Created by Memo on 6/17/15. THis is what contains all the information about the line. May be needed
+ * for future use?
  */
 public class ChatLineInfo {
     private String _id, _chatLine,_role,_task,_time,_accepted,_workerId, _acceptedTime;
