@@ -1,29 +1,21 @@
 package guillermobeltran.chorusinput;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.RecognizerIntent;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -31,22 +23,19 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import android.speech.tts.TextToSpeech;
-import android.speech.tts.TextToSpeech.OnInitListener;
 
-import java.io.File;
-import java.sql.SQLData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -89,10 +78,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         if (networkInfo != null && networkInfo.isConnected()) {
 
             //get all the intents
-            if (getIntent().getExtras().getBoolean("Asking")) {
-                String words = getIntent().getStringExtra("Words");
-                postData(words);
-            }
+
             _task = getIntent().getStringExtra("ChatNum");
             _role = getIntent().getStringExtra("Role");
             //only way for chat to work is to load the webpage so this does it in invisible webview
@@ -100,7 +86,7 @@ public class ChorusChat extends Activity implements OnInitListener {
             webview.loadUrl("http://128.237.179.70:8888/chat.php?task=" + _task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
-//            webview.destroy();
+            webview.destroy();
             //make sure the text is white
             _adapter = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_list_item_1, _arrayList){
@@ -117,6 +103,10 @@ public class ChorusChat extends Activity implements OnInitListener {
                     return view;
                 }
             };
+            if (getIntent().getExtras().getBoolean("Asking")) {
+                String words = getIntent().getStringExtra("Words");
+                postData(words);
+            }
             setChatLines();
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
@@ -161,6 +151,14 @@ public class ChorusChat extends Activity implements OnInitListener {
                         }
                         ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
                         _chatList.setSelection(_chatList.getCount() - 1);
+                        _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                Toast.makeText(getApplicationContext(),Integer.toString(position)+
+//                                        " "+ Long.toString(id),Toast.LENGTH_SHORT).show();
+                                speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
+                            }
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -189,6 +187,14 @@ public class ChorusChat extends Activity implements OnInitListener {
                             _adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                             if(_chatList.getAdapter()==null){
                                 ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
+                                _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                        Toast.makeText(getApplicationContext(),Integer.toString(position)+
+//                                                " "+ Long.toString(id),Toast.LENGTH_SHORT).show();
+                                        speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
+                                    }
+                                });
                             }
                             _chatList.setSelection(_chatList.getCount() - 1);
                             if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
@@ -216,15 +222,13 @@ public class ChorusChat extends Activity implements OnInitListener {
         aq.ajax(_url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                status.getMessage();
             }
         });
     }
     public void setAlarmManager() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
-//        broadcast_intent.putExtra("ArrayList", _chatLineInfoArrayList.size());
-//        broadcast_intent.putExtra("ChatNum",_task);
-//        broadcast_intent.putExtra("Role", _role);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1234, broadcast_intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime(), 1000, pendingIntent);
@@ -240,7 +244,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         super.onStop();
         _canUpdate = false;
         insertToDB();
-        setAlarmManager();
+//        setAlarmManager();
     }
     public void onResume(){
         super.onResume();
@@ -259,12 +263,6 @@ public class ChorusChat extends Activity implements OnInitListener {
         DBHelper mDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String[] projection = {
-                DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK
-        };
-        String selection = DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK + "=?";
-        String[] selectionArgs = { _task };
-
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, _role);
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK, _task);
@@ -276,11 +274,8 @@ public class ChorusChat extends Activity implements OnInitListener {
                 Toast.makeText(this,"Oh no",Toast.LENGTH_SHORT).show();
             }
         }
-//        cursor = db.query(DatabaseContract.DatabaseEntry.TABLE_NAME,null,null,null,null,null,null);
-//        cursor.getCount();
         db.close();
         mDbHelper.close();
-//        cursor.close();
     }
 
     public void ChatSpeechInput(View v) {

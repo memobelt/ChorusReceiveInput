@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import static guillermobeltran.chorusinput.R.id.imageButton2;
 
 public class SpeakToMe extends Activity {
 
-    private TextView _txtSpeechInput;
+    private EditText _txtSpeechInput;
     private Bitmap _finalBm;
     private ImageButton _btnSpeak, _btnCam;
     private Button _sendButton;
@@ -41,7 +42,7 @@ public class SpeakToMe extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak_to_me);
 
-        _txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
+        _txtSpeechInput = (EditText) findViewById(R.id.txtSpeechInput);
         _btnSpeak = (ImageButton) findViewById(imageButton);
         _btnCam = (ImageButton) findViewById(imageButton2);
         _sendButton = (Button) findViewById(SendButton);
@@ -82,7 +83,7 @@ public class SpeakToMe extends Activity {
     }
     public void sendButton(View v){
         Intent intent = new Intent(getApplicationContext(),ChorusChat.class);
-        intent.putExtra("Words", _txtSpeechInput.getText());
+        intent.putExtra("Words", _txtSpeechInput.getText().toString());
         intent.putExtra("Asking",true);
         intent.putExtra("ChatNum", "6");
         intent.putExtra("Role", "requester");
