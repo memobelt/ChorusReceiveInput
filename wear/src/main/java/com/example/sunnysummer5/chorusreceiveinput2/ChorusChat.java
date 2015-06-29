@@ -284,37 +284,36 @@ public class ChorusChat extends Activity {
         });
     }
 
-    public static class AlarmUpdateChatList1 extends BroadcastReceiver {
+    public class AlarmUpdateChatList1 extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, Intent intent) {
-            final ChorusChat c = new ChorusChat();
 //            _size = intent.getExtras().getInt("ArrayList");
 //            _task = intent.getStringExtra("ChatNum");
 //            _role = intent.getStringExtra("Role");
             String url = "http://128.237.179.10:8888/php/chatProcess.php";
             AQuery aq = new AQuery(context);
-            Map<String, Object> params = c.setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
-            params.put("role", c._role);
-            params.put("task", c._task);
+            Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
+            params.put("role", _role);
+            params.put("task", _task);
             aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
                 @Override
                 public void callback(String url, JSONArray json, AjaxStatus status) {
                     status.getMessage();
-                    if (json.length() > c._size) {
+                    if (json.length() > _size) {
                         //notification
-                        Intent intent = new Intent(c.getApplicationContext(), ChorusChat.class);
-                        final PendingIntent pendingIntent = PendingIntent.getActivity(c.getApplicationContext(),
+                        Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
+                        final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                                 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                        NotificationCompat.Builder notification = new NotificationCompat.Builder(c.getApplicationContext())
+                        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true)
                                 .setContentIntent(pendingIntent).setWhen(System.currentTimeMillis())
-                                .setGroup(c.NOTIFICATION_GROUP).setContentTitle("Chorus")
+                                .setGroup(NOTIFICATION_GROUP).setContentTitle("Chorus")
                                 .setContentText("New Message");
-                        NotificationManagerCompat nmc = NotificationManagerCompat.from(c.getApplicationContext());
-                        nmc.notify(c.id++, notification.build());
-                        c._size = json.length();
+                        NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
+                        nmc.notify(id++, notification.build());
+                        _size = json.length();
 
-                        c.chatText.setText(c._cli.get_chatLine());
+                        chatText.setText(_cli.get_chatLine());
                     }
                 }
             });

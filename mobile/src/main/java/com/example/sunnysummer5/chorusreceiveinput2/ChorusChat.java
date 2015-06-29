@@ -46,7 +46,7 @@ public class ChorusChat extends Activity {
     ArrayAdapter _adapter;
     Boolean _canUpdate,_checkUpdate;
     int numNotifications,_size;
-   AlarmUpdateChatList1 _receiver = new AlarmUpdateChatList1();
+    AlarmUpdateChatList1 _receiver = new AlarmUpdateChatList1();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initializations
@@ -170,6 +170,7 @@ public class ChorusChat extends Activity {
                             _chatList.setSelection(_chatList.getCount() - 1);
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+                            intent.putExtra("Message", _cli.get_chatLine());
                             startActivity(intent);
 
                         } catch (JSONException e) {
@@ -262,24 +263,23 @@ public class ChorusChat extends Activity {
             }
         });
     }
-    public static class AlarmUpdateChatList1 extends BroadcastReceiver {
+    public class AlarmUpdateChatList1 extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, Intent intent) {
-            final ChorusChat c = new ChorusChat();
 //            _size = intent.getExtras().getInt("ArrayList");
 //            _task = intent.getStringExtra("ChatNum");
 //            _role = intent.getStringExtra("Role");
             String url = "http://128.237.179.10:8888/php/chatProcess.php";
             AQuery aq = new AQuery(context);
-            Map<String, Object> params = c.setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
-            params.put("role", c._role);
-            params.put("task", c._task);
+            Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
+            params.put("role", _role);
+            params.put("task", _task);
             aq.ajax(url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
                 @Override
                 public void callback(String url, JSONArray json, AjaxStatus status) {
                     status.getMessage();
-                    if (json.length()>c._size) {
-                        c.numNotifications = json.length() - c._size;
+                    if (json.length()>_size) {
+                        numNotifications = json.length() - _size;
                         Intent viewIntent = new Intent(context, ChorusChat.class);
                         viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0,
@@ -287,11 +287,11 @@ public class ChorusChat extends Activity {
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                                 .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
                                 .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-                        mBuilder.setContentText(Integer.toString(c.numNotifications) + " New Messages " +
-                                "in chat " + c._task);
+                        mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+                                "in chat " + _task);
                         NotificationManagerCompat nm = NotificationManagerCompat.from(context);
                         nm.notify(0, mBuilder.build());
-                        c._size = json.length();
+                        _size = json.length();
                     }
                 }
             });

@@ -38,10 +38,10 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
      * Send message to mobile handheld
      */
     private void sendMessage() {
-        ChorusChat c = new ChorusChat();
         if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
-                    mGoogleApiClient, mNode.getId(), HELLO_WORLD, c._cli.get_chatLine().getBytes()).setResultCallback(
+                    mGoogleApiClient, mNode.getId(), HELLO_WORLD,
+                    getIntent().getByteArrayExtra("Message")).setResultCallback(
 
                     new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override

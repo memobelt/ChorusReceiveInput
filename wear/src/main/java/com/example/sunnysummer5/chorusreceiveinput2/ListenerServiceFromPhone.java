@@ -11,7 +11,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 public class ListenerServiceFromPhone extends WearableListenerService {
     private final static String HELLO_WORLD = "/hello-world";
-    ChorusChat c = new ChorusChat();
+    String NOTIFICATION_GROUP = "notification_group";
+    int id = 001;
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
@@ -27,12 +28,10 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext())
                     .setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true)
                     .setContentIntent(pendingIntent).setWhen(System.currentTimeMillis())
-                    .setGroup(c.NOTIFICATION_GROUP).setContentTitle("Chorus")
+                    .setGroup(NOTIFICATION_GROUP).setContentTitle("Chorus")
                     .setContentText("New Message");
             NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
-            nmc.notify(c.id++, notification.build());
-
-            c.chatText.setText(messageEvent.getData().toString());
+            nmc.notify(id++, notification.build());
         }
         else {
             super.onMessageReceived(messageEvent);
