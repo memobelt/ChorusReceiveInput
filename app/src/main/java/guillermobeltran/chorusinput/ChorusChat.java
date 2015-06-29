@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,12 +12,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
@@ -26,6 +31,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,10 +42,14 @@ import com.androidquery.callback.AjaxStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 
+import java.io.File;
 import java.sql.SQLData;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static guillermobeltran.chorusinput.R.id.ChatList;
@@ -47,7 +57,7 @@ import static guillermobeltran.chorusinput.R.id.editText;
 import static guillermobeltran.chorusinput.R.id.webView;
 
 
-public class ChorusChat extends Activity {
+public class ChorusChat extends Activity implements OnInitListener {
     EditText _editText;
     String _task, _role;
     ListView _chatList;
@@ -55,9 +65,10 @@ public class ChorusChat extends Activity {
     ArrayList<String> _arrayList = new ArrayList<String>();
     ChatLineInfo _cli = new ChatLineInfo();
     ArrayAdapter _adapter;
-    Boolean _canUpdate,_checkUpdate;
-    int numNotifications,_size;
-    static String _url = "http://128.237.184.183:8888/php/chatProcess.php";
+    Boolean _canUpdate;
+    int numNotifications;
+    TextToSpeech myTTS;
+    static String _url = "http://128.237.179.70:8888/php/chatProcess.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initializations
@@ -72,6 +83,9 @@ public class ChorusChat extends Activity {
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, 200);
         if (networkInfo != null && networkInfo.isConnected()) {
 
             //get all the intents
@@ -83,7 +97,7 @@ public class ChorusChat extends Activity {
             _role = getIntent().getStringExtra("Role");
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
-            webview.loadUrl("http://128.237.184.183:8888/chat.php?task=" + _task);
+            webview.loadUrl("http://128.237.179.70:8888/chat.php?task=" + _task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
 //            webview.destroy();
@@ -177,23 +191,9 @@ public class ChorusChat extends Activity {
                                 ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
                             }
                             _chatList.setSelection(_chatList.getCount() - 1);
-
-//                            numNotifications++;
-//                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-//                            viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-//                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-//                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-//                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-//                            if(numNotifications == 1) {
-//                                mBuilder.setContentText("1 New Message");
-//                            } else {
-//                                mBuilder.setContentText(Integer.toString(numNotifications)+" New Messages");
-//                            }
-//                            NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
-//                            nm.notify(0, mBuilder.build());
-
+                            if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
+                                speakResults(chatLineInfo.get_chatLine());
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -210,7 +210,7 @@ public class ChorusChat extends Activity {
      */
     public void postData(String words) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(),"post");
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "post");
 
         params.put("chatLine", words);
         aq.ajax(_url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
@@ -219,7 +219,6 @@ public class ChorusChat extends Activity {
             }
         });
     }
-    //TODO: Set alarm manager to check for updates
     public void setAlarmManager() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
@@ -241,7 +240,7 @@ public class ChorusChat extends Activity {
         super.onStop();
         _canUpdate = false;
         insertToDB();
-//        setAlarmManager();
+        setAlarmManager();
     }
     public void onResume(){
         super.onResume();
@@ -282,5 +281,60 @@ public class ChorusChat extends Activity {
         db.close();
         mDbHelper.close();
 //        cursor.close();
+    }
+
+    public void ChatSpeechInput(View v) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, 100);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 100: {
+                if (resultCode == RESULT_OK && data != null) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    _editText.setText(result.get(0));
+                }
+                break;
+            }
+            case 200: {
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    myTTS = new TextToSpeech(this, this);
+                }
+                else {
+                    Intent installTTSIntent = new Intent();
+                    installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installTTSIntent);
+                }
+            }
+        }
+    }
+    public void speakResults(String words){
+        myTTS.speak(words,TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            myTTS.setLanguage(Locale.US);
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+        }
     }
 }

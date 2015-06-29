@@ -34,6 +34,18 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
+            <ImageButton
+                android:contentDescription="@string/mic"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imageButton3"
+                android:src="@mipmap/mic1"
+                android:background="@null"
+                android:scaleType="centerCrop"
+                android:layout_weight="1"
+                android:onClick="ChatSpeechInput"
+                android:nestedScrollingEnabled="true" />
+
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -50,8 +62,9 @@
                 android:layout_height="match_parent"
                 android:text="Send"
                 android:id="@+id/CrowdSend"
-                android:layout_weight="1"
-                android:onClick="sendText" />
+                android:layout_weight="1.2"
+                android:onClick="sendText"
+                android:visibility="visible" />
         </LinearLayout>
 
     </LinearLayout>

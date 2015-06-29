@@ -2,6 +2,7 @@ package guillermobeltran.chorusinput;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateService extends Service {
-    int numNotifications = 0,totalChats = 0,callbackChats = 0;
+    int totalChats = 0;
     ChorusChat chat = new ChorusChat();
     public UpdateService() {
     }
@@ -72,22 +74,36 @@ public class UpdateService extends Service {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 status.getMessage();
-                if (json.length()>size) {
-                    int numNotifications = json.length() - size;
-                    Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-                    viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                            viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                            .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                            .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-                    mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-                            "in Chat " + task);
-                    NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
-//                    callbackChats++;
-//                    if(totalChats==callbackChats){
-                        nm.notify(++callbackChats, mBuilder.build());
-//                    }
+                if (json != null) {
+                    if (json.length() > size) {
+                        int numNotifications = json.length() - size;
+                        Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+                        viewIntent.putExtra("ChatNum", task);
+                        viewIntent.putExtra("Role", role);
+                        viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                        PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                                viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+                        mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+                                "in Chat " + task);
+                        NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+                        nm.notify(Integer.parseInt(task), mBuilder.build());
+
+                        DBHelper mDbHelper = new DBHelper(getApplicationContext());
+                        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+                        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE, json.length());
+                        int i = db.update(DatabaseContract.DatabaseEntry.TABLE_NAME, values, "task = " + task, null);
+                        if (i == 0) {
+                            Toast.makeText(getApplicationContext(), "failed to update", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Json null",Toast.LENGTH_SHORT).show();
                 }
             }
         });
