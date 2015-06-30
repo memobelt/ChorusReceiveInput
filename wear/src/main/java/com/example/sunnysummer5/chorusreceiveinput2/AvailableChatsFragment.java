@@ -1,8 +1,6 @@
-package guillermobeltran.chorusinput;
+package com.example.sunnysummer5.chorusreceiveinput2;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,15 +15,11 @@ import android.widget.TextView;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p/>
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class AvailableChats extends Fragment implements AbsListView.OnItemClickListener {
+public class AvailableChatsFragment extends android.support.v4.app.Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,8 +40,8 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
     private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static AvailableChats newInstance(int position) {
-        AvailableChats fragment = new AvailableChats();
+    public static AvailableChatsFragment newInstance(int position) {
+        AvailableChatsFragment fragment = new AvailableChatsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, position);
         fragment.setArguments(args);
@@ -58,7 +52,7 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public AvailableChats() {
+    public AvailableChatsFragment() {
     }
 
     @Override
@@ -66,9 +60,9 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
         super.onCreate(savedInstanceState);
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<guillermobeltran.chorusinput.Chats.AvailableChats.ChatNumber>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1,
-                guillermobeltran.chorusinput.Chats.AvailableChats.ITEMS){
+        mAdapter = new ArrayAdapter<com.example.sunnysummer5.chorusreceiveinput2.Chats.AvailableChats.ChatNumber>
+                (getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1,
+                        com.example.sunnysummer5.chorusreceiveinput2.Chats.AvailableChats.ITEMS){
             @Override
             public View getView(int position, View convertView,
                                 ViewGroup parent) {
@@ -87,7 +81,7 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chatnumbers, container, false);
+        View view = inflater.inflate(R.layout.fragment_availablechats, container, false);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
@@ -99,7 +93,7 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
         return view;
     }
 
-    @Override
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -117,14 +111,15 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
+    }*/
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(guillermobeltran.chorusinput.Chats.AvailableChats.ITEMS.get(position).id);
+            mListener.onFragmentInteraction(com.example.sunnysummer5.chorusreceiveinput2.Chats
+                    .AvailableChats.ITEMS.get(position).id);
         }
     }
 

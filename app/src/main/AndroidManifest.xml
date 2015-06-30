@@ -58,6 +58,7 @@
                 android:value="guillermobeltran.chorusinput.AfterLogin" />
         </activity>
 
+
         <receiver
             android:name=".AlarmUpdateChatList"
             android:enabled="true" />

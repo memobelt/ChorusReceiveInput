@@ -22,6 +22,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -42,6 +43,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static guillermobeltran.chorusinput.R.id.ChatList;
+import static guillermobeltran.chorusinput.R.id.CrowdSend;
 import static guillermobeltran.chorusinput.R.id.editText;
 import static guillermobeltran.chorusinput.R.id.webView;
 
@@ -50,6 +52,7 @@ public class ChorusChat extends Activity implements OnInitListener {
     EditText _editText;
     String _task, _role;
     ListView _chatList;
+    Button _crowdBtn;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
     ArrayList<String> _arrayList = new ArrayList<String>();
     ChatLineInfo _cli = new ChatLineInfo();
@@ -65,6 +68,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         setContentView(R.layout.activity_chorus_chat);
         _chatList = (ListView) findViewById(ChatList);
         _editText = (EditText) findViewById(editText);
+        _crowdBtn = (Button) findViewById(CrowdSend);
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         numNotifications=0;
@@ -178,36 +182,44 @@ public class ChorusChat extends Activity implements OnInitListener {
         aq.ajax(_url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
-                if (json != null) {
-                    if (json.length() > _chatLineInfoArrayList.size()) {
-                        try {
-                            String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
-                            ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                            _chatLineInfoArrayList.add(chatLineInfo);
-                            _adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            if(_chatList.getAdapter()==null){
-                                ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
-                                _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (json != null) {
+                if (json.length() > _chatLineInfoArrayList.size()) {
+                    try {
+                        String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
+                        ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
+                        _chatLineInfoArrayList.add(chatLineInfo);
+                        _adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        if(_chatList.getAdapter()==null){
+                            ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
+                            _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                                        Toast.makeText(getApplicationContext(),Integer.toString(position)+
 //                                                " "+ Long.toString(id),Toast.LENGTH_SHORT).show();
-                                        speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
-                                    }
-                                });
-                            }
-                            _chatList.setSelection(_chatList.getCount() - 1);
-                            if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
-                                speakResults(chatLineInfo.get_chatLine());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                    speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
+                                }
+                            });
                         }
+                        _chatList.setSelection(_chatList.getCount() - 1);
+                        if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
+                            speakResults(chatLineInfo.get_chatLine());
+                        }
+                        int size = _chatLineInfoArrayList.size();
+                        if(_chatLineInfoArrayList.get(size-1).get_role()=="crowd"&&
+                                _chatLineInfoArrayList.get(size-2).get_role()=="crowd"){
+                            _crowdBtn.setVisibility(View.INVISIBLE);
+                        }
+                        else{
+                            _crowdBtn.setVisibility(View.VISIBLE);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-                if(_canUpdate) {//in order to stop recursion once app is closed.
-                    update();
-                }
+            }
+            if(_canUpdate) {//in order to stop recursion once app is closed.
+                update();
+            }
             }
         });
     }
@@ -329,7 +341,7 @@ public class ChorusChat extends Activity implements OnInitListener {
             myTTS.setLanguage(Locale.US);
         }
         else if (status == TextToSpeech.ERROR) {
-            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_SHORT).show();
         }
     }
 }
