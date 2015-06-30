@@ -23,6 +23,8 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         //open on phone was called from MainActivity to answer
         if (messageEvent.getPath().equals(HELLO_WORLD)) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
+            intent.putExtra("New Text", messageEvent.getData().toString());
+            intent.putExtra("caller", "ListenerServiceFromPhone");
             final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext())

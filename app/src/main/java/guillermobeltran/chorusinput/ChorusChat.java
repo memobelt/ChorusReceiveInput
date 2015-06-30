@@ -58,7 +58,6 @@ public class ChorusChat extends Activity implements OnInitListener {
     ChatLineInfo _cli = new ChatLineInfo();
     ArrayAdapter _adapter;
     Boolean _canUpdate;
-    int numNotifications;
     TextToSpeech myTTS;
     static String _url = "http://128.237.179.70:8888/php/chatProcess.php";
     @Override
@@ -71,7 +70,6 @@ public class ChorusChat extends Activity implements OnInitListener {
         _crowdBtn = (Button) findViewById(CrowdSend);
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
-        numNotifications=0;
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();

@@ -6,23 +6,18 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.wearable.view.WatchViewStub;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -76,8 +71,10 @@ public class ChorusChat extends Activity {
                         startActivity(reply_intent);
                     }
                 });
+                if(getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone"))
+                    chatText.setText(getIntent().getStringExtra("New Text"));
 
-                ConnectivityManager connMgr = (ConnectivityManager)
+                /*ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
@@ -101,7 +98,7 @@ public class ChorusChat extends Activity {
 
                             TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
-                            /*YOUR CHOICE OF COLOR*/
+                            //YOUR CHOICE OF COLOR
                             textView.setTextColor(Color.WHITE);
 
                             return view;
@@ -110,7 +107,7 @@ public class ChorusChat extends Activity {
                     setChatLines();
                 } else {
                     Toast.makeText(getApplicationContext(), "No network connection available.", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
     }
@@ -187,7 +184,6 @@ public class ChorusChat extends Activity {
                                 ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
                             }
                             _chatList.setSelection(_chatList.getCount() - 1);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
