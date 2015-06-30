@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
-import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
 public class ListenerServiceFromWear extends WearableListenerService {
@@ -25,7 +24,16 @@ public class ListenerServiceFromWear extends WearableListenerService {
             Intent startIntent = new Intent(this, SpeakToMe.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
-        } else {
+        }
+        //open on phone was called from microphone. need to put speech text into chat
+        else if (messageEvent.getPath().equals("/speech-on-phone")) {
+            Intent startIntent = new Intent(this, ChorusChat.class);
+            startIntent.putExtra("Speech", true);
+            startIntent.putExtra("Input", messageEvent.getData().toString());
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startIntent);
+        }
+        else {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");
         }

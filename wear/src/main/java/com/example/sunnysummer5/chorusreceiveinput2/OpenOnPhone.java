@@ -24,6 +24,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
     GoogleApiClient mGoogleApiClient;
     private String HELLO_WORLD_WEAR_PATH;
     private boolean mResolvingError=false;
+    byte[] message;
 
     TextView mTextView;
     @Override
@@ -41,9 +42,15 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
         String caller = getIntent().getStringExtra("caller");
         if(caller.equals("MainActivity")) {
             HELLO_WORLD_WEAR_PATH = "/main-activity-on-phone";
+            message = null;
         }
         else if(caller.equals("Microphone")) {
             HELLO_WORLD_WEAR_PATH = "/microphone-on-phone";
+            message = null;
+        }
+        else if(caller.equals("Speech")) {
+            HELLO_WORLD_WEAR_PATH = "/speech-on-phone";
+            message = getIntent().getStringExtra("Words").getBytes();
         }
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
@@ -68,10 +75,9 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
      * Send message to mobile handheld
      */
     private void sendMessage() {
-
         if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
-                    mGoogleApiClient, mNode.getId(), HELLO_WORLD_WEAR_PATH, null).setResultCallback(
+                    mGoogleApiClient, mNode.getId(), HELLO_WORLD_WEAR_PATH, message).setResultCallback(
 
                     new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override

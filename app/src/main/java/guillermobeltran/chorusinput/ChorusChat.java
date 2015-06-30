@@ -109,6 +109,9 @@ public class ChorusChat extends Activity implements OnInitListener {
                 String words = getIntent().getStringExtra("Words");
                 postData(words);
             }
+            else if(getIntent().getExtras().getBoolean("Speech")) {
+                postData(getIntent().getStringExtra("Input"));
+            }
             setChatLines();
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();

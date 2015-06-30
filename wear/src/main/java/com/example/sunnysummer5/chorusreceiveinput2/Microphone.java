@@ -49,7 +49,8 @@ public class Microphone extends Activity {
                 _sendButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationContext(),ChorusChat.class);
+                        Intent intent = new Intent(getApplicationContext(),OpenOnPhone.class);
+                        intent.putExtra("caller", "Speech");
                         intent.putExtra("Words", _txtSpeechInput.getText());
                         intent.putExtra("Asking",true);
                         intent.putExtra("ChatNum", "6");
