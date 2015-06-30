@@ -50,17 +50,22 @@
         </LinearLayout>
 
     </LinearLayout>-->
-    <Button
+    <!--<Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text = "Reply"
         android:id="@+id/replyButton"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"/>-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TextArea"
-        android:text="Ask a question"
-        android:layout_above="@id/replyButton"/>
+        android:text="Ask a question"/>
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/TextArea"/>
 
 </RelativeLayout>

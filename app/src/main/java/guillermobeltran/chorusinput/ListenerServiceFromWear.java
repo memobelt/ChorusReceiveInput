@@ -26,7 +26,8 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startActivity(startIntent);
         }
         //open on phone was called from microphone. need to put speech text into chat
-        else if (messageEvent.getPath().equals("/speech-on-phone")) {
+        else if (messageEvent.getPath().equals("/speech-on-phone") ||
+                messageEvent.getPath().equals("/response")) {
             Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Input", messageEvent.getData().toString());

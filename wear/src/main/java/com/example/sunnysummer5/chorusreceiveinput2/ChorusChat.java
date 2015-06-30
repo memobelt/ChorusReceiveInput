@@ -14,9 +14,9 @@ import android.support.wearable.view.WatchViewStub;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
@@ -35,7 +35,8 @@ import java.util.Map;
 public class ChorusChat extends Activity {
     String _task, _role;
     ListView _chatList;
-    Button reply;
+    //Button reply;
+    Spinner spinner;
     TextView mTextView, chatText;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
     ArrayList<String> _arrayList = new ArrayList<String>();
@@ -63,16 +64,45 @@ public class ChorusChat extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 chatText = (TextView) findViewById(R.id.TextArea);
                 //_chatList = (ListView) findViewById(R.id.ChatList);
-                reply = (Button) findViewById(R.id.replyButton);
+                /*reply = (Button) findViewById(R.id.replyButton);
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) { //reply goes back to Microphone and Camera activity
                         Intent reply_intent = new Intent(getApplicationContext(), Microphone.class);
                         startActivity(reply_intent);
                     }
+                });*/
+                spinner = (Spinner) findViewById(R.id.spinner);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                        R.array.response_array, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if(parent.getItemAtPosition(position).equals("Custom response")) {
+                            Intent intent = new Intent(getApplicationContext(), Microphone.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                        else {
+                            chatText.setText(parent.getItemAtPosition(position).toString());
+                            Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
+                            intent.putExtra("Response", parent.getItemAtPosition(position).toString());
+                            intent.putExtra("caller", "Response");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
                 });
-                if(getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone"))
-                    chatText.setText(getIntent().getStringExtra("New Text"));
+
+                if(getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
+                    chatText.setText(getIntent().getStringExtra("New Text")); }
 
                 /*ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);

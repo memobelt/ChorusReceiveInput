@@ -23,10 +23,11 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
     Node mNode; // the connected device to send the message to
     GoogleApiClient mGoogleApiClient;
     private String HELLO_WORLD_WEAR_PATH;
-    private boolean mResolvingError=false;
+    private boolean mResolvingError = false;
     byte[] message;
-
+    boolean animation;
     TextView mTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +41,22 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                 .build();
 
         String caller = getIntent().getStringExtra("caller");
-        if(caller.equals("MainActivity")) {
+        if (caller.equals("MainActivity")) {
             HELLO_WORLD_WEAR_PATH = "/main-activity-on-phone";
             message = null;
-        }
-        else if(caller.equals("Microphone")) {
+            animation = true;
+        } else if (caller.equals("Microphone")) {
             HELLO_WORLD_WEAR_PATH = "/microphone-on-phone";
             message = null;
-        }
-        else if(caller.equals("Speech")) {
+            animation = true;
+        } else if (caller.equals("Speech")) {
             HELLO_WORLD_WEAR_PATH = "/speech-on-phone";
             message = getIntent().getStringExtra("Words").getBytes();
+            animation = false;
+        } else if (caller.equals("Response")) {
+            HELLO_WORLD_WEAR_PATH = "/response";
+            message = getIntent().getStringExtra("Response").getBytes();
+            animation = false;
         }
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
@@ -58,14 +64,16 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
-
-                //Listener to send the message
-                mTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        sendMessage();
-                    }
-                });
+                if (animation) {
+                    mTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sendMessage();
+                        }
+                    });
+                } else {
+                    sendMessage();
+                }
             }
         });
     }
@@ -75,7 +83,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
      * Send message to mobile handheld
      */
     private void sendMessage() {
-        if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
+        if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
                     mGoogleApiClient, mNode.getId(), HELLO_WORLD_WEAR_PATH, message).setResultCallback(
 
@@ -86,18 +94,22 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                             if (!sendMessageResult.getStatus().isSuccess()) {
                                 Log.e("TAG", "Failed to send message with status code: "
                                         + sendMessageResult.getStatus().getStatusCode());
-                            }
-                            else {
-                                Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
-                                intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
-                                        ConfirmationActivity.OPEN_ON_PHONE_ANIMATION);
-                                intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE,"Opening on Phone");
-                                startActivity(intent);
+                            } else {
+                                if (animation) {
+                                    Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
+                                    intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                                            ConfirmationActivity.OPEN_ON_PHONE_ANIMATION);
+                                    intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Opening on Phone");
+                                    startActivity(intent);
+                                }
+                                Intent next = new Intent(getApplicationContext(), getCallingActivity().getClass());
+                                next.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(next);
                             }
                         }
                     }
             );
-        }else{
+        } else {
             mTextView.setText("Not connected");
         }
     }

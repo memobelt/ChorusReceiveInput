@@ -1991,7 +1991,7 @@ containing a value of this type.
     public static final class id {
         public static final int ChatList=0x7f0d006a;
         public static final int CrowdSend=0x7f0d006d;
-        public static final int SendButton=0x7f0d0078;
+        public static final int SendButton=0x7f0d0079;
         public static final int action_bar=0x7f0d0057;
         public static final int action_bar_activity_content=0x7f0d0000;
         public static final int action_bar_container=0x7f0d0056;
@@ -2055,7 +2055,7 @@ containing a value of this type.
         public static final int ifRoom=0x7f0d001f;
         public static final int image=0x7f0d003f;
         public static final int imageButton=0x7f0d0077;
-        public static final int imageButton2=0x7f0d0079;
+        public static final int imageButton2=0x7f0d0078;
         public static final int imageButton3=0x7f0d006b;
         public static final int linearLayout=0x7f0d0076;
         public static final int listMode=0x7f0d000a;
