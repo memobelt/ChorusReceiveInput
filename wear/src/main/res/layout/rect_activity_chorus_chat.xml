@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.sunnysummer5.chorusreceiveinput2.ChorusChat"
-    tools:deviceIds="wear_square">
+    tools:deviceIds="wear_square"
+    android:orientation="vertical">
     <!--<LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -56,17 +57,15 @@
         android:id="@+id/replyButton"
         android:layout_alignParentBottom="true" />-->
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TextArea"
-        android:text="Ask a question" />
+        android:text="Ask a question"/>
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/TextArea"/>
+        android:layout_height="wrap_content" />
 
 
 
-</RelativeLayout>
+</LinearLayout>

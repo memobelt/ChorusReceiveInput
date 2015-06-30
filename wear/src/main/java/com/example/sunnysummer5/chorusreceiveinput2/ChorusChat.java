@@ -100,9 +100,11 @@ public class ChorusChat extends Activity {
 
                     }
                 });
-
-                if(getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
-                    chatText.setText(getIntent().getStringExtra("New Text")); }
+                if(!(getIntent().getStringExtra("caller").equals("MainActivity"))) {
+                    if(getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
+                        chatText.setText(getIntent().getStringExtra("New Text"));
+                    }
+                }
 
                 /*ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);

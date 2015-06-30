@@ -101,10 +101,11 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                                             ConfirmationActivity.OPEN_ON_PHONE_ANIMATION);
                                     intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Opening on Phone");
                                     startActivity(intent);
+                                } else {
+                                    Intent next = new Intent(getApplicationContext(), getCallingActivity().getClass());
+                                    next.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(next);
                                 }
-                                Intent next = new Intent(getApplicationContext(), getCallingActivity().getClass());
-                                next.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(next);
                             }
                         }
                     }

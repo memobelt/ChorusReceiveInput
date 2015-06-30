@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
                                 if (x1 > x2 && Math.abs(x2-x1) > Math.abs(y2-y1)) {
                                     //Toast.makeText(getApplicationContext(), "right to left swipe", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, ChorusChat.class);
+                                    intent.putExtra("caller", "MainActivity");
                                     startActivity(intent);
                                     break;
                                 }
