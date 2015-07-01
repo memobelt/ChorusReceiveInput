@@ -11,6 +11,7 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.wearable.view.WatchViewStub;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -73,19 +74,29 @@ public class ChorusChat extends Activity {
                     }
                 });*/
                 spinner = (Spinner) findViewById(R.id.spinner);
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-                        R.array.response_array, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
+                spinner.setPrompt("Reply...");
+                if(_cli.get_chatLine() == null) {
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                            R.array.question_array, android.R.layout.simple_spinner_item);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                }
+                else {
+                    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                            R.array.response_array, android.R.layout.simple_spinner_item);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                }
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i("test", parent.getItemAtPosition(position).toString());
                         if(parent.getItemAtPosition(position).equals("Custom response")) {
                             Intent intent = new Intent(getApplicationContext(), Microphone.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
-                        else {
+                        else if (parent.getItemAtPosition(position).equals("Reply...") == false){
                             chatText.setText(parent.getItemAtPosition(position).toString());
                             Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                             intent.putExtra("Response", parent.getItemAtPosition(position).toString());
@@ -97,7 +108,6 @@ public class ChorusChat extends Activity {
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
                 if(!(getIntent().getStringExtra("caller").equals("MainActivity"))) {
@@ -216,6 +226,20 @@ public class ChorusChat extends Activity {
                                 ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
                             }
                             _chatList.setSelection(_chatList.getCount() - 1);
+
+                            //spinner automatic answers
+                            if(chatLineInfo.get_chatLine().contains("?")) {
+                                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                                        R.array.question_array, android.R.layout.simple_spinner_item);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(adapter);
+                            }
+                            else {
+                                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                                        R.array.response_array, android.R.layout.simple_spinner_item);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner.setAdapter(adapter);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

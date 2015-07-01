@@ -12,11 +12,18 @@
     <string name="title_activity_chat_list">ChatList</string>
     <string name="title_activity_available_chats">AvailableChats</string>
     <string name="title_activity_open_on_phone">Click to open on phone</string>
-    <string-array name="response_array">
-        <item>Reply</item>
-        <item>Custom response</item>
-        <item>Thanks.</item>
+    <string name="reply_prompt">Reply...</string>
+    <string-array name="question_array">
+        <item>Reply...</item>
         <item>Yes.</item>
         <item>No.</item>
+        <item>I don\'t know.</item>
+        <item>Custom response</item>
+    </string-array>
+    <string-array name="response_array">
+        <item>Reply...</item>
+        <item>Thanks.</item>
+        <item>Could I have more information about that?</item>
+        <item>Custom response</item>
     </string-array>
 </resources>
