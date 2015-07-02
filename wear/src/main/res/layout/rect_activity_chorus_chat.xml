@@ -5,68 +5,26 @@
     tools:context="com.example.sunnysummer5.chorusreceiveinput2.ChorusChat"
     tools:deviceIds="wear_square"
     android:orientation="vertical">
-    <!--<LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/ChatList"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:visibility="visible"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_columnWeight="5"
-            android:layout_weight="5" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/editText"
-                android:layout_column="0"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="5"
-                android:layout_weight="5"
-                android:textColor="#ffffffff" />
-
-            <Button
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:text="Send"
-                android:id="@+id/CrowdSend"
-                android:layout_weight="1"
-                android:onClick="sendText"
-                android:textSize="9sp"/>
-        </LinearLayout>
-
-    </LinearLayout>-->
-    <!--<Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text = "Reply"
-        android:id="@+id/replyButton"
-        android:layout_alignParentBottom="true" />-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/TextArea"
-        android:text="Ask a question"/>
-    <Spinner
-        android:id="@+id/spinner"
+        android:text="Ask a question"
+        android:singleLine="false"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:prompt="@string/reply_prompt"/>
+    </LinearLayout>
+    <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:prompt="@string/reply_prompt"/>
-
-
+        android:text="Send"
+        android:textSize="20sp"
+        android:id="@+id/send_button"/>
 
 </LinearLayout>

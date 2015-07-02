@@ -86,6 +86,11 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+        <service android:name="guillermobeltran.chorusinput.ListenerServiceFromWear" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

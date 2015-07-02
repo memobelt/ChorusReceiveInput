@@ -7,11 +7,14 @@
     <string name="title_activity_chorus_requester">ChorusRequester</string>
     <string name="title_activity_microphone">Microphone</string>
     <string name="camera">Camera Button</string>
+    <string name="mic">Microphone Button</string>
     <string name="title_activity_chorus_chat">ChorusChat</string>
     <string name="review_string">Review</string>
     <string name="title_activity_chat_list">ChatList</string>
     <string name="title_activity_available_chats">AvailableChats</string>
     <string name="title_activity_open_on_phone">Click to open on phone</string>
+    <string name="speech_prompt">Say something&#8230;</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="reply_prompt">Reply...</string>
     <string-array name="question_array">
         <item>Reply...</item>

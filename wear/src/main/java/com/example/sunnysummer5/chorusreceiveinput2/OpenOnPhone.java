@@ -25,7 +25,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
     private String HELLO_WORLD_WEAR_PATH;
     private boolean mResolvingError = false;
     byte[] message;
-    boolean animation;
+    boolean open_on_phone_animation;
     TextView mTextView;
 
     @Override
@@ -44,19 +44,19 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
         if (caller.equals("MainActivity")) {
             HELLO_WORLD_WEAR_PATH = "/main-activity-on-phone";
             message = null;
-            animation = true;
+            open_on_phone_animation = true;
         } else if (caller.equals("Microphone")) {
             HELLO_WORLD_WEAR_PATH = "/microphone-on-phone";
             message = null;
-            animation = true;
+            open_on_phone_animation = true;
         } else if (caller.equals("Speech")) {
             HELLO_WORLD_WEAR_PATH = "/speech-on-phone";
             message = getIntent().getStringExtra("Words").getBytes();
-            animation = false;
+            open_on_phone_animation = false;
         } else if (caller.equals("Response")) {
             HELLO_WORLD_WEAR_PATH = "/response";
             message = getIntent().getStringExtra("Response").getBytes();
-            animation = false;
+            open_on_phone_animation = false;
         }
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
@@ -64,7 +64,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
-                if (animation) {
+                if (open_on_phone_animation) {
                     mTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -77,7 +77,6 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             }
         });
     }
-
 
     /**
      * Send message to mobile handheld
@@ -95,24 +94,31 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                                 Log.e("TAG", "Failed to send message with status code: "
                                         + sendMessageResult.getStatus().getStatusCode());
                             } else {
-                                if (animation) {
+                                if (open_on_phone_animation) {
                                     Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
                                     intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
                                             ConfirmationActivity.OPEN_ON_PHONE_ANIMATION);
                                     intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Opening on Phone");
                                     startActivity(intent);
                                 } else {
-                                    Intent next = new Intent(getApplicationContext(), getCallingActivity().getClass());
-                                    next.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(next);
+                                    Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
+                                    intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                                            ConfirmationActivity.SUCCESS_ANIMATION);
+                                    intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Message Sent");
+                                    startActivity(intent);
                                 }
                             }
                         }
                     }
             );
         } else {
-            mTextView.setText("Not connected");
+            Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
+            intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                    ConfirmationActivity.FAILURE_ANIMATION);
+            intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Message Send Failure");
+            startActivity(intent);
         }
+        finish();
     }
 
     @Override

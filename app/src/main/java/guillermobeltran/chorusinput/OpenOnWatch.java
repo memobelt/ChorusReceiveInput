@@ -1,7 +1,6 @@
 package guillermobeltran.chorusinput;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -53,8 +52,6 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                             }
                             else {
                                 Log.i("test", "Message sent");
-                                Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
-                                startActivity(intent);
                             }
                         }
                     }
@@ -62,6 +59,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
         }else{
             Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
         }
+        finish();
     }
 
     @Override
