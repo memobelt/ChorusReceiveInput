@@ -28,15 +28,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -59,7 +56,8 @@ public class ChorusChat extends Activity implements OnInitListener {
     ArrayAdapter _adapter;
     Boolean _canUpdate;
     TextToSpeech myTTS;
-    static String _url = "http://128.237.179.70:8888/php/chatProcess.php";
+    static String url = "http://128.237.179.70:8888/";
+    static String _chatUrl = url+"php/chatProcess.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initializations
@@ -85,7 +83,7 @@ public class ChorusChat extends Activity implements OnInitListener {
             _role = getIntent().getStringExtra("Role");
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
-            webview.loadUrl("http://128.237.179.70:8888/chat.php?task=" + _task);
+            webview.loadUrl(url+"chat.php?task=" + _task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
             webview.destroy();
@@ -143,7 +141,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
         AQuery aq = new AQuery(this);
 
-        aq.ajax(_url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+        aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
@@ -180,7 +178,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
 
-        aq.ajax(_url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+        aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
             if (json != null) {
@@ -207,7 +205,8 @@ public class ChorusChat extends Activity implements OnInitListener {
                         }
                         int size = _chatLineInfoArrayList.size();
                         if(_chatLineInfoArrayList.get(size-1).get_role()=="crowd"&&
-                                _chatLineInfoArrayList.get(size-2).get_role()=="crowd"){
+                                _chatLineInfoArrayList.get(size-2).get_role()=="crowd"&&
+                                _role=="crowd"){
                             _crowdBtn.setVisibility(View.INVISIBLE);
                         }
                         else{
@@ -232,7 +231,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "post");
 
         params.put("chatLine", words);
-        aq.ajax(_url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
+        aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 status.getMessage();
