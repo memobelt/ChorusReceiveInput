@@ -69,7 +69,7 @@ public class UpdateService extends Service {
         Map<String, Object> params = chat.setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
         params.put("role", role);
         params.put("task", task);
-        aq.ajax(chat._url, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+        aq.ajax(chat._chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 status.getMessage();
