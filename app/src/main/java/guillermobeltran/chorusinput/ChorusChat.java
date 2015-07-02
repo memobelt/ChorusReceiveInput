@@ -207,7 +207,8 @@ public class ChorusChat extends Activity implements OnInitListener {
                         }
                         int size = _chatLineInfoArrayList.size();
                         if(_chatLineInfoArrayList.get(size-1).get_role()=="crowd"&&
-                                _chatLineInfoArrayList.get(size-2).get_role()=="crowd"){
+                                _chatLineInfoArrayList.get(size-2).get_role()=="crowd"&&
+                                _role=="crowd"){
                             _crowdBtn.setVisibility(View.INVISIBLE);
                         }
                         else{
