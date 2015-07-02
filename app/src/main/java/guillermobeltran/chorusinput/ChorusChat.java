@@ -28,12 +28,15 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -109,6 +112,8 @@ public class ChorusChat extends Activity implements OnInitListener {
             }
             else if(getIntent().getExtras().getBoolean("Speech")) {
                 postData(getIntent().getStringExtra("Input"));
+                setChatLines();
+                finish();
             }
             setChatLines();
         } else {

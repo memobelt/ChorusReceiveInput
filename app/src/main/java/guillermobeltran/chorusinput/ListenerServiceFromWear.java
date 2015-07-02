@@ -25,7 +25,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
-        //open on phone was called from microphone. need to put speech text into chat
+        //open on phone was called from microphone or from generated responses. need to put new text into chat
         else if (messageEvent.getPath().equals("/speech-on-phone") ||
                 messageEvent.getPath().equals("/response")) {
             Intent startIntent = new Intent(this, ChorusChat.class);
