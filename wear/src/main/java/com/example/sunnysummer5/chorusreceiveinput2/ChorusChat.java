@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.speech.tts.TextToSpeech;
 import android.support.wearable.view.WatchViewStub;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,7 +29,7 @@ import java.util.Map;
 
 public class ChorusChat extends Activity {
     String _task, _role;
-    Button send;
+    Button send, next;
     Spinner spinner;
     TextView mTextView, chatText;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -39,7 +38,6 @@ public class ChorusChat extends Activity {
     ArrayAdapter _adapter;
     Boolean _canUpdate, _checkUpdate;
     int _size;
-    TextToSpeech myTTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +54,8 @@ public class ChorusChat extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 chatText = (TextView) findViewById(R.id.TextArea);
                 send = (Button) findViewById(R.id.send_button);
-
+                next = (Button) findViewById(R.id.next_button);
+                next.setVisibility(View.GONE);
                 /*reply = (Button) findViewById(R.id.replyButton);
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -108,7 +107,38 @@ public class ChorusChat extends Activity {
                     }
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
-                    chatText.setText(getIntent().getStringExtra("New Text"));
+                    if(getIntent().getStringExtra("New Text").equals("/Yelp true/")) {
+                        next.setVisibility(View.VISIBLE);
+                        next.setText("Open Yelp on Phone");
+                        next.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(getApplicationContext(), OpenOnPhone.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.putExtra("caller", "Yelp_or_News");
+                                i.putExtra("URL", "http://www.yelp.com/");
+                                startActivity(i);
+                            }
+                        });
+                    }
+                    else if (getIntent().getStringExtra("New Text").equals("/News true/")){
+                        next.setVisibility(View.VISIBLE);
+                        next.setText("Open Yahoo News on Phone");
+                        next.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(getApplicationContext(), OpenOnPhone.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                i.putExtra("caller", "Yelp_or_News");
+                                i.putExtra("URL", "http://news.yahoo.com/");
+                                startActivity(i);
+                            }
+                        });
+                    }
+                    else {
+                        next.setVisibility(View.GONE);
+                        chatText.setText(getIntent().getStringExtra("New Text"));
+                    }
                 }
 
             }

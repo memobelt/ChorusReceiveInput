@@ -204,6 +204,21 @@ public class ChorusChat extends Activity implements OnInitListener {
                                 }
                             });
                         }
+
+                        Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+                        //send new text to watch, but don't want to send the suggested link to watch
+                        if(chatLineInfo.get_chatLine().contains("http://www.yelp.com/")) {
+                            intent.putExtra("Message","/Yelp true/");
+
+                        }
+                        else if(chatLineInfo.get_chatLine().contains("http://news.yahoo.com/")) {
+                            intent.putExtra("Message","/News true/");
+                        }
+                        else {
+                            intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        }
+                        startActivity(intent);
+
                         _chatList.setSelection(_chatList.getCount() - 1);
                         if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
                             speakResults(chatLineInfo.get_chatLine());
@@ -216,6 +231,34 @@ public class ChorusChat extends Activity implements OnInitListener {
                         }
                         else{
                             _crowdBtn.setVisibility(View.VISIBLE);
+                        }
+
+                        if(chatLineInfo.get_chatLine().toLowerCase().contains("news")) {
+                            postData("http://news.yahoo.com/");
+                        }
+                        else {
+                            //show Yelp link
+                            ArrayList<String> yelp = new ArrayList<String>();
+                            yelp.add("restaurant");
+                            yelp.add("restaurants");
+                            yelp.add("bar");
+                            yelp.add("bars");
+                            yelp.add("cafe");
+                            yelp.add("cafes");
+                            yelp.add("eat");
+                            yelp.add("food");
+                            yelp.add("yelp");
+                            yelp.add("breakfast");
+                            yelp.add("brunch");
+                            yelp.add("lunch");
+                            yelp.add("dinner");
+                            yelp.add("coffee");
+                            yelp.add("tea");
+                            for (String s : yelp) {
+                                if (chatLineInfo.get_chatLine().toLowerCase().contains(s)) {
+                                    postData("http://www.yelp.com/");
+                                }
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

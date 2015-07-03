@@ -23,6 +23,10 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:id = "@+id/next_button"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:text="Send"
         android:textSize="20sp"
         android:id="@+id/send_button"/>

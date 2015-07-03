@@ -34,6 +34,12 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
+        else if(messageEvent.getPath().equals("/yelp-or-news")) {
+            Intent startIntent = new Intent(this, Webpage.class);
+            startIntent.putExtra("Link", messageEvent.getData().toString());
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startIntent);
+        }
         else {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");

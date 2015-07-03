@@ -58,6 +58,11 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             message = getIntent().getStringExtra("Response").getBytes();
             open_on_phone_animation = false;
         }
+        else if(caller.equals("Yelp_or_News")) {
+            HELLO_WORLD_WEAR_PATH = "/yelp-or-news";
+            message = getIntent().getStringExtra("URL").getBytes();
+            open_on_phone_animation =true;
+        }
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {

@@ -58,7 +58,6 @@
                 android:value="guillermobeltran.chorusinput.AfterLogin" />
         </activity>
 
-
         <receiver
             android:name=".AlarmUpdateChatList"
             android:enabled="true" />
@@ -73,6 +72,11 @@
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".Webpage"
+            android:label="@string/title_activity_webpage" >
+        </activity>
     </application>
 
 </manifest>
