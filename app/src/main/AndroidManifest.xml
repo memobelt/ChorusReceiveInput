@@ -77,6 +77,10 @@
             android:name=".Webpage"
             android:label="@string/title_activity_webpage" >
         </activity>
+        <activity
+            android:name=".OpenOnWatch"
+            android:label="OpenOnWatch" >
+        </activity>
     </application>
 
 </manifest>

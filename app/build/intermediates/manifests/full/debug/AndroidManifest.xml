@@ -96,6 +96,10 @@
             android:name="guillermobeltran.chorusinput.Webpage"
             android:label="@string/title_activity_webpage" >
         </activity>
+        <activity
+            android:name="guillermobeltran.chorusinput.OpenOnWatch"
+            android:label="OpenOnWatch" >
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

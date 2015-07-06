@@ -59,7 +59,7 @@ public class ChorusChat extends Activity implements OnInitListener {
     ArrayAdapter _adapter;
     Boolean _canUpdate;
     TextToSpeech myTTS;
-    static String url = "http://128.237.179.70:8888/";
+    static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url+"php/chatProcess.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +86,9 @@ public class ChorusChat extends Activity implements OnInitListener {
             _role = getIntent().getStringExtra("Role");
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
-            webview.loadUrl(url+"chat.php?task=" + _task);
+            webview.loadUrl(url + "chat-demo.php?task=" + _task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
-            webview.destroy();
             //make sure the text is white
             _adapter = new ArrayAdapter<String>(getApplicationContext(),
                     android.R.layout.simple_list_item_1, _arrayList){
@@ -217,17 +216,18 @@ public class ChorusChat extends Activity implements OnInitListener {
                         else {
                             intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                         }
-                        startActivity(intent);
 
                         _chatList.setSelection(_chatList.getCount() - 1);
                         if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
                             speakResults(chatLineInfo.get_chatLine());
                         }
                         int size = _chatLineInfoArrayList.size();
-                        if(_chatLineInfoArrayList.get(size-1).get_role()=="crowd"&&
-                                _chatLineInfoArrayList.get(size-2).get_role()=="crowd"&&
-                                _role=="crowd"){
-                            _crowdBtn.setVisibility(View.INVISIBLE);
+                        if(size>2) {
+                            if ("crowd".equals(_chatLineInfoArrayList.get(size - 1).get_role()) &&
+                                    "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
+                                    "crowd".equals(_role)) {
+                                _crowdBtn.setVisibility(View.INVISIBLE);
+                            }
                         }
                         else{
                             _crowdBtn.setVisibility(View.VISIBLE);
@@ -260,6 +260,8 @@ public class ChorusChat extends Activity implements OnInitListener {
                                 }
                             }
                         }
+                        startActivity(intent);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

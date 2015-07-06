@@ -100,5 +100,6 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i("test", "Connection failed");
+        finish();
     }
 }
