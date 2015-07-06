@@ -221,14 +221,6 @@ public class ChorusChat extends Activity implements OnInitListener {
                         if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
                             speakResults(chatLineInfo.get_chatLine());
                         }
-                        int size = _chatLineInfoArrayList.size();
-                        if(size>2) {
-                            if ("crowd".equals(_chatLineInfoArrayList.get(size - 1).get_role()) &&
-                                    "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
-                                    "crowd".equals(_role)) {
-                                _crowdBtn.setVisibility(View.INVISIBLE);
-                            }
-                        }
                         else{
                             _crowdBtn.setVisibility(View.VISIBLE);
                         }
@@ -268,6 +260,14 @@ public class ChorusChat extends Activity implements OnInitListener {
                 }
             }
             if(_canUpdate) {//in order to stop recursion once app is closed.
+                int size = _chatLineInfoArrayList.size();
+                if(size>2) {
+                    if ("crowd".equals(_chatLineInfoArrayList.get(size - 1).get_role()) &&
+                            "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
+                            "crowd".equals(_role)) {
+                        _crowdBtn.setVisibility(View.INVISIBLE);
+                    }
+                }
                 update();
             }
             }
