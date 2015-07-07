@@ -77,7 +77,13 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                         }
                     });
                 } else {
-                    sendMessage();
+                    mTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mTextView.setText("Click to send");
+                            sendMessage();
+                        }
+                    });
                 }
             }
         });
