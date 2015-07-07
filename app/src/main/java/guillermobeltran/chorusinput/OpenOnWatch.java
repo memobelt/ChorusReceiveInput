@@ -25,7 +25,15 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_on_watch);
 
-        if(getIntent().getExtras().getBoolean("system")) {
+        /*if(getIntent().getExtras().getBoolean("system")) {
+            HELLO_WORLD = "/hello-world-system";
+        }
+        else {
+            HELLO_WORLD = "/hello-world";
+        }*/
+        String temp_message = getIntent().getStringExtra("Message");
+        if(temp_message.contains("http://") || temp_message.contains("www.")) {
+            //tell watch a website is coming
             HELLO_WORLD = "/hello-world-system";
         }
         else {
