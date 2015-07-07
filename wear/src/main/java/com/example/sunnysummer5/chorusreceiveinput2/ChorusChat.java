@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class ChorusChat extends Activity {
     String _task, _role;
-    Button send;
+    Button send, onPhone;
     Spinner spinner;
     TextView mTextView, chatText;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -54,6 +54,18 @@ public class ChorusChat extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 chatText = (TextView) findViewById(R.id.TextArea);
                 send = (Button) findViewById(R.id.send_button);
+                onPhone = (Button) findViewById(R.id.next_button);
+                onPhone.setText("Open on Phone");
+                onPhone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent open = new Intent(getApplicationContext(), OpenOnPhone.class);
+                        open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        open.putExtra("caller", "MainActivity");
+                        startActivity(open);
+                    }
+                });
+                onPhone.setVisibility(View.GONE);
 
                 //generated responses
                 spinner = (Spinner) findViewById(R.id.spinner);
@@ -97,6 +109,12 @@ public class ChorusChat extends Activity {
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     chatText.setText(getIntent().getStringExtra("New Text"));
+                    if(getIntent().getExtras().getBoolean("system")) {
+                        onPhone.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        onPhone.setVisibility(View.GONE);
+                    }
                     //so ChorusChat doesn't open everytime a new message is posted
                     finish();
                 }

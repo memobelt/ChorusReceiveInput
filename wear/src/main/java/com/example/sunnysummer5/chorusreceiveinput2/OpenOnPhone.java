@@ -42,6 +42,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
 
         String caller = getIntent().getStringExtra("caller");
         if (caller.equals("MainActivity")) {
+            //could be from MainActivity or from ChorusChat to open Yelp/Yahoo News link
             HELLO_WORLD_WEAR_PATH = "/main-activity-on-phone";
             message = null;
             open_on_phone_animation = true;
