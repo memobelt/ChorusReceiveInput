@@ -16,12 +16,13 @@ public class ListenerServiceFromWear extends WearableListenerService {
         //open on phone was called from MainActivity to answer
         if (messageEvent.getPath().equals("/main-activity-on-phone")) {
             Intent startIntent = new Intent(this, ChorusChat.class);
+            startIntent.putExtra("Asking", false);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
         //open on phone was called from microphone to take a picture
         else if (messageEvent.getPath().equals("/microphone-on-phone")) {
-            Intent startIntent = new Intent(this, SpeakToMe.class);
+            Intent startIntent = new Intent(this, TakePicture.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
@@ -30,6 +31,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
                 messageEvent.getPath().equals("/response")) {
             Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.putExtra("Speech", true);
+            startIntent.putExtra("Asking", false);
             startIntent.putExtra("Input", messageEvent.getData().toString());
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);

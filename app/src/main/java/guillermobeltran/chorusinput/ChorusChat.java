@@ -105,10 +105,12 @@ public class ChorusChat extends Activity implements OnInitListener {
                     return view;
                 }
             };
+            //intent from phone
             if (getIntent().getExtras().getBoolean("Asking")) {
                 String words = getIntent().getStringExtra("Words");
                 postData(words);
             }
+            //intent from watch
             else if(getIntent().getExtras().getBoolean("Speech")) {
                 postData(getIntent().getStringExtra("Input"));
                 setChatLines();

@@ -26,7 +26,7 @@
     <string-array name="response_array">
         <item>Reply...</item>
         <item>Thanks.</item>
-        <item>Could I have more information about that?</item>
+        <item>May I have more info?</item>
         <item>Custom response</item>
     </string-array>
 </resources>

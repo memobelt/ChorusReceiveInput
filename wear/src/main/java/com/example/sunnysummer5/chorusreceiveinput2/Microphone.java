@@ -19,6 +19,7 @@ import java.util.Locale;
 public class Microphone extends Activity {
 
     private TextView _txtSpeechInput;
+    private TextView mTextView;
     private ImageButton _btnSpeak, _btnCam;
     private Button _sendButton;
     private final int REQ_CODE_SPEECH_INPUT = 100;
@@ -33,7 +34,7 @@ public class Microphone extends Activity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                _txtSpeechInput = (TextView) stub.findViewById(R.id.text);
+                mTextView = (TextView) stub.findViewById(R.id.text);
                 _txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
                 _btnSpeak = (ImageButton) findViewById(R.id.micButton);
                 _btnCam = (ImageButton) findViewById(R.id.imageButton2);
@@ -97,7 +98,6 @@ public class Microphone extends Activity {
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && data != null) {
-
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     _txtSpeechInput.setText(result.get(0));//setting the text to what we said

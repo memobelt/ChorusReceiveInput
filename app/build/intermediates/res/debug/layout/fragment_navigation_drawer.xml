@@ -4,4 +4,4 @@
     android:divider="@android:color/transparent" android:dividerHeight="0dp"
     android:background="#cccc"
     tools:context="guillermobeltran.chorusinput.NavigationDrawerFragment" />
-<!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/layout/fragment_navigation_drawer.xml -->
+<!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/layout/fragment_navigation_drawer.xml -->

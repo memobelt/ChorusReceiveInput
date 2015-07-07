@@ -83,6 +83,7 @@ public class SpeakToMe extends Activity {
         Intent intent = new Intent(getApplicationContext(),ChorusChat.class);
         intent.putExtra("Words", _txtSpeechInput.getText().toString());
         intent.putExtra("Asking",true);
+        intent.putExtra("Speech", false);
         intent.putExtra("ChatNum", "6");
         intent.putExtra("Role", "requester");
         startActivity(intent);
