@@ -7,7 +7,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/chatLinearLayout">
 
         <WebView
             android:layout_width="match_parent"
@@ -54,7 +55,7 @@
                 android:layout_row="1"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="5"
-                android:layout_weight="5"
+                android:layout_weight="6"
                 android:textColor="#ffffffff"
                 android:inputType=
                     "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"/>
@@ -64,11 +65,18 @@
                 android:layout_height="match_parent"
                 android:text="Send"
                 android:id="@+id/CrowdSend"
-                android:layout_weight="1.2"
+                android:layout_weight="1.8"
                 android:onClick="sendText"
                 android:visibility="visible" />
         </LinearLayout>
 
     </LinearLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/info"
+        android:src="@android:drawable/ic_menu_info_details"
+        android:visibility="gone" />
 
 </RelativeLayout>

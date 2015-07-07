@@ -93,10 +93,6 @@
         </service>
 
         <activity
-            android:name="guillermobeltran.chorusinput.Webpage"
-            android:label="@string/title_activity_webpage" >
-        </activity>
-        <activity
             android:name="guillermobeltran.chorusinput.OpenOnWatch"
             android:label="OpenOnWatch" >
         </activity>

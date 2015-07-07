@@ -1,6 +1,5 @@
 package guillermobeltran.chorusinput;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
@@ -16,6 +15,9 @@ import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -24,19 +26,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -48,15 +49,16 @@ import static guillermobeltran.chorusinput.R.id.editText;
 import static guillermobeltran.chorusinput.R.id.webView;
 
 
-public class ChorusChat extends Activity implements OnInitListener {
+public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
     String _task, _role;
     ListView _chatList;
     Button _crowdBtn;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
-    ArrayList<String> _arrayList = new ArrayList<String>();
+    ArrayList<String> _chatArrayList = new ArrayList<String>();
+    ArrayList<String> _factsArrayList = new ArrayList<String>();
     ChatLineInfo _cli = new ChatLineInfo();
-    ArrayAdapter _adapter;
+    ArrayAdapter _chatLineAdapter, _importantFactsAdapter;
     Boolean _canUpdate;
     TextToSpeech myTTS;
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
@@ -79,9 +81,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, 200);
         if (networkInfo != null && networkInfo.isConnected()) {
-
             //get all the intents
-
             _task = getIntent().getStringExtra("ChatNum");
             _role = getIntent().getStringExtra("Role");
             //only way for chat to work is to load the webpage so this does it in invisible webview
@@ -90,8 +90,8 @@ public class ChorusChat extends Activity implements OnInitListener {
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
             //make sure the text is white
-            _adapter = new ArrayAdapter<String>(getApplicationContext(),
-                    android.R.layout.simple_list_item_1, _arrayList){
+            _chatLineAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                    android.R.layout.simple_list_item_1, _chatArrayList){
                 @Override
                 public View getView(int position, View convertView,
                                     ViewGroup parent) {
@@ -136,9 +136,12 @@ public class ChorusChat extends Activity implements OnInitListener {
         params.put("action", action);
         params.put("role", _role);
         params.put("task", _task);
-        params.put("workerId", "cb3c5a38b4999401ec88a7f8bf6bd90f");
+        params.put("workerId", "qq9t3ktatncj66geme1vdo31u5");
         if(action != "post") {
             params.put("lastChatId", "-1");
+        }
+        if(action == "fetchNewMemory"){
+            params.put("lastMemoryId","932");
         }
         return params;
     }
@@ -156,9 +159,9 @@ public class ChorusChat extends Activity implements OnInitListener {
                             String[] lineInfo = json.get(n).toString().split("\"");
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                             _chatLineInfoArrayList.add(chatLineInfo);
-                            _arrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                            _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                         }
-                        ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
+                        ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
                         _chatList.setSelection(_chatList.getCount() - 1);
                         _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -193,14 +196,12 @@ public class ChorusChat extends Activity implements OnInitListener {
                         String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
                         ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                         _chatLineInfoArrayList.add(chatLineInfo);
-                        _adapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                         if(_chatList.getAdapter()==null){
-                            ((AdapterView<ListAdapter>) _chatList).setAdapter(_adapter);
+                            ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
                             _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                        Toast.makeText(getApplicationContext(),Integer.toString(position)+
-//                                                " "+ Long.toString(id),Toast.LENGTH_SHORT).show();
                                     speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
                                 }
                             });
@@ -214,10 +215,6 @@ public class ChorusChat extends Activity implements OnInitListener {
                         if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
                             speakResults(chatLineInfo.get_chatLine());
                         }
-                        else{
-                            _crowdBtn.setVisibility(View.VISIBLE);
-                        }
-
                         startActivity(intent);
 
                     } catch (JSONException e) {
@@ -232,6 +229,9 @@ public class ChorusChat extends Activity implements OnInitListener {
                             "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
                             "crowd".equals(_role)) {
                         _crowdBtn.setVisibility(View.INVISIBLE);
+                    }
+                    else{
+                        _crowdBtn.setVisibility(View.VISIBLE);
                     }
                 }
                 update();
@@ -282,7 +282,7 @@ public class ChorusChat extends Activity implements OnInitListener {
     public void deleteDB(){
         DBHelper mDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME,null,null);
+        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME, null, null);
         db.rawQuery("DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME, null);
         db.close();
         mDbHelper.close();
@@ -348,7 +348,7 @@ public class ChorusChat extends Activity implements OnInitListener {
         }
     }
     public void speakResults(String words){
-        myTTS.speak(words,TextToSpeech.QUEUE_FLUSH, null);
+        myTTS.speak(words, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     @Override
@@ -359,5 +359,86 @@ public class ChorusChat extends Activity implements OnInitListener {
         else if (status == TextToSpeech.ERROR) {
             Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_chorus_chat, menu);
+        String title = "Wat";
+        int groupid = R.id.info;
+        int itemId = R.id.info;
+        int order = 100;
+        menu.add(groupid,itemId,order,title);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.info) {
+            getImportantFacts();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    public void getImportantFacts(){
+        View info = findViewById(R.id.info); // SAME ID AS MENU ID
+        final PopupWindow popupWindow = new PopupWindow(this);
+        LinearLayout layoutOfPopup = new LinearLayout(this);
+        final ListView list = new ListView(this);
+
+        // set some pupup window properties
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        // set your group view as a popup window content
+        TextView popupText = new TextView(this);
+        popupText.setText("This is Popup Window.press OK to dismiss it.");
+        popupText.setPadding(0, 0, 0, 20);
+        popupText.setTextColor(Color.WHITE);
+
+        layoutOfPopup.setOrientation(LinearLayout.VERTICAL);
+        layoutOfPopup.addView(popupText);
+        layoutOfPopup.setBackgroundColor(Color.BLACK);
+
+        popupWindow.setContentView(layoutOfPopup);
+
+        // This will allow you to close window by clickin not in its area
+        popupWindow.setOutsideTouchable(true);
+        // Show the window at desired place. The first argument is a control, wich will be used to place window... defining dx and dy will shift the popup window
+        popupWindow.showAsDropDown(info,0,0);
+
+        _importantFactsAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, _chatArrayList){
+            @Override
+            public View getView(int position, View convertView,
+                                ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                            /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.WHITE);
+
+                return view;
+            }
+        };
+        AQuery aq = new AQuery(this);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "postMemory");
+        params.put("memoryLine","proxy proxy");
+        String memoryUrl = url +"php/memoryProcess.php";
+        aq.ajax(memoryUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                status.getMessage();
+            }
+        });
     }
 }

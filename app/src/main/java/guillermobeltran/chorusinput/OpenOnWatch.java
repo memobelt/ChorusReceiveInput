@@ -57,7 +57,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                     }
             );
         }else{
-            Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
         }
         finish();
     }
