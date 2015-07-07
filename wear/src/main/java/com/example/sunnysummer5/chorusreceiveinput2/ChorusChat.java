@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class ChorusChat extends Activity {
     String _task, _role;
-    Button send, next;
+    Button send;
     Spinner spinner;
     TextView mTextView, chatText;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -54,27 +54,16 @@ public class ChorusChat extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 chatText = (TextView) findViewById(R.id.TextArea);
                 send = (Button) findViewById(R.id.send_button);
-                next = (Button) findViewById(R.id.next_button);
-                next.setVisibility(View.GONE);
-                /*reply = (Button) findViewById(R.id.replyButton);
-                reply.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) { //reply goes back to Microphone and Camera activity
-                        Intent reply_intent = new Intent(getApplicationContext(), Microphone.class);
-                        startActivity(reply_intent);
-                    }
-                });*/
 
                 //generated responses
                 spinner = (Spinner) findViewById(R.id.spinner);
                 spinner.setPrompt("Reply...");
-                if(chatText.getText().toString().contains("?")) {
+                if (chatText.getText().toString().contains("?")) {
                     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                             R.array.question_array, android.R.layout.simple_spinner_item);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     spinner.setAdapter(adapter);
-                }
-                else {
+                } else {
                     ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                             R.array.response_array, android.R.layout.simple_spinner_item);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -107,38 +96,9 @@ public class ChorusChat extends Activity {
                     }
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
-                    if(getIntent().getStringExtra("New Text").equals("/Yelp true/")) {
-                        next.setVisibility(View.VISIBLE);
-                        next.setText("Open Yelp on Phone");
-                        next.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent i = new Intent(getApplicationContext(), OpenOnPhone.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                i.putExtra("caller", "Yelp_or_News");
-                                i.putExtra("URL", "http://www.yelp.com/");
-                                startActivity(i);
-                            }
-                        });
-                    }
-                    else if (getIntent().getStringExtra("New Text").equals("/News true/")){
-                        next.setVisibility(View.VISIBLE);
-                        next.setText("Open Yahoo News on Phone");
-                        next.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent i = new Intent(getApplicationContext(), OpenOnPhone.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                i.putExtra("caller", "Yelp_or_News");
-                                i.putExtra("URL", "http://news.yahoo.com/");
-                                startActivity(i);
-                            }
-                        });
-                    }
-                    else {
-                        next.setVisibility(View.GONE);
-                        chatText.setText(getIntent().getStringExtra("New Text"));
-                    }
+                    chatText.setText(getIntent().getStringExtra("New Text"));
+                    //so ChorusChat doesn't open everytime a new message is posted
+                    finish();
                 }
 
             }
@@ -185,6 +145,7 @@ public class ChorusChat extends Activity {
             }
         });
     }
+
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat.
      */
@@ -269,13 +230,13 @@ public class ChorusChat extends Activity {
         alarmManagerstop.cancel(senderstop);
     }
 
-    public void onStop(){//stops the recursion.
+    public void onStop() {//stops the recursion.
         super.onStop();
         _canUpdate = false;
         setAlarmManager();
     }
 
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         stopAlarmManager();
     }
