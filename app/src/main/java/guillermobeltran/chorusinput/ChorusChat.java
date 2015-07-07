@@ -208,6 +208,12 @@ public class ChorusChat extends Activity implements OnInitListener {
 
                         Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                         intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        if(chatLineInfo.get_role() == "system") {
+                            intent.putExtra("system", true);
+                        }
+                        else {
+                            intent.putExtra("system", false);
+                        }
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         _chatList.setSelection(_chatList.getCount() - 1);

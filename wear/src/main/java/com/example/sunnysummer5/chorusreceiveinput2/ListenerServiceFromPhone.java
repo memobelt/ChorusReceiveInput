@@ -10,7 +10,6 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
 public class ListenerServiceFromPhone extends WearableListenerService {
-    private final static String HELLO_WORLD = "/hello-world";
     String NOTIFICATION_GROUP = "notification_group";
     int id = 001;
 
@@ -21,10 +20,16 @@ public class ListenerServiceFromPhone extends WearableListenerService {
          * Receive the message from wear
          */
         //open on phone was called from MainActivity to answer
-        if (messageEvent.getPath().equals(HELLO_WORLD)) {
+        if(messageEvent.getPath().contains("/hello-world")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("New Text", messageEvent.getData().toString());
             intent.putExtra("caller", "ListenerServiceFromPhone");
+            if(messageEvent.getPath().equals("/hello-world")) {
+                intent.putExtra("system", false);
+            }
+            else if(messageEvent.getPath().equals("/hello-world-system")) {
+                intent.putExtra("system", true);
+            }
             final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext())
@@ -35,6 +40,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
             nmc.notify(id++, notification.build());
         }
+
         else {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");

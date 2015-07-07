@@ -18,12 +18,19 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
 
     Node mNode; // the connected device to send the message to
     GoogleApiClient mGoogleApiClient;
-    private final static String HELLO_WORLD = "/hello-world";
+    private static String HELLO_WORLD;
     private boolean mResolvingError=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_on_watch);
+
+        if(getIntent().getExtras().getBoolean("system")) {
+            HELLO_WORLD = "/hello-world-system";
+        }
+        else {
+            HELLO_WORLD = "/hello-world";
+        }
 
         //Connect the GoogleApiClient
         mGoogleApiClient = new GoogleApiClient.Builder(this)
