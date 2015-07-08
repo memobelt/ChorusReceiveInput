@@ -77,6 +77,19 @@
             android:name=".OpenOnWatch"
             android:label="OpenOnWatch" >
         </activity>
+        <activity android:name="com.yahoo.mobile.client.share.search.ui.activity.SearchActivity"
+        android:windowSoftInputMode="adjustPan"
+        android:screenOrientation="portrait"
+        android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+    </activity>
+
+        <activity
+            android:name="com.yahoo.mobile.client.share.search.ui.activity.ImageGalleryActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:logo="@drawable/back_icon"
+            android:label=""
+            android:theme="@style/SearchToLink.Preview">
+        </activity>
     </application>
 
 </manifest>
