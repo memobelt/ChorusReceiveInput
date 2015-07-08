@@ -16,6 +16,7 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +33,15 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -87,6 +91,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
+            //webview.loadUrl(url+"requester-demo.php?task="+_task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
             //make sure the text is white
@@ -159,6 +164,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             String[] lineInfo = json.get(n).toString().split("\"");
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                             _chatLineInfoArrayList.add(chatLineInfo);
+                            if(chatLineInfo.get_chatLine().contains("http") ||
+                                    chatLineInfo.get_chatLine().contains("www.")) {
+                                chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
+                            }
                             _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                         }
                         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);

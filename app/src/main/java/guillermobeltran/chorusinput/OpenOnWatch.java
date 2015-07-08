@@ -3,7 +3,6 @@ package guillermobeltran.chorusinput;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -18,7 +17,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
 
     Node mNode; // the connected device to send the message to
     GoogleApiClient mGoogleApiClient;
-    private static String HELLO_WORLD;
+    private static final String HELLO_WORLD = "/hello-world";
     private boolean mResolvingError=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +30,6 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
         else {
             HELLO_WORLD = "/hello-world";
         }*/
-        String temp_message = getIntent().getStringExtra("Message");
-        if(temp_message.contains("http://") || temp_message.contains("www.")) {
-            //tell watch a website is coming
-            HELLO_WORLD = "/hello-world-system";
-        }
-        else {
-            HELLO_WORLD = "/hello-world";
-        }
 
         //Connect the GoogleApiClient
         mGoogleApiClient = new GoogleApiClient.Builder(this)

@@ -20,15 +20,16 @@ public class ListenerServiceFromPhone extends WearableListenerService {
          * Receive the message from wear
          */
         //open on phone was called from MainActivity to answer
-        if(messageEvent.getPath().contains("/hello-world")) {
+        if(messageEvent.getPath().equals("/hello-world")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("New Text", messageEvent.getData().toString());
             intent.putExtra("caller", "ListenerServiceFromPhone");
-            if(messageEvent.getPath().equals("/hello-world")) {
-                intent.putExtra("system", false);
-            }
-            else if(messageEvent.getPath().equals("/hello-world-system")) {
+            if(messageEvent.getData().toString().contains("www.") ||
+                    messageEvent.getData().toString().contains("http")) {
                 intent.putExtra("system", true);
+            }
+            else {
+                intent.putExtra("system", false);
             }
             final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
