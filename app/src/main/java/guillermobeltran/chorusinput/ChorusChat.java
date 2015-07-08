@@ -415,8 +415,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             public void onSearchStatusReceived(SearchAppIdStatus status) {
                 if(status == ISearchStatusListener.SearchAppIdStatus.VALID) {
                     //valid appID
+                    Toast.makeText(getApplicationContext(),"Yahoo is good",Toast.LENGTH_SHORT).show();
                 } else {
-                    // handle other scenarios.
+                    Toast.makeText(getApplicationContext(),"Yahoo is not good",Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -426,7 +427,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         };
 
         SearchSDKSettings
-                .initializeSearchSDKSettings(new SearchSDKSettings.Builder("MoLuLt78"), callback);
+                .initializeSearchSDKSettings(new SearchSDKSettings.Builder("MoLuLt78"));
     }
 //    public void getImportantFacts(){
 //        View info = findViewById(R.id.info); // SAME ID AS MENU ID
