@@ -27,10 +27,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,11 +111,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             //intent from phone
             if (getIntent().getExtras().getBoolean("Asking")) {
                 String words = getIntent().getStringExtra("Words");
-                postData(words);
+                postData("chatLine",words,"post");
             }
             //intent from watch
             else if(getIntent().getExtras().getBoolean("Speech")) {
-                postData(getIntent().getStringExtra("Input"));
+                postData("chatLine",getIntent().getStringExtra("Input"),"post");
                 setChatLines();
                 finish();
             }
@@ -132,7 +130,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             Toast.makeText(this,"Can't have empty input",Toast.LENGTH_SHORT).show();
         }
         else{
-            postData(_editText.getText().toString());
+            postData("chatLine",_editText.getText().toString(),"post");
             _editText.setText("");
         }
     }
@@ -258,17 +256,18 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Sends the string to the server to add chat list.
      */
-    public void postData(String words) {
+    public void postData(String line, String words, String action) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "post");
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action);
 
-        params.put("chatLine", words);
-        aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-            @Override
-            public void callback(String url, JSONObject json, AjaxStatus status) {
-                status.getMessage();
-            }
-        });
+        params.put(line, words);
+        if(action.equals("fetchNewMemory")) {
+            aq.ajax(url +"php/memoryProcess.php",params,JSONObject.class,
+                    new AjaxCallback<JSONObject>());
+        }
+        else {
+            aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
+        }
     }
     public void setAlarmManager() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -287,14 +286,14 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void onStop(){//stops the recursion.
         super.onStop();
         _canUpdate = false;
-        insertToDB();
+        //insertToDB();
 //        setAlarmManager();
     }
-    public void onResume(){
+    /*public void onResume(){
         super.onResume();
         stopAlarmManager();
 //        deleteDB();
-    }
+    }*/
     public void deleteDB(){
         DBHelper mDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -397,13 +396,13 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.info) {
-            getImportantFacts();
+            //getImportantFacts();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-    public void getImportantFacts(){
+    /*public void getImportantFacts(){
         View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
@@ -438,10 +437,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
 
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);*/
 
                             /*YOUR CHOICE OF COLOR*/
-                textView.setTextColor(Color.WHITE);
+                /*textView.setTextColor(Color.WHITE);
 
                 return view;
             }
@@ -456,5 +455,5 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 status.getMessage();
             }
         });
-    }
+    }*/
 }
