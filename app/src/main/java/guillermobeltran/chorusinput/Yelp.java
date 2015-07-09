@@ -1,69 +1,86 @@
 package guillermobeltran.chorusinput;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class Yelp extends Activity {
-    Button submit;
-    String url;
-    EditText city, state, query;
-    String text = "";
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Yelp extends ListActivity {
+
+    class Business {
+        final String name;
+        final String url;
+
+        public Business(String name, String url) {
+            this.name = name;
+            this.url = url;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yelp);
+        setTitle("Searching...");
 
-        city = (EditText) findViewById(R.id.city);
-        state = (EditText) findViewById(R.id.state);
-        query = (EditText) findViewById(R.id.query);
+        Intent intent = getIntent();
+        final String searchTerm = intent.getData().getQueryParameter("term");
+        final String searchLocation = intent.getData().getQueryParameter("location");
 
-        submit = (Button) findViewById(R.id.submit_button);
-        submit.setOnClickListener(new View.OnClickListener() {
+        setProgressBarIndeterminateVisibility(true);
+        new AsyncTask<Void, Void, List<Business>>() {
             @Override
-            public void onClick(View v) {
-                url = "http://www.yelp.com/search?find_desc="+spaces(query.getText().toString())
-                        +"&find_loc="+spaces(city.getText().toString())+"%2C+"+
-                        spaces(state.getText().toString())+"&ns=1";
-
-                URL yelp = null;
-                BufferedReader in=null;
+            protected List<Business> doInBackground(Void... params) {
+                String businesses = new YelpAPI().searchForBusinessesByLocation(searchTerm, searchLocation);
                 try {
-                    yelp = new URL(url);
-                    in = new BufferedReader(
-                            new InputStreamReader(yelp.openStream()));
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null) {
-                        text+=inputLine; }
-                    in.close();
-                } catch (java.io.IOException e) {
-                    e.printStackTrace();
+                    return processJson(businesses);
+                } catch (JSONException e) {
+                    return Collections.<Business>emptyList();
                 }
-                Intent back = new Intent(getApplicationContext(), ChorusChat.class);
-                //back.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                back.putExtra("Asking", true);
-                back.putExtra("Speech", false);
-                back.putExtra("Words", getList(text));
-                startActivity(back);
             }
-        });
+
+            @Override
+            protected void onPostExecute(List<Business> businesses) {
+                setTitle(searchTerm+" in "+searchLocation);
+                setProgressBarIndeterminateVisibility(false);
+                getListView().setAdapter(new ArrayAdapter<Business>(getApplicationContext(),
+                        android.R.layout.simple_list_item_1, businesses));
+            }
+        }.execute();
     }
 
-    private String spaces(String s) {
-        return s.replace(" ", "+");
-    }
-    private String getList(String HTML) {
-        String temp = "<meta name=\"description\"";
-        int start = HTML.indexOf(temp);
-        int end = HTML.substring(start).indexOf("/>");
-        return HTML.substring(start+temp.length(),end+HTML.substring(0,start).length());
+    @Override
+    protected void onListItemClick(ListView listView, View view, int position, long id) {
+        Business biz = (Business)listView.getItemAtPosition(position);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(biz.url)));
+    };
+
+    List<Business> processJson(String jsonStuff) throws JSONException {
+        JSONObject json = new JSONObject(jsonStuff);
+        JSONArray businesses = json.getJSONArray("businesses");
+        ArrayList<Business> businessObjs = new ArrayList<Business>(businesses.length());
+        for (int i = 0; i < businesses.length(); i++) {
+            JSONObject business = businesses.getJSONObject(i);
+            businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url")));
+        }
+        return businessObjs;
     }
 }

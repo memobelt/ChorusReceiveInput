@@ -84,8 +84,7 @@
         <service
             android:name="guillermobeltran.chorusinput.UpdateService"
             android:enabled="true"
-            android:exported="true" >
-        </service>
+            android:exported="true" />
         <service android:name="guillermobeltran.chorusinput.ListenerServiceFromWear" >
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
@@ -94,8 +93,7 @@
 
         <activity
             android:name="guillermobeltran.chorusinput.OpenOnWatch"
-            android:label="OpenOnWatch" >
-        </activity>
+            android:label="OpenOnWatch" />
         <activity
             android:name="guillermobeltran.chorusinput.Yelp"
             android:label="@string/title_activity_yelp"
@@ -103,6 +101,21 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ChorusChat" />
+        </activity>
+        <activity
+            android:name="com.yahoo.mobile.client.share.search.ui.activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.yahoo.mobile.client.share.search.ui.activity.ImageGalleryActivity"
+            android:label=""
+            android:logo="@drawable/back_icon"
+            android:theme="@style/SearchToLink.Preview"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="guillermobeltran.chorusinput.SearchBarActivity"
+            android:label="@string/title_activity_search_bar" >
         </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity

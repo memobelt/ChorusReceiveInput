@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/ChorusReceiveInput.iml" filepath="$PROJECT_DIR$/ChorusReceiveInput.iml" />
       <module fileurl="file://$PROJECT_DIR$/android-query-full.0.26.8/android-query-full.0.26.8.iml" filepath="$PROJECT_DIR$/android-query-full.0.26.8/android-query-full.0.26.8.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jcommander-1.35/jcommander-1.35.iml" filepath="$PROJECT_DIR$/jcommander-1.35/jcommander-1.35.iml" />
+      <module fileurl="file://$PROJECT_DIR$/json_simple-1.1/json_simple-1.1.iml" filepath="$PROJECT_DIR$/json_simple-1.1/json_simple-1.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scribe-1.3.5/scribe-1.3.5.iml" filepath="$PROJECT_DIR$/scribe-1.3.5/scribe-1.3.5.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear/wear.iml" filepath="$PROJECT_DIR$/wear/wear.iml" />
     </modules>
   </component>

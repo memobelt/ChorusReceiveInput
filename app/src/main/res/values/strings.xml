@@ -29,5 +29,6 @@
     <string name="info">Info</string>
     <string name="title_activity_webpage">Webpage</string>
     <string name="title_activity_yelp">Yelp</string>
+    <string name="title_activity_search_bar">SearchBarActivity</string>
 
 </resources>

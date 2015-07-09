@@ -167,13 +167,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
                             }
                             _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-
-                            if(chatLineInfo.get_chatLine().toLowerCase().contains("yelp")) {
-                                //chatLineInfo.set_role("system");
-                                Intent input = new Intent(getApplicationContext(), Yelp.class);
-                                //input.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(input);
-                            }
                         }
                         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
                         _chatList.setSelection(_chatList.getCount() - 1);
@@ -211,6 +204,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                         _chatLineInfoArrayList.add(chatLineInfo);
                         _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        if(chatLineInfo.get_chatLine().toString().contains("Yelp")) {
+                            Intent yelp = new Intent(getApplicationContext(), SearchBarActivity.class);
+                            startActivity(yelp);
+                        }
+
                         if(_chatList.getAdapter()==null){
                             ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
                             _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -229,7 +227,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
                             speakResults(chatLineInfo.get_chatLine());
                         }
-                        startActivity(intent);
+
+                        //startActivity(intent);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
