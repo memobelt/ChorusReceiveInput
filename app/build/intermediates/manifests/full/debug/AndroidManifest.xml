@@ -97,17 +97,12 @@
             android:label="OpenOnWatch" >
         </activity>
         <activity
-            android:name="com.yahoo.mobile.client.share.search.ui.activity.SearchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
-        <activity
-            android:name="com.yahoo.mobile.client.share.search.ui.activity.ImageGalleryActivity"
-            android:label=""
-            android:logo="@drawable/back_icon"
-            android:theme="@style/SearchToLink.Preview"
-            android:windowSoftInputMode="stateHidden" >
+            android:name="guillermobeltran.chorusinput.Yelp"
+            android:label="@string/title_activity_yelp"
+            android:parentActivityName="guillermobeltran.chorusinput.ChorusChat" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ChorusChat" />
         </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity

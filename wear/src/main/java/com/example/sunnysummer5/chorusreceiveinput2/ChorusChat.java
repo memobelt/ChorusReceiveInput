@@ -28,6 +28,7 @@ import java.util.Map;
 
 
 public class ChorusChat extends Activity {
+        //implements TextToSpeech.OnInitListener {
     String _task, _role;
     Button send, onPhone;
     Spinner spinner;
@@ -38,6 +39,7 @@ public class ChorusChat extends Activity {
     ArrayAdapter _adapter;
     Boolean _canUpdate, _checkUpdate;
     int _size;
+    //TextToSpeech myTTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,18 @@ public class ChorusChat extends Activity {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
+
+                /*Intent checkTTSIntent = new Intent();
+                checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+                startActivityForResult(checkTTSIntent, 200); */
                 chatText = (TextView) findViewById(R.id.TextArea);
+                /*chatText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        speakResults(chatText.getText().toString());
+                    }
+                });*/
+
                 send = (Button) findViewById(R.id.send_button);
                 onPhone = (Button) findViewById(R.id.next_button);
                 onPhone.setText("Open on Phone");
@@ -61,7 +74,7 @@ public class ChorusChat extends Activity {
                     public void onClick(View v) {
                         Intent open = new Intent(getApplicationContext(), OpenOnPhone.class);
                         open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        open.putExtra("caller", "MainActivity");
+                        open.putExtra("caller", "ChorusChat");
                         startActivity(open);
                     }
                 });
@@ -89,7 +102,6 @@ public class ChorusChat extends Activity {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         } else if (parent.getItemAtPosition(position).equals("Reply...") == false) {
-                            //chatText.setText(parent.getItemAtPosition(position).toString());
                             send.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -258,4 +270,33 @@ public class ChorusChat extends Activity {
         super.onResume();
         stopAlarmManager();
     }
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 200: {
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    myTTS = new TextToSpeech(this, this);
+                }
+                else {
+                    Intent installTTSIntent = new Intent();
+                    installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                    startActivity(installTTSIntent);
+                }
+            }
+        }
+    }
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            myTTS.setLanguage(Locale.US);
+        }
+        else if (status == TextToSpeech.ERROR) {
+            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void speakResults(String words){
+        myTTS.speak(words, TextToSpeech.QUEUE_FLUSH, null);
+    } */
 }

@@ -2,9 +2,6 @@ package guillermobeltran.chorusinput;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-
-import com.yahoo.mobile.client.share.search.interfaces.ISearchStatusListener;
-import com.yahoo.mobile.client.share.search.settings.SearchSDKSettings;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
@@ -116,11 +113,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             //intent from phone
             if (getIntent().getExtras().getBoolean("Asking")) {
                 String words = getIntent().getStringExtra("Words");
-                postData("chatLine",words,"post");
+                postData(words);
             }
             //intent from watch
             else if(getIntent().getExtras().getBoolean("Speech")) {
-                postData("chatLine",getIntent().getStringExtra("Input"),"post");
+                postData(getIntent().getStringExtra("Input"));
                 setChatLines();
                 finish();
             }
@@ -135,7 +132,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             Toast.makeText(this,"Can't have empty input",Toast.LENGTH_SHORT).show();
         }
         else{
-            postData("chatLine",_editText.getText().toString(),"post");
+            postData(_editText.getText().toString());
             _editText.setText("");
         }
     }
@@ -149,13 +146,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             params.put("lastChatId", "-1");
         }
         if(action == "fetchNewMemory"){
-            params.put("lastMemoryId", "932");
+            params.put("lastMemoryId","932");
         }
         return params;
     }
     //This sets the chat list so user can see all available chats.
     public void setChatLines(){
-
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
         AQuery aq = new AQuery(this);
 
@@ -167,15 +163,19 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         for (int n = 0; n < json.length(); n++) {
                             String[] lineInfo = json.get(n).toString().split("\"");
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                            if(chatLineInfo.get_role().equals("system")){
-
-                            }
                             _chatLineInfoArrayList.add(chatLineInfo);
                             if(chatLineInfo.get_chatLine().contains("http") ||
                                     chatLineInfo.get_chatLine().contains("www.")) {
                                 chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
                             }
                             _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+
+                            if(chatLineInfo.get_chatLine().toLowerCase().contains("yelp")) {
+                                //chatLineInfo.set_role("system");
+                                Intent input = new Intent(getApplicationContext(), Yelp.class);
+                                //input.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(input);
+                            }
                         }
                         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
                         _chatList.setSelection(_chatList.getCount() - 1);
@@ -206,74 +206,69 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
-                if (json != null) {
-                    if (json.length() > _chatLineInfoArrayList.size()) {
-                        try {
-                            String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
-                            ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                            _chatLineInfoArrayList.add(chatLineInfo);
-                            _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            if (_chatList.getAdapter() == null) {
-                                ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
-                                _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
-                                    }
-                                });
-                            }
-
-                            Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-                            intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            if(chatLineInfo.get_role() == "system") {
-                                intent.putExtra("system", true);
-                            }
-                            else {
-                                intent.putExtra("system", false);
-                            }
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                            _chatList.setSelection(_chatList.getCount() - 1);
-                            if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
-                                speakResults(chatLineInfo.get_chatLine());
-                            }
-                            startActivity(intent);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            if (json != null) {
+                if (json.length() > _chatLineInfoArrayList.size()) {
+                    try {
+                        String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
+                        ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
+                        _chatLineInfoArrayList.add(chatLineInfo);
+                        _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        if(_chatList.getAdapter()==null){
+                            ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
+                            _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
+                                }
+                            });
                         }
+
+                        Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+                        intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                        _chatList.setSelection(_chatList.getCount() - 1);
+                        if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
+                            speakResults(chatLineInfo.get_chatLine());
+                        }
+                        startActivity(intent);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-                if (_canUpdate) {//in order to stop recursion once app is closed.
-                    int size = _chatLineInfoArrayList.size();
-                    if (size > 2) {
-                        if ("crowd".equals(_chatLineInfoArrayList.get(size - 1).get_role()) &&
-                                "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
-                                "crowd".equals(_role)) {
-                            _crowdBtn.setVisibility(View.INVISIBLE);
-                        } else {
-                            _crowdBtn.setVisibility(View.VISIBLE);
-                        }
+            }
+            if(_canUpdate) {//in order to stop recursion once app is closed.
+                int size = _chatLineInfoArrayList.size();
+                if(size>2) {
+                    if ("crowd".equals(_chatLineInfoArrayList.get(size - 1).get_role()) &&
+                            "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
+                            "crowd".equals(_role)) {
+                        _crowdBtn.setVisibility(View.INVISIBLE);
                     }
-                    update();
+                    else{
+                        _crowdBtn.setVisibility(View.VISIBLE);
+                    }
                 }
+                update();
+            }
             }
         });
     }
     /*
     Sends the string to the server to add chat list.
      */
-    public void postData(String line,String words, String action) {
+    public void postData(String words) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "post");
 
-        params.put(line, words);
-        if(action.equals("fetchNewMemory")){
-            aq.ajax(url +"php/memoryProcess.php",params,JSONObject.class, new AjaxCallback<JSONObject>());
-        }
-        else {
-            aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
-        }
+        params.put("chatLine", words);
+        aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                status.getMessage();
+            }
+        });
     }
     public void setAlarmManager() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -292,14 +287,14 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void onStop(){//stops the recursion.
         super.onStop();
         _canUpdate = false;
-//        insertToDB();
+        insertToDB();
 //        setAlarmManager();
     }
-//    public void onResume(){
-//        super.onResume();
-//        stopAlarmManager();
+    public void onResume(){
+        super.onResume();
+        stopAlarmManager();
 //        deleteDB();
-//    }
+    }
     public void deleteDB(){
         DBHelper mDbHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -402,74 +397,64 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.info) {
-//            getImportantFacts();
+            getImportantFacts();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+    public void getImportantFacts(){
+        View info = findViewById(R.id.info); // SAME ID AS MENU ID
+        final PopupWindow popupWindow = new PopupWindow(this);
+        LinearLayout layoutOfPopup = new LinearLayout(this);
+        final ListView list = new ListView(this);
 
-//    public void getImportantFacts(){
-//        View info = findViewById(R.id.info); // SAME ID AS MENU ID
-//        final PopupWindow popupWindow = new PopupWindow(this);
-//        LinearLayout layoutOfPopup = new LinearLayout(this);
-//        final ListView list = new ListView(this);
-//        Button memoryBtn = new Button(this);
-//        memoryBtn.setText("Send");
-//        // set some pupup window properties
-//        popupWindow.setFocusable(true);
-//        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-//        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//        // set your group view as a popup window content
-//        final EditText popupText = new EditText(this);
-//        popupText.setText("This is Popup Window.press OK to dismiss it.");
-//        popupText.setPadding(0, 0, 0, 20);
-//        popupText.setTextColor(Color.WHITE);
-//        memoryBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                postData("memoryLine",popupText.getText().toString(),"fetchNewMemory");
-//                popupText.setText("");
-//            }
-//        });
-//
-//        layoutOfPopup.setOrientation(LinearLayout.VERTICAL);
-//        layoutOfPopup.addView(popupText);
-//        layoutOfPopup.addView(memoryBtn);
-//        layoutOfPopup.setBackgroundColor(Color.BLACK);
-//
-//        popupWindow.setContentView(layoutOfPopup);
-//
-//        // This will allow you to close window by clickin not in its area
-//        popupWindow.setOutsideTouchable(true);
-//        // Show the window at desired place. The first argument is a control, wich will be used to place window... defining dx and dy will shift the popup window
-//        popupWindow.showAsDropDown(info,0,0);
-//
-//        _importantFactsAdapter = new ArrayAdapter<String>(getApplicationContext(),
-//                android.R.layout.simple_list_item_1, _chatArrayList){
-//            @Override
-//            public View getView(int position, View convertView,
-//                                ViewGroup parent) {
-//                View view =super.getView(position, convertView, parent);
-//
-//                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-//
-//                            /*YOUR CHOICE OF COLOR*/
-//                textView.setTextColor(Color.WHITE);
-//
-//                return view;
-//            }
-//        };
-//        AQuery aq = new AQuery(this);
-//        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewMemory");
-//        params.put("memoryLine",popupText.getText().toString());
-//        String memoryUrl = url +"php/memoryProcess.php";
-//        aq.ajax(memoryUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-//            @Override
-//            public void callback(String url, JSONObject json, AjaxStatus status) {
-//                status.getMessage();
-//            }
-//        });
-//    }
+        // set some pupup window properties
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        // set your group view as a popup window content
+        TextView popupText = new TextView(this);
+        popupText.setText("This is Popup Window.press OK to dismiss it.");
+        popupText.setPadding(0, 0, 0, 20);
+        popupText.setTextColor(Color.WHITE);
+
+        layoutOfPopup.setOrientation(LinearLayout.VERTICAL);
+        layoutOfPopup.addView(popupText);
+        layoutOfPopup.setBackgroundColor(Color.BLACK);
+
+        popupWindow.setContentView(layoutOfPopup);
+
+        // This will allow you to close window by clickin not in its area
+        popupWindow.setOutsideTouchable(true);
+        // Show the window at desired place. The first argument is a control, wich will be used to place window... defining dx and dy will shift the popup window
+        popupWindow.showAsDropDown(info,0,0);
+
+        _importantFactsAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, _chatArrayList){
+            @Override
+            public View getView(int position, View convertView,
+                                ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                            /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.WHITE);
+
+                return view;
+            }
+        };
+        AQuery aq = new AQuery(this);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "postMemory");
+        params.put("memoryLine","proxy proxy");
+        String memoryUrl = url +"php/memoryProcess.php";
+        aq.ajax(memoryUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                status.getMessage();
+            }
+        });
+    }
 }

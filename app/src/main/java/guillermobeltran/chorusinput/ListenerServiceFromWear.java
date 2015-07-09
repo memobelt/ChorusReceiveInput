@@ -15,8 +15,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
          */
         //open on phone was called from MainActivity to answer
         if (messageEvent.getPath().equals("/main-activity-on-phone")) {
-            Intent startIntent = new Intent(this, ChorusChat.class);
-            startIntent.putExtra("Asking", false);
+            Intent startIntent = new Intent(this, AvailableChats.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
@@ -33,6 +32,13 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Input", messageEvent.getData().toString());
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startIntent);
+        }
+        //open ChorusChat activity on phone when there is a link
+        else if(messageEvent.getPath().equals("/chorus-chat-on-phone")) {
+            Intent startIntent = new Intent(this, ChorusChat.class);
+            startIntent.putExtra("Asking", false);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
