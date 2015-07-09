@@ -124,7 +124,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 setChatLines();
                 finish();
             }
-            initializeSearchSDK();
             setChatLines();
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
@@ -409,26 +408,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         return super.onOptionsItemSelected(item);
     }
-    private void initializeSearchSDK() {
-        ISearchStatusListener callback = new ISearchStatusListener() {
-            @Override
-            public void onSearchStatusReceived(SearchAppIdStatus status) {
-                if(status == ISearchStatusListener.SearchAppIdStatus.VALID) {
-                    //valid appID
-                    Toast.makeText(getApplicationContext(),"Yahoo is good",Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),"Yahoo is not good",Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public Context getContext() {
-                return getApplicationContext();
-            }
-        };
 
-        SearchSDKSettings
-                .initializeSearchSDKSettings(new SearchSDKSettings.Builder("MoLuLt78"));
-    }
 //    public void getImportantFacts(){
 //        View info = findViewById(R.id.info); // SAME ID AS MENU ID
 //        final PopupWindow popupWindow = new PopupWindow(this);

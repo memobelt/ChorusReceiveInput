@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.yahoo.mobile.client.share.search.interfaces.ISearchStatusListener;
+import com.yahoo.mobile.client.share.search.settings.SearchSDKSettings;
 
 
 public class AfterLogin extends ActionBarActivity
@@ -32,6 +37,7 @@ public class AfterLogin extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeSearchSDK();
         setContentView(R.layout.activity_after_login);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -170,5 +176,25 @@ public class AfterLogin extends ActionBarActivity
             ((AfterLogin) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+    private void initializeSearchSDK() {
+        ISearchStatusListener callback = new ISearchStatusListener() {
+            @Override
+            public void onSearchStatusReceived(SearchAppIdStatus status) {
+                if(status == ISearchStatusListener.SearchAppIdStatus.VALID) {
+                    //valid appID
+                    Toast.makeText(getApplicationContext(), "Yahoo is good", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"Yahoo is not good",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public Context getContext() {
+                return getApplicationContext();
+            }
+        };
+
+        SearchSDKSettings
+                .initializeSearchSDKSettings(new SearchSDKSettings.Builder("MoLuLt78"));
     }
 }
