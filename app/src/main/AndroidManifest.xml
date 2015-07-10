@@ -76,14 +76,6 @@
             android:name=".OpenOnWatch"
             android:label="OpenOnWatch" />
         <activity
-            android:name=".Yelp"
-            android:label="@string/title_activity_yelp"
-            android:parentActivityName=".ChorusChat" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ChorusChat" />
-        </activity>
-        <activity
             android:name="com.yahoo.mobile.client.share.search.ui.activity.SearchActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
@@ -97,6 +89,10 @@
         <activity
             android:name=".SearchBarActivity"
             android:label="@string/title_activity_search_bar" >
+        </activity>
+        <activity
+            android:name=".Yelp"
+            android:label="@string/title_activity_yelp" >
         </activity>
     </application>
 

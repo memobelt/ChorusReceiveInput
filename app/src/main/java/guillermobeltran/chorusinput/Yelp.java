@@ -19,22 +19,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class Yelp extends ListActivity {
-
-    class Business {
-        final String name;
-        final String url;
-
-        public Business(String name, String url) {
-            this.name = name;
-            this.url = url;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -49,7 +33,7 @@ public class Yelp extends ListActivity {
         new AsyncTask<Void, Void, List<Business>>() {
             @Override
             protected List<Business> doInBackground(Void... params) {
-                String businesses = new YelpAPI().searchForBusinessesByLocation(searchTerm, searchLocation);
+                String businesses = YelpAPI.getYelp(Yelp.this).searchForBusinessesByLocation(searchTerm, searchLocation);
                 try {
                     return processJson(businesses);
                 } catch (JSONException e) {
@@ -82,5 +66,20 @@ public class Yelp extends ListActivity {
             businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url")));
         }
         return businessObjs;
+    }
+
+    class Business {
+        final String name;
+        final String url;
+
+        public Business(String name, String url) {
+            this.name = name;
+            this.url = url;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }

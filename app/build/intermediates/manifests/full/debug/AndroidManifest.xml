@@ -95,14 +95,6 @@
             android:name="guillermobeltran.chorusinput.OpenOnWatch"
             android:label="OpenOnWatch" />
         <activity
-            android:name="guillermobeltran.chorusinput.Yelp"
-            android:label="@string/title_activity_yelp"
-            android:parentActivityName="guillermobeltran.chorusinput.ChorusChat" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ChorusChat" />
-        </activity>
-        <activity
             android:name="com.yahoo.mobile.client.share.search.ui.activity.SearchActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
@@ -116,6 +108,10 @@
         <activity
             android:name="guillermobeltran.chorusinput.SearchBarActivity"
             android:label="@string/title_activity_search_bar" >
+        </activity>
+        <activity
+            android:name="guillermobeltran.chorusinput.Yelp"
+            android:label="@string/title_activity_yelp" >
         </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity

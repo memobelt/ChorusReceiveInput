@@ -1,5 +1,7 @@
 package guillermobeltran.chorusinput;
 
+import android.content.Context;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
@@ -30,7 +32,7 @@ public class YelpAPI {
     private static final String API_HOST = "api.yelp.com";
     private static final String DEFAULT_TERM = "dinner";
     private static final String DEFAULT_LOCATION = "San Francisco, CA";
-    private static final int SEARCH_LIMIT = 3;
+    private static final int SEARCH_LIMIT = 20;
     private static final String SEARCH_PATH = "/v2/search";
     private static final String BUSINESS_PATH = "/v2/business";
 
@@ -93,7 +95,9 @@ public class YelpAPI {
         request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
         return sendRequestAndGetResponse(request);
     }
-
+    public static YelpAPI getYelp(Context context) {
+        return new YelpAPI(CONSUMER_KEY, CONSUMER_SECRET, TOKEN, TOKEN_SECRET);
+    }
     /**
      * Creates and sends a request to the Business API by business ID.
      * <p>
