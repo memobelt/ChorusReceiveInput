@@ -1,4 +1,4 @@
-package com.example.sunnysummer5.chorusreceiveinput2;
+package guillermobeltran.chorusinput;
 
 import android.app.PendingIntent;
 import android.app.Service;

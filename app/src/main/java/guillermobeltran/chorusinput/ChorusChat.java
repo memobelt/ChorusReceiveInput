@@ -55,7 +55,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
     String _task, _role;
     ListView _chatList;
-    Button _crowdBtn;
+    Button _crowdBtn, _yelpBtn;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
     ArrayList<String> _chatArrayList = new ArrayList<String>();
     ArrayList<String> _factsArrayList = new ArrayList<String>();
@@ -73,6 +73,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _chatList = (ListView) findViewById(ChatList);
         _editText = (EditText) findViewById(editText);
         _crowdBtn = (Button) findViewById(CrowdSend);
+        _yelpBtn = (Button) findViewById(R.id.yelp_button);
+        _yelpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent yelp = new Intent(getApplicationContext(), SearchBarActivity.class);
+                startActivity(yelp);
+            }
+        });
+        _yelpBtn.setVisibility(View.GONE);
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -116,8 +125,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             //intent from watch
             else if(getIntent().getExtras().getBoolean("Speech")) {
                 postData("chatLine",getIntent().getStringExtra("Input"),"post");
-                setChatLines();
-                finish();
+                /*setChatLines();
+                finish();*/
             }
             setChatLines();
         } else {
@@ -204,9 +213,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                         _chatLineInfoArrayList.add(chatLineInfo);
                         _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                        if(chatLineInfo.get_chatLine().toString().contains("Yelp")) {
-                            Intent yelp = new Intent(getApplicationContext(), SearchBarActivity.class);
-                            startActivity(yelp);
+                        if(chatLineInfo.get_chatLine().toString().contains("Yelp") &&
+                                _role=="crowd") {
+                            _yelpBtn.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            _yelpBtn.setVisibility(View.GONE);
                         }
 
                         if(_chatList.getAdapter()==null){
@@ -219,16 +231,14 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             });
                         }
 
-                        Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-                        intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                         _chatList.setSelection(_chatList.getCount() - 1);
                         if(_role=="requester"&&chatLineInfo.get_role()=="crowd"){
                             speakResults(chatLineInfo.get_chatLine());
                         }
 
-                        //startActivity(intent);
+                        Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+                        intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                        startActivity(intent);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -266,6 +276,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
+
+            Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+            intent.putExtra("Message", _role + " : " + words);
+            startActivity(intent);
         }
     }
     public void setAlarmManager() {

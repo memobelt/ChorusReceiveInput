@@ -59,19 +59,21 @@
                 android:textColor="#ffffffff"
                 android:inputType=
                     "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"/>
-
             <Button
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/yelp_button"
+                android:text="Yelp"/>
+            <Button
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Send"
                 android:id="@+id/CrowdSend"
-                android:layout_weight="1.8"
                 android:onClick="sendText"
                 android:visibility="visible" />
         </LinearLayout>
 
     </LinearLayout>
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

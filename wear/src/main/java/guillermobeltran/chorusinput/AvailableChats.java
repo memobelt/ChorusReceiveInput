@@ -1,4 +1,4 @@
-package com.example.sunnysummer5.chorusreceiveinput2;
+package guillermobeltran.chorusinput;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

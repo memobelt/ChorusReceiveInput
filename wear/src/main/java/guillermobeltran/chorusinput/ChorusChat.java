@@ -1,4 +1,4 @@
-package com.example.sunnysummer5.chorusreceiveinput2;
+package guillermobeltran.chorusinput;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.wearable.view.WatchViewStub;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,7 +31,7 @@ import java.util.Map;
 public class ChorusChat extends Activity {
         //implements TextToSpeech.OnInitListener {
     String _task, _role;
-    Button send, onPhone;
+    Button send;
     Spinner spinner;
     TextView mTextView, chatText;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -67,18 +68,6 @@ public class ChorusChat extends Activity {
                 });*/
 
                 send = (Button) findViewById(R.id.send_button);
-                onPhone = (Button) findViewById(R.id.next_button);
-                onPhone.setText("Open on Phone");
-                onPhone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent open = new Intent(getApplicationContext(), OpenOnPhone.class);
-                        open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        open.putExtra("caller", "ChorusChat");
-                        startActivity(open);
-                    }
-                });
-                onPhone.setVisibility(View.GONE);
 
                 //generated responses
                 spinner = (Spinner) findViewById(R.id.spinner);
@@ -108,7 +97,7 @@ public class ChorusChat extends Activity {
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
                                     intent.putExtra("caller", "Response");
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 }
                             });
@@ -120,17 +109,11 @@ public class ChorusChat extends Activity {
                     }
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
+                    Log.i("test", "here");
                     chatText.setText(getIntent().getStringExtra("New Text"));
-                    if(getIntent().getExtras().getBoolean("system")) {
-                        onPhone.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        onPhone.setVisibility(View.GONE);
-                    }
                     //so ChorusChat doesn't open everytime a new message is posted
-                    finish();
+                    //finish();
                 }
-
             }
         });
         setChatLines();

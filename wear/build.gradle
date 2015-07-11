@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 
 
 android {
+    signingConfigs {
+        Memo {
+            keyAlias 'mbelt'
+            keyPassword '242027gb'
+            storeFile file('/Volumes/Momentus/Drive/Code/MemoAndroidKey.jks')
+            storePassword '242027gb'
+        }
+    }
+
     compileSdkVersion 22
     buildToolsVersion "23.0.0 rc2"
 

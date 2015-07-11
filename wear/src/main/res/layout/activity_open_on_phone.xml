@@ -6,5 +6,5 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     app:rectLayout="@layout/rect_activity_open_on_phone"
     app:roundLayout="@layout/round_activity_open_on_phone"
-    tools:context="com.example.sunnysummer5.chorusreceiveinput2.OpenOnPhone"
+    tools:context="guillermobeltran.chorusinput.OpenOnPhone"
     tools:deviceIds="wear"></android.support.wearable.view.WatchViewStub>

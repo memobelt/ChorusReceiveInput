@@ -20,12 +20,14 @@
         <item>Reply...</item>
         <item>Yes.</item>
         <item>No.</item>
+        <item>Okay.</item>
         <item>I don\'t know.</item>
         <item>Custom response</item>
     </string-array>
     <string-array name="response_array">
         <item>Reply...</item>
         <item>Thanks.</item>
+        <item>Okay.</item>
         <item>May I have more info?</item>
         <item>Custom response</item>
     </string-array>

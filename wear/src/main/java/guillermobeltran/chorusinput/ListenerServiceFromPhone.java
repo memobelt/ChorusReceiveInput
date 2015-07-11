@@ -1,4 +1,4 @@
-package com.example.sunnysummer5.chorusreceiveinput2;
+package guillermobeltran.chorusinput;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -24,13 +24,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("New Text", messageEvent.getData().toString());
             intent.putExtra("caller", "ListenerServiceFromPhone");
-            if(messageEvent.getData().toString().contains("www.") ||
-                    messageEvent.getData().toString().contains("http")) {
-                intent.putExtra("system", true);
-            }
-            else {
-                intent.putExtra("system", false);
-            }
+
             final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext())
@@ -40,6 +34,8 @@ public class ListenerServiceFromPhone extends WearableListenerService {
                     .setContentText("New Message");
             NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
             nmc.notify(id++, notification.build());
+
+            startActivity(intent);
         }
 
         else {

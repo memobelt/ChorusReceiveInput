@@ -1,4 +1,4 @@
-package com.example.sunnysummer5.chorusreceiveinput2;
+package guillermobeltran.chorusinput;
 
 import android.annotation.TargetApi;
 import android.graphics.Color;
@@ -60,9 +60,9 @@ public class AvailableChatsFragment extends android.support.v4.app.Fragment impl
         super.onCreate(savedInstanceState);
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<com.example.sunnysummer5.chorusreceiveinput2.Chats.AvailableChats.ChatNumber>
+        mAdapter = new ArrayAdapter<guillermobeltran.chorusinput.Chats.AvailableChats.ChatNumber>
                 (getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1,
-                        com.example.sunnysummer5.chorusreceiveinput2.Chats.AvailableChats.ITEMS){
+                        guillermobeltran.chorusinput.Chats.AvailableChats.ITEMS){
             @Override
             public View getView(int position, View convertView,
                                 ViewGroup parent) {
@@ -118,7 +118,7 @@ public class AvailableChatsFragment extends android.support.v4.app.Fragment impl
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(com.example.sunnysummer5.chorusreceiveinput2.Chats
+            mListener.onFragmentInteraction(guillermobeltran.chorusinput.Chats
                     .AvailableChats.ITEMS.get(position).id);
         }
     }

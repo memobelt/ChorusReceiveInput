@@ -130,7 +130,7 @@ public class YelpAPI {
      * @return <tt>String</tt> body of API response
      */
     private String sendRequestAndGetResponse(OAuthRequest request) {
-        System.out.println("Querying " + request.getCompleteUrl() + " ...");
+        //System.out.println("Querying " + request.getCompleteUrl() + " ...");
         this.service.signRequest(this.accessToken, request);
         Response response = request.send();
         return response.getBody();
@@ -160,14 +160,14 @@ public class YelpAPI {
         JSONArray businesses = (JSONArray) response.get("businesses");
         JSONObject firstBusiness = (JSONObject) businesses.get(0);
         String firstBusinessID = firstBusiness.get("id").toString();
-        System.out.println(String.format(
+        /*System.out.println(String.format(
                 "%s businesses found, querying business info for the top result \"%s\" ...",
-                businesses.size(), firstBusinessID));
+                businesses.size(), firstBusinessID));*/
 
         // Select the first business and display business details
         String businessResponseJSON = yelpApi.searchByBusinessId(firstBusinessID.toString());
-        System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
-        System.out.println(businessResponseJSON);
+        //System.out.println(String.format("Result for business \"%s\" found:", firstBusinessID));
+        //System.out.println(businessResponseJSON);
     }
 
     /**

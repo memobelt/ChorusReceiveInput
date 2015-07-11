@@ -7,5 +7,5 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     app:rectLayout="@layout/rect_activity_microphone"
     app:roundLayout="@layout/round_activity_microphone"
-    tools:context="com.example.sunnysummer5.chorusreceiveinput2.Microphone"
+    tools:context="guillermobeltran.chorusinput.Microphone"
     tools:deviceIds="wear"></android.support.wearable.view.WatchViewStub>

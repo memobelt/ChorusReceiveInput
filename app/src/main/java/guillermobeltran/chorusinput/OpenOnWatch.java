@@ -3,6 +3,9 @@ package guillermobeltran.chorusinput;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,6 +22,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
     GoogleApiClient mGoogleApiClient;
     private static final String HELLO_WORLD = "/hello-world";
     private boolean mResolvingError=false;
+    TextView t;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +34,14 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        sendMessage();
+
+        t = (TextView) findViewById(R.id.text);
+        t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
     }
     /**
      * Send message to mobile handheld
@@ -38,24 +49,24 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
     private void sendMessage() {
         if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
-                    mGoogleApiClient, mNode.getId(), HELLO_WORLD,
-                    getIntent().getByteArrayExtra("Message")).setResultCallback(
-
-                    new ResultCallback<MessageApi.SendMessageResult>() {
-                        @Override
-                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-
-                            if (!sendMessageResult.getStatus().isSuccess()) {
-                                Log.e("TAG", "Failed to send message with status code: "
-                                        + sendMessageResult.getStatus().getStatusCode());
-                            }
-                            else {
-                                Log.i("test", "Message sent");
-                            }
-                        }
+                    mGoogleApiClient, mNode.getId(), HELLO_WORLD, getIntent().getStringExtra("Message").getBytes())
+                    .setResultCallback(
+                            new ResultCallback<MessageApi.SendMessageResult>() {
+                                @Override
+                                public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                                    if (!sendMessageResult.getStatus().isSuccess()) {
+                                        Log.e("TAG", "Failed to send message with status code: "
+                                                + sendMessageResult.getStatus().getStatusCode());
+                                    } else {
+                                        Log.i("test", "Message sent");
+                                        Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                     }
             );
         }else{
+            if(mNode==null) {
+            Log.i("test", "Not connected"); }
 //            Toast.makeText(getApplicationContext(), "Not connected", Toast.LENGTH_SHORT).show();
         }
         finish();

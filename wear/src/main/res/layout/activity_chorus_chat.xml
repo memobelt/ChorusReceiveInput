@@ -6,5 +6,5 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     app:rectLayout="@layout/rect_activity_chorus_chat"
     app:roundLayout="@layout/round_activity_chorus_chat"
-    tools:context="com.example.sunnysummer5.chorusreceiveinput2.ChorusChat"
+    tools:context="guillermobeltran.chorusinput.ChorusChat"
     tools:deviceIds="wear"></android.support.wearable.view.WatchViewStub>

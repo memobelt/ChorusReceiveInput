@@ -1,4 +1,4 @@
-package com.example.sunnysummer5.chorusreceiveinput2.Chats;
+package guillermobeltran.chorusinput.Chats;
 
 import java.util.ArrayList;
 import java.util.HashMap;

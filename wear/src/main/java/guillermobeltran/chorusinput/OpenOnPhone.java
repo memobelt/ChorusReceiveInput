@@ -1,4 +1,4 @@
-package com.example.sunnysummer5.chorusreceiveinput2;
+package guillermobeltran.chorusinput;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -46,11 +46,6 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             message = null;
             open_on_phone_animation = true;
         }
-        else if (caller.equals("ChorusChat")) {
-            HELLO_WORLD_WEAR_PATH = "/chorus-chat-on-phone";
-            message=null;
-            open_on_phone_animation=true;
-        }
         else if (caller.equals("Microphone")) {
             HELLO_WORLD_WEAR_PATH = "/microphone-on-phone";
             message = null;
@@ -78,10 +73,10 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                         }
                     });
                 } else {
+                    mTextView.setText("Click to send");
                     mTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mTextView.setText("Click to send");
                             sendMessage();
                         }
                     });

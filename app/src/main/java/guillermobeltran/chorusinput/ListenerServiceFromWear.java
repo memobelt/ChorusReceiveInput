@@ -35,13 +35,6 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
-        //open ChorusChat activity on phone when there is a link
-        else if(messageEvent.getPath().equals("/chorus-chat-on-phone")) {
-            Intent startIntent = new Intent(this, ChorusChat.class);
-            startIntent.putExtra("Asking", false);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startIntent);
-        }
         else {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");
