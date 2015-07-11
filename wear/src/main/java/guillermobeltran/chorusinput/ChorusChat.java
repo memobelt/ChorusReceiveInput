@@ -112,7 +112,7 @@ public class ChorusChat extends Activity {
                     Log.i("test", "here");
                     chatText.setText(getIntent().getStringExtra("New Text"));
                     //so ChorusChat doesn't open everytime a new message is posted
-                    //finish();
+                    finish();
                 }
             }
         });

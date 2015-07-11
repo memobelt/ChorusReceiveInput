@@ -278,7 +278,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
 
             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-            intent.putExtra("Message", _role + " : " + words);
+            intent.putExtra("Message", _cli.get_role() + " : " + words);
             startActivity(intent);
         }
     }
