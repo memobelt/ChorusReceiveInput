@@ -52,7 +52,6 @@
         android:background="@android:color/holo_green_dark"
         android:visibility="visible"
         android:textSize="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/imageButton2" />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
