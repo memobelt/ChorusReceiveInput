@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.wearable.view.WatchViewStub;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -109,8 +108,8 @@ public class ChorusChat extends Activity {
                     }
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
-                    Log.i("test", "here");
                     chatText.setText(getIntent().getStringExtra("New Text"));
+                    chatText.setText("here");
                     //so ChorusChat doesn't open everytime a new message is posted
                     finish();
                 }
