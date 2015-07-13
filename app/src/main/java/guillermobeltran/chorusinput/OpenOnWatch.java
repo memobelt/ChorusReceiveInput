@@ -3,7 +3,6 @@ package guillermobeltran.chorusinput;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,13 +34,13 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        t = (TextView) findViewById(R.id.text);
+        /*t = (TextView) findViewById(R.id.text);
         t.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
             }
-        });
+        });*/
     }
     /**
      * Send message to mobile handheld
@@ -92,6 +91,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                     mNode = node;
                     Log.i("test", mNode.getDisplayName());
                 }
+                sendMessage();
             }
         });
     }
