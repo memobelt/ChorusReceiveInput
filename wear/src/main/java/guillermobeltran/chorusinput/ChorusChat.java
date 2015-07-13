@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.wearable.view.WatchViewStub;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,21 +15,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class ChorusChat extends Activity {
-        //implements TextToSpeech.OnInitListener {
     String _task, _role;
     Button send;
     Spinner spinner;
@@ -39,7 +29,6 @@ public class ChorusChat extends Activity {
     ArrayAdapter _adapter;
     Boolean _canUpdate, _checkUpdate;
     int _size;
-    //TextToSpeech myTTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +43,10 @@ public class ChorusChat extends Activity {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
-
-                /*Intent checkTTSIntent = new Intent();
-                checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-                startActivityForResult(checkTTSIntent, 200); */
                 chatText = (TextView) findViewById(R.id.TextArea);
-                /*chatText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        speakResults(chatText.getText().toString());
-                    }
-                });*/
-
                 send = (Button) findViewById(R.id.send_button);
 
-                //generated responses
+                //suggested responses
                 spinner = (Spinner) findViewById(R.id.spinner);
                 spinner.setPrompt("Reply...");
                 if (chatText.getText().toString().contains("?")) {
@@ -96,30 +74,28 @@ public class ChorusChat extends Activity {
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
                                     intent.putExtra("caller", "Response");
-                                    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                 }
                             });
                         }
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     chatText.setText(getIntent().getStringExtra("New Text"));
-                    chatText.setText("here");
+                    Log.i("test", "cc:" + getIntent().getStringExtra("New Text"));
                     //so ChorusChat doesn't open everytime a new message is posted
-                    finish();
+                    //finish();
                 }
             }
         });
-        setChatLines();
+        //setChatLines();
     }
 
     //sets up the parameters to send to the server
-    public HashMap<String, Object> setUpParams(HashMap<String, Object> params, String action) {
+    /*public HashMap<String, Object> setUpParams(HashMap<String, Object> params, String action) {
         params.put("action", action);
         params.put("role", _role);
         params.put("task", _task);
@@ -128,10 +104,10 @@ public class ChorusChat extends Activity {
             params.put("lastChatId", "-1");
         }
         return params;
-    }
+    }*/
 
     //This sets the chat list so user can see all available chats.
-    public void setChatLines() {
+    /*public void setChatLines() {
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
         AQuery aq = new AQuery(this);
@@ -156,12 +132,12 @@ public class ChorusChat extends Activity {
                 update();
             }
         });
-    }
+    }*/
 
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat.
      */
-    public void update() {
+    /*public void update() {
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
@@ -182,7 +158,7 @@ public class ChorusChat extends Activity {
                             _chatList.setSelection(_chatList.getCount() - 1);*/
 
                             //spinner automatic answers
-                            if (chatLineInfo.get_chatLine().contains("?")) {
+                            /*if (chatLineInfo.get_chatLine().contains("?")) {
                                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                                         R.array.question_array, android.R.layout.simple_spinner_item);
                                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -203,12 +179,12 @@ public class ChorusChat extends Activity {
                 }
             }
         });
-    }
+    }*/
 
     /*
     Sends the string to the server to add chat list.
      */
-    public void postData(String words) {
+    /*public void postData(String words) {
         String url = "http://128.237.179.10:8888/php/chatProcess.php";
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "post");
@@ -219,7 +195,7 @@ public class ChorusChat extends Activity {
             public void callback(String url, JSONObject json, AjaxStatus status) {
             }
         });
-    }
+    }*/
 
     //TODO: Set alarm manager to check for updates
     public void setAlarmManager() {
@@ -252,33 +228,4 @@ public class ChorusChat extends Activity {
         super.onResume();
         stopAlarmManager();
     }
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case 200: {
-                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                    myTTS = new TextToSpeech(this, this);
-                }
-                else {
-                    Intent installTTSIntent = new Intent();
-                    installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                    startActivity(installTTSIntent);
-                }
-            }
-        }
-    }
-    @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
-            myTTS.setLanguage(Locale.US);
-        }
-        else if (status == TextToSpeech.ERROR) {
-            Toast.makeText(this, "Sorry! Text To Speech failed...", Toast.LENGTH_SHORT).show();
-        }
-    }
-    public void speakResults(String words){
-        myTTS.speak(words, TextToSpeech.QUEUE_FLUSH, null);
-    } */
 }

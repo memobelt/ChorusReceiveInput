@@ -193,7 +193,6 @@ public class AfterLogin extends ActionBarActivity
                 return getApplicationContext();
             }
         };
-
         SearchSDKSettings
                 .initializeSearchSDKSettings(new SearchSDKSettings.Builder("MoLuLt78"));
     }

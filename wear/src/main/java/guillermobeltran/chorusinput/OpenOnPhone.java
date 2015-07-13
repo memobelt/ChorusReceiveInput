@@ -61,6 +61,11 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             message = getIntent().getStringExtra("Response").getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         }
+        else {
+            HELLO_WORLD_WEAR_PATH = "/main-activity-on-phone";
+            message = null;
+            open_on_phone_animation = true;
+        }
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
@@ -94,7 +99,6 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
         if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
                     mGoogleApiClient, mNode.getId(), HELLO_WORLD_WEAR_PATH, message).setResultCallback(
-
                     new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
                         public void onResult(MessageApi.SendMessageResult sendMessageResult) {

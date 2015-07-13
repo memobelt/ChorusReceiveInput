@@ -6,6 +6,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.nio.charset.StandardCharsets;
@@ -37,6 +38,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Input", new String(messageEvent.getData(), StandardCharsets.UTF_8));
+            Log.i("test", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }
@@ -44,5 +46,16 @@ public class ListenerServiceFromWear extends WearableListenerService {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");
         }
+    }
+    @Override
+    public void onPeerConnected(Node peer) {
+        super.onPeerConnected(peer);
+        Log.i("test",peer.getDisplayName());
+    }
+
+    @Override
+    public void onPeerDisconnected(Node peer) {
+        super.onPeerDisconnected(peer);
+        Log.i("test",peer.getDisplayName());
     }
 }

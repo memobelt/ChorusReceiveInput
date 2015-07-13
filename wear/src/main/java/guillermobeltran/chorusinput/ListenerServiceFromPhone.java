@@ -7,6 +7,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         if(messageEvent.getPath().equals("/hello-world")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("New Text", new String(messageEvent.getData(), StandardCharsets.UTF_8));
+            Log.i("test", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -45,5 +47,16 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");
         }
+    }
+    @Override
+    public void onPeerConnected(Node peer) {
+        super.onPeerConnected(peer);
+        Log.i("test",peer.getDisplayName());
+    }
+
+    @Override
+    public void onPeerDisconnected(Node peer) {
+        super.onPeerDisconnected(peer);
+        Log.i("test",peer.getDisplayName());
     }
 }

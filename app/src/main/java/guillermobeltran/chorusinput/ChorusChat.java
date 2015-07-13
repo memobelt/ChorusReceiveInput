@@ -17,6 +17,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -126,9 +127,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
             //intent from watch
             else if (getIntent().getExtras().getBoolean("Speech")) {
+                _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
+                Log.i("test", "cc:" + getIntent().getStringExtra("Input"));
                 setChatLines();
-                finish();
+                //finish();
             }
             setChatLines();
         } else {
