@@ -43,7 +43,7 @@
                 android:value="guillermobeltran.chorusinput.TakePicture" />
         </activity>
         <activity android:name=".AfterLogin" >
-            <intent-filter android:label="@string/app_name" >
+            <intent-filter android:label="Chorus" >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -86,7 +86,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.yahoo.mobile.client.share.search.ui.activity.ImageGalleryActivity"
-            android:label=""
+            android:label="Chorus"
             android:logo="@drawable/back_icon"
             android:theme="@style/SearchToLink.Preview"
             android:windowSoftInputMode="stateHidden" />
