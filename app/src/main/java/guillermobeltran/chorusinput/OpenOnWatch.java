@@ -12,6 +12,8 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import java.nio.charset.Charset;
+
 public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -37,8 +39,8 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
     private void sendMessage() {
         if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
-                    mGoogleApiClient, mNode.getId(), HELLO_WORLD, getIntent().getStringExtra("Message").getBytes())
-                    .setResultCallback(
+                    mGoogleApiClient, mNode.getId(), HELLO_WORLD, getIntent().getStringExtra("Message")
+                            .getBytes(Charset.forName("UTF-8"))).setResultCallback(
                             new ResultCallback<MessageApi.SendMessageResult>() {
                                 @Override
                                 public void onResult(MessageApi.SendMessageResult sendMessageResult) {

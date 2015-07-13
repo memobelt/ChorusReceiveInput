@@ -1,12 +1,17 @@
 package guillermobeltran.chorusinput;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.nio.charset.StandardCharsets;
+
 public class ListenerServiceFromWear extends WearableListenerService {
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.i("test", "onMessageReceived()");
@@ -31,7 +36,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
             Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
-            startIntent.putExtra("Input", messageEvent.getData().toString());
+            startIntent.putExtra("Input", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startIntent);
         }

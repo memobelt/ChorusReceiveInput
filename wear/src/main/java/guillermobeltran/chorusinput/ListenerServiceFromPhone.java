@@ -9,6 +9,8 @@ import android.util.Log;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.nio.charset.StandardCharsets;
+
 public class ListenerServiceFromPhone extends WearableListenerService {
     String NOTIFICATION_GROUP = "notification_group";
     int id = 001;
@@ -22,7 +24,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         //open on phone was called from MainActivity to answer
         if(messageEvent.getPath().equals("/hello-world")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
-            intent.putExtra("New Text", messageEvent.getData().toString());
+            intent.putExtra("New Text", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

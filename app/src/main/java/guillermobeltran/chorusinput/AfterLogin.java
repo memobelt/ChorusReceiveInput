@@ -37,7 +37,7 @@ public class AfterLogin extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeSearchSDK();
+        //initializeSearchSDK();
         setContentView(R.layout.activity_after_login);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)

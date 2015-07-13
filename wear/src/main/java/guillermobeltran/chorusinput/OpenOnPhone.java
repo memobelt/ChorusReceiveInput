@@ -17,6 +17,8 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import java.nio.charset.Charset;
+
 public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -52,11 +54,11 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             open_on_phone_animation = true;
         } else if (caller.equals("Speech")) {
             HELLO_WORLD_WEAR_PATH = "/speech-on-phone";
-            message = getIntent().getStringExtra("Words").getBytes();
+            message = getIntent().getStringExtra("Words").getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         } else if (caller.equals("Response")) {
             HELLO_WORLD_WEAR_PATH = "/response";
-            message = getIntent().getStringExtra("Response").getBytes();
+            message = getIntent().getStringExtra("Response").getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         }
 
