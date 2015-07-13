@@ -21,18 +21,12 @@
         android:textSize="20sp"
         android:id="@+id/send_button"
         android:layout_alignParentBottom="true" />
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id = "@+id/next_button"
-        android:layout_above="@id/send_button"
-        android:layout_alignParentStart="true" />
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:prompt="@string/reply_prompt"
-        android:layout_above="@id/next_button"
+        android:layout_above="@id/send_button"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

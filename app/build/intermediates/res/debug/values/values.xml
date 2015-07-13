@@ -230,7 +230,11 @@
     <color name="timestamp_color">#bf000000</color>
     <color name="translucent_black">#3F000000</color>
     <color name="translucent_white">#80FFFFFF</color>
-    <color name="transparent">#17170445</color>
+    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="transparent">#00000000</color>
+    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <eat-comment/>
     <color name="transparent_purple_color">#76400090</color>
     <color name="transparent_white">#E6FFFFFF</color>
     <color name="trending_back_color">#EEFFFFFF</color>

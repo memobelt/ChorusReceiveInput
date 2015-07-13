@@ -24,6 +24,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("New Text", messageEvent.getData().toString());
             intent.putExtra("caller", "ListenerServiceFromPhone");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

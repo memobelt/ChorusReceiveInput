@@ -214,7 +214,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         _chatLineInfoArrayList.add(chatLineInfo);
                         _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                         if(chatLineInfo.get_chatLine().toString().contains("Yelp") &&
-                                _role=="crowd") {
+                                _role.equals("crowd") && chatLineInfo.get_role().equals("requester")) {
                             _yelpBtn.setVisibility(View.VISIBLE);
                         }
                         else {
