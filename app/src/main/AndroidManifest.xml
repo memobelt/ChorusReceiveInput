@@ -74,6 +74,7 @@
 
         <activity
             android:name="guillermobeltran.chorusinput.OpenOnWatch"
+            android:theme="@style/Theme.Transparent"
             android:label="OpenOnWatch" >
             <meta-data
                 android:name="com.google.android.gms.version"
