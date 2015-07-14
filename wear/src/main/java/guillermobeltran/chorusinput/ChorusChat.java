@@ -86,7 +86,19 @@ public class ChorusChat extends Activity {
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     chatText.setText(getIntent().getStringExtra("New Text"));
                     Log.i("test", "cc:" + getIntent().getStringExtra("New Text"));
-                    //so ChorusChat doesn't open everytime a new message is posted
+
+                    if (chatText.getText().toString().contains("?")) {
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                                R.array.question_array, android.R.layout.simple_spinner_item);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(adapter);
+                    } else {
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                                R.array.response_array, android.R.layout.simple_spinner_item);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    }
+
+                        //so ChorusChat doesn't open everytime a new message is posted
                     //finish();
                 }
             }

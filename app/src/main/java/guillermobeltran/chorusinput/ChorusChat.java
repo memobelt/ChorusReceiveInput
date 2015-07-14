@@ -182,7 +182,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                     chatLineInfo.get_chatLine().contains("www.")) {
                                 chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
                             }
-                            if (chatLineInfo.get_chatLine().toString().contains("Yelp")) {
+                            if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
+                                    chatLineInfo.get_role().equals("requester") && _role.equals("crowd")) {
                                 _yelpBtn.setVisibility(View.VISIBLE);
                             } else {
                                 _yelpBtn.setVisibility(View.GONE);
@@ -226,7 +227,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                             _chatLineInfoArrayList.add(chatLineInfo);
                             _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            if (chatLineInfo.get_chatLine().toString().contains("Yelp")) {
+                            if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
+                                    chatLineInfo.get_role().equals("requester") && _role.equals("crowd")) {
                                 _yelpBtn.setVisibility(View.VISIBLE);
                             } else {
                                 _yelpBtn.setVisibility(View.GONE);
@@ -246,6 +248,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
+                            Log.i("test", chatLineInfo.get_role());
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
