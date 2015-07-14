@@ -80,6 +80,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             @Override
             public void onClick(View v) {
                 Intent yelp = new Intent(getApplicationContext(), SearchBarActivity.class);
+                yelp.putExtra("taskId", _task);
                 startActivity(yelp);
             }
         });

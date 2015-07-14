@@ -38,4 +38,18 @@ public class SearchBarActivity extends Activity {
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        Bundle extras = getIntent().getExtras();
+        String id = null;
+        if (extras != null) {
+            id = extras.getString("taskId");
+        }
+        Intent intent = new Intent(this, ChorusChat.class);
+        intent.putExtra("ChatNum",id);
+        intent.putExtra("Asking",false);
+        intent.putExtra("Role","crowd");
+        startActivity(intent);
+    }
+
 }
