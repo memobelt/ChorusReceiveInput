@@ -38,6 +38,8 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Update", false);
+            startIntent.putExtra("ChatNum", "6");
+            startIntent.putExtra("Role", "requester");
             startIntent.putExtra("Input", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
