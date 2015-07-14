@@ -15,6 +15,8 @@ import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.Menu;
@@ -278,6 +280,22 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
+
+                            int numNotifications = json.length() - _chatLineInfoArrayList.size();
+                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+                            viewIntent.putExtra("ChatNum", _task);
+                            viewIntent.putExtra("Role", _role);
+                            viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+                            mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+                                    "in Chat " + _task);
+                            NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
+                            nm.notify(001, mBuilder.build());
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Update", false);
