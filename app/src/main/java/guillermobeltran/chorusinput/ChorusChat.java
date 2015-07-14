@@ -249,7 +249,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
-                            Log.i("test", chatLineInfo.get_role());
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
