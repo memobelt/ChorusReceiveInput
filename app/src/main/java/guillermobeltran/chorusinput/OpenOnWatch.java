@@ -19,12 +19,19 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
 
     Node mNode; // the connected device to send the message to
     GoogleApiClient mGoogleApiClient;
-    private static final String HELLO_WORLD = "/hello-world";
+    private static String HELLO_WORLD;
     private boolean mResolvingError=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_on_watch);
+
+        if(getIntent().getExtras().getBoolean("Update")) {
+            HELLO_WORLD = "/hello-update";
+        }
+        else {
+            HELLO_WORLD = "/hello-world";
+        }
 
         //Connect the GoogleApiClient
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -41,16 +48,16 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
             Wearable.MessageApi.sendMessage(
                     mGoogleApiClient, mNode.getId(), HELLO_WORLD, getIntent().getStringExtra("Message")
                             .getBytes(Charset.forName("UTF-8"))).setResultCallback(
-                            new ResultCallback<MessageApi.SendMessageResult>() {
-                                @Override
-                                public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-                                    if (!sendMessageResult.getStatus().isSuccess()) {
-                                        Log.e("TAG", "Failed to send message with status code: "
-                                                + sendMessageResult.getStatus().getStatusCode());
-                                    } else {
-                                        Log.i("test", "Message sent");
-                                    }
-                                }
+                    new ResultCallback<MessageApi.SendMessageResult>() {
+                        @Override
+                        public void onResult(MessageApi.SendMessageResult sendMessageResult) {
+                            if (!sendMessageResult.getStatus().isSuccess()) {
+                                Log.e("TAG", "Failed to send message with status code: "
+                                        + sendMessageResult.getStatus().getStatusCode());
+                            } else {
+                                Log.i("test", "Message sent");
+                            }
+                        }
                     }
             );
         }else{

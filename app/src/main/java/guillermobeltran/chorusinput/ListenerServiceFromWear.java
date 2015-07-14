@@ -22,13 +22,13 @@ public class ListenerServiceFromWear extends WearableListenerService {
         //open on phone was called from MainActivity to answer
         if (messageEvent.getPath().equals("/main-activity-on-phone")) {
             Intent startIntent = new Intent(this, AvailableChats.class);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }
         //open on phone was called from microphone to take a picture
         else if (messageEvent.getPath().equals("/microphone-on-phone")) {
             Intent startIntent = new Intent(this, TakePicture.class);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }
         //open on phone was called from microphone or from generated responses. need to put new text into chat
@@ -37,8 +37,16 @@ public class ListenerServiceFromWear extends WearableListenerService {
             Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
+            startIntent.putExtra("Update", false);
             startIntent.putExtra("Input", new String(messageEvent.getData(), StandardCharsets.UTF_8));
-            Log.i("test", new String(messageEvent.getData(), StandardCharsets.UTF_8));
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(startIntent);
+        }
+        else if(messageEvent.getPath().equals("/update")) {
+            Intent startIntent = new Intent(this, ChorusChat.class);
+            startIntent.putExtra("Speech", false);
+            startIntent.putExtra("Asking", false);
+            startIntent.putExtra("Update", true);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }

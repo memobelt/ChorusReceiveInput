@@ -26,7 +26,6 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         if(messageEvent.getPath().equals("/hello-world")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("New Text", new String(messageEvent.getData(), StandardCharsets.UTF_8));
-            Log.i("test", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
@@ -40,6 +39,14 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
             nmc.notify(id++, notification.build());
 
+            startActivity(intent);
+        }
+        else if(messageEvent.getPath().equals("/hello-update")) {
+            Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
+            intent.putExtra("New Text", new String(messageEvent.getData(), StandardCharsets.UTF_8));
+            Log.i("test", new String(messageEvent.getData(), StandardCharsets.UTF_8));
+            intent.putExtra("caller", "ListenerUpdate");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
 

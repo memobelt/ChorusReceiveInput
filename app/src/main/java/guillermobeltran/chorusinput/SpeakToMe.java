@@ -84,6 +84,7 @@ public class SpeakToMe extends Activity {
         intent.putExtra("Words", _txtSpeechInput.getText().toString());
         intent.putExtra("Asking",true);
         intent.putExtra("Speech", false);
+        intent.putExtra("Update", false);
         intent.putExtra("ChatNum", "6");
         intent.putExtra("Role", "requester");
         startActivity(intent);
