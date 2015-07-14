@@ -31,4 +31,5 @@
         <item>May I have more info?</item>
         <item>Custom response</item>
     </string-array>
+    <string name="title_activity_pull">Pull</string>
 </resources>

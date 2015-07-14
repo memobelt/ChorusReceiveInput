@@ -16,57 +16,69 @@
         android:theme="@android:style/Theme.DeviceDefault" >
         <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
 
-        <service android:name="guillermobeltran.chorusinput.ListenerServiceFromPhone" >
+        <service android:name=".ListenerServiceFromPhone" >
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
 
         <activity
-            android:name="guillermobeltran.chorusinput.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="guillermobeltran.chorusinput.Microphone"
+            android:name=".Microphone"
             android:label="@string/title_activity_microphone" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
-            android:name="guillermobeltran.chorusinput.ChorusChat"
+            android:name=".ChorusChat"
             android:label="@string/title_activity_chorus_chat" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
-            android:name="guillermobeltran.chorusinput.AvailableChats"
+            android:name=".AvailableChats"
             android:label="@string/title_activity_available_chats" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
-            android:name="guillermobeltran.chorusinput.OpenOnPhone"
+            android:name=".OpenOnPhone"
             android:label="@string/title_activity_open_on_phone" >
             <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <service
-            android:name="guillermobeltran.chorusinput.UpdateService"
+            android:name=".UpdateService"
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".Pull"
+            android:label="@string/title_activity_pull" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

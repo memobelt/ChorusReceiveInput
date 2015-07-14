@@ -42,14 +42,14 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }
-        else if(messageEvent.getPath().equals("/update")) {
+        /*else if(messageEvent.getPath().equals("/update")) {
             Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.putExtra("Speech", false);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Update", true);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
-        }
+        }*/
         else {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");

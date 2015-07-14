@@ -17,7 +17,6 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -131,12 +130,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
-                Log.i("test", "cc:" + getIntent().getStringExtra("Input"));
                 setChatLines();
-                finish();
+                //finish();
             }
             //watch just opened "Review" and needs update
-            else if(getIntent().getExtras().getBoolean("Update")) {
+            /*else if(getIntent().getExtras().getBoolean("Update")) {
                 Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
                 AQuery aq = new AQuery(this);
 
@@ -164,7 +162,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     }
                 });
                 finish();
-            }
+            }*/
             setChatLines();
         } else {
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
