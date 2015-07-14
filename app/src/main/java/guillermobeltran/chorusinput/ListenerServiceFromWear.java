@@ -39,7 +39,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Input", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             Log.i("test", new String(messageEvent.getData(), StandardCharsets.UTF_8));
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }
         else {

@@ -28,7 +28,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             intent.putExtra("New Text", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             Log.i("test", new String(messageEvent.getData(), StandardCharsets.UTF_8));
             intent.putExtra("caller", "ListenerServiceFromPhone");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
             final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

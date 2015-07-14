@@ -65,7 +65,7 @@ public class ChorusChat extends Activity {
                     public void onItemSelected(final AdapterView<?> parent, View view, final int position, long id) {
                         if (parent.getItemAtPosition(position).equals("Custom response")) {
                             Intent intent = new Intent(getApplicationContext(), Microphone.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
                         } else if (parent.getItemAtPosition(position).equals("Reply...") == false) {
                             send.setOnClickListener(new View.OnClickListener() {
