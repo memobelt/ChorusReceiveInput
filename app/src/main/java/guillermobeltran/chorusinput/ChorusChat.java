@@ -130,7 +130,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
-                setChatLines();
+                //setChatLines();
                 //finish();
             }
             //watch just opened "Review" and needs update

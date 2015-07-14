@@ -91,6 +91,7 @@ public class ChorusChat extends Activity {
 
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     chatText.setText(getIntent().getStringExtra("New Text"));
+                    _cli.set_chatLine(getIntent().getStringExtra("New Text"));
                     if (chatText.getText().toString().contains("?")) {
                         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                                 R.array.question_array, android.R.layout.simple_spinner_item);
@@ -103,7 +104,7 @@ public class ChorusChat extends Activity {
                     }
 
                     //so ChorusChat doesn't open everytime a new message is posted
-                    finish();
+                    //finish();
                 } /*else if (getIntent().getStringExtra("caller").equals("ListenerUpdate")) {
                     chatText.setText(getIntent().getStringExtra("New Text"));
                     if (chatText.getText().toString().contains("?")) {
@@ -124,7 +125,6 @@ public class ChorusChat extends Activity {
                 }*/
             }
         });
-        setChatLines();
     }
 
     //sets up the parameters to send to the server
@@ -146,7 +146,11 @@ public class ChorusChat extends Activity {
     public void setChatLines() {
 
             Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
-            chatText.setText(_cli.get_chatLine());
+        if(_cli.get_chatLine()==null) {
+            chatText.setText("null");
+        }
+        else {
+        chatText.setText(_cli.get_chatLine()); }
             update();
 
     }
@@ -157,7 +161,11 @@ public class ChorusChat extends Activity {
     public void update() {
 
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
-        chatText.setText(_cli.get_chatLine());
+        if(_cli.get_chatLine()==null) {
+            chatText.setText("null");
+        }
+        else {
+            chatText.setText(_cli.get_chatLine()); }
         if (_canUpdate) {//in order to stop recursion once app is closed.
             update();
         }
