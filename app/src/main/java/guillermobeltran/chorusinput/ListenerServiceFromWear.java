@@ -1,6 +1,7 @@
 package guillermobeltran.chorusinput;
 
 import android.annotation.TargetApi;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
@@ -21,9 +22,14 @@ public class ListenerServiceFromWear extends WearableListenerService {
          */
         //open on phone was called from MainActivity to answer
         if (messageEvent.getPath().equals("/main-activity-on-phone")) {
-            Intent startIntent = new Intent(this, AvailableChats.class);
+            /*Intent startIntent = new Intent(this, AvailableChats.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(startIntent);
+            startActivity(startIntent);*/
+            FragmentManager fragmentManager = AvailableChats.newInstance(0).getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.layout.fragment_chatnumbers, AvailableChats.newInstance(0),null)
+                    .addToBackStack(null)
+                    .commit();
         }
         //open on phone was called from microphone to take a picture
         else if (messageEvent.getPath().equals("/microphone-on-phone")) {
