@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -36,6 +37,8 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.yahoo.mobile.client.share.search.ui.activity.SearchToLinkActivity;
+import com.yahoo.mobile.client.share.search.ui.activity.TrendingSearchEnum;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +57,7 @@ import static guillermobeltran.chorusinput.R.id.webView;
 
 public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
-    String _task, _role;
+    String _task, _role,_DBtask;
     ListView _chatList;
     Button _crowdBtn, _yelpBtn;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -63,6 +66,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     ChatLineInfo _cli = new ChatLineInfo();
     ArrayAdapter _chatLineAdapter, _importantFactsAdapter;
     Boolean _canUpdate;
+    DBHelper DbHelper;
+    SQLiteDatabase chatdb;
     TextToSpeech myTTS;
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
@@ -95,10 +100,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, 200);
+        //get all the intents
+        _task = getIntent().getStringExtra("ChatNum");
+        _role = getIntent().getStringExtra("Role");
+        _DBtask = "CHAT"+_task;
         if (networkInfo != null && networkInfo.isConnected()) {
-            //get all the intents
-            _task = getIntent().getStringExtra("ChatNum");
-            _role = getIntent().getStringExtra("Role");
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
@@ -132,12 +138,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
                 Log.i("test", "cc:" + getIntent().getStringExtra("Input"));
-                setChatLines();
+                setChatLinesFromWeb();
                 finish();
             }
             //watch just opened "Review" and needs update
             else if(getIntent().getExtras().getBoolean("Update")) {
-                Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
+                Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester","-1");
                 AQuery aq = new AQuery(this);
 
                 aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
@@ -165,8 +171,22 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 });
                 finish();
             }
-            setChatLines();
+            DbHelper = new DBHelper(getApplicationContext(),_DBtask);
+            chatdb = DbHelper.getWritableDatabase();
+            Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
+            if (c.getCount()>0){
+                setChatLinesFromDB(c);
+            }
+            else {
+                setChatLinesFromWeb();
+            }
         } else {
+            DbHelper = new DBHelper(getApplicationContext(),_DBtask);
+            chatdb = DbHelper.getWritableDatabase();
+            Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
+            if (c.getCount()>0){
+                setChatLinesFromDB(c);
+            }
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -182,23 +202,42 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     }
 
     //sets up the parameters to send to the server
-    public HashMap<String, Object> setUpParams(HashMap<String, Object> params, String action) {
+    public HashMap<String, Object> setUpParams(HashMap<String, Object> params, String action, String lastChatId) {
         params.put("action", action);
         params.put("role", _role);
         params.put("task", _task);
         params.put("workerId", "qq9t3ktatncj66geme1vdo31u5");
         if (action != "post") {
-            params.put("lastChatId", "-1");
+            params.put("lastChatId", lastChatId);
         }
         if (action == "fetchNewMemory") {
-            params.put("lastMemoryId", "932");
+            params.put("lastMemoryId", "-1");
         }
         return params;
     }
-
+    public void setChatLinesFromDB(Cursor c){
+        if(c.moveToFirst()){
+            while(!c.isAfterLast()){
+                ChatLineInfo cli = new ChatLineInfo();
+                String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_ROLE));
+                cli.set_role(role);
+                String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_MSG));
+                cli.set_chatLine(msg);
+                String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_CHATID));
+                cli.set_id(id);
+                setUpArrayList(cli);
+                c.moveToNext();
+            }
+        }
+        displayMessages();
+        update();
+    }
     //This sets the chat list so user can see all available chats.
-    public void setChatLines() {
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
+    public void setChatLinesFromWeb() {
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester","-1");
         AQuery aq = new AQuery(this);
 
         aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
@@ -206,32 +245,24 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
                     try {
+
                         for (int n = 0; n < json.length(); n++) {
+
+
                             String[] lineInfo = json.get(n).toString().split("\"");
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                            _chatLineInfoArrayList.add(chatLineInfo);
-                            if (chatLineInfo.get_chatLine().contains("http") ||
-                                    chatLineInfo.get_chatLine().contains("www.")) {
-                                chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
+                            ContentValues values = new ContentValues();
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
+                            long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
+                            if (newRowId == -1) {
+                                Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
                             }
-                            if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
-                                    chatLineInfo.get_role().equals("requester") && _role.equals("crowd")) {
-                                _yelpBtn.setVisibility(View.VISIBLE);
-                            } else {
-                                _yelpBtn.setVisibility(View.GONE);
-                            }
-                            _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                            setUpArrayList(chatLineInfo);
                         }
-                        ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
-                        _chatList.setSelection(_chatList.getCount() - 1);
-                        _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                Toast.makeText(getApplicationContext(),Integer.toString(position)+
-//                                        " "+ Long.toString(id),Toast.LENGTH_SHORT).show();
-                                speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
-                            }
-                        });
+                        displayMessages();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -240,31 +271,60 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
     }
+    public void setUpArrayList(ChatLineInfo chatLineInfo){
+        _chatLineInfoArrayList.add(chatLineInfo);
+        if (chatLineInfo.get_chatLine().contains("http") ||
+                chatLineInfo.get_chatLine().contains("www.")) {
+            chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
+        }
+        if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
+                chatLineInfo.get_role().equals("requester") && _role.equals("crowd")) {
+            _yelpBtn.setVisibility(View.VISIBLE);
+        } else {
+            _yelpBtn.setVisibility(View.GONE);
+        }
+        _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
+    }
+    public void displayMessages(){
+        ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
+        _chatList.setSelection(_chatList.getCount() - 1);
+        _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                Toast.makeText(getApplicationContext(),Integer.toString(position)+
+//                                        " "+ Long.toString(id),Toast.LENGTH_SHORT).show();
+                speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
+            }
+        });
+    }
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat
     along with notification functionality.
      */
     public void update() {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
+                _chatLineInfoArrayList.get(_chatLineInfoArrayList.size()-1).get_id());
 
         aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
-                    if (json.length() > _chatLineInfoArrayList.size()) {
+                    if (json.length() > 0) {
                         try {
                             String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                            _chatLineInfoArrayList.add(chatLineInfo);
-                            _chatLineAdapter.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
-                                    chatLineInfo.get_role().equals("requester") && _role.equals("crowd")) {
-                                _yelpBtn.setVisibility(View.VISIBLE);
-                            } else {
-                                _yelpBtn.setVisibility(View.GONE);
+
+                            ContentValues values = new ContentValues();
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
+                            long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
+                            if (newRowId == -1) {
+                                Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
                             }
+                            setUpArrayList(chatLineInfo);
 
                             if (_chatList.getAdapter() == null) {
                                 ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
@@ -313,7 +373,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
      */
     public void postData(String line, String words, String action) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action,null);
 
         params.put(line, words);
         if (action.equals("fetchNewMemory")) {
@@ -358,31 +418,23 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 //        deleteDB();
     }*/
     public void deleteDB() {
-        DBHelper mDbHelper = new DBHelper(getApplicationContext());
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME, null, null);
-        db.rawQuery("DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME, null);
-        db.close();
-        mDbHelper.close();
+//        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME, null, null);
+//        db.rawQuery("DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME, null);
     }
 
     public void insertToDB() {
-        DBHelper mDbHelper = new DBHelper(getApplicationContext());
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, _role);
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK, _task);
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE, _chatLineInfoArrayList.size());
-        int i = db.update(DatabaseContract.DatabaseEntry.TABLE_NAME, values, "task = " + _task, null);
-        if (i == 0) {
-            long newRowId = db.insertOrThrow(DatabaseContract.DatabaseEntry.TABLE_NAME, null, values);
-            if (newRowId == -1) {
-                Toast.makeText(this, "Oh no", Toast.LENGTH_SHORT).show();
-            }
-        }
-        db.close();
-        mDbHelper.close();
+//        ContentValues values = new ContentValues();
+//        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, _role);
+//        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK, _task);
+//        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE, _chatLineInfoArrayList.size());
+//        int i = db.update(DatabaseContract.DatabaseEntry.TABLE_NAME, values, "task = " + _task, null);
+//        if (i == 0) {
+//            long newRowId = db.insertOrThrow(DatabaseContract.DatabaseEntry.TABLE_NAME, null, values);
+//            if (newRowId == -1) {
+//                Toast.makeText(this, "Oh no", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     public void ChatSpeechInput(View v) {
@@ -467,8 +519,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         return super.onOptionsItemSelected(item);
     }
-    /*public void getImportantFacts(){
-        View info = findViewById(R.id.info); // SAME ID AS MENU ID
+    public void getImportantFacts(){
+        /*View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
         final ListView list = new ListView(this);
@@ -520,5 +572,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 status.getMessage();
             }
         });
-    }*/
+        */
+    }
+    public void yahoo(){
+        SearchToLinkActivity.IntentBuilder builder = new SearchToLinkActivity.IntentBuilder();
+        builder.setTrendingCategory(TrendingSearchEnum.NEWS);
+        builder.addWebVertical();
+        builder.setWebPreviewEnabled(false);
+        builder.setImagePreviewEnabled(false);
+        Intent intent = builder.buildIntent(this);
+        startActivityForResult(intent, 300);
+    }
 }

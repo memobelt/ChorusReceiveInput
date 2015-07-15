@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_arrays.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_arrays.xml -->
     <eat-comment/>
     <string-array name="longPressListOptionsWithMinibrowserDisabled">
         <item>@string/yssdk_copy</item>
@@ -10,7 +10,7 @@
 		<item>@string/yssdk_open</item>
         <item>@string/yssdk_copy</item>
     </string-array>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/arrays.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/arrays.xml -->
     <eat-comment/>
     <string-array name="safe_search_options">
         <item>@string/yssdk_safesearch_strict</item>
@@ -30,12 +30,12 @@
         <item>on</item>
         <item>off</item>
     </string-array>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="mediaRouteButtonStyle"/>
     <attr format="reference" name="mediaRouteConnectingDrawable"/>
@@ -44,7 +44,7 @@
     <attr format="reference" name="mediaRoutePauseDrawable"/>
     <attr format="reference" name="mediaRoutePlayDrawable"/>
     <attr format="reference" name="mediaRouteSettingsDrawable"/>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <attr format="string" name="title"/>
     <bool name="abc_action_bar_embed_tabs">true</bool>
@@ -54,7 +54,7 @@
     <bool name="abc_config_allowActionMenuItemTextWithIcon">false</bool>
     <bool name="abc_config_closeDialogWhenTouchOutside">true</bool>
     <bool name="abc_config_showMenuShortcutsWhenKeyboardPresent">false</bool>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/locale_res_yssdk_locale_values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/locale_res_yssdk_locale_values.xml -->
     <eat-comment/>
     <bool name="yssdk_locale_areTrendingSuggestionsEnabled">true</bool>
     <bool name="yssdk_locale_isImageGalleryEnabled">true</bool>
@@ -69,7 +69,7 @@
     <bool name="yssdk_locale_isVideoSearchEnabled">true</bool>
     <bool name="yssdk_locale_isVoiceSearchEnabled">true</bool>
     <bool name="yssdk_locale_isWebSearchPoweredByGoogle">false</bool>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="abc_input_method_navigation_guard">@android:color/black</color>
     <color name="abc_search_url_text_normal">#7fa87f</color>
@@ -81,17 +81,17 @@
     <color name="background_floating_material_light">#ffeeeeee</color>
     <color name="background_material_dark">#ff303030</color>
     <color name="background_material_light">#ffeeeeee</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="base_purple">#FF400090</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="bg_gradient_end">#6b394c</color>
     <color name="bg_gradient_start">#31244e</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="black">#FF000000</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
@@ -101,12 +101,12 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="cancel_button_background">#FFFAFAFC</color>
     <color name="cancel_button_text_color">#FF680194</color>
     <color name="clearable_button_color">#FFA2A2A2</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/common_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/common_colors.xml -->
     <eat-comment/>
     <color name="common_action_bar_splitter">#d2d2d2</color>
     <color name="common_signin_btn_dark_text_default">@android:color/white</color>
@@ -118,52 +118,52 @@
     <color name="common_signin_btn_light_text_disabled">#FFAAAAAA</color>
     <color name="common_signin_btn_light_text_focused">#FF737373</color>
     <color name="common_signin_btn_light_text_pressed">@android:color/white</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="dark_gray_background">#FF272727</color>
     <color name="default_video_background">#ff232425</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="full_transparent">#00FFFFFF</color>
     <color name="grid_bg_selected">#FF44296A</color>
     <color name="grid_bg_unselected">#FF2C2C2C</color>
     <color name="grid_border">#FF989898</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
     <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="light_blue_background">#ffe6ecf1</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="link_text_material_dark">@color/material_deep_teal_200</color>
     <color name="link_text_material_light">@color/material_deep_teal_500</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="list_item_pressed">#26FFFFFF</color>
     <color name="listitem_selected">#e6ecf1</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="material_blue_grey_800">#ff37474f</color>
     <color name="material_blue_grey_900">#ff263238</color>
     <color name="material_blue_grey_950">#ff21272b</color>
     <color name="material_deep_teal_200">#ff80cbc4</color>
     <color name="material_deep_teal_500">#ff009688</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="page_indicator_color_active">#FFFFFF</color>
     <color name="page_indicator_color_inactive">#666666</color>
     <color name="poi_yellow">#FFEEB822</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="primary_dark_material_dark">#ff000000</color>
     <color name="primary_dark_material_light">#ff757575</color>
@@ -175,7 +175,7 @@
     <color name="primary_text_disabled_material_light">#39000000</color>
     <color name="ripple_material_dark">#4dffffff</color>
     <color name="ripple_material_light">#1f000000</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="search_background_dark_gray">#FF232323</color>
     <color name="search_background_gray">#ff494949</color>
@@ -199,25 +199,25 @@
     <color name="searchassist_divider">#FFEDEDF3</color>
     <color name="searchassist_selected">#FF5771FF</color>
     <color name="searchbar_item_pressed">#26888888</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="secondary_text_default_material_dark">#b3ffffff</color>
     <color name="secondary_text_default_material_light">#8a000000</color>
     <color name="secondary_text_disabled_material_dark">#36ffffff</color>
     <color name="secondary_text_disabled_material_light">#24000000</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="selectable_container_view_overlay">#66000000</color>
     <color name="share_bar_vertical_separator">#ffe0e0e0</color>
     <color name="share_blue">#0078FF</color>
     <color name="spinner_bg_black">#CC000000</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <color name="switch_thumb_disabled_material_dark">#ff616161</color>
     <color name="switch_thumb_disabled_material_light">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="tab_bg">#FF3F1B59</color>
     <color name="tab_bg_selected">#FF44296A</color>
@@ -230,10 +230,10 @@
     <color name="timestamp_color">#bf000000</color>
     <color name="translucent_black">#3F000000</color>
     <color name="translucent_white">#80FFFFFF</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="transparent">#00000000</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="transparent_purple_color">#76400090</color>
     <color name="transparent_white">#E6FFFFFF</color>
@@ -245,7 +245,7 @@
     <color name="voice_dialog_inner_circle_color">#A6FFFFFF</color>
     <color name="voice_dialog_outer_circle_color">#A6000000</color>
     <color name="voice_purple">#cc9400d3</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_colors.xml -->
     <eat-comment/>
     <color name="wallet_bright_foreground_disabled_holo_light">#ffb2b2b2</color>
     <color name="wallet_bright_foreground_holo_dark">#fff3f3f3</color>
@@ -260,10 +260,10 @@
     <color name="wallet_hint_foreground_holo_light">#808080</color>
     <color name="wallet_holo_blue_light">#ff33b5e5</color>
     <color name="wallet_link_text_light">#0000ee</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="white">#ffffff</color>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_colors.xml -->
     <eat-comment/>
     <color name="white_background">#ffffffff</color>
     <color name="ypurple">#FF400090</color>
@@ -328,7 +328,7 @@
     <declare-styleable name="ViewStubCompat"><attr name="android:layout"/><attr name="android:inflatedId"/><attr name="android:id"/></declare-styleable>
     <declare-styleable name="WalletFragmentOptions"><attr format="enum" name="appTheme"><enum name="holo_dark" value="0"/><enum name="holo_light" value="1"/></attr><attr format="enum" name="environment"><enum name="production" value="1"/><enum name="test" value="3"/><enum name="sandbox" value="0"/><enum name="strict_sandbox" value="2"/></attr><attr format="reference" name="fragmentStyle"/><attr format="enum" name="fragmentMode"><enum name="buyButton" value="1"/><enum name="selectionDetails" value="2"/></attr></declare-styleable>
     <declare-styleable name="WalletFragmentStyle"><attr format="dimension" name="buyButtonHeight"><enum name="match_parent" value="-1"/><enum name="wrap_content" value="-2"/></attr><attr format="dimension" name="buyButtonWidth"><enum name="match_parent" value="-1"/><enum name="wrap_content" value="-2"/></attr><attr format="enum" name="buyButtonText"><enum name="buy_with_google" value="1"/><enum name="buy_now" value="2"/><enum name="book_now" value="3"/><enum name="donate_with_google" value="4"/></attr><attr format="enum" name="buyButtonAppearance"><enum name="classic" value="1"/><enum name="grayscale" value="2"/><enum name="monochrome" value="3"/></attr><attr format="reference" name="maskedWalletDetailsTextAppearance"/><attr format="reference" name="maskedWalletDetailsHeaderTextAppearance"/><attr format="reference|color" name="maskedWalletDetailsBackground"/><attr format="reference" name="maskedWalletDetailsButtonTextAppearance"/><attr format="reference|color" name="maskedWalletDetailsButtonBackground"/><attr format="color" name="maskedWalletDetailsLogoTextColor"/><attr format="enum" name="maskedWalletDetailsLogoImageType"><enum name="classic" value="1"/><enum name="monochrome" value="2"/></attr></declare-styleable>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <dimen name="abc_action_bar_content_inset_material">16dp</dimen>
     <dimen name="abc_action_bar_default_height_material">56dp</dimen>
@@ -390,11 +390,11 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
@@ -402,13 +402,13 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <dimen name="mr_media_route_controller_art_max_height">320dp</dimen>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="navigation_drawer_width">240dp</dimen>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_dimens.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_dimens.xml -->
     <eat-comment/>
     <dimen name="yssdk_app_action_bar_height">49dip</dimen>
     <dimen name="yssdk_app_action_bar_height_with_enhacement">67dip</dimen>
@@ -474,16 +474,16 @@
     <dimen name="yssdk_yelp_sprite_star_margin">1dp</dimen>
     <dimen name="yssdk_yelp_sprite_star_size">30dp</dimen>
     <dimen name="yssdk_yelp_sprite_width">148dp</dimen>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
     <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.5.0/res/values/cast_ids.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.5.0/res/values/cast_ids.xml -->
     <eat-comment/>
     <item name="cast_notification_id" type="id"/>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <item name="home" type="id"/>
     <item name="progress_circular" type="id"/>
@@ -493,23 +493,23 @@
     <integer name="abc_config_activityDefaultDur">220</integer>
     <integer name="abc_config_activityShortDur">150</integer>
     <integer name="abc_max_action_buttons">2</integer>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/version.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/version.xml -->
     <eat-comment/>
     <integer name="google_play_services_version">7571000</integer>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_integers.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_integers.xml -->
     <eat-comment/>
     <integer name="yssdk_max_image_size">2000</integer>
     <integer name="yssdk_page_margin">3</integer>
     <integer name="yssdk_top_padding_offset_boss_px">0</integer>
     <integer name="yssdk_top_padding_offset_px">3</integer>
     <integer name="yssdk_video_background_scale_factor">250</integer>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/refs.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/refs.xml -->
     <eat-comment/>
     <item name="fragment_chatnumbers" type="layout">@layout/fragment_chatnumbers_list</item>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="Test">Chorus Test</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
@@ -528,35 +528,35 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
     <eat-comment/>
     <string name="accept">Accept</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">Chorus</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="app_not_available">Sorry, %1$s is currently unavailable.</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/auth_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/auth_strings.xml -->
     <eat-comment/>
     <string name="auth_google_play_services_client_facebook_display_name">Facebook</string>
     <string name="auth_google_play_services_client_google_display_name">Google</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="camera">Camera Button</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="cancel">Cancel</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.5.0/res/values/cast_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.5.0/res/values/cast_strings.xml -->
     <eat-comment/>
     <string name="cast_notification_connected_message">Connected to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_connecting_message">Connecting to <ns1:g id="name">%1$s</ns1:g></string>
     <string name="cast_notification_disconnect">Disconnect</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="common.powered_by_bing">Powered by Bing&amp;trade;</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/common_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.5.0/res/values/common_strings.xml -->
     <eat-comment/>
     <string name="common_android_wear_notification_needs_update_text"><ns1:g id="app_name">%1$s</ns1:g> requires an update to the Android Wear app.</string>
     <string name="common_android_wear_update_text"><ns1:g id="app_name">%1$s</ns1:g> won\'t run unless you update the Android Wear app.</string>
@@ -590,15 +590,15 @@
     <string name="common_open_on_phone">Open on phone</string>
     <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="copy_message_error_toast">There was an error copying the text to the clipboard.</string>
     <string name="copy_message_success_toast">Message text copied to clipboard.</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
     <eat-comment/>
     <string name="create_calendar_message">Allow Ad to create a calendar event?</string>
     <string name="create_calendar_title">Create calendar event</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="date_format_month_day">MMM d</string>
     <string name="date_format_month_day_year">M/d/yy</string>
@@ -608,10 +608,10 @@
     <string name="date_time_format_short_24">M/d/yy k:mm</string>
     <string name="day_1">%1$dDAY</string>
     <string name="day_n">%1$dDAYS</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
     <eat-comment/>
     <string name="decline">Decline</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="download_app">%1$s is currently not installed on your device. Would you like to install %2$s?</string>
     <string name="download_app_generic_partner">%1$s is currently not installed on your device. Please visit your preferred marketplace to install it.</string>
@@ -619,29 +619,29 @@
     <string name="duration_format_minutes">m \'min,\' s \'sec\'</string>
     <string name="duration_format_seconds">s \'sec\'</string>
     <string name="edit">Edit</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="hello_world">Hello world!</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="hr_1">%1$dHR</string>
     <string name="hr_n">%1$dHRS</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="info">Info</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="loading">Loading\u2026</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="mic">Microphone Button</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="min_1">%1$dMIN</string>
     <string name="min_n">%1$dMIN</string>
     <string name="month_1">%1$dMO</string>
     <string name="month_n">%1$dMOS</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <string name="mr_media_route_button_content_description">Cast</string>
     <string name="mr_media_route_chooser_searching">Searching for devices\u2026</string>
@@ -653,11 +653,11 @@
     <string name="mr_media_route_controller_stop">Stop casting</string>
     <string name="mr_system_route_name">System</string>
     <string name="mr_user_route_category_name">Devices</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="no">No</string>
     <string name="no_google_play_dialog_message">Google Play is not installed in your device. Please install it before continuing.</string>
@@ -667,15 +667,15 @@
     <string name="sec_1">%1$dSEC</string>
     <string name="sec_n">%1$dSEC</string>
     <string name="short_time_format">h:mma</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say something…</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_strings.xml -->
     <eat-comment/>
     <string name="store_picture_message">"Allow Ad to store image in Picture gallery?"</string>
     <string name="store_picture_title">Save image</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="title_activity_after_login">After Login</string>
@@ -691,54 +691,54 @@
     <string name="title_section2">Submit a question</string>
     <string name="title_section3">Review your questions</string>
     <string name="title_section4">Answer a question</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_strings.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="year_1">%1$dYR</string>
     <string name="year_n">%1$dYRS</string>
     <string name="yes">Yes</string>
     <string name="yssdk_app_title">Yahoo Search</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_back_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_cancel">Cancel</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_checkmark_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_clear_history_summary">Clear Search History</string>
     <string name="yssdk_clear_history_title">Clear History</string>
     <string name="yssdk_clear_history_warning_text">Are you sure?</string>
     <string name="yssdk_clear_history_warning_title">Clear Search History</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_clear_indicator"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_close">Close</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_close_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_copy">Copy</string>
     <string name="yssdk_development_mode">Development Mode ON</string>
     <string name="yssdk_dismiss_button">Dismiss</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_downarrow_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_history_cleared">History Cleared</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_history_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_image_copyright_message">Image may be subject to copyright</string>
     <string name="yssdk_image_search">Images</string>
@@ -771,23 +771,23 @@
     <string name="yssdk_local_view_more_yelp">View more on Yelp</string>
     <string name="yssdk_local_website">Website</string>
     <string name="yssdk_local_wednesday">Wednesday</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/locale_res_yssdk_locale_values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/locale_res_yssdk_locale_values.xml -->
     <eat-comment/>
     <string name="yssdk_locale_defaultSafeSearchSetting">i</string>
     <string name="yssdk_locale_searchHostURL">en-US</string>
     <string name="yssdk_locale_searchIntlString">us</string>
     <string name="yssdk_locale_voiceSearchLocale">en_US</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_mb">MB</string>
     <string name="yssdk_menu_copy">Copy link</string>
     <string name="yssdk_menu_open">Open in browser</string>
     <string name="yssdk_menu_send">Share</string>
     <string name="yssdk_menu_send_image">Share</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_mic_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_network_error">You are not connected to the Internet.</string>
     <string name="yssdk_no">No</string>
@@ -798,10 +798,10 @@
     <string name="yssdk_open">Open</string>
     <string name="yssdk_open_in_browser">Open in Browser</string>
     <string name="yssdk_processing">Processing...</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_querybuilder_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_request_error">Unable to process the request at this time</string>
     <string name="yssdk_retry_button">Try again</string>
@@ -826,20 +826,20 @@
     <string name="yssdk_setting_search_title">Search Settings</string>
     <string name="yssdk_settings_about">About</string>
     <string name="yssdk_share">Share</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_share_icon"></string>
     <string name="yssdk_share_message_icon"></string>
     <string name="yssdk_share_send_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_share_via">Share via</string>
     <string name="yssdk_suggestions">Suggestions:\nMake sure words are spelled correctly.\nTry more general words.\nTry different words that mean the same thing.</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_typeface.xml -->
     <eat-comment/>
     <string name="yssdk_trending_icon"></string>
     <string name="yssdk_uparrow_icon"></string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yala.xml -->
     <eat-comment/>
     <string name="yssdk_video_search">Videos</string>
     <string name="yssdk_voice_error">We didn\'t quite get that. Please try again.</string>
@@ -848,18 +848,18 @@
     <string name="yssdk_web_search">Web</string>
     <string name="yssdk_webview_loading">Loading..</string>
     <string name="yssdk_yes">Yes</string>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.AlertDialog.AppCompat" parent="android:Widget">
         <item name="android:layout">@layout/abc_alert_dialog_material</item>
@@ -1770,7 +1770,7 @@
         <item name="android:scaleType">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_search_style.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_search_style.xml -->
     <eat-comment/>
     <style name="DialogAnimationFade">
         <item name="android:windowEnterAnimation">@anim/yssdk_fade_in_dialog</item>
@@ -1779,7 +1779,7 @@
     <style name="LocalPreview" parent="SearchToLink.Preview">
         <item name="android:windowActionBarOverlay">true</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
@@ -1917,7 +1917,7 @@
     <style name="RtlOverlay.Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation">
         <item name="android:paddingLeft">@dimen/abc_action_bar_navigation_padding_start_material</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_search_style.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/yssdk_search_style.xml -->
     <eat-comment/>
     <style name="Search.Suggest.Container" parent="android:Theme.Holo.Light.NoActionBar">
 
@@ -1957,7 +1957,7 @@
     <style name="SearchToLink.Preview.Actionbar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/black</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="TextAppearance.AppCompat" parent="Base.TextAppearance.AppCompat"/>
     <style name="TextAppearance.AppCompat.Body1" parent="Base.TextAppearance.AppCompat.Body1"/>
@@ -2043,7 +2043,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_iap_style.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.5.0/res/values/admob_iap_style.xml -->
     <eat-comment/>
     <style name="Theme.IAPTheme" parent="android:Theme">
     <item name="android:windowIsTranslucent">true</item>
@@ -2053,7 +2053,7 @@
     <item name="android:windowIsFloating">true</item>
     <item name="android:backgroundDimEnabled">false</item>
   </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Theme.MediaRouter" parent="">
         <item name="mediaRouteButtonStyle">@style/Widget.MediaRouter.MediaRouteButton</item>
@@ -2075,7 +2075,7 @@
         <item name="mediaRoutePlayDrawable">@drawable/mr_ic_play_light</item>
         <item name="mediaRoutePauseDrawable">@drawable/mr_ic_pause_light</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="Theme.Transparent" parent="android:Theme">
         <item name="android:windowIsTranslucent">true</item>
@@ -2085,14 +2085,14 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>
     <style name="ThemeOverlay.AppCompat.Dark.ActionBar" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Light" parent="Base.ThemeOverlay.AppCompat.Light"/>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_styles.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/res/values/wallet_styles.xml -->
     <eat-comment/>
     <style name="WalletFragmentDefaultButtonTextAppearance">
         <item name="android:textColor">@color/wallet_primary_text_holo_light</item>
@@ -2126,7 +2126,7 @@
         <item name="maskedWalletDetailsLogoTextColor">@color/wallet_bright_foreground_holo_dark</item>
         <item name="maskedWalletDetailsLogoImageType">classic</item>
     </style>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/res/values/values.xml -->
     <eat-comment/>
     <style name="Widget.AppCompat.ActionBar" parent="Base.Widget.AppCompat.ActionBar">
     </style>
@@ -2219,7 +2219,7 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="RtlOverlay.Widget.AppCompat.Toolbar.Button.Navigation"/>
-    <!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
+    <!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Widget.MediaRouter.Light.MediaRouteButton" parent="Widget.AppCompat.Light.ActionButton">
         <item name="android:minWidth">56dp</item>

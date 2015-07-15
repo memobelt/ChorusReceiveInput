@@ -36,7 +36,7 @@ public class UpdateService extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
 
-        DBHelper mDbHelper = new DBHelper(getApplicationContext());
+        DBHelper mDbHelper = new DBHelper(getApplicationContext(),null);
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         String[] projection = {
                 DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK,
@@ -66,7 +66,7 @@ public class UpdateService extends Service {
     }
     public void notify(final String role, final String task, final int size){
         AQuery aq = new AQuery(getApplicationContext());
-        Map<String, Object> params = chat.setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
+        Map<String, Object> params = chat.setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester","-1");
         params.put("role", role);
         params.put("task", task);
         aq.ajax(chat._chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
@@ -91,7 +91,7 @@ public class UpdateService extends Service {
                         NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());
                         nm.notify(Integer.parseInt(task), mBuilder.build());
 
-                        DBHelper mDbHelper = new DBHelper(getApplicationContext());
+                        DBHelper mDbHelper = new DBHelper(getApplicationContext(),null);
                         SQLiteDatabase db = mDbHelper.getWritableDatabase();
                         ContentValues values = new ContentValues();
                         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE, json.length());

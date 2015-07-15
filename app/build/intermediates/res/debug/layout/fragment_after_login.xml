@@ -34,4 +34,4 @@
             android:onClick="askQuestion" />
     </FrameLayout>
 </RelativeLayout>
-<!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/layout/fragment_after_login.xml -->
+<!-- From: file:/Volumes/Momentus/Drive/Code/ChorusReceiveInput/app/src/main/res/layout/fragment_after_login.xml -->
