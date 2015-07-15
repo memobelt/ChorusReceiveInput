@@ -360,6 +360,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Update", false);
+                            intent.putExtra("ChatNum", _task);
                             intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
                             startActivity(intent);
 
@@ -401,6 +402,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
             intent.putExtra("Update", false);
+            intent.putExtra("ChatNum", _task);
             intent.putExtra("Message", _cli.get_role() + " : " + words);
             startActivity(intent);
         }
