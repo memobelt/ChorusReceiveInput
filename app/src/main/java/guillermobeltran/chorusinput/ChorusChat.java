@@ -1,6 +1,7 @@
 package guillermobeltran.chorusinput;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -16,6 +17,7 @@ import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
@@ -71,6 +73,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     TextToSpeech myTTS;
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
+    int notificationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
         _yelpBtn.setVisibility(View.GONE);
+        notificationID = 001;
 
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
@@ -104,7 +108,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _task = getIntent().getStringExtra("ChatNum");
         _role = getIntent().getStringExtra("Role");
         _DBtask = "CHAT"+_task;
-        if (networkInfo != null && networkInfo.isConnected()) {
+        if (networkInfo != null && networkInfo.isConnected())
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
@@ -137,13 +141,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
-                Log.i("test", "cc:" + getIntent().getStringExtra("Input"));
-                setChatLinesFromWeb();
+                setChatLines();
                 finish();
             }
             //watch just opened "Review" and needs update
-            else if(getIntent().getExtras().getBoolean("Update")) {
-                Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester","-1");
+            /*else if(getIntent().getExtras().getBoolean("Update")) {
+                Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
                 AQuery aq = new AQuery(this);
 
                 aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
@@ -170,6 +173,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     }
                 });
                 finish();
+            }*/
+            setChatLines();
             }
             DbHelper = new DBHelper(getApplicationContext(),_DBtask);
             chatdb = DbHelper.getWritableDatabase();
@@ -340,6 +345,22 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
+
+                            int numNotifications = json.length() - _chatLineInfoArrayList.size()+1;
+                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+                            viewIntent.putExtra("ChatNum", _task);
+                            viewIntent.putExtra("Role", _role);
+
+                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+                            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+                            //        "in Chat " + _task);
+                            mBuilder.setContentText(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                            NotificationManager nmgr= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            nmgr.notify(notificationID++, mBuilder.build());
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Update", false);
@@ -519,8 +540,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         return super.onOptionsItemSelected(item);
     }
-    public void getImportantFacts(){
-        /*View info = findViewById(R.id.info); // SAME ID AS MENU ID
+    /*public void getImportantFacts(){
+        View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
         final ListView list = new ListView(this);

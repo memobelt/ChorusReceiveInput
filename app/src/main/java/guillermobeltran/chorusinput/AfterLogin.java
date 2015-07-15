@@ -39,7 +39,16 @@ public class AfterLogin extends ActionBarActivity
         super.onCreate(savedInstanceState);
         //initializeSearchSDK();
         setContentView(R.layout.activity_after_login);
-
+        if(getIntent()!=null) {
+            if(getIntent().getStringExtra("caller")!=null) {
+                if (getIntent().getStringExtra("caller").equals("Listener")) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, AvailableChats.newInstance(4))
+                            .commit();
+                }
+            }
+        }
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();

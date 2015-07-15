@@ -26,13 +26,13 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_on_watch);
 
-        if(getIntent().getExtras().getBoolean("Update")) {
+        /*if(getIntent().getExtras().getBoolean("Update")) {
             HELLO_WORLD = "/hello-update";
         }
         else {
             HELLO_WORLD = "/hello-world";
-        }
-
+        }*/
+        HELLO_WORLD = "/hello-world";
         //Connect the GoogleApiClient
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
