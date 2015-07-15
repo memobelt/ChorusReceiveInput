@@ -35,7 +35,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
                     .setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true)
                     .setContentIntent(pendingIntent).setWhen(System.currentTimeMillis())
                     .setGroup(NOTIFICATION_GROUP).setContentTitle("Chorus")
-                    .setContentText("New Message");
+                    .setContentText(new String(messageEvent.getData(), StandardCharsets.UTF_8));
             NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
             nmc.notify(id++, notification.build());
 
