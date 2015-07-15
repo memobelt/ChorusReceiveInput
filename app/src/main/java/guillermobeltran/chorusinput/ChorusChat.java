@@ -20,7 +20,6 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -108,7 +107,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _task = getIntent().getStringExtra("ChatNum");
         _role = getIntent().getStringExtra("Role");
         _DBtask = "CHAT"+_task;
-        if (networkInfo != null && networkInfo.isConnected())
+        if (networkInfo != null && networkInfo.isConnected()){
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
@@ -141,7 +140,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
-                setChatLines();
+                setChatLinesFromWeb();
                 finish();
             }
             //watch just opened "Review" and needs update
@@ -174,8 +173,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 });
                 finish();
             }*/
-            setChatLines();
-            }
+
             DbHelper = new DBHelper(getApplicationContext(),_DBtask);
             chatdb = DbHelper.getWritableDatabase();
             Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
@@ -540,8 +538,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         return super.onOptionsItemSelected(item);
     }
-    /*public void getImportantFacts(){
-        View info = findViewById(R.id.info); // SAME ID AS MENU ID
+    public void getImportantFacts(){
+    /*    View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
         final ListView list = new ListView(this);
