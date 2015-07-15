@@ -107,6 +107,24 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _task = getIntent().getStringExtra("ChatNum");
         _role = getIntent().getStringExtra("Role");
         _DBtask = "CHAT"+_task;
+        _chatLineAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, _chatArrayList) {
+            @Override
+            public View getView(int position, View convertView,
+                                ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+
+                            /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.WHITE);
+
+                return view;
+            }
+        };
+        DbHelper = new DBHelper(getApplicationContext(),_DBtask);
+        chatdb = DbHelper.getWritableDatabase();
+        Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
         if (networkInfo != null && networkInfo.isConnected()){
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
@@ -115,21 +133,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
             //make sure the text is white
-            _chatLineAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                    android.R.layout.simple_list_item_1, _chatArrayList) {
-                @Override
-                public View getView(int position, View convertView,
-                                    ViewGroup parent) {
-                    View view = super.getView(position, convertView, parent);
 
-                    TextView textView = (TextView) view.findViewById(android.R.id.text1);
-
-                            /*YOUR CHOICE OF COLOR*/
-                    textView.setTextColor(Color.WHITE);
-
-                    return view;
-                }
-            };
             //intent from phone
             if (getIntent().getExtras().getBoolean("Asking")) {
                 _cli.set_role("requester");
@@ -174,9 +178,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 finish();
             }*/
 
-            DbHelper = new DBHelper(getApplicationContext(),_DBtask);
-            chatdb = DbHelper.getWritableDatabase();
-            Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
             if (c.getCount()>0){
                 setChatLinesFromDB(c);
             }
@@ -184,9 +185,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 setChatLinesFromWeb();
             }
         } else {
-            DbHelper = new DBHelper(getApplicationContext(),_DBtask);
-            chatdb = DbHelper.getWritableDatabase();
-            Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
             if (c.getCount()>0){
                 setChatLinesFromDB(c);
             }
@@ -344,7 +342,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
 
-                            int numNotifications = json.length() - _chatLineInfoArrayList.size()+1;
+                            int numNotifications = json.length() - _chatLineInfoArrayList.size() + 1;
                             Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
                             viewIntent.putExtra("ChatNum", _task);
                             viewIntent.putExtra("Role", _role);
@@ -357,7 +355,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
                             //        "in Chat " + _task);
                             mBuilder.setContentText(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            NotificationManager nmgr= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                             nmgr.notify(notificationID++, mBuilder.build());
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
