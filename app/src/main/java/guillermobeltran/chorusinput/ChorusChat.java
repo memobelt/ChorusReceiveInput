@@ -20,6 +20,7 @@ import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,10 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+
 import com.yahoo.mobile.client.share.search.ui.activity.SearchToLinkActivity;
 import com.yahoo.mobile.client.share.search.ui.activity.TrendingSearchEnum;
 
@@ -50,11 +55,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import guillermobeltran.chorusinput.PushService.ParseUtils;
+
 import static guillermobeltran.chorusinput.R.id.ChatList;
 import static guillermobeltran.chorusinput.R.id.CrowdSend;
 import static guillermobeltran.chorusinput.R.id.editText;
 import static guillermobeltran.chorusinput.R.id.webView;
 
+import com.parse.ParsePush;
 
 public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
@@ -184,6 +192,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else {
                 setChatLinesFromWeb();
             }
+
+            ParseUtils.subscribeWithEmail(ParseUtils.customIdBuilder(_task));
+
         } else {
             if (c.getCount()>0){
                 setChatLinesFromDB(c);
@@ -198,6 +209,19 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             Toast.makeText(this, "Can't have empty input", Toast.LENGTH_SHORT).show();
         } else {
             postData("chatLine", _editText.getText().toString(), "post");
+
+            HashMap<String, Object> params = new HashMap<String, Object>();
+            params.put("email", ParseUtils.customIdBuilder(_task));
+            params.put("role", _role);
+            params.put("message", _editText.getText().toString());
+            ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
+                public void done(String success, ParseException e) {
+                    if (e == null) {
+                        Log.e("ChorusChat", "Push sent successfully.");
+                    }
+                }
+            });
+
             _editText.setText("");
         }
     }
