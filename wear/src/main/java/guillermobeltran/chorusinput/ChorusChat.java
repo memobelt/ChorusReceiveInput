@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.wearable.view.WatchViewStub;
-import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,11 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidquery.AQuery;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class ChorusChat extends Activity {
@@ -39,6 +36,7 @@ public class ChorusChat extends Activity {
     int _size;
     DBHelper DbHelper;
     SQLiteDatabase chatdb;
+    Cursor c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +47,10 @@ public class ChorusChat extends Activity {
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
 
         _task = getIntent().getStringExtra("ChatNum");
-        _DBtask = "CHAT"+_task;
-        DbHelper = new DBHelper(getApplicationContext(),_DBtask);
+        _DBtask = "CHAT" + _task;
+        DbHelper = new DBHelper(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
+        c = chatdb.rawQuery("SELECT * FROM " + _DBtask, null);
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
@@ -86,6 +85,7 @@ public class ChorusChat extends Activity {
                             send.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    postData(parent.getItemAtPosition(position).toString());
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
                                     intent.putExtra("caller", "Response");
@@ -97,6 +97,13 @@ public class ChorusChat extends Activity {
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
+                        send.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(), "Can't have empty input",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
 
@@ -118,13 +125,15 @@ public class ChorusChat extends Activity {
                     update.putExtra("caller", "Update");
                     startActivity(update);
                 }*/
-                Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
+                    Log.i("test", "listener");
                     setChatLinesFromPhone();
-                }
-                else {
-                    if (c.getCount()>0){
-                        setChatLinesFromDB(c);
+                } else {
+                    Log.i("test", "else1");
+                    if (c.getCount() > 0) {
+                        Log.i("test", "else2");
+                        //setChatLinesFromDB(c);
+                        update();
                     }
                 }
             }
@@ -146,38 +155,36 @@ public class ChorusChat extends Activity {
         }
         return params;
     }
-    public void setUpArrayList(ChatLineInfo chatLineInfo){
-        _chatLineInfoArrayList.add(chatLineInfo);
-        if (chatLineInfo.get_chatLine().contains("http") ||
-                chatLineInfo.get_chatLine().contains("www.")) {
-            chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
-        }
-        _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
-    }
-    public void setChatLinesFromDB(Cursor c){
-        if(c.moveToFirst()){
+    public void setChatLinesFromDB(Cursor c) {
+        if (c.moveToFirst()) {
+            Log.i("test", "here1");
             ChatLineInfo cli = new ChatLineInfo();
-            while(!c.isAfterLast()){
+            while (!c.isAfterLast()) {
+                Log.i("test", "here2");
                 String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_MSG));
                 cli.set_chatLine(msg);
                 String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_CHATID));
                 cli.set_id(id);
-                setUpArrayList(cli);
                 c.moveToNext();
             }
             chatText.setText(cli.get_chatLine());
         }
-        setChatLinesFromPhone();
+        //setChatLinesFromPhone();
+        if (_canUpdate)
+            update();
     }
+
     public void setChatLinesFromPhone() {
+        Log.i("test", "fromPhone");
         chatText.setText(getIntent().getStringExtra("New Text"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
 
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, getIntent().getStringExtra("ChatNum"));
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
         if (newRowId == -1) {
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
@@ -192,51 +199,67 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if(_canUpdate) {
-            setChatLinesFromPhone(); }
+        if (_canUpdate)
+            update();
+        /*if(_canUpdate) {
+            setChatLinesFromPhone();
+        }*/
         //so ChorusChat doesn't open everytime a new message is posted
-        else {finish();}
     }
 
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat.
      */
-    /*public void update() {
-        if(_cli.get_chatLine()==null) {
-            chatText.setText("null");
+    public void update() {
+        if (c.moveToFirst()) {
+            Log.i("test", "update");
+            ChatLineInfo cli = new ChatLineInfo();
+            String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                    .COLUMN_NAME_MSG));
+            cli.set_chatLine(msg);
+            String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                    .COLUMN_NAME_CHATID));
+            cli.set_id(id);
+            c.moveToNext();
+            chatText.setText(cli.get_chatLine());
+
+            if (msg.contains("?")) {
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                        R.array.question_array, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+            } else {
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                        R.array.response_array, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            }
         }
-        else {
-            chatText.setText(_cli.get_chatLine()); }
-        if (_canUpdate) {//in order to stop recursion once app is closed.
-            update();
-        }
-    }*/
+        //setChatLinesFromPhone();
+        /*if(_canUpdate)
+            update();*/
+    }
 
     /*
     Sends the string to the server to add chat list.
      */
-    public void postData(String line, String words, String action) {
-        AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action);
-        params.put(line, words);
+    public void postData(String words) {
         chatText.setText(words);
-        /*if (action.equals("fetchNewMemory")) {
-            aq.ajax(url + "php/memoryProcess.php", params, JSONObject.class,
-                    new AjaxCallback<JSONObject>());
+        ContentValues values = new ContentValues();
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _cli.get_id());
+        long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
+        if (newRowId == -1) {
+            Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
+        }
+        if (words.contains("?")) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                    R.array.question_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
         } else {
-            aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
-
-            Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
-            intent.putExtra("Update", false);
-            intent.putExtra("Message", _cli.get_role() + " : " + words);
-            startActivity(intent);
-        }*/
-    }
-    public void sendText(View v) {
-        if (chatText.getText().length() == 0) {
-            Toast.makeText(this, "Can't have empty input", Toast.LENGTH_SHORT).show();
-        } else {
-            postData("chatLine", chatText.getText().toString(), "post");
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                    R.array.response_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
     }
 
@@ -261,10 +284,19 @@ public class ChorusChat extends Activity {
         alarmManagerstop.cancel(senderstop);
     }
 
-    public void onStop() {//stops the recursion.
+    /*@Override
+    protected void onStop() {
+        Log.i("test", "onstop");
         super.onStop();
         _canUpdate = false;
-        setAlarmManager();
+        //insertToDB();
+//        setAlarmManager();
+    }*/
+    public void onPause() {//stops the recursion.
+        Log.i("test", "stop");
+        super.onPause();
+        _canUpdate = false;
+        //setAlarmManager();
     }
 
     public void onResume() {

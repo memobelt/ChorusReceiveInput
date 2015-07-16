@@ -246,10 +246,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 if (json != null) {
                     try {
-
                         for (int n = 0; n < json.length(); n++) {
-
-
                             String[] lineInfo = json.get(n).toString().split("\"");
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                             ContentValues values = new ContentValues();
@@ -391,7 +388,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
      */
     public void postData(String line, String words, String action) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action,null);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action, null);
 
         params.put(line, words);
         if (action.equals("fetchNewMemory")) {
