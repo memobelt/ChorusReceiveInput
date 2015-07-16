@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class ChorusChat extends Activity {
     String _task, _role, _DBtask;
-    Button send;
+    Button send, update;
     Spinner spinner;
     TextView mTextView, chatText;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -59,6 +59,15 @@ public class ChorusChat extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 chatText = (TextView) findViewById(R.id.TextArea);
                 send = (Button) findViewById(R.id.send_button);
+                update = (Button) findViewById(R.id.update_button);
+                update.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //setChatLinesFromDB(c);
+                        update();
+                        Log.i("test", "updated");
+                    }
+                });
 
                 //suggested responses
                 spinner = (Spinner) findViewById(R.id.spinner);
@@ -133,6 +142,8 @@ public class ChorusChat extends Activity {
                     if (c.getCount() > 0) {
                         Log.i("test", "else2");
                         //setChatLinesFromDB(c);
+                        _task = "6";
+                        _cli.set_id("6");
                         update();
                     }
                 }
@@ -165,12 +176,13 @@ public class ChorusChat extends Activity {
                 String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_MSG));
                 cli.set_chatLine(msg);
+                chatText.setText(msg);
                 String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_CHATID));
                 cli.set_id(id);
+                _task = id;
                 c.moveToNext();
             }
-            chatText.setText(cli.get_chatLine());
         }
         //setChatLinesFromPhone();
         if (_canUpdate)
@@ -181,6 +193,7 @@ public class ChorusChat extends Activity {
         Log.i("test", "fromPhone");
         chatText.setText(getIntent().getStringExtra("New Text"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
+        _task = getIntent().getStringExtra("ChatNum");
 
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
@@ -246,7 +259,7 @@ public class ChorusChat extends Activity {
         chatText.setText(words);
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _cli.get_id());
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _task);
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
         if (newRowId == -1) {
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
