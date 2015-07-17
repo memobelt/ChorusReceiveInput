@@ -20,12 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class ChorusChat extends Activity {
     String _task, _role, _DBtask;
-    Button send, update;
+    Button send;
     Spinner spinner;
     TextView mTextView, chatText;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -59,15 +58,6 @@ public class ChorusChat extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 chatText = (TextView) findViewById(R.id.TextArea);
                 send = (Button) findViewById(R.id.send_button);
-                update = (Button) findViewById(R.id.update_button);
-                update.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //setChatLinesFromDB(c);
-                        update();
-                        Log.i("test", "updated");
-                    }
-                });
 
                 //suggested responses
                 spinner = (Spinner) findViewById(R.id.spinner);
@@ -135,44 +125,23 @@ public class ChorusChat extends Activity {
                     startActivity(update);
                 }*/
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
-                    Log.i("test", "listener");
                     setChatLinesFromPhone();
                 } else {
-                    Log.i("test", "else1");
                     if (c.getCount() > 0) {
-                        Log.i("test", "else2");
-                        //setChatLinesFromDB(c);
-                        _task = "6";
-                        _cli.set_id("6");
-                        update();
+                        setChatLinesFromDB(c);
+                        //update();
                     }
                 }
             }
         });
 
     }
-
-    //sets up the parameters to send to the server
-    public HashMap<String, Object> setUpParams(HashMap<String, Object> params, String action) {
-        params.put("action", action);
-        params.put("role", _role);
-        params.put("task", _task);
-        params.put("workerId", "qq9t3ktatncj66geme1vdo31u5");
-        if (action != "post") {
-            params.put("lastChatId", "-1");
-        }
-        if (action == "fetchNewMemory") {
-            params.put("lastMemoryId", "932");
-        }
-        return params;
-    }
-
     public void setChatLinesFromDB(Cursor c) {
         if (c.moveToFirst()) {
-            Log.i("test", "here1");
             ChatLineInfo cli = new ChatLineInfo();
-            while (!c.isAfterLast()) {
-                Log.i("test", "here2");
+            //while (!c.isAfterLast()) {
+            //while(c.moveToNext()) {
+            c.moveToLast();
                 String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_MSG));
                 cli.set_chatLine(msg);
@@ -182,15 +151,13 @@ public class ChorusChat extends Activity {
                 cli.set_id(id);
                 _task = id;
                 c.moveToNext();
-            }
+            //}
         }
-        //setChatLinesFromPhone();
         if (_canUpdate)
             update();
     }
 
     public void setChatLinesFromPhone() {
-        Log.i("test", "fromPhone");
         chatText.setText(getIntent().getStringExtra("New Text"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
         _task = getIntent().getStringExtra("ChatNum");
@@ -218,14 +185,15 @@ public class ChorusChat extends Activity {
             setChatLinesFromPhone();
         }*/
         //so ChorusChat doesn't open everytime a new message is posted
+        finish();
     }
 
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat.
      */
     public void update() {
-        if (c.moveToFirst()) {
-            Log.i("test", "update");
+        //if (c.moveToFirst()) {
+        c.moveToLast();
             ChatLineInfo cli = new ChatLineInfo();
             String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                     .COLUMN_NAME_MSG));
@@ -246,7 +214,7 @@ public class ChorusChat extends Activity {
                         R.array.response_array, android.R.layout.simple_spinner_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             }
-        }
+        //}
         //setChatLinesFromPhone();
         /*if(_canUpdate)
             update();*/
