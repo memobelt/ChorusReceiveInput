@@ -77,13 +77,19 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     TextToSpeech myTTS;
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
-    int notificationID;
+    String NOTIFICATION_GROUP = "notification_group";
+    int id = 001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initializations
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chorus_chat);
+
+        //get all the intents
+        _task = getIntent().getStringExtra("ChatNum");
+        _role = getIntent().getStringExtra("Role");
+
         _chatList = (ListView) findViewById(ChatList);
         _editText = (EditText) findViewById(editText);
         _crowdBtn = (Button) findViewById(CrowdSend);
@@ -97,7 +103,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
         _yelpBtn.setVisibility(View.GONE);
-        notificationID = 001;
 
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
@@ -108,9 +113,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, 200);
-        //get all the intents
-        _task = getIntent().getStringExtra("ChatNum");
-        _role = getIntent().getStringExtra("Role");
+
         _DBtask = "CHAT"+_task;
         _chatLineAdapter = new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_list_item_1, _chatArrayList) {
@@ -252,6 +255,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         .COLUMN_NAME_CHATID));
                 cli.set_id(id);
                 setUpArrayList(cli);
+                //notification();
                 c.moveToNext();
             }
         }
@@ -280,6 +284,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
                             }
                             setUpArrayList(chatLineInfo);
+                            //notification();
                         }
                         displayMessages();
 
@@ -340,6 +345,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
+
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
@@ -360,23 +366,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
-
-                            int numNotifications = json.length() - _chatLineInfoArrayList.size() + 1;
-                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-                            viewIntent.putExtra("ChatNum", _task);
-                            viewIntent.putExtra("Role", _role);
-
-                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent)
-                                    .setGroup("notification_group");
-                            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-                            //        "in Chat " + _task);
-                            mBuilder.setContentText(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                            nmgr.notify(notificationID++, mBuilder.build());
+                            notification();
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Update", false);
@@ -404,6 +394,23 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 }
             }
         });
+    }
+    public void notification() {
+        Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+        viewIntent.putExtra("ChatNum", _task);
+        viewIntent.putExtra("Role", _role);
+
+        PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent)
+                .setGroup(NOTIFICATION_GROUP);
+        //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+        //        "in Chat " + _task);
+        mBuilder.setContentText(_cli.get_role() + " : " + _cli.get_chatLine());
+        NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nmgr.notify(id++, mBuilder.build());
     }
 
     /*

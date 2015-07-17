@@ -23,8 +23,9 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         if(messageEvent.getPath().equals("/hello-world")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             String temp_message = new String(messageEvent.getData(), StandardCharsets.UTF_8);
-            intent.putExtra("New Text", temp_message.substring(0, temp_message.length()-1));
-            intent.putExtra("ChatNum", temp_message.charAt(temp_message.length()-1));
+            intent.putExtra("New Text", temp_message.substring(0, temp_message.length() - 1));
+            intent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
+            Log.i("test", temp_message.substring(temp_message.length() - 1));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

@@ -47,6 +47,7 @@ public class ChorusChat extends Activity {
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         running = true;
         _task = getIntent().getStringExtra("ChatNum");
+        _cli.set_id(getIntent().getStringExtra("ChatNum"));
         _DBtask = "CHAT" + _task;
         DbHelper = new DBHelper(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
@@ -81,13 +82,26 @@ public class ChorusChat extends Activity {
                             Intent intent = new Intent(getApplicationContext(), Microphone.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
-                        } else if (parent.getItemAtPosition(position).equals("Reply...") == false) {
+                        } else if (parent.getItemAtPosition(position).equals("Reply...")) {
+                            send.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(), "Select a response",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
                             send.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     postData(parent.getItemAtPosition(position).toString());
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
+                                    if (_task == null) {
+                                        _task="6";
+                                        _cli.set_id("6");
+                                    }
+                                    intent.putExtra("ChatNum", _task);
                                     intent.putExtra("caller", "Response");
                                     startActivity(intent);
                                 }
@@ -100,37 +114,17 @@ public class ChorusChat extends Activity {
                         send.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(getApplicationContext(), "Can't have empty input",
+                                Toast.makeText(getApplicationContext(), "Select a response",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 });
-
-                 /*else if (getIntent().getStringExtra("caller").equals("ListenerUpdate")) {
-                    chatText.setText(getIntent().getStringExtra("New Text"));
-                    if (chatText.getText().toString().contains("?")) {
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-                                R.array.question_array, android.R.layout.simple_spinner_item);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner.setAdapter(adapter);
-                    } else {
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-                                R.array.response_array, android.R.layout.simple_spinner_item);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    }
-                } else if (getIntent().getStringExtra("caller").equals("MainActivity")){
-                    //get last string in chat
-                    Intent update = new Intent(getApplicationContext(), OpenOnPhone.class);
-                    update.putExtra("caller", "Update");
-                    startActivity(update);
-                }*/
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     setChatLinesFromPhone();
                 } else {
                     if (c.getCount() > 0) {
                         setChatLinesFromDB(c);
-                        //update();
                     }
                 }
             }
@@ -150,10 +144,12 @@ public class ChorusChat extends Activity {
             chatText.setText(msg);
             String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                     .COLUMN_NAME_CHATID));
+            if(id==null) {
+                id="6";
+            }
             cli.set_id(id);
             _task = id;
             c.moveToNext();
-            //}
         }
         if (!running)
             finish();

@@ -54,7 +54,8 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             open_on_phone_animation = true;
         } else if (caller.equals("Speech")) {
             HELLO_WORLD_WEAR_PATH = "/speech-on-phone";
-            message = getIntent().getStringExtra("Words").getBytes(Charset.forName("UTF-8"));
+            String temp_message = getIntent().getStringExtra("Words") + getIntent().getStringExtra("ChatNum");
+            message = temp_message.getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         } else if (caller.equals("Response")) {
             HELLO_WORLD_WEAR_PATH = "/response";

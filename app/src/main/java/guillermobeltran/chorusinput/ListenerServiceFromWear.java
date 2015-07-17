@@ -12,6 +12,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.nio.charset.StandardCharsets;
 
 public class ListenerServiceFromWear extends WearableListenerService {
+    String NOTIFICATION_GROUP = "notification_group";
+    int id = 001;
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
@@ -36,13 +38,31 @@ public class ListenerServiceFromWear extends WearableListenerService {
         //open on phone was called from microphone or from generated responses. need to put new text into chat
         else if (messageEvent.getPath().equals("/speech-on-phone") ||
                 messageEvent.getPath().equals("/response")) {
+            String temp_message = new String(messageEvent.getData(), StandardCharsets.UTF_8);
             Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Update", false);
-            startIntent.putExtra("ChatNum", "6");
+            startIntent.putExtra("ChatNum", temp_message.substring(temp_message.length()-1));
             startIntent.putExtra("Role", "requester");
-            startIntent.putExtra("Input", new String(messageEvent.getData(), StandardCharsets.UTF_8));
+            startIntent.putExtra("Input", temp_message.substring(0, temp_message.length()-1));
+
+            //Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+            //viewIntent.putExtra("ChatNum", temp_message.substring(temp_message.length()-1));
+            //viewIntent.putExtra("Role", "requester");
+
+            /*PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                    startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent)
+                    .setGroup(NOTIFICATION_GROUP);
+            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+            //        "in Chat " + _task);
+            mBuilder.setContentText(temp_message.substring(0, temp_message.length()-1));
+            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            nmgr.notify(id++, mBuilder.build());*/
+
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }
