@@ -368,21 +368,21 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
 
-                            int numNotifications = json.length() - _chatLineInfoArrayList.size() + 1;
-                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-                            viewIntent.putExtra("ChatNum", _task);
-                            viewIntent.putExtra("Role", _role);
-
-                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-                            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-                            //        "in Chat " + _task);
-                            mBuilder.setContentText(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                            nmgr.notify(notificationID++, mBuilder.build());
+//                            int numNotifications = json.length() - _chatLineInfoArrayList.size() + 1;
+//                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+//                            viewIntent.putExtra("ChatNum", _task);
+//                            viewIntent.putExtra("Role", _role);
+//
+//                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+//                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+//                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+//                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+//                            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+//                            //        "in Chat " + _task);
+//                            mBuilder.setContentText(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+//                            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//                            nmgr.notify(notificationID++, mBuilder.build());
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Update", false);
@@ -454,8 +454,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
     public void onStop() {//stops the recursion.
         super.onStop();
-        _canUpdate = false;
-        running=false;
+//        _canUpdate = false;
+//        running=false;
         //insertToDB();
 //        setAlarmManager();
     }
@@ -474,8 +474,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     @Override
     protected void onPause() {
         super.onPause();
-        _canUpdate=false;
-        running=false;
+//        _canUpdate=false;
+//        running=false;
     }
     public void deleteDB() {
 //        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME, null, null);
