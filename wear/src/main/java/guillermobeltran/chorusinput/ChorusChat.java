@@ -37,6 +37,7 @@ public class ChorusChat extends Activity {
     SQLiteDatabase chatdb;
     Cursor c;
     boolean running;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initializations
@@ -44,7 +45,7 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
-        running=true;
+        running = true;
         _task = getIntent().getStringExtra("ChatNum");
         _DBtask = "CHAT" + _task;
         DbHelper = new DBHelper(getApplicationContext(), _DBtask);
@@ -136,24 +137,25 @@ public class ChorusChat extends Activity {
         });
 
     }
+
     public void setChatLinesFromDB(Cursor c) {
         if (c.moveToFirst()) {
             ChatLineInfo cli = new ChatLineInfo();
             //while (!c.isAfterLast()) {
             //while(c.moveToNext()) {
             c.moveToLast();
-                String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                        .COLUMN_NAME_MSG));
-                cli.set_chatLine(msg);
-                chatText.setText(msg);
-                String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                        .COLUMN_NAME_CHATID));
-                cli.set_id(id);
-                _task = id;
-                c.moveToNext();
+            String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                    .COLUMN_NAME_MSG));
+            cli.set_chatLine(msg);
+            chatText.setText(msg);
+            String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                    .COLUMN_NAME_CHATID));
+            cli.set_id(id);
+            _task = id;
+            c.moveToNext();
             //}
         }
-        if(!running)
+        if (!running)
             finish();
         if (_canUpdate)
             update();
@@ -181,48 +183,41 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if(!running)
+        if (!running)
             finish();
         if (_canUpdate)
             update();
-        /*if(_canUpdate) {
-            setChatLinesFromPhone();
-        }*/
-        //so ChorusChat doesn't open everytime a new message is posted
     }
 
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat.
      */
     public void update() {
-        //if (c.moveToFirst()) {
         c.moveToLast();
-            ChatLineInfo cli = new ChatLineInfo();
-            String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                    .COLUMN_NAME_MSG));
-            cli.set_chatLine(msg);
-            String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                    .COLUMN_NAME_CHATID));
-            cli.set_id(id);
-            c.moveToNext();
-            chatText.setText(cli.get_chatLine());
+        ChatLineInfo cli = new ChatLineInfo();
+        String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_MSG));
+        cli.set_chatLine(msg);
+        String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_CHATID));
+        cli.set_id(id);
+        c.moveToNext();
+        chatText.setText(cli.get_chatLine());
 
-            if (msg.contains("?")) {
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-                        R.array.question_array, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-            } else {
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-                        R.array.response_array, android.R.layout.simple_spinner_item);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            }
-        //}
-        //setChatLinesFromPhone();
-        /*if(_canUpdate)
-            update();*/
-        if(!running)
+        if (msg.contains("?")) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                    R.array.question_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                    R.array.response_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        }
+        if (!running)
             finish();
+        /*if (_canUpdate)
+            update();*/
     }
 
     /*
@@ -274,7 +269,7 @@ public class ChorusChat extends Activity {
     protected void onStop() {
         super.onStop();
         _canUpdate = false;
-        running=false;
+        running = false;
         Log.i("test", "stop");
         //insertToDB();
 //        setAlarmManager();
@@ -283,20 +278,22 @@ public class ChorusChat extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        running=true;
+        running = true;
     }
+
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         //stopAlarmManager();
 //        deleteDB();
-        running=true;
+        running = true;
     }
+
     @Override
     protected void onPause() {
         super.onPause();
-        _canUpdate=false;
-        running=false;
+        _canUpdate = false;
+        running = false;
         Log.i("test", "pause");
     }
 }
