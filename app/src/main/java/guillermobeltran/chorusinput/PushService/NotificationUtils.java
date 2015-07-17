@@ -28,7 +28,10 @@ public class NotificationUtils {
 
     private Context mContext;
 
+    private int notificationID;
+
     public NotificationUtils() {
+        notificationID = 001;
     }
 
     public NotificationUtils(Context mContext) {
@@ -41,46 +44,26 @@ public class NotificationUtils {
         if (TextUtils.isEmpty(message))
             return;
 
-        if (isAppIsInBackground(mContext)) {
-            // notification icon
-            int icon = R.mipmap.ic_launcher;
-            
-            int mNotificationId = ParseConfig.NOTIFICATION_ID;
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        mContext,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                );
 
-            PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            mContext,
-                            0,
-                            intent,
-                            PendingIntent.FLAG_CANCEL_CURRENT
-                    );
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setAutoCancel(true)
+                .setWhen(System.currentTimeMillis()).setContentIntent(resultPendingIntent);
 
-            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        mBuilder.setContentText(message);
+        NotificationManager nmgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        nmgr.notify(notificationID++, mBuilder.build());
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                    mContext);
-            Notification notification = mBuilder.setTicker(title).setWhen(0)
-                    .setAutoCancel(true)
-                    .setContentTitle(title)
-                    .setStyle(inboxStyle)
-                    .setContentIntent(resultPendingIntent)
-                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                    .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
-                    .setContentText(message)
-                    .build();
-
-            NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(mNotificationId, notification);
-        } else {
-            intent.putExtra("title", title);
-            intent.putExtra("message", message);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            mContext.startActivity(intent);
-        }
     }
 
     /**
-     * Method checks if the app is in background or not
+     * Method checks if the app is in background or not (Future use)
      *
      * @param context
      * @return

@@ -212,6 +212,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             HashMap<String, Object> params = new HashMap<String, Object>();
             params.put("email", ParseUtils.customIdBuilder(_task));
             params.put("role", _role);
+            params.put("task", _task);
             params.put("message", _editText.getText().toString());
             ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
                 public void done(String success, ParseException e) {
@@ -298,7 +299,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
     }
-    public void setUpArrayList(ChatLineInfo chatLineInfo){
+    public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
         if (chatLineInfo.get_chatLine().contains("http") ||
                 chatLineInfo.get_chatLine().contains("www.")) {

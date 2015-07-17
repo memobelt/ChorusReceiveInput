@@ -9,6 +9,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import guillermobeltran.chorusinput.AfterLogin;
 import guillermobeltran.chorusinput.ChorusChat;
 
 /**
@@ -30,7 +31,7 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
     protected void onPushReceive(Context context, Intent intent) {
         Log.e(TAG, "New push");
 
-        super.onPushReceive(context, intent);
+//        super.onPushReceive(context, intent);
 
         if (intent == null)
             return;
@@ -67,18 +68,21 @@ public class PushReceiver extends ParsePushBroadcastReceiver {
      */
     private void parsePushJson(Context context, JSONObject json) {
         try {
-            boolean isBackground = json.getBoolean("is_background");
-            JSONObject data = json.getJSONObject("data");
-            String title = data.getString("title");
-            String message = data.getString("message");
+            String title = "Chrous";
+            String message = json.getString("alert");
+            String taskId = json.getString("task");
+            String role = json.getString("role");
 
-            if (!isBackground) {
-                Intent resultIntent = new Intent(context, ChorusChat.class);
-                resultIntent.putExtra("ChatNum","1");
-                resultIntent.putExtra("Asking",false);
-                resultIntent.putExtra("Role", "crowd");
-                showNotificationMessage(context, title, message, resultIntent);
+            String receiverRole = "crowd";
+
+            if (role.equals("crowd")) {
+                receiverRole = "requester";
             }
+
+            Intent resultIntent = new Intent(context, ChorusChat.class);
+            resultIntent.putExtra("ChatNum", taskId);
+            resultIntent.putExtra("Role", receiverRole);
+            showNotificationMessage(context, title, message, resultIntent);
 
         } catch (JSONException e) {
             Log.e(TAG, "Push message json exception: " + e.getMessage());
