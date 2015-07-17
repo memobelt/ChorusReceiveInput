@@ -85,7 +85,8 @@ public class UpdateService extends Service {
                                 viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
                                 .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
+                                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent)
+                                .setGroup("notification_group");
                         mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
                                 "in Chat " + task);
                         NotificationManagerCompat nm = NotificationManagerCompat.from(getApplicationContext());

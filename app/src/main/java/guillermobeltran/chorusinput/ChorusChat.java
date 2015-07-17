@@ -1,6 +1,7 @@
 package guillermobeltran.chorusinput;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -16,6 +17,7 @@ import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
@@ -359,21 +361,22 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
 
-//                            int numNotifications = json.length() - _chatLineInfoArrayList.size() + 1;
-//                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-//                            viewIntent.putExtra("ChatNum", _task);
-//                            viewIntent.putExtra("Role", _role);
-//
-//                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-//                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-//                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-//                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent);
-//                            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-//                            //        "in Chat " + _task);
-//                            mBuilder.setContentText(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-//                            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                            nmgr.notify(notificationID++, mBuilder.build());
+                            int numNotifications = json.length() - _chatLineInfoArrayList.size() + 1;
+                            Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
+                            viewIntent.putExtra("ChatNum", _task);
+                            viewIntent.putExtra("Role", _role);
+
+                            PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                                    viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
+                                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
+                                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent)
+                                    .setGroup("notification_group");
+                            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
+                            //        "in Chat " + _task);
+                            mBuilder.setContentText(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            nmgr.notify(notificationID++, mBuilder.build());
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Update", false);
