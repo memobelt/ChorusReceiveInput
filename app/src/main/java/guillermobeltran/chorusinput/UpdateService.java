@@ -79,7 +79,7 @@ public class UpdateService extends Service {
                         Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
                         viewIntent.putExtra("ChatNum", task);
                         viewIntent.putExtra("Role", role);
-                        viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //viewIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
                         PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                                 viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);

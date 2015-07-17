@@ -42,7 +42,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-
 import com.yahoo.mobile.client.share.search.ui.activity.SearchToLinkActivity;
 import com.yahoo.mobile.client.share.search.ui.activity.TrendingSearchEnum;
 
@@ -62,8 +61,6 @@ import static guillermobeltran.chorusinput.R.id.CrowdSend;
 import static guillermobeltran.chorusinput.R.id.editText;
 import static guillermobeltran.chorusinput.R.id.webView;
 
-import com.parse.ParsePush;
-
 public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
     String _task, _role,_DBtask;
@@ -81,6 +78,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
     int notificationID;
+    boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +101,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         notificationID = 001;
 
         _canUpdate = true;
+        running=true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -258,7 +257,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         }
         displayMessages();
-        update();
+        if(!running)
+            finish();
+        else
+            update();
     }
     //This sets the chat list so user can see all available chats.
     public void setChatLinesFromWeb() {
@@ -289,7 +291,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         e.printStackTrace();
                     }
                 }
-                update();
+                if(!running)
+                    finish();
+                else
+                    update();
             }
         });
     }
@@ -390,6 +395,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         }
                     }
                 }
+                if(!running)
+                    finish();
                 if (_canUpdate) {//in order to stop recursion once app is closed.
                     int size = _chatLineInfoArrayList.size();
                     if (size > 2) {
@@ -448,15 +455,28 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void onStop() {//stops the recursion.
         super.onStop();
         _canUpdate = false;
+        running=false;
         //insertToDB();
 //        setAlarmManager();
     }
-
-    /*public void onResume(){
+    @Override
+    protected void onStart() {
+        super.onStart();
+        running=true;
+    }
+    @Override
+    protected void onResume(){
         super.onResume();
-        stopAlarmManager();
+        //stopAlarmManager();
 //        deleteDB();
-    }*/
+        running=true;
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        _canUpdate=false;
+        running=false;
+    }
     public void deleteDB() {
 //        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME, null, null);
 //        db.rawQuery("DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME, null);

@@ -36,7 +36,7 @@ public class ChorusChat extends Activity {
     DBHelper DbHelper;
     SQLiteDatabase chatdb;
     Cursor c;
-
+    boolean running;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //initializations
@@ -44,7 +44,7 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
-
+        running=true;
         _task = getIntent().getStringExtra("ChatNum");
         _DBtask = "CHAT" + _task;
         DbHelper = new DBHelper(getApplicationContext(), _DBtask);
@@ -153,6 +153,8 @@ public class ChorusChat extends Activity {
                 c.moveToNext();
             //}
         }
+        if(!running)
+            finish();
         if (_canUpdate)
             update();
     }
@@ -179,13 +181,14 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
+        if(!running)
+            finish();
         if (_canUpdate)
             update();
         /*if(_canUpdate) {
             setChatLinesFromPhone();
         }*/
         //so ChorusChat doesn't open everytime a new message is posted
-        finish();
     }
 
     /*
@@ -218,6 +221,8 @@ public class ChorusChat extends Activity {
         //setChatLinesFromPhone();
         /*if(_canUpdate)
             update();*/
+        if(!running)
+            finish();
     }
 
     /*
@@ -265,23 +270,33 @@ public class ChorusChat extends Activity {
         alarmManagerstop.cancel(senderstop);
     }
 
-    /*@Override
+    @Override
     protected void onStop() {
-        Log.i("test", "onstop");
         super.onStop();
         _canUpdate = false;
+        running=false;
+        Log.i("test", "stop");
         //insertToDB();
 //        setAlarmManager();
-    }*/
-    public void onPause() {//stops the recursion.
-        Log.i("test", "stop");
-        super.onPause();
-        _canUpdate = false;
-        //setAlarmManager();
     }
 
-    public void onResume() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        running=true;
+    }
+    @Override
+    protected void onResume(){
         super.onResume();
-        stopAlarmManager();
+        //stopAlarmManager();
+//        deleteDB();
+        running=true;
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        _canUpdate=false;
+        running=false;
+        Log.i("test", "pause");
     }
 }
