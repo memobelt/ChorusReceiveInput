@@ -1,7 +1,6 @@
 package guillermobeltran.chorusinput;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -17,7 +16,6 @@ import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
@@ -78,7 +76,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
     int notificationID;
-    boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +98,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         notificationID = 001;
 
         _canUpdate = true;
-        running=true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -258,10 +254,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         }
         displayMessages();
-        if(!running)
-            finish();
-        else
-            update();
+        update();
     }
     //This sets the chat list so user can see all available chats.
     public void setChatLinesFromWeb() {
@@ -292,10 +285,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         e.printStackTrace();
                     }
                 }
-                if(!running)
-                    finish();
-                else
-                    update();
+                update();
             }
         });
     }
@@ -396,8 +386,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         }
                     }
                 }
-                if(!running)
-                    finish();
                 if (_canUpdate) {//in order to stop recursion once app is closed.
                     int size = _chatLineInfoArrayList.size();
                     if (size > 2) {
@@ -455,29 +443,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
     public void onStop() {//stops the recursion.
         super.onStop();
-//        _canUpdate = false;
-//        running=false;
+        _canUpdate = false;
         //insertToDB();
 //        setAlarmManager();
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        running=true;
-    }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        //stopAlarmManager();
-//        deleteDB();
-        running=true;
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        _canUpdate=false;
-//        running=false;
-    }
+
     public void deleteDB() {
 //        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME, null, null);
 //        db.rawQuery("DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME, null);
