@@ -20,7 +20,8 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
     Node mNode; // the connected device to send the message to
     GoogleApiClient mGoogleApiClient;
     private static String HELLO_WORLD;
-    private boolean mResolvingError=false;
+    private boolean mResolvingError = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,14 +41,15 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                 .addOnConnectionFailedListener(this)
                 .build();
     }
+
     /**
      * Send message to mobile handheld
      */
     private void sendMessage() {
-        if (mNode != null && mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
+        if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             Wearable.MessageApi.sendMessage(
                     mGoogleApiClient, mNode.getId(), HELLO_WORLD,
-                    (getIntent().getStringExtra("Message")+getIntent().getStringExtra("ChatNum"))
+                    (getIntent().getStringExtra("Message") + getIntent().getStringExtra("ChatNum"))
                             .getBytes(Charset.forName("UTF-8"))).setResultCallback(
                     new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
@@ -56,14 +58,13 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                                 Log.e("TAG", "Failed to send message with status code: "
                                         + sendMessageResult.getStatus().getStatusCode());
                             } else {
-                                Log.i("test", "Message sent");
+                                //Log.i("test", "Message sent");
                             }
                         }
                     }
             );
-        }else{
-            if(mNode==null) {
-            Log.i("test", "Not connected"); }
+        } else {
+            //Log.i("test", "Not connected");
         }
         finish();
     }

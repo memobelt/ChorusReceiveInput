@@ -62,7 +62,6 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             String temp_message = getIntent().getStringExtra("Response") + getIntent().getStringExtra("ChatNum");
             message = temp_message.getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
-            Log.i("test", "Message: "+temp_message);
         }
         /*else if (caller.equals("Update")){
             HELLO_WORLD_WEAR_PATH = "/update";

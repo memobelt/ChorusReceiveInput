@@ -102,7 +102,8 @@ public class ChorusChat extends Activity {
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
                                     if (_task == null) {
-                                        _task="6";
+                                        Log.i("test", "here");
+                                        _task = "6";
                                     }
                                     intent.putExtra("ChatNum", _task);
                                     intent.putExtra("caller", "Response");
@@ -150,11 +151,12 @@ public class ChorusChat extends Activity {
             cli.set_id(id);
             c.moveToNext();
         }
-        if (appInBackground(this))
-        //&& !(getIntent().getStringExtra("caller").equals("MainActivity")))
+        if (appInBackground(this)) {
+            //&& !(getIntent().getStringExtra("caller").equals("MainActivity")))
             finish();
-        else
+        } else {
             update();
+        }
     }
 
     public void setChatLinesFromPhone() {
@@ -179,10 +181,12 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if (appInBackground(this))
+        if (appInBackground(this)) {
             finish();
-        else
+        }
+        else {
             update();
+        }
     }
 
     /*
@@ -211,10 +215,11 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if (appInBackground(this))
+        if (appInBackground(this)) {
             finish();
-        /*else
-            update();*/
+        }
+        /*else {
+            update(); }*/
     }
 
     /*
@@ -279,30 +284,35 @@ public class ChorusChat extends Activity {
     }
 
     public boolean appInBackground(Context context) {
-        boolean inBackground=true;
+        boolean inBackground = true;
         _canUpdate = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
             List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList =
                     activityManager.getRunningAppProcesses();
-            for(ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
-                if(processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    for(String activeProcess : processInfo.pkgList) {
-                        if(activeProcess.equals(context.getPackageName())) {
+            for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
+                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    for (String activeProcess : processInfo.pkgList) {
+                        if (activeProcess.equals(context.getPackageName())) {
                             inBackground = false;
                             _canUpdate = true;
                         }
                     }
                 }
             }
-        }
-        else {
+        } else {
             List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
             ComponentName componentName = runningTaskInfoList.get(0).topActivity;
-            if(componentName.getPackageName().equals(context.getPackageName())) {
+            if (componentName.getPackageName().equals(context.getPackageName())) {
                 inBackground = false;
                 _canUpdate = true;
             }
+        }
+        if(inBackground) {
+            Log.i("test", "true");
+        }
+        else {
+            Log.i("test", "false");
         }
         return inBackground;
     }
