@@ -1,7 +1,6 @@
 package guillermobeltran.chorusinput;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -17,7 +16,6 @@ import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
@@ -366,7 +364,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
-                            notification();
+                            //notification();
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Update", false);
@@ -395,7 +393,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
     }
-    public void notification() {
+    /*public void notification() {
         Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
         viewIntent.putExtra("ChatNum", _task);
         viewIntent.putExtra("Role", _role);
@@ -411,7 +409,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         mBuilder.setContentText(_cli.get_role() + " : " + _cli.get_chatLine());
         NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nmgr.notify(id++, mBuilder.build());
-    }
+    }*/
 
     /*
     Sends the string to the server to add chat list.

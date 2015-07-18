@@ -15,7 +15,6 @@ public class ListenerServiceFromPhone extends WearableListenerService {
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        Log.i("test", "onMessageReceived()");
         /*
          * Receive the message from wear
          */
@@ -25,7 +24,6 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             String temp_message = new String(messageEvent.getData(), StandardCharsets.UTF_8);
             intent.putExtra("New Text", temp_message.substring(0, temp_message.length() - 1));
             intent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
-            Log.i("test", temp_message.substring(temp_message.length() - 1));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

@@ -59,8 +59,10 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             open_on_phone_animation = false;
         } else if (caller.equals("Response")) {
             HELLO_WORLD_WEAR_PATH = "/response";
-            message = getIntent().getStringExtra("Response").getBytes(Charset.forName("UTF-8"));
+            String temp_message = getIntent().getStringExtra("Response") + getIntent().getStringExtra("ChatNum");
+            message = temp_message.getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
+            Log.i("test", "Message: "+temp_message);
         }
         /*else if (caller.equals("Update")){
             HELLO_WORLD_WEAR_PATH = "/update";
@@ -153,7 +155,6 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             public void onResult(NodeApi.GetConnectedNodesResult nodes) {
                 for (Node node : nodes.getNodes()) {
                     mNode = node;
-                    Log.i("test", mNode.getDisplayName());
                 }
             }
         });

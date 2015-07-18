@@ -86,7 +86,6 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
             public void onResult(NodeApi.GetConnectedNodesResult nodes) {
                 for (Node node : nodes.getNodes()) {
                     mNode = node;
-                    Log.i("test", mNode.getDisplayName());
                 }
                 sendMessage();
             }

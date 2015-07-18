@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * Created by Memo on 6/24/15.
@@ -35,7 +36,8 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _task = task;
         if(task != null){
-            getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS " + _task+ CREATE_CHAT_TABLE);
+            Log.i("test", "task: "+task);
+            getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS " + _task + CREATE_CHAT_TABLE);
         }
     }
     @Override

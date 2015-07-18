@@ -17,7 +17,6 @@ public class ListenerServiceFromWear extends WearableListenerService {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        Log.i("test", "onMessageReceived()");
         /*
          * Receive the message from wear
          */
@@ -43,7 +42,8 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Update", false);
-            startIntent.putExtra("ChatNum", temp_message.substring(temp_message.length()-1));
+            startIntent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
+            Log.i("test","from wear task: "+temp_message.substring(temp_message.length()-1));
             startIntent.putExtra("Role", "requester");
             startIntent.putExtra("Input", temp_message.substring(0, temp_message.length()-1));
 

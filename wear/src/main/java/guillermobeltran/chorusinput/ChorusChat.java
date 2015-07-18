@@ -1,12 +1,16 @@
 package guillermobeltran.chorusinput;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.wearable.view.WatchViewStub;
@@ -20,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ChorusChat extends Activity {
@@ -36,7 +41,6 @@ public class ChorusChat extends Activity {
     DBHelper DbHelper;
     SQLiteDatabase chatdb;
     Cursor c;
-    boolean running;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,8 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
-        running = true;
         _task = getIntent().getStringExtra("ChatNum");
-        _cli.set_id(getIntent().getStringExtra("ChatNum"));
+        _cli.set_task(getIntent().getStringExtra("ChatNum"));
         _DBtask = "CHAT" + _task;
         DbHelper = new DBHelper(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
@@ -95,11 +98,11 @@ public class ChorusChat extends Activity {
                                 @Override
                                 public void onClick(View v) {
                                     postData(parent.getItemAtPosition(position).toString());
+                                    Log.i("test", "spinner: " + parent.getItemAtPosition(position).toString());
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
                                     if (_task == null) {
                                         _task="6";
-                                        _cli.set_id("6");
                                     }
                                     intent.putExtra("ChatNum", _task);
                                     intent.putExtra("caller", "Response");
@@ -144,16 +147,13 @@ public class ChorusChat extends Activity {
             chatText.setText(msg);
             String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                     .COLUMN_NAME_CHATID));
-            if(id==null) {
-                id="6";
-            }
             cli.set_id(id);
-            _task = id;
             c.moveToNext();
         }
-        if (!running)
+        if (appInBackground(this))
+        //&& !(getIntent().getStringExtra("caller").equals("MainActivity")))
             finish();
-        if (_canUpdate)
+        else
             update();
     }
 
@@ -179,9 +179,9 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if (!running)
+        if (appInBackground(this))
             finish();
-        if (_canUpdate)
+        else
             update();
     }
 
@@ -189,6 +189,7 @@ public class ChorusChat extends Activity {
     Recursive function that constantly checks the server to see if there is a change in the chat.
      */
     public void update() {
+        Log.i("test", "update");
         c.moveToLast();
         ChatLineInfo cli = new ChatLineInfo();
         String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
@@ -210,9 +211,9 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if (!running)
+        if (appInBackground(this))
             finish();
-        /*if (_canUpdate)
+        /*else
             update();*/
     }
 
@@ -220,7 +221,7 @@ public class ChorusChat extends Activity {
     Sends the string to the server to add chat list.
      */
     public void postData(String words) {
-        chatText.setText(words);
+        //chatText.setText(words);
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _task);
@@ -265,31 +266,44 @@ public class ChorusChat extends Activity {
     protected void onStop() {
         super.onStop();
         _canUpdate = false;
-        running = false;
-        Log.i("test", "stop");
+        //Log.i("test", "stop");
         //insertToDB();
 //        setAlarmManager();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        running = true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //stopAlarmManager();
-//        deleteDB();
-        running = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         _canUpdate = false;
-        running = false;
-        Log.i("test", "pause");
+        //Log.i("test", "pause");
+    }
+
+    public boolean appInBackground(Context context) {
+        boolean inBackground=true;
+        _canUpdate = false;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+            List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList =
+                    activityManager.getRunningAppProcesses();
+            for(ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
+                if(processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                    for(String activeProcess : processInfo.pkgList) {
+                        if(activeProcess.equals(context.getPackageName())) {
+                            inBackground = false;
+                            _canUpdate = true;
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
+            ComponentName componentName = runningTaskInfoList.get(0).topActivity;
+            if(componentName.getPackageName().equals(context.getPackageName())) {
+                inBackground = false;
+                _canUpdate = true;
+            }
+        }
+        return inBackground;
     }
 }
