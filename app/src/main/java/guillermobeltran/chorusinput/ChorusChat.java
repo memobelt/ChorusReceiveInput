@@ -61,7 +61,7 @@ import static guillermobeltran.chorusinput.R.id.webView;
 
 public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
-    String _task, _role,_DBtask;
+    String _task, _role, _DBtask;
     ListView _chatList;
     Button _crowdBtn, _yelpBtn;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
@@ -112,7 +112,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, 200);
 
-        _DBtask = "CHAT"+_task;
+        _DBtask = "CHAT" + _task;
         _chatLineAdapter = new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_list_item_1, _chatArrayList) {
             @Override
@@ -128,10 +128,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 return view;
             }
         };
-        DbHelper = new DBHelper(getApplicationContext(),_DBtask);
+        DbHelper = new DBHelper(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
-        Cursor c = chatdb.rawQuery("SELECT * FROM "+_DBtask,null);
-        if (networkInfo != null && networkInfo.isConnected()){
+        Cursor c = chatdb.rawQuery("SELECT * FROM " + _DBtask, null);
+        if (networkInfo != null && networkInfo.isConnected()) {
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
@@ -184,17 +184,16 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 finish();
             }*/
 
-            if (c.getCount()>0){
+            if (c.getCount() > 0) {
                 setChatLinesFromDB(c);
-            }
-            else {
+            } else {
                 setChatLinesFromWeb();
             }
 
             ParseUtils.subscribeWithEmail(ParseUtils.customIdBuilder(_task));
 
         } else {
-            if (c.getCount()>0){
+            if (c.getCount() > 0) {
                 setChatLinesFromDB(c);
             }
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
@@ -239,9 +238,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         return params;
     }
-    public void setChatLinesFromDB(Cursor c){
-        if(c.moveToFirst()){
-            while(!c.isAfterLast()){
+
+    public void setChatLinesFromDB(Cursor c) {
+        if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
                 ChatLineInfo cli = new ChatLineInfo();
                 String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_ROLE));
@@ -260,9 +260,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         displayMessages();
         update();
     }
+
     //This sets the chat list so user can see all available chats.
     public void setChatLinesFromWeb() {
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester","-1");
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester", "-1");
         AQuery aq = new AQuery(this);
 
         aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
@@ -294,6 +295,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
     }
+
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
         if (chatLineInfo.get_chatLine().contains("http") ||
@@ -309,7 +311,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
     }
-    public void displayMessages(){
+
+    public void displayMessages() {
         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
         _chatList.setSelection(_chatList.getCount() - 1);
         _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -321,6 +324,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
     }
+
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat
     along with notification functionality.
@@ -328,7 +332,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void update() {
         AQuery aq = new AQuery(this);
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
-                _chatLineInfoArrayList.get(_chatLineInfoArrayList.size()-1).get_id());
+                _chatLineInfoArrayList.get(_chatLineInfoArrayList.size() - 1).get_id());
 
         aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
             @Override
@@ -558,7 +562,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         return super.onOptionsItemSelected(item);
     }
-    public void getImportantFacts(){
+
+    public void getImportantFacts() {
     /*    View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
@@ -613,7 +618,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         });
         */
     }
-    public void yahoo(){
+
+    public void yahoo() {
         SearchToLinkActivity.IntentBuilder builder = new SearchToLinkActivity.IntentBuilder();
         builder.setTrendingCategory(TrendingSearchEnum.NEWS);
         builder.addWebVertical();

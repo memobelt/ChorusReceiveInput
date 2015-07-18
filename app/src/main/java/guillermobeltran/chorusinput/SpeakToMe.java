@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,9 +16,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+
+import guillermobeltran.chorusinput.PushService.ParseUtils;
 
 import static guillermobeltran.chorusinput.R.id.SendButton;
 import static guillermobeltran.chorusinput.R.id.imageButton;
@@ -30,7 +38,7 @@ public class SpeakToMe extends Activity {
     private Bitmap _finalBm;
     private ImageButton _btnSpeak, _btnCam;
     private Button _sendButton;
-//    private Button _btnRig, _btnLef, _btnOk;
+    //    private Button _btnRig, _btnLef, _btnOk;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private static final int REQ_CODE_CAMERA_IMAGE = 200;
     private static final String TAG = "SpeakToMe";
@@ -53,17 +61,18 @@ public class SpeakToMe extends Activity {
             }
         });
     }
+
     /*
     This is called by imagebutton@ in the xml file. Uses onClick.
      */
-    public void takePic(View view){
+    public void takePic(View view) {
         Intent intent = new Intent(getApplicationContext(), TakePicture.class);
         startActivityForResult(intent, REQ_CODE_CAMERA_IMAGE);
     }
 
     /**
      * Showing google speech input dialog
-     * */
+     */
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -79,19 +88,35 @@ public class SpeakToMe extends Activity {
                     Toast.LENGTH_SHORT).show();
         }
     }
-    public void sendButton(View v){
-        Intent intent = new Intent(getApplicationContext(),ChorusChat.class);
+
+    public void sendButton(View v) {
+        Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
         intent.putExtra("Words", _txtSpeechInput.getText().toString());
-        intent.putExtra("Asking",true);
+        intent.putExtra("Asking", true);
         intent.putExtra("Speech", false);
         intent.putExtra("Update", false);
         intent.putExtra("ChatNum", "6");
         intent.putExtra("Role", "requester");
+
+        HashMap<String, Object> params = new HashMap<String, Object>();
+        params.put("email", ParseUtils.customIdBuilder("6"));
+        params.put("role", "requester");
+        params.put("task", "6");
+        params.put("message", _txtSpeechInput.getText().toString());
+        ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
+            public void done(String success, ParseException e) {
+                if (e == null) {
+                    Log.e("ChorusChat", "Push sent successfully.");
+                }
+            }
+        });
+
         startActivity(intent);
     }
+
     /**
      * Receiving speech input or camera input
-     * */
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -103,7 +128,7 @@ public class SpeakToMe extends Activity {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     _txtSpeechInput.setText(result.get(0));//setting the text to what we said
-                    if(result.get(0)!=null){
+                    if (result.get(0) != null) {
                         _sendButton.setVisibility(View.VISIBLE);
                     }
                 }
@@ -128,7 +153,7 @@ public class SpeakToMe extends Activity {
 
                 } else if (resultCode == RESULT_CANCELED) {
                     Toast.makeText(this, "Operation canceled\n", Toast.LENGTH_LONG).show();
-                }else if (resultCode==100){
+                } else if (resultCode == 100) {
                     takePic(_btnCam.getRootView());
                 }
                 break;
