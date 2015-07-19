@@ -28,7 +28,7 @@ import java.util.List;
 
 
 public class ChorusChat extends Activity {
-    String _task, _role, _DBtask;
+    String _task, _DBtask;
     Button send;
     Spinner spinner;
     TextView mTextView, chatText;
@@ -98,7 +98,6 @@ public class ChorusChat extends Activity {
                                 @Override
                                 public void onClick(View v) {
                                     postData(parent.getItemAtPosition(position).toString());
-                                    Log.i("test", "spinner: " + parent.getItemAtPosition(position).toString());
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
                                     if (_task == null) {
@@ -142,13 +141,19 @@ public class ChorusChat extends Activity {
             //while (!c.isAfterLast()) {
             //while(c.moveToNext()) {
             c.moveToLast();
+            String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                    .COLUMN_NAME_ROLE));
+            cli.set_role(role);
+            _cli.set_role(role);
             String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                     .COLUMN_NAME_MSG));
             cli.set_chatLine(msg);
+            _cli.set_chatLine(msg);
             chatText.setText(msg);
             String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                     .COLUMN_NAME_CHATID));
             cli.set_id(id);
+            _cli.set_id(id);
             c.moveToNext();
         }
         if (appInBackground(this)) {
@@ -160,11 +165,13 @@ public class ChorusChat extends Activity {
     }
 
     public void setChatLinesFromPhone() {
-        chatText.setText(getIntent().getStringExtra("New Text"));
+        chatText.setText(getIntent().getStringExtra("Role")+" : "+getIntent().getStringExtra("New Text"));
+        _cli.set_role(getIntent().getStringExtra("Role"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
         _task = getIntent().getStringExtra("ChatNum");
 
         ContentValues values = new ContentValues();
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, getIntent().getStringExtra("Role"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, getIntent().getStringExtra("ChatNum"));
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -196,14 +203,20 @@ public class ChorusChat extends Activity {
         Log.i("test", "update");
         c.moveToLast();
         ChatLineInfo cli = new ChatLineInfo();
+        String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_ROLE));
+        cli.set_role(role);
+        _cli.set_role(role);
         String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                 .COLUMN_NAME_MSG));
         cli.set_chatLine(msg);
+        _cli.set_chatLine(msg);
         String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
+        _cli.set_id(id);
         c.moveToNext();
-        chatText.setText(cli.get_chatLine());
+        chatText.setText(cli.get_role()+" : "+cli.get_chatLine());
 
         if (msg.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
@@ -228,6 +241,7 @@ public class ChorusChat extends Activity {
     public void postData(String words) {
         //chatText.setText(words);
         ContentValues values = new ContentValues();
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, "requester");
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _task);
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);

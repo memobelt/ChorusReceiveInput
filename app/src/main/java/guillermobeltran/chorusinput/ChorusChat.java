@@ -371,9 +371,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             //notification();
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-                            intent.putExtra("Update", false);
                             intent.putExtra("ChatNum", _task);
-                            intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+                            intent.putExtra("Role", chatLineInfo.get_role());
+                            intent.putExtra("Message", chatLineInfo.get_chatLine());
                             startActivity(intent);
 
                         } catch (JSONException e) {
@@ -430,9 +430,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
 
             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-            intent.putExtra("Update", false);
             intent.putExtra("ChatNum", _task);
-            intent.putExtra("Message", _cli.get_role() + " : " + words);
+            intent.putExtra("Role", _cli.get_role());
+            intent.putExtra("Message", words);
             startActivity(intent);
         }
     }

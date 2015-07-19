@@ -47,10 +47,11 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
      */
     private void sendMessage() {
         if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            String temp_message = getIntent().getStringExtra("Role")+ "|" + getIntent().getStringExtra("Message")
+                    + getIntent().getStringExtra("ChatNum");
             Wearable.MessageApi.sendMessage(
                     mGoogleApiClient, mNode.getId(), HELLO_WORLD,
-                    (getIntent().getStringExtra("Message") + getIntent().getStringExtra("ChatNum"))
-                            .getBytes(Charset.forName("UTF-8"))).setResultCallback(
+                            temp_message.getBytes(Charset.forName("UTF-8"))).setResultCallback(
                     new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
                         public void onResult(MessageApi.SendMessageResult sendMessageResult) {

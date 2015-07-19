@@ -81,12 +81,10 @@ public class ListenerServiceFromWear extends WearableListenerService {
     @Override
     public void onPeerConnected(Node peer) {
         super.onPeerConnected(peer);
-        Log.i("test",peer.getDisplayName());
     }
 
     @Override
     public void onPeerDisconnected(Node peer) {
         super.onPeerDisconnected(peer);
-        Log.i("test",peer.getDisplayName());
     }
 }

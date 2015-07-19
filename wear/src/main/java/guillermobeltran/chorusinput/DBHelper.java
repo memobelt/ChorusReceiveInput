@@ -24,7 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     ") ";
     public static final String CREATE_CHAT_TABLE = " ("+
             DatabaseContract.DatabaseEntry._ID + " INTEGER PRIMARY KEY," +
-            //DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE + TEXT_TYPE + COMMA_SEP +
+            DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE + TEXT_TYPE + COMMA_SEP +
             DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG + TEXT_TYPE  + COMMA_SEP +
             DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID + TEXT_TYPE  +
             ") ";
