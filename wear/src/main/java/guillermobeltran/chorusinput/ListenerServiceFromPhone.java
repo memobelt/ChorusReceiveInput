@@ -2,7 +2,9 @@ package guillermobeltran.chorusinput;
 
 import android.app.ActivityManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
@@ -29,6 +31,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             intent.putExtra("Role", temp_message.substring(0, separate));
             intent.putExtra("New Text", temp_message.substring(separate+1, temp_message.length() - 1));
             intent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
+            intent.putExtra("Foreground", appInBackground(getApplicationContext()));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             /*final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
@@ -60,47 +63,28 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         super.onPeerDisconnected(peer);
         Log.i("test",peer.getDisplayName());
     }
-    public boolean isForeground(String myPackage) {
-        boolean foreground = false;
-        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        /*if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
+    public boolean appInBackground(Context context) {
+        boolean inBackground = true;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
             List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList =
-                    manager.getRunningAppProcesses();
+                    activityManager.getRunningAppProcesses();
             for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
                 if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                     for (String activeProcess : processInfo.pkgList) {
-                        if (activeProcess.getClass().getSimpleName().contains("ChorusChat")) {
-                            foreground = true;
+                        if (activeProcess.equals(context.getPackageName())) {
+                            inBackground = false;
                         }
-                        /*if (activeProcess.equals(getApplicationContext().getPackageName())) {
-                            foreground = true;
-                        }*/
-                    /*}
+                    }
                 }
             }
-        }
-        else {
-            List<ActivityManager.RunningTaskInfo> runningTaskInfo = manager.getRunningTasks(1);
-            ComponentName componentInfo = runningTaskInfo.get(0).topActivity;
-            if(componentInfo.getClassName().contains("ChorusChat")) {
-                foreground = true;
+        } else {
+            List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
+            ComponentName componentName = runningTaskInfoList.get(0).topActivity;
+            if (componentName.getPackageName().equals(context.getPackageName())) {
+                inBackground = false;
             }
-            /*if(componentInfo.getPackageName().equals(myPackage)) {
-                foreground = true;
-            }*/
-        //}
-        List<ActivityManager.RunningTaskInfo> runningTaskInfo = manager.getRunningTasks(1);
-        ComponentName componentInfo = runningTaskInfo.get(0).topActivity;
-        if(componentInfo.getClassName().contains("ChorusChat")) {
-            Log.i("test", "foreground");
-            foreground = true;
         }
-            /*if(componentInfo.getPackageName().equals(myPackage)) {
-                foreground = true;
-            }*/
-        if(!foreground) {
-            Log.i("test", "background");
-        }
-        return foreground;
+        return inBackground;
     }
 }

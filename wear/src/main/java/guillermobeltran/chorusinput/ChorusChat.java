@@ -1,16 +1,12 @@
 package guillermobeltran.chorusinput;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.wearable.view.WatchViewStub;
@@ -24,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ChorusChat extends Activity {
@@ -47,9 +42,9 @@ public class ChorusChat extends Activity {
         //initializations
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chorus_chat);
-        _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         _task = getIntent().getStringExtra("ChatNum");
+        _canUpdate = true;
         _cli.set_task(getIntent().getStringExtra("ChatNum"));
         _DBtask = "CHAT" + _task;
         DbHelper = new DataBHelper(getApplicationContext(), _DBtask);
@@ -156,12 +151,7 @@ public class ChorusChat extends Activity {
             _cli.set_id(id);
             c.moveToNext();
         }
-        if (appInBackground(this)) {
-            //&& !(getIntent().getStringExtra("caller").equals("MainActivity")))
-            finish();
-        } else {
-            update();
-        }
+        update();
     }
 
     public void setChatLinesFromPhone() {
@@ -188,11 +178,13 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if (appInBackground(this)) {
-            finish();
+        if(getIntent().getExtras().getBoolean("Foreground")) {
+            _canUpdate=true;
+            update();
         }
         else {
-            update();
+            _canUpdate=false;
+            finish();
         }
     }
 
@@ -228,11 +220,9 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if (appInBackground(this)) {
-            finish();
+        if(_canUpdate) {
+            update();
         }
-        /*else {
-            update(); }*/
     }
 
     /*
@@ -240,6 +230,7 @@ public class ChorusChat extends Activity {
      */
     public void postData(String words) {
         //chatText.setText(words);
+        _canUpdate=true;
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, "requester");
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
@@ -285,49 +276,11 @@ public class ChorusChat extends Activity {
     protected void onStop() {
         super.onStop();
         _canUpdate = false;
-        //Log.i("test", "stop");
-        //insertToDB();
-//        setAlarmManager();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         _canUpdate = false;
-        //Log.i("test", "pause");
-    }
-
-    public boolean appInBackground(Context context) {
-        boolean inBackground = true;
-        _canUpdate = false;
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
-            List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList =
-                    activityManager.getRunningAppProcesses();
-            for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
-                if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    for (String activeProcess : processInfo.pkgList) {
-                        if (activeProcess.equals(context.getPackageName())) {
-                            inBackground = false;
-                            _canUpdate = true;
-                        }
-                    }
-                }
-            }
-        } else {
-            List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
-            ComponentName componentName = runningTaskInfoList.get(0).topActivity;
-            if (componentName.getPackageName().equals(context.getPackageName())) {
-                inBackground = false;
-                _canUpdate = true;
-            }
-        }
-        if(inBackground) {
-            Log.i("test", "true");
-        }
-        else {
-            Log.i("test", "false");
-        }
-        return inBackground;
     }
 }
