@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
@@ -66,17 +65,34 @@ public class ListenerServiceFromPhone extends WearableListenerService {
     public boolean appInForeground(Context context) {
         boolean inForeground = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
+        ComponentName componentName = runningTaskInfoList.get(0).topActivity;
+            /*if (componentName.getPackageName().equals(context.getPackageName())) {
+                inBackground = false;
+            }*/
+        if(componentName.getClassName().contains("ChorusChat")) {
+            inForeground = true;
+        }
+        return inForeground;
+    }
+    /*public boolean appInForeground(Context context) {
+        boolean inForeground = false;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
             List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList =
                     activityManager.getRunningAppProcesses();
+
             for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
                 if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    for (String activeProcess : processInfo.pkgList) {
+                    if(processInfo.processName.contains("ChorusChat")) {
+                        inForeground = true;
+                    }
+                    /*for (String activeProcess : processInfo.pkgList) {
                         if (activeProcess.equals(context.getPackageName())) {
                             inForeground = true;
                         }
-                    }
-                }
+                    }*/
+                /*}
             }
         } else {
             List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
@@ -84,10 +100,10 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             /*if (componentName.getPackageName().equals(context.getPackageName())) {
                 inBackground = false;
             }*/
-            if(componentName.getClassName().contains("ChorusChat")) {
+            /*if(componentName.getClassName().contains("ChorusChat")) {
                 inForeground = true;
             }
         }
         return inForeground;
-    }
+    }*/
 }

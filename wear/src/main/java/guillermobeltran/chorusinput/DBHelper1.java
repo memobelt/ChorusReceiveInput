@@ -8,30 +8,30 @@ import android.support.annotation.Nullable;
 /**
  * Created by Memo on 6/24/15.
  */
-public class DataBHelper extends SQLiteOpenHelper {
+public class DBHelper1 extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 3;
-    public static final String DATABASE_NAME = "chorus.db";
+    public static final int DATABASE_VERSION = 2;
+    public static final String DATABASE_NAME = "chorus1.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private String _task;
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DatabaseContract.DatabaseEntry.TABLE_NAME + " (" +
                     DatabaseContract.DatabaseEntry._ID + " INTEGER" + COMMA_SEP +
-                    DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE + TEXT_TYPE + COMMA_SEP +
+                    DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1 + TEXT_TYPE + COMMA_SEP +
                     DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK + TEXT_TYPE+ " PRIMARY KEY" + COMMA_SEP +
                     DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE + TEXT_TYPE  +
                     ") ";
     public static final String CREATE_CHAT_TABLE = " ("+
             DatabaseContract.DatabaseEntry._ID + " INTEGER PRIMARY KEY," +
-            DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE + TEXT_TYPE + COMMA_SEP +
+            DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1 + TEXT_TYPE + COMMA_SEP +
             DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG + TEXT_TYPE  + COMMA_SEP +
             DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID + TEXT_TYPE  +
             ") ";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME;
 
-    public DataBHelper(Context context, @Nullable String task) {
+    public DBHelper1(Context context, @Nullable String task) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _task = task;
         if(task != null){

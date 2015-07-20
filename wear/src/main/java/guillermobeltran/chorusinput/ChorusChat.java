@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -33,7 +34,7 @@ public class ChorusChat extends Activity {
     ArrayAdapter _chatLineAdapter;
     Boolean _canUpdate, _checkUpdate;
     int _size;
-    DataBHelper DbHelper;
+    DBHelper1 DbHelper;
     SQLiteDatabase chatdb;
     Cursor c;
 
@@ -47,7 +48,7 @@ public class ChorusChat extends Activity {
         _canUpdate = true;
         _cli.set_task(getIntent().getStringExtra("ChatNum"));
         _DBtask = "CHAT" + _task;
-        DbHelper = new DataBHelper(getApplicationContext(), _DBtask);
+        DbHelper = new DBHelper1(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
         c = chatdb.rawQuery("SELECT * FROM " + _DBtask, null);
 
@@ -122,7 +123,9 @@ public class ChorusChat extends Activity {
                     setChatLinesFromPhone();
                 } else {
                     if (c.getCount() > 0) {
-                        setChatLinesFromDB(c);
+                        Log.i("test", "oncreate: " + DbHelper.getDatabaseName());
+                        //setChatLinesFromDB(c);
+                        update();
                     }
                 }
             }
@@ -131,13 +134,15 @@ public class ChorusChat extends Activity {
     }
 
     public void setChatLinesFromDB(Cursor c) {
+        Log.i("test", "from DB: " + DbHelper.getDatabaseName());
+
         if (c.moveToFirst()) {
             ChatLineInfo cli = new ChatLineInfo();
             //while (!c.isAfterLast()) {
             //while(c.moveToNext()) {
             c.moveToLast();
             String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                    .COLUMN_NAME_ROLE));
+                    .COLUMN_NAME_ROLE1));
             cli.set_role(role);
             _cli.set_role(role);
             String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
@@ -161,11 +166,20 @@ public class ChorusChat extends Activity {
         _task = getIntent().getStringExtra("ChatNum");
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, getIntent().getStringExtra("Role"));
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, getIntent().getStringExtra("Role"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, getIntent().getStringExtra("ChatNum"));
-        long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
+        Log.i("test", "fromphone: " + DbHelper.getDatabaseName());
+        long newRowId = -1;
+        try {
+            newRowId = chatdb.insertOrThrow(_DBtask, null, values);
+            Log.i(chatdb.toString(), "value: "+newRowId);
+        }
+        catch (SQLException e) {
+            Log.e(chatdb.toString(), e.toString());
+        }
         if (newRowId == -1) {
+            Log.i("test", "-1 oh no");
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
         }
         if (chatText.getText().toString().contains("?")) {
@@ -178,14 +192,16 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if(getIntent().getExtras().getBoolean("Foreground")) {
-            _canUpdate=true;
-            update();
-        }
-        else {
-            _canUpdate=false;
-            finish();
-        }
+        /*String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_ROLE1));
+        String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_MSG));
+        String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_CHATID));
+        Log.i("test", "role: "+role);
+        Log.i("test", "msg: "+msg);
+        Log.i("id", "id: "+id);*/
+        update();
     }
 
     /*
@@ -196,7 +212,7 @@ public class ChorusChat extends Activity {
         c.moveToLast();
         ChatLineInfo cli = new ChatLineInfo();
         String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                .COLUMN_NAME_ROLE));
+                .COLUMN_NAME_ROLE1));
         cli.set_role(role);
         _cli.set_role(role);
         String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
@@ -207,7 +223,8 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
-        c.moveToNext();
+        Log.i("test", "update: " + DbHelper.getDatabaseName());
+
         chatText.setText(cli.get_role()+" : "+cli.get_chatLine());
 
         if (msg.contains("?")) {
@@ -220,9 +237,9 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if(_canUpdate) {
+        /*if(_canUpdate) {
             update();
-        }
+        }*/
     }
 
     /*
@@ -232,11 +249,14 @@ public class ChorusChat extends Activity {
         //chatText.setText(words);
         _canUpdate=true;
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, "requester");
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, "requester");
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _task);
+        Log.i("test", "post data: " + DbHelper.getDatabaseName());
+
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
         if (newRowId == -1) {
+            Log.i("test", "-1 oh no");
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
         }
         if (words.contains("?")) {
@@ -249,6 +269,15 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
+        /*String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_ROLE1));
+        String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_MSG));
+        String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_CHATID));
+        Log.i("test", "role: "+role);
+        Log.i("test", "msg: "+msg);
+        Log.i("id", "id: "+id);*/
     }
 
     //TODO: Set alarm manager to check for updates

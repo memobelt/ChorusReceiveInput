@@ -142,7 +142,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
             //intent from phone
             if (getIntent().getExtras().getBoolean("Asking")) {
-                _cli.set_role("requester");
                 String words = getIntent().getStringExtra("Words");
                 postData("chatLine", words, "post");
             }
@@ -150,8 +149,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
-                setChatLinesFromWeb();
-                finish();
             }
             //watch just opened "Review" and needs update
             /*else if(getIntent().getExtras().getBoolean("Update")) {
@@ -246,12 +243,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_ROLE));
                 cli.set_role(role);
+                _cli.set_role(role);
                 String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_MSG));
                 cli.set_chatLine(msg);
+                _cli.set_chatLine(msg);
                 String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_CHATID));
                 cli.set_id(id);
+                _cli.set_id(id);
                 setUpArrayList(cli);
                 //notification();
                 c.moveToNext();
@@ -365,7 +365,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             }
 
                             _chatList.setSelection(_chatList.getCount() - 1);
-                            if (_role == "requester" && chatLineInfo.get_role() == "crowd") {
+                            if (_role.equals("requester") && chatLineInfo.get_role().equals("crowd")) {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
                             //notification();
@@ -429,11 +429,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         } else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
 
-            Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+            /*Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
             intent.putExtra("ChatNum", _task);
-            intent.putExtra("Role", _cli.get_role());
+            intent.putExtra("Role", _role);
             intent.putExtra("Message", words);
-            startActivity(intent);
+            startActivity(intent);*/
         }
     }
 
