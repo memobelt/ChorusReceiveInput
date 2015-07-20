@@ -31,7 +31,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             intent.putExtra("Role", temp_message.substring(0, separate));
             intent.putExtra("New Text", temp_message.substring(separate+1, temp_message.length() - 1));
             intent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
-            intent.putExtra("Foreground", appInBackground(getApplicationContext()));
+            intent.putExtra("Foreground", appInForeground(getApplicationContext()));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             /*final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
@@ -63,8 +63,8 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         super.onPeerDisconnected(peer);
         Log.i("test",peer.getDisplayName());
     }
-    public boolean appInBackground(Context context) {
-        boolean inBackground = true;
+    public boolean appInForeground(Context context) {
+        boolean inForeground = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
             List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList =
@@ -73,7 +73,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
                 if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                     for (String activeProcess : processInfo.pkgList) {
                         if (activeProcess.equals(context.getPackageName())) {
-                            inBackground = false;
+                            inForeground = true;
                         }
                     }
                 }
@@ -81,10 +81,13 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         } else {
             List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
             ComponentName componentName = runningTaskInfoList.get(0).topActivity;
-            if (componentName.getPackageName().equals(context.getPackageName())) {
+            /*if (componentName.getPackageName().equals(context.getPackageName())) {
                 inBackground = false;
+            }*/
+            if(componentName.getClassName().contains("ChorusChat")) {
+                inForeground = true;
             }
         }
-        return inBackground;
+        return inForeground;
     }
 }
