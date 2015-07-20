@@ -28,7 +28,7 @@ import java.util.List;
 
 
 public class ChorusChat extends Activity {
-    String _task, _DBtask;
+    String _task, _role, _DBtask;
     Button send;
     Spinner spinner;
     TextView mTextView, chatText;
@@ -38,7 +38,7 @@ public class ChorusChat extends Activity {
     ArrayAdapter _chatLineAdapter;
     Boolean _canUpdate, _checkUpdate;
     int _size;
-    DBHelper DbHelper;
+    DataBHelper DbHelper;
     SQLiteDatabase chatdb;
     Cursor c;
 
@@ -52,7 +52,7 @@ public class ChorusChat extends Activity {
         _task = getIntent().getStringExtra("ChatNum");
         _cli.set_task(getIntent().getStringExtra("ChatNum"));
         _DBtask = "CHAT" + _task;
-        DbHelper = new DBHelper(getApplicationContext(), _DBtask);
+        DbHelper = new DataBHelper(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
         c = chatdb.rawQuery("SELECT * FROM " + _DBtask, null);
 
@@ -165,7 +165,7 @@ public class ChorusChat extends Activity {
     }
 
     public void setChatLinesFromPhone() {
-        chatText.setText(getIntent().getStringExtra("Role")+" : "+getIntent().getStringExtra("New Text"));
+        chatText.setText(getIntent().getStringExtra("Role") + " : " + getIntent().getStringExtra("New Text"));
         _cli.set_role(getIntent().getStringExtra("Role"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
         _task = getIntent().getStringExtra("ChatNum");

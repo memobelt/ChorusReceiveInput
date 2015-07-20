@@ -8,10 +8,10 @@ import android.support.annotation.Nullable;
 /**
  * Created by Memo on 6/24/15.
  */
-public class DBHelper extends SQLiteOpenHelper {
+public class DataBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Chorus.db";
+    public static final int DATABASE_VERSION = 3;
+    public static final String DATABASE_NAME = "chorus.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private String _task;
@@ -31,11 +31,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME;
 
-    public DBHelper(Context context, @Nullable String task) {
+    public DataBHelper(Context context, @Nullable String task) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _task = task;
         if(task != null){
-            getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS " + _task+ CREATE_CHAT_TABLE);
+            getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS " + _task + CREATE_CHAT_TABLE);
         }
     }
     @Override

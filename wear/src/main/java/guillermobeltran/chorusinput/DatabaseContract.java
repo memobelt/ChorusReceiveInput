@@ -2,9 +2,6 @@ package guillermobeltran.chorusinput;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by Memo on 6/24/15.
- */
 public final class DatabaseContract {
     public DatabaseContract() {}
 
