@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,15 +37,17 @@ public class YelpResult extends ActionBarActivity {
         send = (Button) findViewById(R.id.send_button);
         image = (ImageView) findViewById(R.id.image);
         rating = (ImageView) findViewById(R.id.rating);
-        text.setText(getIntent().getStringExtra("name")+"\n"+
-                getIntent().getStringExtra("url")+"\n"+
-                getIntent().getStringExtra("location") +"\n"+
+        text.setText(getIntent().getStringExtra("name")+"\n"+"\n"+
+                getIntent().getStringExtra("url")+"\n"+"\n"+
+                getIntent().getStringExtra("location") +"\n"+"\n"+
                 getIntent().getStringExtra("phone"));
+        Linkify.addLinks(text, Linkify.ALL);
         new DownloadImageTask(image, 4).execute(getIntent().getStringExtra("image"));
         new DownloadImageTask(rating, 2).execute(getIntent().getStringExtra("rating"));
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                text.getText().toString().replace("\n", "");
                 sendButton(text.getText().toString());
             }
         });
