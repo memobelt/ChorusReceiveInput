@@ -127,7 +127,6 @@ public class ChorusChat extends Activity {
                     setChatLinesFromPhone();
                 } else {
                     if (c.getCount() > 0) {
-                        Log.i("test", "oncreate: " + DbHelper.getDatabaseName());
                         //setChatLinesFromDB(c);
                         update();
                     }
@@ -138,8 +137,6 @@ public class ChorusChat extends Activity {
     }
 
     public void setChatLinesFromDB(Cursor c) {
-        Log.i("test", "from DB: " + DbHelper.getDatabaseName());
-
         /*if (c.moveToFirst()) {
             ChatLineInfo cli = new ChatLineInfo();
             //while (!c.isAfterLast()) {
@@ -174,8 +171,6 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
-        Log.i("test", "update: " + DbHelper.getDatabaseName());
-
         chatText.setText(cli.get_role()+" : "+cli.get_chatLine());
 
         if (msg.contains("?")) {
@@ -201,7 +196,6 @@ public class ChorusChat extends Activity {
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, getIntent().getStringExtra("Role"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, getIntent().getStringExtra("ChatNum"));
-        Log.i("test", "fromphone: " + DbHelper.getDatabaseName());
         long newRowId = -1;
         try {
             newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -224,7 +218,14 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        update();
+        if(getIntent().getExtras().getBoolean("Foreground")) {
+            Log.i("test", "foreground");
+            update();
+        }
+        else {
+            Log.i("test", "background");
+            finish();
+        }
     }
 
     /*
@@ -246,7 +247,6 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
-        Log.i("test", "update: " + DbHelper.getDatabaseName());
 
         chatText.setText(cli.get_role()+" : "+cli.get_chatLine());
 
@@ -275,7 +275,6 @@ public class ChorusChat extends Activity {
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, "requester");
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _task);
-        Log.i("test", "post data: " + DbHelper.getDatabaseName());
 
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
         if (newRowId == -1) {
