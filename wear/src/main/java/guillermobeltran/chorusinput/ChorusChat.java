@@ -49,8 +49,8 @@ public class ChorusChat extends Activity {
             Log.i("test", "null task 1");
             _task = "6";
         }
-        _canUpdate = true;
         _cli.set_task(getIntent().getStringExtra("ChatNum"));
+        _canUpdate = true;
         _DBtask = "CHAT" + _task;
         DbHelper = new DBHelper1(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
@@ -140,7 +140,7 @@ public class ChorusChat extends Activity {
     public void setChatLinesFromDB(Cursor c) {
         Log.i("test", "from DB: " + DbHelper.getDatabaseName());
 
-        if (c.moveToFirst()) {
+        /*if (c.moveToFirst()) {
             ChatLineInfo cli = new ChatLineInfo();
             //while (!c.isAfterLast()) {
             //while(c.moveToNext()) {
@@ -159,6 +159,34 @@ public class ChorusChat extends Activity {
             cli.set_id(id);
             _cli.set_id(id);
             c.moveToNext();
+        }*/
+        c.moveToLast();
+        ChatLineInfo cli = new ChatLineInfo();
+        String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_ROLE1));
+        cli.set_role(role);
+        _cli.set_role(role);
+        String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_MSG));
+        cli.set_chatLine(msg);
+        _cli.set_chatLine(msg);
+        String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_CHATID));
+        cli.set_id(id);
+        _cli.set_id(id);
+        Log.i("test", "update: " + DbHelper.getDatabaseName());
+
+        chatText.setText(cli.get_role()+" : "+cli.get_chatLine());
+
+        if (msg.contains("?")) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                    R.array.question_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                    R.array.response_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
         update();
     }
@@ -196,15 +224,6 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        /*String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                .COLUMN_NAME_ROLE1));
-        String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                .COLUMN_NAME_MSG));
-        String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                .COLUMN_NAME_CHATID));
-        Log.i("test", "role: "+role);
-        Log.i("test", "msg: "+msg);
-        Log.i("id", "id: "+id);*/
         update();
     }
 
@@ -273,15 +292,7 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        /*String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                .COLUMN_NAME_ROLE1));
-        String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                .COLUMN_NAME_MSG));
-        String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                .COLUMN_NAME_CHATID));
-        Log.i("test", "role: "+role);
-        Log.i("test", "msg: "+msg);
-        Log.i("id", "id: "+id);*/
+        update();
     }
 
     //TODO: Set alarm manager to check for updates
