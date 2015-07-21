@@ -2,7 +2,6 @@ package guillermobeltran.chorusinput;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -54,7 +53,17 @@ public class Yelp extends ListActivity {
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         Business biz = (Business)listView.getItemAtPosition(position);
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(biz.url)));
+        //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(biz.url)));
+        Intent intent = new Intent(getApplicationContext(), YelpResult.class);
+        intent.putExtra("name", biz.name);
+        //intent.putExtra("url", Uri.parse(biz.url));
+        intent.putExtra("url", biz.url);
+        intent.putExtra("rating", biz.rating);
+        //intent.putExtra("location", biz.location);
+        intent.putExtra("phone", biz.phone);
+        intent.putExtra("image", biz.image);
+        startActivity(intent);
+
     };
 
     List<Business> processJson(String jsonStuff) throws JSONException {
@@ -63,7 +72,9 @@ public class Yelp extends ListActivity {
         ArrayList<Business> businessObjs = new ArrayList<Business>(businesses.length());
         for (int i = 0; i < businesses.length(); i++) {
             JSONObject business = businesses.getJSONObject(i);
-            businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url")));
+            businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url"),
+                    business.optInt("rating"), business.optString("display_phone"),
+                    business.optString("image_url")));
         }
         return businessObjs;
     }
@@ -71,10 +82,17 @@ public class Yelp extends ListActivity {
     class Business {
         final String name;
         final String url;
+        final int rating;
+        final String phone;
+        final String image;
 
-        public Business(String name, String url) {
+        public Business(String name, String url, int rating,String phone,
+                        String image) {
             this.name = name;
             this.url = url;
+            this.rating = rating;
+            this.phone = phone;
+            this.image = image;
         }
 
         @Override

@@ -100,7 +100,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 startActivity(yelp);
             }
         });
-        _yelpBtn.setVisibility(View.GONE);
+        //_yelpBtn.setVisibility(View.GONE);
 
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
@@ -302,12 +302,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 chatLineInfo.get_chatLine().contains("www.")) {
             chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
         }
-        if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
+        /*if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
                 chatLineInfo.get_role().equals("requester") && _role.equals("crowd")) {
             _yelpBtn.setVisibility(View.VISIBLE);
         } else {
             _yelpBtn.setVisibility(View.GONE);
-        }
+        }*/
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
     }

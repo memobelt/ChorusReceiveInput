@@ -687,6 +687,7 @@
     <string name="title_activity_take_picture">Take Picture</string>
     <string name="title_activity_webpage">Webpage</string>
     <string name="title_activity_yelp">Yelp</string>
+    <string name="title_activity_yelp_result">YelpResult</string>
     <string name="title_section1">Welcome to Chorus!</string>
     <string name="title_section2">Submit a question</string>
     <string name="title_section3">Review your questions</string>

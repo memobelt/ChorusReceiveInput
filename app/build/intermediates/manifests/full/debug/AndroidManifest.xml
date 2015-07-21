@@ -171,6 +171,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="guillermobeltran.chorusinput.YelpResult"
+            android:label="@string/title_activity_yelp_result" >
+        </activity>
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
