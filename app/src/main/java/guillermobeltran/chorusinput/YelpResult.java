@@ -36,13 +36,12 @@ public class YelpResult extends ActionBarActivity {
         send = (Button) findViewById(R.id.send_button);
         image = (ImageView) findViewById(R.id.image);
         rating = (ImageView) findViewById(R.id.rating);
-
         text.setText(getIntent().getStringExtra("name")+"\n"+
                 getIntent().getStringExtra("url")+"\n"+
                 getIntent().getStringExtra("location") +"\n"+
                 getIntent().getStringExtra("phone"));
-        new DownloadImageTask(image).execute(getIntent().getStringExtra("image"));
-        new DownloadImageTask(rating).execute(getIntent().getStringExtra("rating"));
+        new DownloadImageTask(image, 4).execute(getIntent().getStringExtra("image"));
+        new DownloadImageTask(rating, 2).execute(getIntent().getStringExtra("rating"));
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,9 +96,11 @@ public class YelpResult extends ActionBarActivity {
     }
     class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
+        final int scale;
 
-        public DownloadImageTask(ImageView bmImage) {
+        public DownloadImageTask(ImageView bmImage, int scale) {
             this.bmImage = bmImage;
+            this.scale = scale;
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -116,7 +117,8 @@ public class YelpResult extends ActionBarActivity {
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, result.getWidth()*scale, result.getHeight()*scale,
+                    true));
         }
     }
 }
