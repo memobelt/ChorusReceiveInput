@@ -26,7 +26,7 @@ import guillermobeltran.chorusinput.PushService.ParseUtils;
 public class YelpResult extends ActionBarActivity {
     TextView text;
     Button send;
-    ImageView image;
+    ImageView image, rating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +35,14 @@ public class YelpResult extends ActionBarActivity {
         text = (TextView) findViewById(R.id.text);
         send = (Button) findViewById(R.id.send_button);
         image = (ImageView) findViewById(R.id.image);
+        rating = (ImageView) findViewById(R.id.rating);
 
         text.setText(getIntent().getStringExtra("name")+"\n"+
                 getIntent().getStringExtra("url")+"\n"+
-                getIntent().getExtras().getInt("rating")+"\n"+
-                //getIntent().getStringExtra("location")+"\n"+
+                getIntent().getStringExtra("location") +"\n"+
                 getIntent().getStringExtra("phone"));
         new DownloadImageTask(image).execute(getIntent().getStringExtra("image"));
+        new DownloadImageTask(rating).execute(getIntent().getStringExtra("rating"));
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +78,6 @@ public class YelpResult extends ActionBarActivity {
         intent.putExtra("Words", words);
         intent.putExtra("Asking", true);
         intent.putExtra("Speech", false);
-        intent.putExtra("Update", false);
         intent.putExtra("ChatNum", "6");
         intent.putExtra("Role", "crowd");
 

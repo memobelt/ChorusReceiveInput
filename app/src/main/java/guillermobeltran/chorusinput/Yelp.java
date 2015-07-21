@@ -56,14 +56,12 @@ public class Yelp extends ListActivity {
         //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(biz.url)));
         Intent intent = new Intent(getApplicationContext(), YelpResult.class);
         intent.putExtra("name", biz.name);
-        //intent.putExtra("url", Uri.parse(biz.url));
         intent.putExtra("url", biz.url);
-        intent.putExtra("rating", biz.rating);
-        //intent.putExtra("location", biz.location);
+        intent.putExtra("location", biz.location);
         intent.putExtra("phone", biz.phone);
         intent.putExtra("image", biz.image);
+        intent.putExtra("rating", biz.rating);
         startActivity(intent);
-
     };
 
     List<Business> processJson(String jsonStuff) throws JSONException {
@@ -72,9 +70,14 @@ public class Yelp extends ListActivity {
         ArrayList<Business> businessObjs = new ArrayList<Business>(businesses.length());
         for (int i = 0; i < businesses.length(); i++) {
             JSONObject business = businesses.getJSONObject(i);
+            JSONArray address = business.getJSONObject("location").getJSONArray("display_address");
+            String address_string = "";
+            for (int j = 0; j < address.length(); j++) {
+                address_string = address_string + address.getString(j) + " ";
+            }
             businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url"),
-                    business.optInt("rating"), business.optString("display_phone"),
-                    business.optString("image_url")));
+                    business.optString("display_phone"), address_string, business.optString("image_url"),
+                    business.optString("rating_img_url_large")));
         }
         return businessObjs;
     }
@@ -82,17 +85,19 @@ public class Yelp extends ListActivity {
     class Business {
         final String name;
         final String url;
-        final int rating;
         final String phone;
+        String location;
         final String image;
+        final String rating;
 
-        public Business(String name, String url, int rating,String phone,
-                        String image) {
+        public Business(String name, String url, String phone, String location,
+                        String image, String rating) {
             this.name = name;
             this.url = url;
-            this.rating = rating;
             this.phone = phone;
+            this.location = location;
             this.image = image;
+            this.rating = rating;
         }
 
         @Override

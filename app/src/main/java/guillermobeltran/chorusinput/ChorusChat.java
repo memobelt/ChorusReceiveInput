@@ -17,7 +17,6 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,37 +149,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
             }
-            //watch just opened "Review" and needs update
-            /*else if(getIntent().getExtras().getBoolean("Update")) {
-                Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester");
-                AQuery aq = new AQuery(this);
-
-                aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
-                    @Override
-                    public void callback(String url, JSONArray json, AjaxStatus status) {
-                        if (json != null) {
-                            try {
-                                for (int n = 0; n < json.length(); n++) {
-                                    String[] lineInfo = json.get(n).toString().split("\"");
-                                    ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                                    if (chatLineInfo.get_chatLine().contains("http") ||
-                                            chatLineInfo.get_chatLine().contains("www.")) {
-                                        chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
-                                    }
-                                    Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-                                    intent.putExtra("Update", true);
-                                    intent.putExtra("Message", chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-                                    startActivity(intent);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });
-                finish();
-            }*/
-
             if (c.getCount() > 0) {
                 setChatLinesFromDB(c);
             } else {
@@ -253,7 +221,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 cli.set_id(id);
                 _cli.set_id(id);
                 setUpArrayList(cli);
-                //notification();
                 c.moveToNext();
             }
         }
@@ -283,7 +250,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
                             }
                             setUpArrayList(chatLineInfo);
-                            //notification();
                         }
                         displayMessages();
 
@@ -298,16 +264,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
-        if (chatLineInfo.get_chatLine().contains("http") ||
+        /*if (chatLineInfo.get_chatLine().contains("http") ||
                 chatLineInfo.get_chatLine().contains("www.")) {
             chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
-        }
-        /*if (chatLineInfo.get_chatLine().toString().contains("Yelp") &&
-                chatLineInfo.get_role().equals("requester") && _role.equals("crowd")) {
-            _yelpBtn.setVisibility(View.VISIBLE);
-        } else {
-            _yelpBtn.setVisibility(View.GONE);
         }*/
+
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
     }
@@ -368,7 +329,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role.equals("requester") && chatLineInfo.get_role().equals("crowd")) {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
-                            //notification();
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("ChatNum", _task);
