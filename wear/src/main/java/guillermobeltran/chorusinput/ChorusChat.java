@@ -45,6 +45,10 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         _task = getIntent().getStringExtra("ChatNum");
+        if(_task == null) {
+            Log.i("test", "null task 1");
+            _task = "6";
+        }
         _canUpdate = true;
         _cli.set_task(getIntent().getStringExtra("ChatNum"));
         _DBtask = "CHAT" + _task;
@@ -97,7 +101,7 @@ public class ChorusChat extends Activity {
                                     Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                                     intent.putExtra("Response", parent.getItemAtPosition(position).toString());
                                     if (_task == null) {
-                                        Log.i("test", "here");
+                                        Log.i("test", "null task 2");
                                         _task = "6";
                                     }
                                     intent.putExtra("ChatNum", _task);
