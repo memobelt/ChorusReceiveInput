@@ -211,6 +211,7 @@ public class NavigationDrawerFragment extends Fragment {
         else if (mCurrentSelectedPosition == 2){
             intent = new Intent(getActivity(), ChorusChat.class);
             intent.putExtra("Asking",false);
+            intent.putExtra("Yelp", false);
             intent.putExtra("ChatNum","6");
             intent.putExtra("Role","requester");
         }

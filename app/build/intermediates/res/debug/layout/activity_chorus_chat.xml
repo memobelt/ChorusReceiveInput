@@ -69,8 +69,7 @@
                 android:layout_height="match_parent"
                 android:text="Send"
                 android:id="@+id/CrowdSend"
-                android:onClick="sendText"
-                android:visibility="visible" />
+                android:onClick="sendText" />
         </LinearLayout>
 
     </LinearLayout>

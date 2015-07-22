@@ -139,6 +139,7 @@ public class AfterLogin extends ActionBarActivity
         Intent intent = new Intent(this, ChorusChat.class);
         intent.putExtra("ChatNum",id);
         intent.putExtra("Asking",false);
+        intent.putExtra("Yelp", false);
         intent.putExtra("Role","crowd");
         startActivity(intent);
     }

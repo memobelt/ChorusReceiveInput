@@ -100,6 +100,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
         _yelpBtn.setVisibility(View.GONE);
+        _crowdBtn.setVisibility(View.VISIBLE);
 
         _canUpdate = true;
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
@@ -148,6 +149,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
+            }
+            else if(getIntent().getExtras().getBoolean("Yelp")) {
+                _cli.set_role("crowd");
+                _editText.setText(getIntent().getStringExtra("Words"));
             }
             if (c.getCount() > 0) {
                 setChatLinesFromDB(c);
@@ -268,8 +273,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 chatLineInfo.get_chatLine().contains("www.")) {
             chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
         }*/
-        if(_role.equals("crowd") && chatLineInfo.get_role().equals("requester") &&
-                chatLineInfo.get_chatLine().toLowerCase().contains("yelp")) {
+        if(_role.equals("crowd")) {
             _yelpBtn.setVisibility(View.VISIBLE);
         }
         else {
@@ -349,7 +353,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 }
                 if (_canUpdate) {//in order to stop recursion once app is closed.
                     int size = _chatLineInfoArrayList.size();
-                    if (size > 2) {
+                    /*if (size > 2) {
                         if ("crowd".equals(_chatLineInfoArrayList.get(size - 1).get_role()) &&
                                 "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
                                 "crowd".equals(_role)) {
@@ -357,7 +361,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         } else {
                             _crowdBtn.setVisibility(View.VISIBLE);
                         }
-                    }
+                    }*/
                     update();
                 }
             }

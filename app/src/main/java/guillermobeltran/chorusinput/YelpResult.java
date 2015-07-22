@@ -3,52 +3,82 @@ package guillermobeltran.chorusinput;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
+import android.widget.Toast;
 
 import java.io.InputStream;
-import java.util.HashMap;
-
-import guillermobeltran.chorusinput.PushService.ParseUtils;
 
 public class YelpResult extends ActionBarActivity {
-    TextView text;
+    ListView listView;
     Button send;
     ImageView image, rating;
+    String message="";
+    private ListAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yelp_result);
-
-        text = (TextView) findViewById(R.id.text);
+        listView = (ListView) findViewById(R.id.listView);
         send = (Button) findViewById(R.id.send_button);
         image = (ImageView) findViewById(R.id.image);
         rating = (ImageView) findViewById(R.id.rating);
-        text.setText(getIntent().getStringExtra("name")+"\n"+"\n"+
-                getIntent().getStringExtra("url")+"\n"+"\n"+
-                getIntent().getStringExtra("location") +"\n"+"\n"+
-                getIntent().getStringExtra("phone"));
-        Linkify.addLinks(text, Linkify.ALL);
+        String[] values = new String[] {getIntent().getStringExtra("name"),
+                getIntent().getStringExtra("url"), getIntent().getStringExtra("location"),
+                getIntent().getStringExtra("phone"), getIntent().getStringExtra("deals")};
+        mAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,
+                android.R.id.text1, values){
+            @Override
+            public View getView(int position, View convertView,
+                                ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                            /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.BLACK);
+                textView.setBackgroundColor(Color.WHITE);
+
+                return view;
+            }
+        };
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                message = message + parent.getItemAtPosition(position)+ " ";
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                textView.setTextColor(Color.WHITE);
+                textView.setBackgroundColor(Color.BLACK);
+            }
+        });
+        //Linkify.addLinks(text, Linkify.ALL);
         new DownloadImageTask(image, 4).execute(getIntent().getStringExtra("image"));
         new DownloadImageTask(rating, 2).execute(getIntent().getStringExtra("rating"));
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                text.getText().toString().replace("\n", "");
-                sendButton(text.getText().toString());
+                if(message.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Select to send", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    sendButton(message);
+                }
             }
         });
     }
@@ -78,12 +108,13 @@ public class YelpResult extends ActionBarActivity {
     public void sendButton(String words) {
         Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
         intent.putExtra("Words", words);
-        intent.putExtra("Asking", true);
+        intent.putExtra("Asking", false);
         intent.putExtra("Speech", false);
+        intent.putExtra("Yelp", true);
         intent.putExtra("ChatNum", "6");
         intent.putExtra("Role", "crowd");
 
-        HashMap<String, Object> params = new HashMap<String, Object>();
+        /*HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("email", ParseUtils.customIdBuilder("6"));
         params.put("role", "crowd");
         params.put("task", "6");
@@ -94,7 +125,7 @@ public class YelpResult extends ActionBarActivity {
                     Log.e("ChorusChat", "Push sent successfully.");
                 }
             }
-        });
+        });*/
         startActivity(intent);
     }
     class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

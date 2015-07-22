@@ -42,6 +42,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Update", false);
+            startIntent.putExtra("Yelp", false);
             startIntent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
             startIntent.putExtra("Role", "requester");
             startIntent.putExtra("Input", temp_message.substring(0, temp_message.length()-1));
@@ -65,14 +66,6 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }
-        /*else if(messageEvent.getPath().equals("/update")) {
-            Intent startIntent = new Intent(this, ChorusChat.class);
-            startIntent.putExtra("Speech", false);
-            startIntent.putExtra("Asking", false);
-            startIntent.putExtra("Update", true);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(startIntent);
-        }*/
         else {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");

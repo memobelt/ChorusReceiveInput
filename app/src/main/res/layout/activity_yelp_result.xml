@@ -16,18 +16,19 @@
         android:id="@+id/rating"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
-    <TextView
-        android:layout_width="wrap_content"
+    <ListView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id = "@+id/text"
-        android:layout_below="@id/image"/>
+        android:id="@+id/listView"
+        android:layout_below ="@id/image"></ListView>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text = "send"
         android:id="@+id/send_button"
-        android:layout_below="@+id/text"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_gravity="right|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/rating"
+        android:layout_alignEnd="@+id/rating" />
 
 </RelativeLayout>

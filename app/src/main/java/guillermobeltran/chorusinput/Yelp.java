@@ -2,12 +2,16 @@ package guillermobeltran.chorusinput;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +49,21 @@ public class Yelp extends ListActivity {
                 setTitle(searchTerm+" in "+searchLocation);
                 setProgressBarIndeterminateVisibility(false);
                 getListView().setAdapter(new ArrayAdapter<Business>(getApplicationContext(),
-                        android.R.layout.simple_list_item_1, businesses));
+                        android.R.layout.simple_list_item_1, businesses) {
+                    @Override
+                    public View getView(int position, View convertView,
+                                        ViewGroup parent) {
+                        View view =super.getView(position, convertView, parent);
+
+                        TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                            /*YOUR CHOICE OF COLOR*/
+                        textView.setTextColor(Color.BLACK);
+                        textView.setBackgroundColor(Color.WHITE);
+
+                        return view;
+                    }
+                });
             }
         }.execute();
     }
@@ -61,6 +79,7 @@ public class Yelp extends ListActivity {
         intent.putExtra("phone", biz.phone);
         intent.putExtra("image", biz.image);
         intent.putExtra("rating", biz.rating);
+        intent.putExtra("deals", biz.deals);
         startActivity(intent);
     };
 
@@ -71,13 +90,30 @@ public class Yelp extends ListActivity {
         for (int i = 0; i < businesses.length(); i++) {
             JSONObject business = businesses.getJSONObject(i);
             JSONArray address = business.getJSONObject("location").getJSONArray("display_address");
+            JSONArray deals = null;
+            try {
+                deals = business.getJSONArray("deals");
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                Log.e("error", e.toString());
+            }
             String address_string = "";
             for (int j = 0; j < address.length(); j++) {
                 address_string = address_string + address.getString(j) + " ";
             }
+            String deals_string = "";
+            if(deals == null){
+                deals_string = "No promotions";
+            }
+            else {
+                for (int j = 0; i < deals.length(); j++) {
+                    deals_string = deals_string + deals.getString(j) + ", ";
+                }
+            }
             businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url"),
                     business.optString("display_phone"), address_string, business.optString("image_url"),
-                    business.optString("rating_img_url_large")));
+                    business.optString("rating_img_url_large"), deals_string));
         }
         return businessObjs;
     }
@@ -89,15 +125,17 @@ public class Yelp extends ListActivity {
         String location;
         final String image;
         final String rating;
+        final String deals;
 
         public Business(String name, String url, String phone, String location,
-                        String image, String rating) {
+                        String image, String rating, String deals) {
             this.name = name;
             this.url = url;
             this.phone = phone;
             this.location = location;
             this.image = image;
             this.rating = rating;
+            this.deals = deals;
         }
 
         @Override
