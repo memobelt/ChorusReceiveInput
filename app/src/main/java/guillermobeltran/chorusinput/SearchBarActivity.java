@@ -34,6 +34,7 @@ public class SearchBarActivity extends Activity {
         String term = mSearchTerm.getText().toString();
         String location = mSearchLocation.getText().toString();
         Intent intent = new Intent(this, Yelp.class);
+        intent.putExtra("ChatNum", getIntent().getStringExtra("taskId"));
         intent.setData(new Uri.Builder().appendQueryParameter("term", term).appendQueryParameter("location", location).build());
         startActivity(intent);
     }

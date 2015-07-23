@@ -118,21 +118,8 @@ public class YelpResult extends ActionBarActivity {
         intent.putExtra("Asking", false);
         intent.putExtra("Speech", false);
         intent.putExtra("Yelp", true);
-        intent.putExtra("ChatNum", "6");
+        intent.putExtra("ChatNum", getIntent().getStringExtra("ChatNum"));
         intent.putExtra("Role", "crowd");
-
-        /*HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("email", ParseUtils.customIdBuilder("6"));
-        params.put("role", "crowd");
-        params.put("task", "6");
-        params.put("message", words);
-        ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
-            public void done(String success, ParseException e) {
-                if (e == null) {
-                    Log.e("ChorusChat", "Push sent successfully.");
-                }
-            }
-        });*/
         startActivity(intent);
     }
     class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

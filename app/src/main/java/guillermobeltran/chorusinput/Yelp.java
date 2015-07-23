@@ -79,6 +79,7 @@ public class Yelp extends ListActivity {
         intent.putExtra("image", biz.image);
         intent.putExtra("rating", biz.rating);
         intent.putExtra("deals", biz.deals);
+        intent.putExtra("ChatNum", getIntent().getStringExtra("ChatNum"));
         startActivity(intent);
     };
 
