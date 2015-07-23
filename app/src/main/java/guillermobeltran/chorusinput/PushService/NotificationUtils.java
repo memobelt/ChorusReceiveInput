@@ -1,21 +1,18 @@
 package guillermobeltran.chorusinput.PushService;
 
 import android.app.ActivityManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import java.util.List;
 
+import guillermobeltran.chorusinput.OpenOnWatch;
 import guillermobeltran.chorusinput.R;
 
 
@@ -52,9 +49,16 @@ public class NotificationUtils {
                         PendingIntent.FLAG_CANCEL_CURRENT
                 );
 
+        Intent wear = new Intent(mContext, OpenOnWatch.class);
+        wear.putExtra("Text", false);
+        PendingIntent wearPI = PendingIntent.getActivity(mContext, 0, wear, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Action action =
+                new NotificationCompat.Action.Builder(R.drawable.yssdk_google_icon,
+                        "Open", wearPI).build();
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
                 .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setAutoCancel(true)
-                .setWhen(System.currentTimeMillis()).setContentIntent(resultPendingIntent);
+                .setWhen(System.currentTimeMillis()).setContentIntent(resultPendingIntent)
+                .extend(new NotificationCompat.WearableExtender().addAction(action));
 
         mBuilder.setContentText(message);
         NotificationManager nmgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);

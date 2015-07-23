@@ -19,8 +19,9 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
 
     Node mNode; // the connected device to send the message to
     GoogleApiClient mGoogleApiClient;
-    private static final String HELLO_WORLD = "/hello-world";
+    private static String HELLO_WORLD;
     private boolean mResolvingError = false;
+    String message = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,18 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        if(getIntent().getExtras().getBoolean("Text")) {
+            //post message on Chorus Chat
+            HELLO_WORLD = "/hello-world";
+            message = getIntent().getStringExtra("Role")+ "|" + getIntent().getStringExtra("Message")
+                    + getIntent().getStringExtra("ChatNum");
+        }
+        else {
+            //caller from Yelp. open Chorus Chat on watch.
+            HELLO_WORLD = "/hello-world-open";
+            message = "";
+        }
     }
 
     /**
@@ -40,11 +53,10 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
      */
     private void sendMessage() {
         if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            String temp_message = getIntent().getStringExtra("Role")+ "|" + getIntent().getStringExtra("Message")
-                    + getIntent().getStringExtra("ChatNum");
+
             Wearable.MessageApi.sendMessage(
                     mGoogleApiClient, mNode.getId(), HELLO_WORLD,
-                            temp_message.getBytes(Charset.forName("UTF-8"))).setResultCallback(
+                            message.getBytes(Charset.forName("UTF-8"))).setResultCallback(
                     new ResultCallback<MessageApi.SendMessageResult>() {
                         @Override
                         public void onResult(MessageApi.SendMessageResult sendMessageResult) {

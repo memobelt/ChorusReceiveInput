@@ -56,7 +56,6 @@ public class Yelp extends ListActivity {
                         View view =super.getView(position, convertView, parent);
 
                         TextView textView=(TextView) view.findViewById(android.R.id.text1);
-
                             /*YOUR CHOICE OF COLOR*/
                         textView.setTextColor(Color.BLACK);
                         textView.setBackgroundColor(Color.WHITE);

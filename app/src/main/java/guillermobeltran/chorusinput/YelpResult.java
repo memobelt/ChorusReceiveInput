@@ -61,10 +61,17 @@ public class YelpResult extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                message = message + parent.getItemAtPosition(position)+ " ";
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(Color.WHITE);
-                textView.setBackgroundColor(Color.BLACK);
+                if(textView.getCurrentTextColor()==Color.BLACK) {
+                    textView.setTextColor(Color.WHITE);
+                    textView.setBackgroundColor(Color.BLACK);
+                    message = message + parent.getItemAtPosition(position)+ " ";
+                }
+                else {
+                    textView.setTextColor(Color.BLACK);
+                    textView.setBackgroundColor(Color.WHITE);
+                    message = message.replace((CharSequence) parent.getItemAtPosition(position), "");
+                }
             }
         });
         //Linkify.addLinks(text, Linkify.ALL);

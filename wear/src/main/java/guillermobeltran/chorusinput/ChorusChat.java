@@ -45,7 +45,7 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         _task = getIntent().getStringExtra("ChatNum");
-        if(_task == null) {
+        if (_task == null) {
             Log.i("test", "null task 1");
             _task = "6";
         }
@@ -125,7 +125,12 @@ public class ChorusChat extends Activity {
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     setChatLinesFromPhone();
-                } else {
+                }
+                else if(getIntent().getStringExtra("caller").equals("Open")) {
+                    Log.i("test", "opening");
+                    update();
+                }
+                else {
                     if (c.getCount() > 0) {
                         //setChatLinesFromDB(c);
                         update();
@@ -171,7 +176,7 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
-        chatText.setText(cli.get_role()+" : "+cli.get_chatLine());
+        chatText.setText(cli.get_role() + " : " + cli.get_chatLine());
 
         if (msg.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
@@ -199,9 +204,8 @@ public class ChorusChat extends Activity {
         long newRowId = -1;
         try {
             newRowId = chatdb.insertOrThrow(_DBtask, null, values);
-            Log.i(chatdb.toString(), "value: "+newRowId);
-        }
-        catch (SQLException e) {
+            Log.i(chatdb.toString(), "value: " + newRowId);
+        } catch (SQLException e) {
             Log.e(chatdb.toString(), e.toString());
         }
         if (newRowId == -1) {
@@ -218,11 +222,10 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        if(getIntent().getExtras().getBoolean("Foreground")) {
+        if (getIntent().getExtras().getBoolean("Foreground")) {
             Log.i("test", "foreground");
             update();
-        }
-        else {
+        } else {
             Log.i("test", "background");
             finish();
         }
@@ -248,7 +251,7 @@ public class ChorusChat extends Activity {
         cli.set_id(id);
         _cli.set_id(id);
 
-        chatText.setText(cli.get_role()+" : "+cli.get_chatLine());
+        chatText.setText(cli.get_role() + " : " + cli.get_chatLine());
 
         if (msg.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
@@ -270,7 +273,7 @@ public class ChorusChat extends Activity {
      */
     public void postData(String words) {
         //chatText.setText(words);
-        _canUpdate=true;
+        _canUpdate = true;
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, "requester");
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);

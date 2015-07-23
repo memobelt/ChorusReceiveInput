@@ -45,6 +45,13 @@ public class ListenerServiceFromPhone extends WearableListenerService {
 
             startActivity(intent);
         }
+        else if(messageEvent.getPath().equals("/hello-world-open")) {
+            Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
+            intent.putExtra("Foreground", appInForeground(getApplicationContext()));
+            intent.putExtra("caller", "Open");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
 
         else {
             super.onMessageReceived(messageEvent);
