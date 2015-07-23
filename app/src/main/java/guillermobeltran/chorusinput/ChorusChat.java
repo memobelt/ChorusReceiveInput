@@ -17,6 +17,8 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v7.app.ActionBarActivity;
+import android.text.SpannableString;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -279,6 +281,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         else {
             _yelpBtn.setVisibility(View.GONE);
         }
+        Linkify.addLinks(new SpannableString(chatLineInfo.get_chatLine()), Linkify.ALL);
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
     }
