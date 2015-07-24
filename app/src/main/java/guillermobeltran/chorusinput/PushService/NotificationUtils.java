@@ -53,7 +53,7 @@ public class NotificationUtils {
         wear.putExtra("Text", false);
         PendingIntent wearPI = PendingIntent.getActivity(mContext, 0, wear, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Action action =
-                new NotificationCompat.Action.Builder(R.mipmap.ic_launcher,
+                new NotificationCompat.Action.Builder(R.drawable.back_icon,
                         "Open", wearPI).build();
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
                 .setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setAutoCancel(true)

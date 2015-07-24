@@ -17,6 +17,7 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
@@ -128,6 +129,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             /*YOUR CHOICE OF COLOR*/
                 textView.setTextColor(Color.WHITE);
                 textView.setAutoLinkMask(Linkify.ALL);
+                textView.setText(Html.fromHtml(_chatArrayList.get(position)));
 
                 return view;
             }
@@ -248,8 +250,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 if (json != null) {
                     try {
                         for (int n = 0; n < json.length(); n++) {
+                            //String[] lineInfo = json.get(n).toString().split("\"");
+                            int chatLineStart = json.get(n).toString().indexOf("chatLine\":\"");
+                            int roleStart = json.get(n).toString().indexOf("\",\"role");
+                            String json_string = json.get(n).toString().toString()
+                                    .substring(chatLineStart + 11, roleStart);
                             String[] lineInfo = json.get(n).toString().split("\"");
+
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
+                            chatLineInfo.set_chatLine(json_string);
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
@@ -273,10 +282,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
-        /*if (chatLineInfo.get_chatLine().contains("http") ||
-                chatLineInfo.get_chatLine().contains("www.")) {
-            chatLineInfo.set_chatLine(Html.fromHtml(chatLineInfo.get_chatLine()).toString());
-        }*/
         if(_role.equals("crowd")) {
             _yelpBtn.setVisibility(View.VISIBLE);
         }
@@ -315,12 +320,19 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 if (json != null) {
                     if (json.length() > 0) {
                         try {
+                            int chatLineStart = json.get(json.length() - 1).toString().indexOf("chatLine\":\"");
+                            int roleStart = json.get(json.length() - 1).toString().indexOf("\",\"role");
+                            String json_string = json.get(json.length() - 1).toString()
+                                    .substring(chatLineStart + 11, roleStart);
+                            //String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
                             String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
-                            ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
 
+                            ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
+                            chatLineInfo.set_chatLine(json_string);
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
+                            Log.i("test", "text*: " + chatLineInfo.get_chatLine());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
 
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -403,13 +415,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     new AjaxCallback<JSONObject>());
         } else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
-
-            /*Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-            intent.putExtra("Text", true);
-            intent.putExtra("ChatNum", _task);
-            intent.putExtra("Role", _role);
-            intent.putExtra("Message", words);
-            startActivity(intent);*/
         }
     }
 
