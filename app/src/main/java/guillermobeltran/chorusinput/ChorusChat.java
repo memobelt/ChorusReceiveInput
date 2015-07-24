@@ -129,7 +129,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             /*YOUR CHOICE OF COLOR*/
                 textView.setTextColor(Color.WHITE);
                 textView.setAutoLinkMask(Linkify.ALL);
-                textView.setText(Html.fromHtml(_chatArrayList.get(position)));
+                textView.setText(Html.fromHtml(_chatArrayList.get(position).replace("\\", "")));
 
                 return view;
             }
@@ -250,7 +250,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 if (json != null) {
                     try {
                         for (int n = 0; n < json.length(); n++) {
-                            //String[] lineInfo = json.get(n).toString().split("\"");
                             int chatLineStart = json.get(n).toString().indexOf("chatLine\":\"");
                             int roleStart = json.get(n).toString().indexOf("\",\"role");
                             String json_string = json.get(n).toString().toString()
@@ -324,7 +323,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             int roleStart = json.get(json.length() - 1).toString().indexOf("\",\"role");
                             String json_string = json.get(json.length() - 1).toString()
                                     .substring(chatLineStart + 11, roleStart);
-                            //String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
                             String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
 
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
@@ -332,7 +330,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
-                            Log.i("test", "text*: " + chatLineInfo.get_chatLine());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
 
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
