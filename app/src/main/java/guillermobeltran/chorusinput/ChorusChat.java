@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -63,7 +64,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
     String _task, _role, _DBtask;
     ListView _chatList;
-    Button _crowdBtn, _yelpBtn;
+    Button _crowdBtn;
+    ImageButton _yelpBtn;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
     ArrayList<String> _chatArrayList = new ArrayList<String>();
     ArrayList<String> _factsArrayList = new ArrayList<String>();
@@ -91,7 +93,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _chatList = (ListView) findViewById(ChatList);
         _editText = (EditText) findViewById(editText);
         _crowdBtn = (Button) findViewById(CrowdSend);
-        _yelpBtn = (Button) findViewById(R.id.yelp_button);
+        _yelpBtn = (ImageButton) findViewById(R.id.yelp_button);
         _yelpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
