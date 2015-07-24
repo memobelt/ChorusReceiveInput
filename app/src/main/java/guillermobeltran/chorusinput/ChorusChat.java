@@ -17,7 +17,6 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v7.app.ActionBarActivity;
-import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
@@ -115,7 +114,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         startActivityForResult(checkTTSIntent, 200);
 
         _DBtask = "CHAT" + _task;
-        _chatLineAdapter = new ArrayAdapter<String>(getApplicationContext(),
+        _chatLineAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, _chatArrayList) {
             @Override
             public View getView(int position, View convertView,
@@ -126,6 +125,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
                             /*YOUR CHOICE OF COLOR*/
                 textView.setTextColor(Color.WHITE);
+                textView.setAutoLinkMask(Linkify.ALL);
 
                 return view;
             }
@@ -281,7 +281,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         else {
             _yelpBtn.setVisibility(View.GONE);
         }
-        Linkify.addLinks(new SpannableString(chatLineInfo.get_chatLine()), Linkify.ALL);
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
     }

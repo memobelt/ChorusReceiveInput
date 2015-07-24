@@ -196,6 +196,7 @@ public class ChorusChat extends Activity {
         _cli.set_role(getIntent().getStringExtra("Role"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
         _task = getIntent().getStringExtra("ChatNum");
+        _cli.set_task(getIntent().getStringExtra("ChatNum"));
 
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, getIntent().getStringExtra("Role"));
@@ -235,7 +236,6 @@ public class ChorusChat extends Activity {
     Recursive function that constantly checks the server to see if there is a change in the chat.
      */
     public void update() {
-        Log.i("test", "update");
         c.moveToLast();
         ChatLineInfo cli = new ChatLineInfo();
         String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry

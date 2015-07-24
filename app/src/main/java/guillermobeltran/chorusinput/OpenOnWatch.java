@@ -42,7 +42,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                     + getIntent().getStringExtra("ChatNum");
         }
         else {
-            //caller from Yelp. open Chorus Chat on watch.
+            //caller from notificatin. open Chorus Chat on watch.
             HELLO_WORLD = "/hello-world-open";
             message = "";
         }
