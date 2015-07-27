@@ -348,15 +348,20 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             chatLineInfo.set_chatLine(json_string);
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
-                            if (chatLineInfo.get_role().equals("requester")) {
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                    chatLineInfo.get_chatLine().replace("\\", "") + " " +
+                                            chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
+                            /*if (chatLineInfo.get_role().equals("requester")) {
+                                Log.i("test", "here");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
                                         chatLineInfo.get_chatLine().replace("\\", "") + " " +
                                                 chatLineInfo.get_acceptedTime().substring(0, (chatLineInfo.get_accepted()).length() - 3));
                             } else {
+                                Log.i("test", "else here");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
                                         chatLineInfo.get_chatLine().replace("\\", "") + " " +
                                                 chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
-                            }
+                            }*/
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
@@ -384,13 +389,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
                             intent.putExtra("Message", chatLineInfo.get_chatLine().replace("\\", ""));
-                            if (chatLineInfo.get_role().equals("requester")) {
+                            intent.putExtra("Time", chatLineInfo.get_time().substring(0,
+                                    (chatLineInfo.get_time()).length() - 3));
+                            /*if (chatLineInfo.get_role().equals("requester")) {
                                 intent.putExtra("Time", chatLineInfo.get_accepted().substring(0,
                                         (chatLineInfo.get_acceptedTime()).length() - 3));
                             } else {
                                 intent.putExtra("Time", chatLineInfo.get_time().substring(0,
                                         (chatLineInfo.get_time()).length() - 3));
-                            }
+                            }*/
                             startActivity(intent);
 
                         } catch (JSONException e) {
