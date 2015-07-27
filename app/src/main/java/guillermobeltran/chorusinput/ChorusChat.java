@@ -294,9 +294,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             //Values to add to DB.
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
-                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                    chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                            chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length()-3));
+                            if (chatLineInfo.get_role().equals("requester")) {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
+                                                chatLineInfo.get_acceptedTime().substring(0, (chatLineInfo.get_accepted()).length() - 3));
+                            } else {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
+                                                chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
+                            }
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {//error check. should probably do more then Oh no.
@@ -320,8 +326,13 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
      */
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
+        String temp = (chatLineInfo.get_chatLine()).toLowerCase();
         if(_role.equals("crowd")) {
-            _yelpBtn.setVisibility(View.VISIBLE);
+            if(temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant"))
+                _yelpBtn.setVisibility(View.VISIBLE);
+            else {
+                _yelpBtn.setVisibility(View.GONE);
+            }
         }
         else {
             _yelpBtn.setVisibility(View.GONE);
@@ -375,7 +386,19 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                    chatLineInfo.get_chatLine().replace("\\", "") + " " + chatLineInfo.get_time());
+                                    chatLineInfo.get_chatLine().replace("\\", "") + " " +
+                                            chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
+                            /*if (chatLineInfo.get_role().equals("requester")) {
+                                Log.i("test", "here");
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
+                                                chatLineInfo.get_acceptedTime().substring(0, (chatLineInfo.get_accepted()).length() - 3));
+                            } else {
+                                Log.i("test", "else here");
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
+                                                chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
+                            }*/
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
@@ -399,7 +422,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
                             intent.putExtra("Message", chatLineInfo.get_chatLine().replace("\\", ""));
-                            intent.putExtra("Time", chatLineInfo.get_time());
+                            intent.putExtra("Time", chatLineInfo.get_time().substring(0,
+                                    (chatLineInfo.get_time()).length() - 3));
+                            /*if (chatLineInfo.get_role().equals("requester")) {
+                                intent.putExtra("Time", chatLineInfo.get_accepted().substring(0,
+                                        (chatLineInfo.get_acceptedTime()).length() - 3));
+                            } else {
+                                intent.putExtra("Time", chatLineInfo.get_time().substring(0,
+                                        (chatLineInfo.get_time()).length() - 3));
+                            }*/
                             startActivity(intent);
 
                         } catch (JSONException e) {
@@ -413,23 +444,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         });
     }
-    /*public void notification() {
-        Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-        viewIntent.putExtra("ChatNum", _task);
-        viewIntent.putExtra("Role", _role);
-
-        PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent)
-                .setGroup(NOTIFICATION_GROUP);
-        //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-        //        "in Chat " + _task);
-        mBuilder.setContentText(_cli.get_role() + " : " + _cli.get_chatLine());
-        NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nmgr.notify(id++, mBuilder.build());
-    }*/
 
     /*
     Sends the string to the server to add. line is for whether the message goes in the Chat

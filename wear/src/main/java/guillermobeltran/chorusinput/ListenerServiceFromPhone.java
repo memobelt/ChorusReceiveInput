@@ -14,21 +14,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ListenerServiceFromPhone extends WearableListenerService {
-    String NOTIFICATION_GROUP = "notification_group";
-    int id = 001;
-
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         /*
          * Receive the message from wear
          */
         //open on phone was called from MainActivity to answer
-        if(messageEvent.getPath().equals("/hello-world")) {
+        if (messageEvent.getPath().equals("/hello-world")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             String temp_message = new String(messageEvent.getData(), StandardCharsets.UTF_8);
             int separate = temp_message.indexOf("|");
             intent.putExtra("Role", temp_message.substring(0, separate));
-            intent.putExtra("New Text", temp_message.substring(separate+1, temp_message.length() - 1));
+            intent.putExtra("New Text", temp_message.substring(separate + 1, temp_message.length() - 1));
             intent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
             intent.putExtra("Foreground", appInForeground(getApplicationContext()));
             intent.putExtra("caller", "ListenerServiceFromPhone");
@@ -44,40 +41,35 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             nmc.notify(id++, notification.build()); */
 
             startActivity(intent);
-        }
-        else if(messageEvent.getPath().equals("/hello-world-open")) {
+        } else if (messageEvent.getPath().equals("/hello-world-open")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("Foreground", appInForeground(getApplicationContext()));
             intent.putExtra("caller", "Open");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
-
-        else {
+        } else {
             super.onMessageReceived(messageEvent);
             Log.i("test", "Message path does not match");
         }
     }
+
     @Override
     public void onPeerConnected(Node peer) {
         super.onPeerConnected(peer);
-        Log.i("test",peer.getDisplayName());
+        Log.i("test", peer.getDisplayName());
     }
 
     @Override
     public void onPeerDisconnected(Node peer) {
         super.onPeerDisconnected(peer);
-        Log.i("test",peer.getDisplayName());
+        Log.i("test", peer.getDisplayName());
     }
     public boolean appInForeground(Context context) {
         boolean inForeground = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
         ComponentName componentName = runningTaskInfoList.get(0).topActivity;
-            /*if (componentName.getPackageName().equals(context.getPackageName())) {
-                inBackground = false;
-            }*/
-        if(componentName.getClassName().contains("ChorusChat")) {
+        if (componentName.getClassName().contains("ChorusChat")) {
             inForeground = true;
         }
         return inForeground;

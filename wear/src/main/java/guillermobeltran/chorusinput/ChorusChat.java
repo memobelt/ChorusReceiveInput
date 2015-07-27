@@ -127,7 +127,6 @@ public class ChorusChat extends Activity {
                     setChatLinesFromPhone();
                 }
                 else if(getIntent().getStringExtra("caller").equals("Open")) {
-                    Log.i("test", "opening");
                     update();
                 }
                 else {
@@ -205,12 +204,10 @@ public class ChorusChat extends Activity {
         long newRowId = -1;
         try {
             newRowId = chatdb.insertOrThrow(_DBtask, null, values);
-            Log.i(chatdb.toString(), "value: " + newRowId);
         } catch (SQLException e) {
             Log.e(chatdb.toString(), e.toString());
         }
         if (newRowId == -1) {
-            Log.i("test", "-1 oh no");
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
         }
         if (chatText.getText().toString().contains("?")) {
@@ -224,10 +221,8 @@ public class ChorusChat extends Activity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
         if (getIntent().getExtras().getBoolean("Foreground")) {
-            Log.i("test", "foreground");
             update();
         } else {
-            Log.i("test", "background");
             finish();
         }
     }
@@ -272,7 +267,6 @@ public class ChorusChat extends Activity {
     Sends the string to the server to add chat list.
      */
     public void postData(String words) {
-        //chatText.setText(words);
         _canUpdate = true;
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, "requester");
@@ -281,7 +275,6 @@ public class ChorusChat extends Activity {
 
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
         if (newRowId == -1) {
-            Log.i("test", "-1 oh no");
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
         }
         if (words.contains("?")) {
