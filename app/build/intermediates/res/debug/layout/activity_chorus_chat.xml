@@ -61,11 +61,11 @@
                     "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"/>
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/yelp_button"
                 android:src="@drawable/yssdk_yelp_logo"
                 android:background="@null"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:text="Yelp"/>
             <Button
                 android:layout_width="wrap_content"

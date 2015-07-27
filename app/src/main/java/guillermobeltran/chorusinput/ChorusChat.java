@@ -147,7 +147,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             //only way for chat to work is to load the webpage so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
-            //webview.loadUrl(url+"requester-demo.php?task="+_task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
             //make sure the text is white
@@ -234,8 +233,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role(role);
                 String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_MSG));
-                cli.set_chatLine(msg);
-                _cli.set_chatLine(msg);
+                cli.set_chatLine(msg.replace("\\", ""));
+                _cli.set_chatLine(msg.replace("\\", ""));
                 String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_CHATID));
                 cli.set_id(id);
@@ -269,7 +268,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             chatLineInfo.set_chatLine(json_string);
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
-                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                    chatLineInfo.get_chatLine().replace("\\", "") + " " +
+                                            chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length()-3));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
@@ -298,7 +299,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             _yelpBtn.setVisibility(View.GONE);
         }
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
-
     }
     public void displayMessages(){
         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
@@ -338,7 +338,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             chatLineInfo.set_chatLine(json_string);
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
-                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                    chatLineInfo.get_chatLine().replace("\\", "") + " " + chatLineInfo.get_time());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
@@ -366,7 +367,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             intent.putExtra("Text", true);
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
-                            intent.putExtra("Message", chatLineInfo.get_chatLine());
+                            intent.putExtra("Message", chatLineInfo.get_chatLine().replace("\\", ""));
+                            intent.putExtra("Time", chatLineInfo.get_time());
                             startActivity(intent);
 
                         } catch (JSONException e) {
