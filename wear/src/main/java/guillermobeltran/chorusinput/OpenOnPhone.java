@@ -59,7 +59,8 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             open_on_phone_animation = false;
         } else if (caller.equals("Response")) {
             HELLO_WORLD_WEAR_PATH = "/response";
-            String temp_message = getIntent().getStringExtra("Response") + getIntent().getStringExtra("ChatNum");
+            String temp_message = getIntent().getStringExtra("Response") + "~" + getIntent().getStringExtra("Time")
+                    + "|" + getIntent().getStringExtra("ChatNum");
             message = temp_message.getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         }

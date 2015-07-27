@@ -263,11 +263,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_TIME));
                 if (role.equals("requester")) {
-                    Log.i("test", "requester time " + time);
                     cli.set_acceptedTime(time);
                     _cli.set_acceptedTime(time);
                 } else {
-                    Log.i("test", "crowd time " + time);
                     cli.set_time(time);
                     _cli.set_time(time);
                 }
@@ -310,11 +308,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                     chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             if (chatLineInfo.get_role().equals("requester")) {
-                                Log.i("test", "set requester time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
                                         chatLineInfo.get_acceptedTime());
                             } else {
-                                Log.i("test", "set crowd time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
                             }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -408,11 +404,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                     chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             if (chatLineInfo.get_role().equals("requester")) {
-                                Log.i("test", "update requester time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
                                         chatLineInfo.get_acceptedTime());
                             } else {
-                                Log.i("test", "update crowd time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
                             }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -471,6 +465,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         } else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
         }
+
+        //ToDo: add time to cloud. need to input time from speaktome and wear
     }
 
     //for timestamp

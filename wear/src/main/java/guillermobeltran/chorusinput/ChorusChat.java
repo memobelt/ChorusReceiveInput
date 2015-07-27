@@ -20,7 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ChorusChat extends Activity {
@@ -105,6 +107,13 @@ public class ChorusChat extends Activity {
                                         _task = "6";
                                     }
                                     intent.putExtra("ChatNum", _task);
+
+                                    //time
+                                    Date d = new Date(System.currentTimeMillis());
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+                                    _cli.set_acceptedTime(sdf.format(d));
+                                    intent.putExtra("Time", sdf.format(d));
+
                                     intent.putExtra("caller", "Response");
                                     startActivity(intent);
                                 }
@@ -125,11 +134,9 @@ public class ChorusChat extends Activity {
                 });
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     setChatLinesFromPhone();
-                }
-                else if(getIntent().getStringExtra("caller").equals("Open")) {
+                } else if (getIntent().getStringExtra("caller").equals("Open")) {
                     update();
-                }
-                else {
+                } else {
                     if (c.getCount() > 0) {
                         //setChatLinesFromDB(c);
                         update();
@@ -175,7 +182,17 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
-        chatText.setText(cli.get_role() + " : " + cli.get_chatLine());
+        String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_TIME));
+        if(role.equals("requester")) {
+            cli.set_acceptedTime(time);
+            _cli.set_acceptedTime(time);
+        }
+        else {
+            cli.set_time(time);
+            _cli.set_time(time);
+        }
+        chatText.setText(cli.get_role() + " : " + cli.get_chatLine() + " " + getDate(time));
 
         if (msg.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
@@ -191,7 +208,6 @@ public class ChorusChat extends Activity {
     }
 
     public void setChatLinesFromPhone() {
-        chatText.setText(getIntent().getStringExtra("Role") + " : " + getIntent().getStringExtra("New Text"));
         _cli.set_role(getIntent().getStringExtra("Role"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
         _task = getIntent().getStringExtra("ChatNum");
@@ -201,6 +217,7 @@ public class ChorusChat extends Activity {
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, getIntent().getStringExtra("Role"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, getIntent().getStringExtra("ChatNum"));
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, getIntent().getStringExtra("Time"));
         long newRowId = -1;
         try {
             newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -220,6 +237,8 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
+        chatText.setText(getIntent().getStringExtra("Role") + " : " + getIntent().getStringExtra("New Text") +
+                " " + getDate(getIntent().getStringExtra("Time")));
         if (getIntent().getExtras().getBoolean("Foreground")) {
             update();
         } else {
@@ -245,8 +264,17 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
+        String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_TIME));
+        if (role.equals("requester")) {
+            cli.set_acceptedTime(time);
+            _cli.set_acceptedTime(time);
+        } else {
+            cli.set_time(time);
+            _cli.set_time(time);
+        }
 
-        chatText.setText(cli.get_role() + " : " + cli.get_chatLine());
+        chatText.setText(cli.get_role() + " : " + cli.get_chatLine() + " " + getDate(time));
 
         if (msg.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
@@ -271,7 +299,14 @@ public class ChorusChat extends Activity {
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, "requester");
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _task);
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _cli.get_id());
+
+        //time
+        Date d = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, sdf.format(d));
+        _cli.set_acceptedTime(sdf.format(d));
+
 
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
         if (newRowId == -1) {
@@ -288,6 +323,24 @@ public class ChorusChat extends Activity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
         update();
+    }
+
+    //for timestamp
+    public String getDate(String s) {
+        //s = yyyy-MM-d H:m:s
+        if (s == null) {
+            return "";
+        } else {
+            String[] parsed_date = s.split(" ");
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+            String[] parsed_current = simpleDateFormat.format(date).split(" ");
+            if (parsed_date[0].equals(parsed_current[0])) {
+                return parsed_date[1].substring(0, parsed_date[1].length() - 3);
+            } else {
+                return s.substring(0, s.length() - 3);
+            }
+        }
     }
 
     //TODO: Set alarm manager to check for updates
