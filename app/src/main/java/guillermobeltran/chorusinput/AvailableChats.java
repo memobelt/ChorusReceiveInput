@@ -1,10 +1,8 @@
 package guillermobeltran.chorusinput;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,14 +21,15 @@ import android.widget.TextView;
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
+ *
+ * This is where the Chat numbers are populated. Right now it's just 1-20.
+ *
+ * TODO: Find a way to retrieve all available chats. Probably need server cooperation for that.
+ * AvailableChats is where the chat numbers are made.
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class AvailableChats extends Fragment implements AbsListView.OnItemClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    // TODO: Rename and change types of parameters
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +64,7 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: Change Adapter to display your content
+        // This is the adapter that display the content.
         mAdapter = new ArrayAdapter<guillermobeltran.chorusinput.Chats.AvailableChats.ChatNumber>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 guillermobeltran.chorusinput.Chats.AvailableChats.ITEMS){
@@ -152,7 +151,6 @@ public class AvailableChats extends Fragment implements AbsListView.OnItemClickL
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
 

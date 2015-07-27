@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+/*
+Summer?
+ */
 public class SearchBarActivity extends Activity {
 
     private EditText mSearchTerm;

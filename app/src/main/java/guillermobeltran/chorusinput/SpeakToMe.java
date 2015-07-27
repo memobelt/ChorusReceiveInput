@@ -29,19 +29,19 @@ import guillermobeltran.chorusinput.PushService.ParseUtils;
 
 import static guillermobeltran.chorusinput.R.id.SendButton;
 import static guillermobeltran.chorusinput.R.id.imageButton;
-import static guillermobeltran.chorusinput.R.id.imageButton2;
 
-
+/*
+Activity for when user is about to ask a question. Camera for another time.
+TODO: Change chatNum and task number to specific to the user.
+ */
 public class SpeakToMe extends Activity {
 
     private EditText _txtSpeechInput;
     private Bitmap _finalBm;
     private ImageButton _btnSpeak, _btnCam;
     private Button _sendButton;
-    //    private Button _btnRig, _btnLef, _btnOk;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private static final int REQ_CODE_CAMERA_IMAGE = 200;
-    private static final String TAG = "SpeakToMe";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class SpeakToMe extends Activity {
 
         _txtSpeechInput = (EditText) findViewById(R.id.txtSpeechInput);
         _btnSpeak = (ImageButton) findViewById(imageButton);
-        _btnCam = (ImageButton) findViewById(imageButton2);
+//        _btnCam = (ImageButton) findViewById(imageButton2); //btnCam not used.
         _sendButton = (Button) findViewById(SendButton);
 
         _btnSpeak.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class SpeakToMe extends Activity {
     }
 
     /**
-     * Showing google speech input dialog
+     * Showing google speech input dialog for STT
      */
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -89,6 +89,7 @@ public class SpeakToMe extends Activity {
         }
     }
 
+    //ChatNum must be changed. And task number.
     public void sendButton(View v) {
         Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
         intent.putExtra("Words", _txtSpeechInput.getText().toString());
@@ -115,7 +116,7 @@ public class SpeakToMe extends Activity {
     }
 
     /**
-     * Receiving speech input or camera input
+     * Receiving speech input or camera input. Camera code shouldn't be used.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -134,6 +135,7 @@ public class SpeakToMe extends Activity {
                 }
                 break;
             }
+            //No need for this.
             case REQ_CODE_CAMERA_IMAGE: {
                 if (resultCode == RESULT_OK) {
                     //retrieving the file from URI

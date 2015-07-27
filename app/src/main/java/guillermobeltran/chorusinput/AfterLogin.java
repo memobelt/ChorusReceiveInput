@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,12 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.yahoo.mobile.client.share.search.interfaces.ISearchStatusListener;
-import com.yahoo.mobile.client.share.search.settings.SearchSDKSettings;
-
-
+/*
+Service would be after the user logs in. This is where the user chooses what he wants to do.
+The workerId should be associated with the user. The current workerId in ChorusChat
+is just a place holder.
+*/
 public class AfterLogin extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, AvailableChats.OnFragmentInteractionListener {
 
@@ -59,12 +58,11 @@ public class AfterLogin extends ActionBarActivity
                 (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        if (position == 3){
+        if (position == 3){//User chose to answer questions.
             fragmentManager.beginTransaction()
                     .replace(R.id.container, AvailableChats.newInstance(position + 1))
                     .commit();
@@ -92,7 +90,9 @@ public class AfterLogin extends ActionBarActivity
                 break;
         }
     }
-
+    /*
+    The user chose to ask a question
+     */
     public void askQuestion(View v){
         Intent intent = new Intent(this, SpeakToMe.class);
         startActivity(intent);
@@ -133,7 +133,10 @@ public class AfterLogin extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+    This is where the workerId should be placed. This is for when the user is choosing to answer
+    a chat. The ID is the corresponding chat number.
+    */
     @Override
     public void onFragmentInteraction(String id) {
         Intent intent = new Intent(this, ChorusChat.class);
@@ -178,7 +181,6 @@ public class AfterLogin extends ActionBarActivity
             return rootView;
         }
 
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         @Override
         public void onAttach(Activity activity) {
             //this changes the title of the action bar
@@ -186,24 +188,5 @@ public class AfterLogin extends ActionBarActivity
             ((AfterLogin) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
-    }
-    private void initializeSearchSDK() {
-        ISearchStatusListener callback = new ISearchStatusListener() {
-            @Override
-            public void onSearchStatusReceived(SearchAppIdStatus status) {
-                if(status == ISearchStatusListener.SearchAppIdStatus.VALID) {
-                    //valid appID
-                    Toast.makeText(getApplicationContext(), "Yahoo is good", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),"Yahoo is not good",Toast.LENGTH_SHORT).show();
-                }
-            }
-            @Override
-            public Context getContext() {
-                return getApplicationContext();
-            }
-        };
-        SearchSDKSettings
-                .initializeSearchSDKSettings(new SearchSDKSettings.Builder("MoLuLt78"));
     }
 }

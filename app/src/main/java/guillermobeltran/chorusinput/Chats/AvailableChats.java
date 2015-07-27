@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- * <p/>
- * TODO: Replace all uses of this class before publishing your app.
+ * This is where the chat numbers are made. Only 1-20. Should replace with actual chats the user
+ * can answer. Probably need server cooperation.
+ * TODO: Get appropriate chat numbers rather than 1-20.
  */
 public class AvailableChats {
 
@@ -24,13 +23,9 @@ public class AvailableChats {
     public static Map<String, ChatNumber> ITEM_MAP = new HashMap<String, ChatNumber>();
 
     static {
-        // Add 3 sample items.
         for(int i = 1; i<21; i++){
             addItem(new ChatNumber(Integer.toString(i),"Chat "+ Integer.toString(i)));
         }
-//        addItem(new ChatNumber("1", "Chat 1"));
-//        addItem(new ChatNumber("2", "Chat 2"));
-//        addItem(new ChatNumber("3", "Chat 3"));
     }
 
     private static void addItem(ChatNumber item) {

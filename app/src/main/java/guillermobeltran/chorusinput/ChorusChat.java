@@ -74,7 +74,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     ImageButton _yelpBtn;
     ArrayList<ChatLineInfo> _chatLineInfoArrayList;
     ArrayList<String> _chatArrayList = new ArrayList<String>();
-    ArrayList<String> _factsArrayList = new ArrayList<String>();
     ChatLineInfo _cli = new ChatLineInfo();
     ArrayAdapter _chatLineAdapter, _importantFactsAdapter;
     Boolean _canUpdate;
@@ -84,7 +83,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
     static String _searchUrl = "https://news.search.yahoo.com/search?p=";
-    String NOTIFICATION_GROUP = "notification_group";
     int id = 001;
 
     @Override
@@ -94,6 +92,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         setContentView(R.layout.activity_chorus_chat);
 
         //get all the intents
+        //workerId should be retrieved from intent here.
         _task = getIntent().getStringExtra("ChatNum");
         _role = getIntent().getStringExtra("Role");
 
@@ -113,16 +112,20 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _crowdBtn.setVisibility(View.VISIBLE);
 
         _canUpdate = true;
-        _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
+        _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();//will hold all chatLines.
+
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
+        //make sure TTS works
         Intent checkTTSIntent = new Intent();
         checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkTTSIntent, 200);
 
-        _DBtask = "CHAT" + _task;
+        _DBtask = "CHAT" + _task;//for the database that stores the messages.
+
+        //displays the text in the ListView.
         _chatLineAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, _chatArrayList) {
             @Override
@@ -140,18 +143,24 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 return view;
             }
         };
+
+        /*
+        This either creates or opens the database for this chat. The cursor determines whether it
+        has just been created or has been in place.
+        */
         DbHelper = new DBHelper(getApplicationContext(), _DBtask);
         chatdb = DbHelper.getWritableDatabase();
         Cursor c = chatdb.rawQuery("SELECT * FROM " + _DBtask, null);
+
         if (networkInfo != null && networkInfo.isConnected()) {
-            //only way for chat to work is to load the webpage so this does it in invisible webview
+            //only way for chat to work is to load the web page so this does it in invisible webview
             WebView webview = (WebView) findViewById(webView);
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
-            //make sure the text is white
 
-            //intent from phone
+            //This intent is if the Chat was opened from SpeakToMe so that means someone asked a
+            //question so the question gets sent to the server.
             if (getIntent().getExtras().getBoolean("Asking")) {
                 String words = getIntent().getStringExtra("Words");
                 postData("chatLine", words, "post");
@@ -165,27 +174,32 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role("crowd");
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
+            //If the cursor from above does have items then the chat has been opened and we don't
+            //have to call the server.
             if (c.getCount() > 0) {
                 setChatLinesFromDB(c);
-            } else {
+            } else {//we need to call the server and add the messages to the database.
                 setChatLinesFromWeb();
             }
 
             ParseUtils.subscribeWithEmail(ParseUtils.customIdBuilder(_task));
 
         } else {
-            if (c.getCount() > 0) {
+            if (c.getCount() > 0) {//no internet connection but maybe there are messages stored.
                 setChatLinesFromDB(c);
             }
             Toast.makeText(this, "No network connection available.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    //Get the text from the _editText widget. Checks against empty input.
+    /*
+    Get the text from the _editText widget. Checks against empty input.
+     */
     public void sendText(View v) {
         if (_editText.getText().length() == 0) {
             Toast.makeText(this, "Can't have empty input", Toast.LENGTH_SHORT).show();
         } else {
+
             String text = _editText.getText().toString();
             postData("chatLine", text, "post");
             HashMap<String, Object> params = new HashMap<String, Object>();
@@ -200,6 +214,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     }
                 }
             });
+            //To send relevant Yahoo article
             if(text.toLowerCase().contains("news about")) {
                 _searchTerms = text.substring(text.indexOf("news about")+"news about".length()+1);
                 new YahooNews().execute();
@@ -208,7 +223,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
     }
 
-    //sets up the parameters to send to the server
+    /*
+    sets up the parameters to send to the server. Action is whether it's sending or fetching.
+    LastChatId is for fetching messages.
+    */
     public HashMap<String, Object> setUpParams(HashMap<String, Object> params, String action, String lastChatId) {
         params.put("action", action);
         params.put("role", _role);
@@ -222,7 +240,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         return params;
     }
-
+    /*
+    This sets the listviews lines from the database.
+     */
     public void setChatLinesFromDB(Cursor c) {
         if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
@@ -247,8 +267,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         update();
     }
 
-    //This sets the chat list so user can see all available chats.
+    /*
+    This sets the chat list so user can see all available chats.
+     */
     public void setChatLinesFromWeb() {
+        //-1 to retrieve all messages.
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester", "-1");
         AQuery aq = new AQuery(this);
 
@@ -258,6 +281,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 if (json != null) {
                     try {
                         for (int n = 0; n < json.length(); n++) {
+                            //cuts up the JSON to be parsed.
                             int chatLineStart = json.get(n).toString().indexOf("chatLine\":\"");
                             int roleStart = json.get(n).toString().indexOf("\",\"role");
                             String json_string = json.get(n).toString().toString()
@@ -266,6 +290,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                             chatLineInfo.set_chatLine(json_string);
+
+                            //Values to add to DB.
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
@@ -273,11 +299,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                             chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length()-3));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
-                            if (newRowId == -1) {
+                            if (newRowId == -1) {//error check. should probably do more then Oh no.
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
                             }
                             setUpArrayList(chatLineInfo);
-                            //notification();
                         }
                         displayMessages();
 
@@ -290,6 +315,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         });
     }
 
+    /*
+    Sets up the ArrayList.
+     */
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
         if(_role.equals("crowd")) {
@@ -300,6 +328,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
     }
+
+    /*
+    Display all the messages. Also initalizes the ability for the app to speak the lines.
+     */
     public void displayMessages(){
         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
         _chatList.setSelection(_chatList.getCount() - 1);
@@ -315,10 +347,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
     /*
     Recursive function that constantly checks the server to see if there is a change in the chat
-    along with notification functionality.
+    along with notification functionality. Could probably be more efficient.
      */
     public void update() {
         AQuery aq = new AQuery(this);
+        //Checks to see if there are more messages starting from last message.
         Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
                 _chatLineInfoArrayList.get(_chatLineInfoArrayList.size() - 1).get_id());
 
@@ -328,6 +361,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 if (json != null) {
                     if (json.length() > 0) {
                         try {
+                            //More parseing of JSON
                             int chatLineStart = json.get(json.length() - 1).toString().indexOf("chatLine\":\"");
                             int roleStart = json.get(json.length() - 1).toString().indexOf("\",\"role");
                             String json_string = json.get(json.length() - 1).toString()
@@ -336,6 +370,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
                             chatLineInfo.set_chatLine(json_string);
+
+                            //Add to db.
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
@@ -347,21 +383,16 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             }
                             setUpArrayList(chatLineInfo);
 
+                            //If the Chat had no messages to begin with the adapter would not have
+                            //been initialized in SetChatLines so we have to do it here.
                             if (_chatList.getAdapter() == null) {
-                                ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
-                                _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        speakResults(_chatLineInfoArrayList.get(position).get_chatLine());
-                                    }
-                                });
+                                displayMessages();
                             }
 
-                            _chatList.setSelection(_chatList.getCount() - 1);
+                            //speak the answer from crowd automatically
                             if (_role.equals("requester") && chatLineInfo.get_role().equals("crowd")) {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
-                            //notification();
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Text", true);
@@ -377,16 +408,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     }
                 }
                 if (_canUpdate) {//in order to stop recursion once app is closed.
-                    int size = _chatLineInfoArrayList.size();
-                    /*if (size > 2) {
-                        if ("crowd".equals(_chatLineInfoArrayList.get(size - 1).get_role()) &&
-                                "crowd".equals(_chatLineInfoArrayList.get(size - 2).get_role()) &&
-                                "crowd".equals(_role)) {
-                            _crowdBtn.setVisibility(View.INVISIBLE);
-                        } else {
-                            _crowdBtn.setVisibility(View.VISIBLE);
-                        }
-                    }*/
                     update();
                 }
             }
@@ -411,7 +432,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     }*/
 
     /*
-    Sends the string to the server to add chat list.
+    Sends the string to the server to add. line is for whether the message goes in the Chat
+    or the memory (important facts). Memory not implemented.
      */
     public void postData(String line, String words, String action) {
         AQuery aq = new AQuery(this);
@@ -426,6 +448,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
     }
 
+    /*
+    Failed attempt at updating in background
+     */
     public void setAlarmManager() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
@@ -435,6 +460,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 SystemClock.elapsedRealtime(), 1000, pendingIntent);
     }
 
+    /*
+    To stop updating
+     */
     public void stopAlarmManager() {
         Intent intentstop = new Intent(this, AlarmUpdateChatList.class);
         PendingIntent senderstop = PendingIntent.getBroadcast(this,
@@ -450,26 +478,17 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 //        setAlarmManager();
     }
 
+    /*
+    For testing and deleting db
+     */
     public void deleteDB() {
 //        db.delete(DatabaseContract.DatabaseEntry.TABLE_NAME, null, null);
 //        db.rawQuery("DROP TABLE IF EXISTS " + DatabaseContract.DatabaseEntry.TABLE_NAME, null);
     }
 
-    public void insertToDB() {
-
-//        ContentValues values = new ContentValues();
-//        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, _role);
-//        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK, _task);
-//        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE, _chatLineInfoArrayList.size());
-//        int i = db.update(DatabaseContract.DatabaseEntry.TABLE_NAME, values, "task = " + _task, null);
-//        if (i == 0) {
-//            long newRowId = db.insertOrThrow(DatabaseContract.DatabaseEntry.TABLE_NAME, null, values);
-//            if (newRowId == -1) {
-//                Toast.makeText(this, "Oh no", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-    }
-
+    /*
+    When user wants to input through voice.
+     */
     public void ChatSpeechInput(View v) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -493,7 +512,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         switch (requestCode) {
             case 100: {
                 if (resultCode == RESULT_OK && data != null) {
-
+                    //from TTS to add to the text box.
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     _editText.setText(result.get(0));
@@ -526,6 +545,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
     }
 
+    /*
+    This is for the action bar. The icon for important facts.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -547,20 +569,23 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.info) {
-            getImportantFacts();
+//            getImportantFacts();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    Not functional. Important facts are not retrieved from server for unknown reason.
+     */
     public void getImportantFacts(){
         View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
         final ListView list = new ListView(this);
 
-        // set some pupup window properties
+        // set some popup window properties
         popupWindow.setFocusable(true);
         popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -604,10 +629,14 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         aq.ajax(memoryUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
-                status.getMessage();
+                status.getMessage();//this is where the important facts are supposed to come but no.
             }
         });
     }
+
+    /*
+    Split up the search term so it can be added to the yahoo link and work.
+     */
     public String getSearchTerms(String search){
         String[] s = search.split("\\s+");
         int len = s.length;
@@ -620,6 +649,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         return newSearch;
     }
+    /*
+    Extract the url from the mess it comes in.
+     */
     public String extractUrl(String html) {
         String[] href = html.split("\"");
         int len = href.length;
@@ -633,6 +665,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         return null;
     }
+
+    /*
+    Retrieves a link searched with Yahoo in the background.
+     */
     class YahooNews extends AsyncTask<Void,Void,Void>{
         @Override
         protected Void doInBackground(Void... params) {
@@ -640,11 +676,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 Elements sections = Jsoup.connect(_searchUrl+getSearchTerms(_searchTerms))
                         .get().getElementsByTag("section");
                 for (Element section : sections) {
+                    //Looks for first article.
                     if(section.className().equals("dd algo fst NewsArticle")){
 
+                        //Send article to the server as a system message.
                         AQuery aq = new AQuery(getApplicationContext());
-                        Map<String, Object> params1 = setUpParams(new HashMap<String, Object>(), "post",null);
-                        String chatLine = "Here is a relevant article about"+_searchTerms+" "+
+                        Map<String, Object> params1 = setUpParams(new HashMap<String, Object>(),
+                                "post",null);
+                        String chatLine = "You might be interested in this article about"+
+                                _searchTerms+":"+
                                 "<br />"+" "+
                                 extractUrl(section.child(0).child(0).html());
                         params1.put("chatLine", chatLine);

@@ -27,7 +27,10 @@ import java.util.Date;
 
 import static guillermobeltran.chorusinput.R.id.picturePreview;
 import static guillermobeltran.chorusinput.R.id.takePicture;
-
+/*
+Unused. To take picture. Not needed because server can't handle pictures. Not the best thing.
+Pictures come out wrong and user needs to fix it. Pretty bad. Good luck.
+ */
 
 public class TakePicture extends Activity {
 

@@ -20,7 +20,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+/*
+Created by Summer
+ */
 public class Yelp extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {

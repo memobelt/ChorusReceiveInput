@@ -10,7 +10,9 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.nio.charset.StandardCharsets;
-
+/*
+Created by Summer.
+ */
 public class ListenerServiceFromWear extends WearableListenerService {
     String NOTIFICATION_GROUP = "notification_group";
     int id = 001;

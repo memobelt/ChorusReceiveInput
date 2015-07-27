@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * Created by Memo on 6/18/15.
+ * Created by Memo on 6/18/15 to update in the back ground. Probably not useful. Push system
+ * will be much easier on battery. Is not functioning atm.
  */
 public class AlarmUpdateChatList extends BroadcastReceiver {
     int _size, numNotifications = 0;

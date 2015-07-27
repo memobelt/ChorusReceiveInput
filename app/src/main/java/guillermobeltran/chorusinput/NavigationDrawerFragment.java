@@ -28,6 +28,7 @@ import android.widget.ListView;
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
+ * TODO: ChatNum and WorkerId must be set according to user.
  */
 public class NavigationDrawerFragment extends Fragment {
 
@@ -212,8 +213,9 @@ public class NavigationDrawerFragment extends Fragment {
             intent = new Intent(getActivity(), ChorusChat.class);
             intent.putExtra("Asking",false);
             intent.putExtra("Yelp", false);
-            intent.putExtra("ChatNum","6");
+            intent.putExtra("ChatNum","6");//ChatNum should be changed for each user.
             intent.putExtra("Role","requester");
+            //WorkerId should also be put here.
         }
         if(intent != null){
             startActivityForResult(intent, 0);

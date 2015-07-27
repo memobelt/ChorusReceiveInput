@@ -26,6 +26,7 @@ import org.scribe.oauth.OAuthService;
  * <p>
  * See <a href="http://www.yelp.com/developers/documentation">Yelp Documentation</a> for more info.
  *
+ * Summer
  */
 public class YelpAPI {
 

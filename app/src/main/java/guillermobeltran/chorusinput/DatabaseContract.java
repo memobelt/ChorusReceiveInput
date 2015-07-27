@@ -3,7 +3,7 @@ package guillermobeltran.chorusinput;
 import android.provider.BaseColumns;
 
 /**
- * Created by Memo on 6/24/15.
+ * Created by Memo on 6/24/15 to make sure all data names line up correctly.
  */
 public final class DatabaseContract {
     public DatabaseContract() {}

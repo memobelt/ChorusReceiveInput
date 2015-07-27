@@ -13,7 +13,9 @@ import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
 import java.nio.charset.Charset;
-
+/*
+Created by Summer.
+ */
 public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 

@@ -22,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.InputStream;
-
+/*
+Created by Summer
+ */
 public class YelpResult extends ActionBarActivity {
     ListView listView;
     Button send;

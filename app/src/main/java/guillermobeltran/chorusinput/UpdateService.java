@@ -20,7 +20,10 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+/*
+Attempt to update service when user left app. Probably not energy efficient or data efficient.
+Recommend not to use this.
+ */
 public class UpdateService extends Service {
     int totalChats = 0;
     ChorusChat chat = new ChorusChat();
@@ -55,7 +58,7 @@ public class UpdateService extends Service {
                 int size = cursor.getInt(cursor.getColumnIndexOrThrow(
                         DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE));
                 totalChats++;
-                notify(role,task,size);
+//                notify(role,task,size);
                 list.add(task);
                 cursor.moveToNext();
             }
@@ -65,6 +68,7 @@ public class UpdateService extends Service {
         mDbHelper.close();
     }
     public void notify(final String role, final String task, final int size){
+        //Not efficient way to check notifications.
         AQuery aq = new AQuery(getApplicationContext());
         Map<String, Object> params = chat.setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester","-1");
         params.put("role", role);

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
 /**
- * Created by Memo on 6/24/15.
+ * Created by Memo on 6/24/15. Database stuff.
  */
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -34,7 +34,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context, @Nullable String task) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _task = task;
-        if(task != null){
+        if(task != null){//This is for table creation for the chats. Table gets created here or in
+            //onCreate. Probably here.
             getWritableDatabase().execSQL("CREATE TABLE IF NOT EXISTS " + _task + CREATE_CHAT_TABLE);
         }
     }

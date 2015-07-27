@@ -27,7 +27,9 @@ import static guillermobeltran.chorusinput.R.id.frame;
 import static guillermobeltran.chorusinput.R.id.pictureLayout;
 import static guillermobeltran.chorusinput.R.id.setPicture;
 
-
+/*
+For the user to correct the picture. Server can't handle pictures. Class is useless.
+ */
 public class OrientPicture extends Activity {
     private ImageButton _picture;
     private FrameLayout _frameLayout;

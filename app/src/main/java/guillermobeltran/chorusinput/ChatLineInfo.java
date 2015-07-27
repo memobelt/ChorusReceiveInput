@@ -3,8 +3,9 @@ package guillermobeltran.chorusinput;
 import java.util.ArrayList;
 
 /**
- * Created by Memo on 6/17/15. THis is what contains all the information about the line. May be needed
- * for future use?
+ * Created by Memo on 6/17/15. This is what contains all the information about the line.
+ * Not all aspects are used but can be used at a later date. If the JSON retrieval in ChorusChat is
+ * changed then SetChatLineInfo must be modified.
  */
 public class ChatLineInfo {
     private String _id, _chatLine,_role,_task,_time,_accepted,_workerId, _acceptedTime;
@@ -76,6 +77,7 @@ public class ChatLineInfo {
     public String get_acceptedTime() {
         return _acceptedTime;
     }
+
     public ChatLineInfo setChatLineInfo(String[] lineInfo, ChatLineInfo chatLineInfo){
         for(int i = 1; i < lineInfo.length; i+=4){
             switch (lineInfo[i]) {
