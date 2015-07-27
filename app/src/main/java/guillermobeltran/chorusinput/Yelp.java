@@ -79,6 +79,7 @@ public class Yelp extends ListActivity {
         intent.putExtra("image", biz.image);
         intent.putExtra("rating", biz.rating);
         intent.putExtra("deals", biz.deals);
+        intent.putExtra("snippet", biz.snippet);
         intent.putExtra("ChatNum", getIntent().getStringExtra("ChatNum"));
         startActivity(intent);
     };
@@ -113,7 +114,7 @@ public class Yelp extends ListActivity {
             }
             businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url"),
                     business.optString("display_phone"), address_string, business.optString("image_url"),
-                    business.optString("rating_img_url_large"), deals_string));
+                    business.optString("rating_img_url_large"), deals_string, business.optString("snippet_text")));
         }
         return businessObjs;
     }
@@ -126,9 +127,10 @@ public class Yelp extends ListActivity {
         final String image;
         final String rating;
         final String deals;
+        final String snippet;
 
         public Business(String name, String url, String phone, String location,
-                        String image, String rating, String deals) {
+                        String image, String rating, String deals, String snippet) {
             this.name = name;
             this.url = url;
             this.phone = phone;
@@ -136,6 +138,7 @@ public class Yelp extends ListActivity {
             this.image = image;
             this.rating = rating;
             this.deals = deals;
+            this.snippet = snippet;
         }
 
         @Override

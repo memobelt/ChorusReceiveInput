@@ -38,7 +38,7 @@ public class YelpResult extends ActionBarActivity {
         send = (Button) findViewById(R.id.send_button);
         image = (ImageView) findViewById(R.id.image);
         rating = (ImageView) findViewById(R.id.rating);
-        String[] values = new String[] {getIntent().getStringExtra("name"),
+        String[] values = new String[] {getIntent().getStringExtra("name"), getIntent().getStringExtra("snippet"),
                 getIntent().getStringExtra("url"), getIntent().getStringExtra("location"),
                 getIntent().getStringExtra("phone"), getIntent().getStringExtra("deals")};
         mAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,
