@@ -54,7 +54,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -253,12 +255,22 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role(role);
                 String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_MSG));
-                cli.set_chatLine(msg.replace("\\", ""));
+                cli.set_chatLine(msg.replace("\\", "")); //because HTML URL's have \'s
                 _cli.set_chatLine(msg.replace("\\", ""));
                 String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_CHATID));
                 cli.set_id(id);
                 _cli.set_id(id);
+                String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_TIME));
+                if(role.equals("requester")) {
+                    cli.set_acceptedTime(time);
+                    _cli.set_acceptedTime(time);
+                }
+                else {
+                    cli.set_time(time);
+                    _cli.set_time(time);
+                }
                 setUpArrayList(cli);
                 c.moveToNext();
             }
@@ -294,16 +306,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             //Values to add to DB.
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
-                            if (chatLineInfo.get_role().equals("requester")) {
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_acceptedTime().substring(0, (chatLineInfo.get_accepted()).length() - 3));
-                            } else {
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
-                            }
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                    chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
+                            if (chatLineInfo.get_role().equals("requester")) {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
+                                        chatLineInfo.get_acceptedTime());
+                            } else {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
+                            }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {//error check. should probably do more then Oh no.
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
@@ -338,7 +349,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         else {
             _yelpBtn.setVisibility(View.GONE);
         }
-        _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+        /*if (chatLineInfo.get_role().equals("requester")) {
+                                intent.putExtra("Time", chatLineInfo.get_accepted().substring(0,
+                                        (chatLineInfo.get_acceptedTime()).length() - 3));
+                            } else {
+                                intent.putExtra("Time", chatLineInfo.get_time().substring(0,
+                                        (chatLineInfo.get_time()).length() - 3));
+                            }*/
+        _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine() + " " +
+                getDate(chatLineInfo.get_time()));
     }
 
     /*
@@ -387,20 +406,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                    chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                            chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
-                            /*if (chatLineInfo.get_role().equals("requester")) {
-                                Log.i("test", "here");
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_acceptedTime().substring(0, (chatLineInfo.get_accepted()).length() - 3));
-                            } else {
-                                Log.i("test", "else here");
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
-                            }*/
+                                    chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
+                            if(chatLineInfo.get_role().equals("requester")) {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
+                                        chatLineInfo.get_acceptedTime());
+                            }
+                            else {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
+                            }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
@@ -423,15 +437,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
                             intent.putExtra("Message", chatLineInfo.get_chatLine().replace("\\", ""));
-                            intent.putExtra("Time", chatLineInfo.get_time().substring(0,
-                                    (chatLineInfo.get_time()).length() - 3));
-                            /*if (chatLineInfo.get_role().equals("requester")) {
-                                intent.putExtra("Time", chatLineInfo.get_accepted().substring(0,
-                                        (chatLineInfo.get_acceptedTime()).length() - 3));
-                            } else {
-                                intent.putExtra("Time", chatLineInfo.get_time().substring(0,
-                                        (chatLineInfo.get_time()).length() - 3));
-                            }*/
+                            if(chatLineInfo.get_role().equals("requester")) {
+                                intent.putExtra("Time", chatLineInfo.get_acceptedTime());
+                            }
+                            else {
+                                intent.putExtra("Time", chatLineInfo.get_time());
+                            }
                             startActivity(intent);
 
                         } catch (JSONException e) {
@@ -452,7 +463,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
      */
     public void postData(String line, String words, String action) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action,null);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action, null);
 
         params.put(line, words);
         if (action.equals("postMemory")) {
@@ -460,6 +471,25 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     new AjaxCallback<JSONObject>());
         } else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
+        }
+    }
+
+    //for timestamp
+    public String getDate(String s) {
+        //s = yyyy-MM-d H:m:s
+        if(s==null) {
+            return "";
+        }
+        else {
+            String[] parsed_date = s.split(" ");
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+            String[] parsed_current = simpleDateFormat.format(date).split(" ");
+            if (parsed_date[0].equals(parsed_current[0])) {
+                return parsed_current[1].substring(0, parsed_current[1].length()-3);
+            } else {
+                return s.substring(0, s.length()-3);
+            }
         }
     }
 
