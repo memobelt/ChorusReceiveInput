@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.speech.RecognizerIntent;
@@ -31,8 +32,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,13 +45,15 @@ import com.androidquery.callback.AjaxStatus;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.yahoo.mobile.client.share.search.ui.activity.SearchToLinkActivity;
-import com.yahoo.mobile.client.share.search.ui.activity.TrendingSearchEnum;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -63,7 +68,7 @@ import static guillermobeltran.chorusinput.R.id.webView;
 
 public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
-    String _task, _role, _DBtask;
+    String _task, _role,_DBtask, _searchTerms;
     ListView _chatList;
     Button _crowdBtn;
     ImageButton _yelpBtn;
@@ -78,6 +83,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     TextToSpeech myTTS;
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
+    static String _searchUrl = "https://news.search.yahoo.com/search?p=";
     String NOTIFICATION_GROUP = "notification_group";
     int id = 001;
 
@@ -181,8 +187,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         if (_editText.getText().length() == 0) {
             Toast.makeText(this, "Can't have empty input", Toast.LENGTH_SHORT).show();
         } else {
-            postData("chatLine", _editText.getText().toString(), "post");
-
+            String text = _editText.getText().toString();
+            postData("chatLine", text, "post");
             HashMap<String, Object> params = new HashMap<String, Object>();
             params.put("email", ParseUtils.customIdBuilder(_task));
             params.put("role", _role);
@@ -195,7 +201,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     }
                 }
             });
-
+            if(text.toLowerCase().contains("news about")) {
+                _searchTerms = text.substring(text.indexOf("news about")+"news about".length()+1);
+                new YahooNews().execute();
+            }
             _editText.setText("");
         }
     }
@@ -267,6 +276,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
                             }
                             setUpArrayList(chatLineInfo);
+                            //notification();
                         }
                         displayMessages();
 
@@ -290,8 +300,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
 
     }
-
-    public void displayMessages() {
+    public void displayMessages(){
         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
         _chatList.setSelection(_chatList.getCount() - 1);
         _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -331,7 +340,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, chatLineInfo.get_chatLine());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
-
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
@@ -352,6 +360,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (_role.equals("requester") && chatLineInfo.get_role().equals("crowd")) {
                                 speakResults(chatLineInfo.get_chatLine());
                             }
+                            //notification();
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Text", true);
@@ -404,10 +413,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
      */
     public void postData(String line, String words, String action) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action, null);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action,null);
 
         params.put(line, words);
-        if (action.equals("fetchNewMemory")) {
+        if (action.equals("postMemory")) {
             aq.ajax(url + "php/memoryProcess.php", params, JSONObject.class,
                     new AjaxCallback<JSONObject>());
         } else {
@@ -418,7 +427,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void setAlarmManager() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent broadcast_intent = new Intent(this, AlarmUpdateChatList.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1234, broadcast_intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1234, broadcast_intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime(), 1000, pendingIntent);
     }
@@ -496,6 +506,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     installTTSIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
                     startActivity(installTTSIntent);
                 }
+                break;
             }
         }
     }
@@ -517,7 +528,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_chorus_chat, menu);
-        String title = "Wat";
+        String title = "Info";
         int groupid = R.id.info;
         int itemId = R.id.info;
         int order = 100;
@@ -534,15 +545,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.info) {
-            //getImportantFacts();
+            getImportantFacts();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void getImportantFacts() {
-    /*    View info = findViewById(R.id.info); // SAME ID AS MENU ID
+    public void getImportantFacts(){
+        View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
         final ListView list = new ListView(this);
@@ -576,34 +587,73 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                 ViewGroup parent) {
                 View view =super.getView(position, convertView, parent);
 
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);*/
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
 
-                            /*YOUR CHOICE OF COLOR*/
-                /*textView.setTextColor(Color.WHITE);
+//                            YOUR CHOICE OF COLOR
+                textView.setTextColor(Color.WHITE);
 
                 return view;
             }
         };
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "postMemory");
-        params.put("memoryLine","proxy proxy");
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewMemory","-1");
         String memoryUrl = url +"php/memoryProcess.php";
+        params.remove("role");
         aq.ajax(memoryUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 status.getMessage();
             }
         });
-        */
     }
+    public String getSearchTerms(String search){
+        String[] s = search.split("\\s+");
+        int len = s.length;
+        String newSearch = "";
+        for(int i =1; i<len; i++){
+            newSearch = newSearch+s[i];
+            if(i!=len-1){
+                newSearch = newSearch+"+";
+            }
+        }
+        return newSearch;
+    }
+    public String extractUrl(String html) {
+        String[] href = html.split("\"");
+        int len = href.length;
+        for(int i =0; i<len;i++ ){
+            if(href[i].contains("href")){
+                String searchUrl = href[i+1];
+                String news = searchUrl.substring(searchUrl.lastIndexOf("RU=")+3,
+                        searchUrl.lastIndexOf("/RK")).replace("%2f","/").replace("%3a",":");
+               return news;
+            }
+        }
+        return null;
+    }
+    class YahooNews extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                Elements sections = Jsoup.connect(_searchUrl+getSearchTerms(_searchTerms))
+                        .get().getElementsByTag("section");
+                for (Element section : sections) {
+                    if(section.className().equals("dd algo fst NewsArticle")){
 
-    public void yahoo() {
-        SearchToLinkActivity.IntentBuilder builder = new SearchToLinkActivity.IntentBuilder();
-        builder.setTrendingCategory(TrendingSearchEnum.NEWS);
-        builder.addWebVertical();
-        builder.setWebPreviewEnabled(false);
-        builder.setImagePreviewEnabled(false);
-        Intent intent = builder.buildIntent(this);
-        startActivityForResult(intent, 300);
+                        AQuery aq = new AQuery(getApplicationContext());
+                        Map<String, Object> params1 = setUpParams(new HashMap<String, Object>(), "post",null);
+                        String chatLine = "Here is a relevant article about"+_searchTerms+" "+
+                                "<br />"+" "+
+                                extractUrl(section.child(0).child(0).html());
+                        params1.put("chatLine", chatLine);
+                        params1.put("role","system");
+                        aq.ajax(_chatUrl, params1, JSONObject.class, new AjaxCallback<JSONObject>());
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
