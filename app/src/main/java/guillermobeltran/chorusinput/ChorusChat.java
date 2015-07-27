@@ -70,7 +70,7 @@ import static guillermobeltran.chorusinput.R.id.webView;
 
 public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
-    String _task, _role,_DBtask, _searchTerms;
+    String _task, _role, _DBtask, _searchTerms;
     ListView _chatList;
     Button _crowdBtn;
     ImageButton _yelpBtn;
@@ -85,7 +85,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
     static String _searchUrl = "https://news.search.yahoo.com/search?p=";
-    int id = 001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,8 +170,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
-            }
-            else if(getIntent().getExtras().getBoolean("Yelp")) {
+            } else if (getIntent().getExtras().getBoolean("Yelp")) {
                 _cli.set_role("crowd");
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
@@ -217,8 +215,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 }
             });
             //To send relevant Yahoo article
-            if(text.toLowerCase().contains("news about")) {
-                _searchTerms = text.substring(text.indexOf("news about")+"news about".length()+1);
+            if (text.toLowerCase().contains("news about")) {
+                _searchTerms = text.substring(text.indexOf("news about") + "news about".length() + 1);
                 new YahooNews().execute();
             }
             _editText.setText("");
@@ -242,6 +240,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         return params;
     }
+
     /*
     This sets the listviews lines from the database.
      */
@@ -263,11 +262,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_id(id);
                 String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_TIME));
-                if(role.equals("requester")) {
+                if (role.equals("requester")) {
+                    Log.i("test", "requester time " + time);
                     cli.set_acceptedTime(time);
                     _cli.set_acceptedTime(time);
-                }
-                else {
+                } else {
+                    Log.i("test", "crowd time " + time);
                     cli.set_time(time);
                     _cli.set_time(time);
                 }
@@ -310,9 +310,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                     chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
                             if (chatLineInfo.get_role().equals("requester")) {
+                                Log.i("test", "set requester time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
                                         chatLineInfo.get_acceptedTime());
                             } else {
+                                Log.i("test", "set crowd time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
                             }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -338,32 +340,29 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
         String temp = (chatLineInfo.get_chatLine()).toLowerCase();
-        if(_role.equals("crowd")) {
-            if(temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant") ||
+        if (_role.equals("crowd")) {
+            if (temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant") ||
                     temp.contains(" eat"))
                 _yelpBtn.setVisibility(View.VISIBLE);
             else {
                 _yelpBtn.setVisibility(View.GONE);
             }
-        }
-        else {
+        } else {
             _yelpBtn.setVisibility(View.GONE);
         }
-        /*if (chatLineInfo.get_role().equals("requester")) {
-                                intent.putExtra("Time", chatLineInfo.get_accepted().substring(0,
-                                        (chatLineInfo.get_acceptedTime()).length() - 3));
-                            } else {
-                                intent.putExtra("Time", chatLineInfo.get_time().substring(0,
-                                        (chatLineInfo.get_time()).length() - 3));
-                            }*/
-        _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine() + " " +
-                getDate(chatLineInfo.get_time()));
+        if (chatLineInfo.get_role().equals("requester")) {
+            _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine() + " " +
+                    getDate(chatLineInfo.get_acceptedTime()));
+        } else {
+            _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine() + " " +
+                    getDate(chatLineInfo.get_time()));
+        }
     }
 
     /*
     Display all the messages. Also initalizes the ability for the app to speak the lines.
      */
-    public void displayMessages(){
+    public void displayMessages() {
         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
         _chatList.setSelection(_chatList.getCount() - 1);
         _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -408,11 +407,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
                                     chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
-                            if(chatLineInfo.get_role().equals("requester")) {
+                            if (chatLineInfo.get_role().equals("requester")) {
+                                Log.i("test", "update requester time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
                                         chatLineInfo.get_acceptedTime());
-                            }
-                            else {
+                            } else {
+                                Log.i("test", "update crowd time");
                                 values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
                             }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -437,10 +437,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
                             intent.putExtra("Message", chatLineInfo.get_chatLine().replace("\\", ""));
-                            if(chatLineInfo.get_role().equals("requester")) {
+                            if (chatLineInfo.get_role().equals("requester")) {
                                 intent.putExtra("Time", chatLineInfo.get_acceptedTime());
-                            }
-                            else {
+                            } else {
                                 intent.putExtra("Time", chatLineInfo.get_time());
                             }
                             startActivity(intent);
@@ -477,18 +476,17 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     //for timestamp
     public String getDate(String s) {
         //s = yyyy-MM-d H:m:s
-        if(s==null) {
+        if (s == null) {
             return "";
-        }
-        else {
+        } else {
             String[] parsed_date = s.split(" ");
             Date date = new Date(System.currentTimeMillis());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
             String[] parsed_current = simpleDateFormat.format(date).split(" ");
             if (parsed_date[0].equals(parsed_current[0])) {
-                return parsed_current[1].substring(0, parsed_current[1].length()-3);
+                return parsed_date[1].substring(0, parsed_date[1].length() - 3);
             } else {
-                return s.substring(0, s.length()-3);
+                return s.substring(0, s.length() - 3);
             }
         }
     }
@@ -624,7 +622,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Not functional. Important facts are not retrieved from server for unknown reason.
      */
-    public void getImportantFacts(){
+    public void getImportantFacts() {
         View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
@@ -650,16 +648,16 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         // This will allow you to close window by clickin not in its area
         popupWindow.setOutsideTouchable(true);
         // Show the window at desired place. The first argument is a control, wich will be used to place window... defining dx and dy will shift the popup window
-        popupWindow.showAsDropDown(info,0,0);
+        popupWindow.showAsDropDown(info, 0, 0);
 
         _importantFactsAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1, _chatArrayList){
+                android.R.layout.simple_list_item_1, _chatArrayList) {
             @Override
             public View getView(int position, View convertView,
                                 ViewGroup parent) {
-                View view =super.getView(position, convertView, parent);
+                View view = super.getView(position, convertView, parent);
 
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
 //                            YOUR CHOICE OF COLOR
                 textView.setTextColor(Color.WHITE);
@@ -668,8 +666,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         };
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewMemory","-1");
-        String memoryUrl = url +"php/memoryProcess.php";
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewMemory", "-1");
+        String memoryUrl = url + "php/memoryProcess.php";
         params.remove("role");
         aq.ajax(memoryUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
@@ -682,30 +680,31 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Split up the search term so it can be added to the yahoo link and work.
      */
-    public String getSearchTerms(String search){
+    public String getSearchTerms(String search) {
         String[] s = search.split("\\s+");
         int len = s.length;
         String newSearch = "";
-        for(int i =1; i<len; i++){
-            newSearch = newSearch+s[i];
-            if(i!=len-1){
-                newSearch = newSearch+"+";
+        for (int i = 1; i < len; i++) {
+            newSearch = newSearch + s[i];
+            if (i != len - 1) {
+                newSearch = newSearch + "+";
             }
         }
         return newSearch;
     }
+
     /*
     Extract the url from the mess it comes in.
      */
     public String extractUrl(String html) {
         String[] href = html.split("\"");
         int len = href.length;
-        for(int i =0; i<len;i++ ){
-            if(href[i].contains("href")){
-                String searchUrl = href[i+1];
-                String news = searchUrl.substring(searchUrl.lastIndexOf("RU=")+3,
-                        searchUrl.lastIndexOf("/RK")).replace("%2f","/").replace("%3a",":");
-               return news;
+        for (int i = 0; i < len; i++) {
+            if (href[i].contains("href")) {
+                String searchUrl = href[i + 1];
+                String news = searchUrl.substring(searchUrl.lastIndexOf("RU=") + 3,
+                        searchUrl.lastIndexOf("/RK")).replace("%2f", "/").replace("%3a", ":");
+                return news;
             }
         }
         return null;
@@ -714,26 +713,26 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Retrieves a link searched with Yahoo in the background.
      */
-    class YahooNews extends AsyncTask<Void,Void,Void>{
+    class YahooNews extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                Elements sections = Jsoup.connect(_searchUrl+getSearchTerms(_searchTerms))
+                Elements sections = Jsoup.connect(_searchUrl + getSearchTerms(_searchTerms))
                         .get().getElementsByTag("section");
                 for (Element section : sections) {
                     //Looks for first article.
-                    if(section.className().equals("dd algo fst NewsArticle")){
+                    if (section.className().equals("dd algo fst NewsArticle")) {
 
                         //Send article to the server as a system message.
                         AQuery aq = new AQuery(getApplicationContext());
                         Map<String, Object> params1 = setUpParams(new HashMap<String, Object>(),
-                                "post",null);
-                        String chatLine = "You might be interested in this article about"+
-                                _searchTerms+":"+
-                                "<br />"+" "+
+                                "post", null);
+                        String chatLine = "You might be interested in this article about" +
+                                _searchTerms + ":" +
+                                "<br />" + " " +
                                 extractUrl(section.child(0).child(0).html());
                         params1.put("chatLine", chatLine);
-                        params1.put("role","system");
+                        params1.put("role", "system");
                         aq.ajax(_chatUrl, params1, JSONObject.class, new AjaxCallback<JSONObject>());
                     }
                 }
