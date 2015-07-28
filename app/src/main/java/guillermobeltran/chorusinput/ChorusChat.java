@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -85,6 +86,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
     static String _searchUrl = "https://news.search.yahoo.com/search?p=";
+
+    //TODO: Set up a queue or something that stores messages because if you rapid fire messages
+    //only the last one sends.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,12 +208,13 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         } else {
 
             String text = _editText.getText().toString();
-            postData("chatLine", text, "post");
+            postData("chatLine",text,"post");
+
             HashMap<String, Object> params = new HashMap<String, Object>();
             params.put("email", ParseUtils.customIdBuilder(_task));
             params.put("role", _role);
             params.put("task", _task);
-            params.put("message", _editText.getText().toString());
+            params.put("message", text);
             ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
                 public void done(String success, ParseException e) {
                     if (e == null) {
@@ -223,9 +228,13 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 new YahooNews().execute();
             }
             _editText.setText("");
+            _chatList.setSelection(_chatList.getCount()-1);
         }
+//        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
+//                .showSoftInput(_editText, InputMethodManager.SHOW_FORCED);
     }
-
+    public void queuedMessages(){
+    }
     /*
     sets up the parameters to send to the server. Action is whether it's sending or fetching.
     LastChatId is for fetching messages.
@@ -517,6 +526,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void onStop() {//stops the recursion.
         super.onStop();
         _canUpdate = false;
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         //insertToDB();
 //        setAlarmManager();
     }

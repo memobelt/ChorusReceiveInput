@@ -91,28 +91,33 @@ public class SpeakToMe extends Activity {
 
     //ChatNum must be changed. And task number.
     public void sendButton(View v) {
-        Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
-        intent.putExtra("Words", _txtSpeechInput.getText().toString());
-        intent.putExtra("Asking", true);
-        intent.putExtra("Speech", false);
-        intent.putExtra("Yelp", false);
-        intent.putExtra("ChatNum", "6");
-        intent.putExtra("Role", "requester");
+        if(_txtSpeechInput.getText().toString().length()!=0) {
+            Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
+            intent.putExtra("Words", _txtSpeechInput.getText().toString());
+            intent.putExtra("Asking", true);
+            intent.putExtra("Speech", false);
+            intent.putExtra("Yelp", false);
+            intent.putExtra("ChatNum", "6");
+            intent.putExtra("Role", "requester");
 
-        HashMap<String, Object> params = new HashMap<String, Object>();
-        params.put("email", ParseUtils.customIdBuilder("6"));
-        params.put("role", "requester");
-        params.put("task", "6");
-        params.put("message", _txtSpeechInput.getText().toString());
-        ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
-            public void done(String success, ParseException e) {
-                if (e == null) {
-                    Log.e("ChorusChat", "Push sent successfully.");
+            HashMap<String, Object> params = new HashMap<String, Object>();
+            params.put("email", ParseUtils.customIdBuilder("6"));
+            params.put("role", "requester");
+            params.put("task", "6");
+            params.put("message", _txtSpeechInput.getText().toString());
+            ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
+                public void done(String success, ParseException e) {
+                    if (e == null) {
+                        Log.e("ChorusChat", "Push sent successfully.");
+                    }
                 }
-            }
-        });
+            });
 
-        startActivity(intent);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(this,"Can't have empty input!",Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

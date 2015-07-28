@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="normal"
         android:layout_marginBottom="50dp"
@@ -67,7 +67,7 @@
             android:id="@+id/SendButton"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/holo_green_dark"
-            android:visibility="invisible"
+            android:visibility="visible"
             android:textSize="45dp"
             android:onClick="sendButton" />
 

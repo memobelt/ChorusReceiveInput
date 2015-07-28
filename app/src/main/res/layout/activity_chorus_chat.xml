@@ -58,7 +58,7 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="5"
                 android:layout_weight="6"
-                android:textColor="#ffffffff"
+                android:textColor="#ff020202"
                 android:inputType=
                     "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
                 android:background="#ff00ecf5" />
