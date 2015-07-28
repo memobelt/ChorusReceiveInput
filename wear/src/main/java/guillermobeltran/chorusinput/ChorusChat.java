@@ -20,7 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class ChorusChat extends Activity {
@@ -45,6 +47,7 @@ public class ChorusChat extends Activity {
         setContentView(R.layout.activity_chorus_chat);
         _chatLineInfoArrayList = new ArrayList<ChatLineInfo>();
         _task = getIntent().getStringExtra("ChatNum");
+        //temporary for login
         if (_task == null) {
             Log.i("test", "null task 1");
             _task = "6";
@@ -98,15 +101,6 @@ public class ChorusChat extends Activity {
                                 @Override
                                 public void onClick(View v) {
                                     postData(parent.getItemAtPosition(position).toString());
-                                    Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
-                                    intent.putExtra("Response", parent.getItemAtPosition(position).toString());
-                                    if (_task == null) {
-                                        Log.i("test", "null task 2");
-                                        _task = "6";
-                                    }
-                                    intent.putExtra("ChatNum", _task);
-                                    intent.putExtra("caller", "Response");
-                                    startActivity(intent);
                                 }
                             });
                         }
@@ -123,11 +117,17 @@ public class ChorusChat extends Activity {
                         });
                     }
                 });
+                //update from phone
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
                     setChatLinesFromPhone();
                 }
-                else if(getIntent().getStringExtra("caller").equals("Open")) {
+                //Notification "Open" action
+                else if (getIntent().getStringExtra("caller").equals("Open")) {
                     update();
+                }
+                //speech input from Microphone class
+                else if(getIntent().getStringExtra("caller").equals("Speech")) {
+                    postData(getIntent().getStringExtra("Words"));
                 }
                 else {
                     if (c.getCount() > 0) {
@@ -140,7 +140,7 @@ public class ChorusChat extends Activity {
 
     }
 
-    public void setChatLinesFromDB(Cursor c) {
+    /*public void setChatLinesFromDB(Cursor c) {
         /*if (c.moveToFirst()) {
             ChatLineInfo cli = new ChatLineInfo();
             //while (!c.isAfterLast()) {
@@ -161,7 +161,7 @@ public class ChorusChat extends Activity {
             _cli.set_id(id);
             c.moveToNext();
         }*/
-        c.moveToLast();
+        /*c.moveToLast();
         ChatLineInfo cli = new ChatLineInfo();
         String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                 .COLUMN_NAME_ROLE1));
@@ -175,7 +175,17 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
-        chatText.setText(cli.get_role() + " : " + cli.get_chatLine());
+        String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_TIME));
+        if(role.equals("requester")) {
+            cli.set_acceptedTime(time);
+            _cli.set_acceptedTime(time);
+        }
+        else {
+            cli.set_time(time);
+            _cli.set_time(time);
+        }
+        chatText.setText(cli.get_role() + " : " + cli.get_chatLine() + " " + getDate(time));
 
         if (msg.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
@@ -188,10 +198,9 @@ public class ChorusChat extends Activity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
         update();
-    }
+    }*/
 
     public void setChatLinesFromPhone() {
-        chatText.setText(getIntent().getStringExtra("Role") + " : " + getIntent().getStringExtra("New Text"));
         _cli.set_role(getIntent().getStringExtra("Role"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
         _task = getIntent().getStringExtra("ChatNum");
@@ -201,6 +210,7 @@ public class ChorusChat extends Activity {
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, getIntent().getStringExtra("Role"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, getIntent().getStringExtra("ChatNum"));
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, getIntent().getStringExtra("Time"));
         long newRowId = -1;
         try {
             newRowId = chatdb.insertOrThrow(_DBtask, null, values);
@@ -220,6 +230,8 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
+        chatText.setText(getIntent().getStringExtra("Role") + " : " + getIntent().getStringExtra("New Text") +
+                " " + getDate(getIntent().getStringExtra("Time")));
         if (getIntent().getExtras().getBoolean("Foreground")) {
             update();
         } else {
@@ -227,10 +239,9 @@ public class ChorusChat extends Activity {
         }
     }
 
-    /*
-    Recursive function that constantly checks the server to see if there is a change in the chat.
-     */
+    //sets chatLine from database
     public void update() {
+        //update database and chatLineInfo
         c.moveToLast();
         ChatLineInfo cli = new ChatLineInfo();
         String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
@@ -245,9 +256,19 @@ public class ChorusChat extends Activity {
                 .COLUMN_NAME_CHATID));
         cli.set_id(id);
         _cli.set_id(id);
+        String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                .COLUMN_NAME_TIME));
+        if (role.equals("requester")) {
+            cli.set_acceptedTime(time);
+            _cli.set_acceptedTime(time);
+        } else {
+            cli.set_time(time);
+            _cli.set_time(time);
+        }
 
-        chatText.setText(cli.get_role() + " : " + cli.get_chatLine());
+        chatText.setText(cli.get_role() + " : " + cli.get_chatLine() + " " + getDate(time));
 
+        //change spinner if necessary
         if (msg.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                     R.array.question_array, android.R.layout.simple_spinner_item);
@@ -271,12 +292,19 @@ public class ChorusChat extends Activity {
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, "requester");
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _task);
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _cli.get_id());
+
+        //time
+        Date d = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, sdf.format(d));
+        _cli.set_acceptedTime(sdf.format(d));
 
         long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
         if (newRowId == -1) {
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
         }
+        //change spinnner if necessary
         if (words.contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                     R.array.question_array, android.R.layout.simple_spinner_item);
@@ -288,6 +316,39 @@ public class ChorusChat extends Activity {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
         update();
+
+        //send new message to phone
+        Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
+        intent.putExtra("Response", words);
+        //temporary for login
+        if (_task == null) {
+            Log.i("test", "null task 2");
+            _task = "6";
+        }
+        intent.putExtra("ChatNum", _task);
+        intent.putExtra("Time", sdf.format(d));
+        intent.putExtra("caller", "Response");
+        startActivity(intent);
+    }
+
+    //for timestamp
+    public String getDate(String s) {
+        /*s format is yyyy-MM-d H:m:s, it is either the String result of get_time() (crowd) or
+        get_acceptedTime() (requester) from chatLineInfo.
+          */
+        if (s == null) {
+            return "";
+        } else {
+            String[] parsed_date = s.split(" ");
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+            String[] parsed_current = simpleDateFormat.format(date).split(" ");
+            if (parsed_date[0].equals(parsed_current[0])) {
+                return parsed_date[1].substring(0, parsed_date[1].length() - 3);
+            } else {
+                return s.substring(0, s.length() - 3);
+            }
+        }
     }
 
     //TODO: Set alarm manager to check for updates

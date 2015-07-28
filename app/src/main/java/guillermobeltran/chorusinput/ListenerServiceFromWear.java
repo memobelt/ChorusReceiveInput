@@ -37,17 +37,20 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startActivity(startIntent);
         }
         //open on phone was called from microphone or from generated responses. need to put new text into chat
-        else if (messageEvent.getPath().equals("/speech-on-phone") ||
-                messageEvent.getPath().equals("/response")) {
+        else if (messageEvent.getPath().equals("/speech-on-phone")) {
             String temp_message = new String(messageEvent.getData(), StandardCharsets.UTF_8);
             Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.putExtra("Speech", true);
             startIntent.putExtra("Asking", false);
             startIntent.putExtra("Update", false);
             startIntent.putExtra("Yelp", false);
-            startIntent.putExtra("ChatNum", temp_message.substring(temp_message.length() - 1));
+
+            int message_time = temp_message.indexOf("~");
+            int time_chatNum = temp_message.indexOf("|");
+            startIntent.putExtra("ChatNum", temp_message.substring(time_chatNum+1));
             startIntent.putExtra("Role", "requester");
-            startIntent.putExtra("Input", temp_message.substring(0, temp_message.length()-1));
+            startIntent.putExtra("Input", temp_message.substring(0, message_time));
+            startIntent.putExtra("Time", temp_message.substring(message_time+1, time_chatNum));
 
             //Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
             //viewIntent.putExtra("ChatNum", temp_message.substring(temp_message.length()-1));

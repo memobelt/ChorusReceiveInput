@@ -43,31 +43,26 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                 .build();
 
         String caller = getIntent().getStringExtra("caller");
+        //open available chats page on phone to answer questions
         if (caller.equals("MainActivity")) {
             HELLO_WORLD_WEAR_PATH = "/main-activity-on-phone";
             message = null;
             open_on_phone_animation = true;
         }
-        else if (caller.equals("Microphone")) {
+        //open camera on phone
+        /*else if (caller.equals("Microphone")) {
             HELLO_WORLD_WEAR_PATH = "/microphone-on-phone";
             message = null;
             open_on_phone_animation = true;
-        } else if (caller.equals("Speech")) {
+        }*/
+        //send text to phone
+        else if (caller.equals("Speech") || caller.equals("Response")) {
             HELLO_WORLD_WEAR_PATH = "/speech-on-phone";
-            String temp_message = getIntent().getStringExtra("Words") + getIntent().getStringExtra("ChatNum");
-            message = temp_message.getBytes(Charset.forName("UTF-8"));
-            open_on_phone_animation = false;
-        } else if (caller.equals("Response")) {
-            HELLO_WORLD_WEAR_PATH = "/response";
-            String temp_message = getIntent().getStringExtra("Response") + getIntent().getStringExtra("ChatNum");
+            String temp_message = getIntent().getStringExtra("Response") + "~" + getIntent().getStringExtra("Time")
+                    + "|" + getIntent().getStringExtra("ChatNum");
             message = temp_message.getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         }
-        /*else if (caller.equals("Update")){
-            HELLO_WORLD_WEAR_PATH = "/update";
-            message = null;
-            open_on_phone_animation = false;
-        }*/
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
@@ -95,7 +90,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
     }
 
     /**
-     * Send message to mobile handheld
+     * OnClickListener to send message to mobile handheld
      */
     private void sendMessage() {
         if (mNode != null && mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
@@ -110,12 +105,14 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                                         + sendMessageResult.getStatus().getStatusCode());
                             } else {
                                 if (open_on_phone_animation) {
+                                    //open on phone animation
                                     Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
                                     intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
                                             ConfirmationActivity.OPEN_ON_PHONE_ANIMATION);
                                     intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Opening on Phone");
                                     startActivity(intent);
                                 } else {
+                                    //success animation
                                     Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
                                     intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
                                             ConfirmationActivity.SUCCESS_ANIMATION);
@@ -127,13 +124,14 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                     }
             );
         } else {
+            //failure animation
             Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
             intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
                     ConfirmationActivity.FAILURE_ANIMATION);
             intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Message Send Failure");
             startActivity(intent);
         }
-        finish();
+        finish(); //go back to previous activity
     }
 
     @Override
@@ -168,10 +166,12 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
     @Override
     public void onConnectionSuspended(int i) {
         Log.i("test", "Connection suspended");
+        finish();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i("test", "Connection failed");
+        finish();
     }
 }

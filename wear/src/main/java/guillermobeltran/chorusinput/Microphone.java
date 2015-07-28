@@ -20,10 +20,9 @@ public class Microphone extends Activity {
 
     private TextView _txtSpeechInput;
     private TextView mTextView;
-    private ImageButton _btnSpeak, _btnCam;
+    private ImageButton _btnSpeak; //_btnCam;
     private Button _sendButton;
     private final int REQ_CODE_SPEECH_INPUT = 100;
-    private static final int REQ_CODE_CAMERA_IMAGE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ public class Microphone extends Activity {
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 _txtSpeechInput = (TextView) findViewById(R.id.txtSpeechInput);
                 _btnSpeak = (ImageButton) findViewById(R.id.micButton);
-                _btnCam = (ImageButton) findViewById(R.id.imageButton2);
+                //_btnCam = (ImageButton) findViewById(R.id.imageButton2);
                 _sendButton = (Button) findViewById(R.id.SendButton);
                 //microphone button
                 _btnSpeak.setOnClickListener(new View.OnClickListener() {
@@ -50,24 +49,23 @@ public class Microphone extends Activity {
                 _sendButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Intent intent = new Intent(getApplicationContext(),OpenOnPhone.class);
                         Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
                         intent.putExtra("caller", "Speech");
                         intent.putExtra("Words", _txtSpeechInput.getText());
                         intent.putExtra("Asking",true);
-                        intent.putExtra("ChatNum", "6");
+                        intent.putExtra("ChatNum", "6"); //temporary for login
                         intent.putExtra("Role", "requester");
                         startActivity(intent);
                     }
                 });
-                _btnCam.setOnClickListener(new View.OnClickListener() {
+                /*_btnCam.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                         intent.putExtra("caller", "Microphone");
                         startActivity(intent);
                     }
-                });
+                });*/
             }
         });
     }/*
@@ -101,7 +99,7 @@ public class Microphone extends Activity {
                 if (resultCode == RESULT_OK && data != null) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    _txtSpeechInput.setText(result.get(0));//setting the text to what we said
+                    _txtSpeechInput.setText(result.get(0));//setting the text to what was said
                     if(result.get(0)!=null){
                         _sendButton.setVisibility(View.VISIBLE);
                     }

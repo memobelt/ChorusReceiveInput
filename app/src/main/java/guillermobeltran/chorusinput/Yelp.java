@@ -50,6 +50,7 @@ public class Yelp extends ListActivity {
             protected void onPostExecute(List<Business> businesses) {
                 setTitle(searchTerm+" in "+searchLocation);
                 setProgressBarIndeterminateVisibility(false);
+                //fills listview with businesses
                 getListView().setAdapter(new ArrayAdapter<Business>(getApplicationContext(),
                         android.R.layout.simple_list_item_1, businesses) {
                     @Override
@@ -59,6 +60,7 @@ public class Yelp extends ListActivity {
 
                         TextView textView=(TextView) view.findViewById(android.R.id.text1);
                             /*YOUR CHOICE OF COLOR*/
+                        //unselected
                         textView.setTextColor(Color.BLACK);
                         textView.setBackgroundColor(Color.WHITE);
 
@@ -69,10 +71,10 @@ public class Yelp extends ListActivity {
         }.execute();
     }
 
+    //send info about business to Yelp search result page
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         Business biz = (Business)listView.getItemAtPosition(position);
-        //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(biz.url)));
         Intent intent = new Intent(getApplicationContext(), YelpResult.class);
         intent.putExtra("name", biz.name);
         intent.putExtra("url", biz.url);
@@ -82,10 +84,12 @@ public class Yelp extends ListActivity {
         intent.putExtra("rating", biz.rating);
         intent.putExtra("deals", biz.deals);
         intent.putExtra("snippet", biz.snippet);
+        intent.putExtra("reviews", Integer.toString(biz.reviews) + " reviews");
         intent.putExtra("ChatNum", getIntent().getStringExtra("ChatNum"));
         startActivity(intent);
     };
 
+    //parse to extract information by keys
     List<Business> processJson(String jsonStuff) throws JSONException {
         JSONObject json = new JSONObject(jsonStuff);
         JSONArray businesses = json.getJSONArray("businesses");
@@ -116,7 +120,8 @@ public class Yelp extends ListActivity {
             }
             businessObjs.add(new Business(business.optString("name"), business.optString("mobile_url"),
                     business.optString("display_phone"), address_string, business.optString("image_url"),
-                    business.optString("rating_img_url_large"), deals_string, business.optString("snippet_text")));
+                    business.optString("rating_img_url_large"), deals_string, business.optString("snippet_text"),
+                    business.optInt("review_count")));
         }
         return businessObjs;
     }
@@ -130,9 +135,10 @@ public class Yelp extends ListActivity {
         final String rating;
         final String deals;
         final String snippet;
+        final int reviews;
 
         public Business(String name, String url, String phone, String location,
-                        String image, String rating, String deals, String snippet) {
+                        String image, String rating, String deals, String snippet, int reviews) {
             this.name = name;
             this.url = url;
             this.phone = phone;
@@ -141,6 +147,7 @@ public class Yelp extends ListActivity {
             this.rating = rating;
             this.deals = deals;
             this.snippet = snippet;
+            this.reviews = reviews;
         }
 
         @Override

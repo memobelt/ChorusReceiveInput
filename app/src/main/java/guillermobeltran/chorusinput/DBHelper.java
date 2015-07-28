@@ -10,8 +10,8 @@ import android.support.annotation.Nullable;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Chorus.db";
+    public static final int DATABASE_VERSION = 2;
+    public static final String DATABASE_NAME = "Chorus1.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private String _task;
@@ -20,12 +20,14 @@ public class DBHelper extends SQLiteOpenHelper {
                     DatabaseContract.DatabaseEntry._ID + " INTEGER" + COMMA_SEP +
                     DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE + TEXT_TYPE + COMMA_SEP +
                     DatabaseContract.DatabaseEntry.COLUMN_NAME_TASK + TEXT_TYPE+ " PRIMARY KEY" + COMMA_SEP +
+                    DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME + TEXT_TYPE + COMMA_SEP +
                     DatabaseContract.DatabaseEntry.COLUMN_NAME_SIZE + TEXT_TYPE  +
             ") ";
     public static final String CREATE_CHAT_TABLE = " ("+
             DatabaseContract.DatabaseEntry._ID + " INTEGER PRIMARY KEY," +
             DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE + TEXT_TYPE + COMMA_SEP +
             DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG + TEXT_TYPE  + COMMA_SEP +
+            DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME + TEXT_TYPE + COMMA_SEP +
             DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID + TEXT_TYPE  +
             ") ";
     private static final String SQL_DELETE_ENTRIES =

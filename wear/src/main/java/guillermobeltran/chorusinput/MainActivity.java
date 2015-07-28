@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
+                //setting the listener for swiping
                 mTextView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -35,11 +36,6 @@ public class MainActivity extends Activity {
                             case MotionEvent.ACTION_UP: {
                                 x2 = event.getX();
                                 y2 = event.getY();
-                                //left to right sweep
-                                /*if (x1 < x2 && Math.abs(x2-x1) > Math.abs(y2-y1)) {
-                                    Toast.makeText(getApplicationContext(), "left to right swipe", Toast.LENGTH_SHORT).show();
-                                    break;
-                                }*/
                                 //right to left sweep. Review: only shows most recent post to ChorusChat
                                 if (x1 > x2 && Math.abs(x2-x1) > Math.abs(y2-y1)) {
                                     //Toast.makeText(getApplicationContext(), "right to left swipe", Toast.LENGTH_SHORT).show();

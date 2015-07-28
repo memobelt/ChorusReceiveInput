@@ -54,7 +54,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -68,7 +70,7 @@ import static guillermobeltran.chorusinput.R.id.webView;
 
 public class ChorusChat extends ActionBarActivity implements OnInitListener {
     EditText _editText;
-    String _task, _role,_DBtask, _searchTerms;
+    String _task, _role, _DBtask, _searchTerms;
     ListView _chatList;
     Button _crowdBtn;
     ImageButton _yelpBtn;
@@ -83,7 +85,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     static String url = "https://talkingtothecrowd.org/Chorus/Chorus-New/";
     static String _chatUrl = url + "php/chatProcess.php";
     static String _searchUrl = "https://news.search.yahoo.com/search?p=";
-    int id = 001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +171,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
             }
-            else if(getIntent().getExtras().getBoolean("Yelp")) {
+            //post from Yelp
+            else if (getIntent().getExtras().getBoolean("Yelp")) {
                 _cli.set_role("crowd");
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
@@ -195,6 +197,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Get the text from the _editText widget. Checks against empty input.
      */
+    //_crowdBtn's onClickListener to send text
     public void sendText(View v) {
         if (_editText.getText().length() == 0) {
             Toast.makeText(this, "Can't have empty input", Toast.LENGTH_SHORT).show();
@@ -215,8 +218,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 }
             });
             //To send relevant Yahoo article
-            if(text.toLowerCase().contains("news about")) {
-                _searchTerms = text.substring(text.indexOf("news about")+"news about".length()+1);
+            if (text.toLowerCase().contains("news about")) {
+                _searchTerms = text.substring(text.indexOf("news about") + "news about".length() + 1);
                 new YahooNews().execute();
             }
             _editText.setText("");
@@ -240,6 +243,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
         return params;
     }
+
     /*
     This sets the listviews lines from the database.
      */
@@ -253,12 +257,21 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role(role);
                 String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_MSG));
-                cli.set_chatLine(msg.replace("\\", ""));
+                cli.set_chatLine(msg.replace("\\", "")); //because HTML URL's have \'s
                 _cli.set_chatLine(msg.replace("\\", ""));
                 String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                         .COLUMN_NAME_CHATID));
                 cli.set_id(id);
                 _cli.set_id(id);
+                String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_TIME));
+                if (role.equals("requester")) {
+                    cli.set_acceptedTime(time);
+                    _cli.set_acceptedTime(time);
+                } else {
+                    cli.set_time(time);
+                    _cli.set_time(time);
+                }
                 setUpArrayList(cli);
                 c.moveToNext();
             }
@@ -294,16 +307,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             //Values to add to DB.
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
-                            if (chatLineInfo.get_role().equals("requester")) {
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_acceptedTime().substring(0, (chatLineInfo.get_accepted()).length() - 3));
-                            } else {
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
-                            }
+                            values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
+                                    chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
+                            if (chatLineInfo.get_role().equals("requester")) {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
+                                        chatLineInfo.get_acceptedTime());
+                            } else {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
+                            }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {//error check. should probably do more then Oh no.
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
@@ -327,23 +339,30 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
         String temp = (chatLineInfo.get_chatLine()).toLowerCase();
-        if(_role.equals("crowd")) {
-            if(temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant"))
+        //whether the Yelp button should display to the crowd or not
+        if (_role.equals("crowd")) { //Yelp button will show
+            if (temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant") ||
+                    temp.contains(" eat"))
                 _yelpBtn.setVisibility(View.VISIBLE);
-            else {
+            else { //Yelp button will not show
                 _yelpBtn.setVisibility(View.GONE);
             }
-        }
-        else {
+        } else {
             _yelpBtn.setVisibility(View.GONE);
         }
-        _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine());
+        if (chatLineInfo.get_role().equals("requester")) {
+            _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine() + " " +
+                    getDate(chatLineInfo.get_acceptedTime()));
+        } else {
+            _chatArrayList.add(chatLineInfo.get_role() + " : " + chatLineInfo.get_chatLine() + " " +
+                    getDate(chatLineInfo.get_time()));
+        }
     }
 
     /*
     Display all the messages. Also initalizes the ability for the app to speak the lines.
      */
-    public void displayMessages(){
+    public void displayMessages() {
         ((AdapterView<ListAdapter>) _chatList).setAdapter(_chatLineAdapter);
         _chatList.setSelection(_chatList.getCount() - 1);
         _chatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -386,20 +405,14 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             ContentValues values = new ContentValues();
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE, chatLineInfo.get_role());
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                    chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                            chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
-                            /*if (chatLineInfo.get_role().equals("requester")) {
-                                Log.i("test", "here");
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_acceptedTime().substring(0, (chatLineInfo.get_accepted()).length() - 3));
-                            } else {
-                                Log.i("test", "else here");
-                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG,
-                                        chatLineInfo.get_chatLine().replace("\\", "") + " " +
-                                                chatLineInfo.get_time().substring(0, (chatLineInfo.get_time()).length() - 3));
-                            }*/
+                                    chatLineInfo.get_chatLine().replace("\\", ""));
                             values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, chatLineInfo.get_id());
+                            if (chatLineInfo.get_role().equals("requester")) {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME,
+                                        chatLineInfo.get_acceptedTime());
+                            } else {
+                                values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_TIME, chatLineInfo.get_time());
+                            }
                             long newRowId = chatdb.insertOrThrow(_DBtask, null, values);
                             if (newRowId == -1) {
                                 Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
@@ -422,15 +435,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
                             intent.putExtra("Message", chatLineInfo.get_chatLine().replace("\\", ""));
-                            intent.putExtra("Time", chatLineInfo.get_time().substring(0,
-                                    (chatLineInfo.get_time()).length() - 3));
-                            /*if (chatLineInfo.get_role().equals("requester")) {
-                                intent.putExtra("Time", chatLineInfo.get_accepted().substring(0,
-                                        (chatLineInfo.get_acceptedTime()).length() - 3));
+                            if (chatLineInfo.get_role().equals("requester")) {
+                                intent.putExtra("Time", chatLineInfo.get_acceptedTime());
                             } else {
-                                intent.putExtra("Time", chatLineInfo.get_time().substring(0,
-                                        (chatLineInfo.get_time()).length() - 3));
-                            }*/
+                                intent.putExtra("Time", chatLineInfo.get_time());
+                            }
                             startActivity(intent);
 
                         } catch (JSONException e) {
@@ -451,7 +460,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
      */
     public void postData(String line, String words, String action) {
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action,null);
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), action, null);
 
         params.put(line, words);
         if (action.equals("postMemory")) {
@@ -459,6 +468,26 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     new AjaxCallback<JSONObject>());
         } else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
+        }
+    }
+
+    //for timestamp
+    public String getDate(String s) {
+        /*s format is yyyy-MM-d H:m:s, it is either the String result of get_time() (crowd) or
+        get_acceptedTime() (requester) from chatLineInfo.
+          */
+        if (s == null) {
+            return "";
+        } else {
+            String[] parsed_date = s.split(" ");
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+            String[] parsed_current = simpleDateFormat.format(date).split(" ");
+            if (parsed_date[0].equals(parsed_current[0])) {
+                return parsed_date[1].substring(0, parsed_date[1].length() - 3);
+            } else {
+                return s.substring(0, s.length() - 3);
+            }
         }
     }
 
@@ -593,7 +622,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Not functional. Important facts are not retrieved from server for unknown reason.
      */
-    public void getImportantFacts(){
+    public void getImportantFacts() {
         View info = findViewById(R.id.info); // SAME ID AS MENU ID
         final PopupWindow popupWindow = new PopupWindow(this);
         LinearLayout layoutOfPopup = new LinearLayout(this);
@@ -619,16 +648,16 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         // This will allow you to close window by clickin not in its area
         popupWindow.setOutsideTouchable(true);
         // Show the window at desired place. The first argument is a control, wich will be used to place window... defining dx and dy will shift the popup window
-        popupWindow.showAsDropDown(info,0,0);
+        popupWindow.showAsDropDown(info, 0, 0);
 
         _importantFactsAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1, _chatArrayList){
+                android.R.layout.simple_list_item_1, _chatArrayList) {
             @Override
             public View getView(int position, View convertView,
                                 ViewGroup parent) {
-                View view =super.getView(position, convertView, parent);
+                View view = super.getView(position, convertView, parent);
 
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
 //                            YOUR CHOICE OF COLOR
                 textView.setTextColor(Color.WHITE);
@@ -637,8 +666,8 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             }
         };
         AQuery aq = new AQuery(this);
-        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewMemory","-1");
-        String memoryUrl = url +"php/memoryProcess.php";
+        Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewMemory", "-1");
+        String memoryUrl = url + "php/memoryProcess.php";
         params.remove("role");
         aq.ajax(memoryUrl, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
@@ -651,30 +680,31 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Split up the search term so it can be added to the yahoo link and work.
      */
-    public String getSearchTerms(String search){
+    public String getSearchTerms(String search) {
         String[] s = search.split("\\s+");
         int len = s.length;
         String newSearch = "";
-        for(int i =1; i<len; i++){
-            newSearch = newSearch+s[i];
-            if(i!=len-1){
-                newSearch = newSearch+"+";
+        for (int i = 1; i < len; i++) {
+            newSearch = newSearch + s[i];
+            if (i != len - 1) {
+                newSearch = newSearch + "+";
             }
         }
         return newSearch;
     }
+
     /*
     Extract the url from the mess it comes in.
      */
     public String extractUrl(String html) {
         String[] href = html.split("\"");
         int len = href.length;
-        for(int i =0; i<len;i++ ){
-            if(href[i].contains("href")){
-                String searchUrl = href[i+1];
-                String news = searchUrl.substring(searchUrl.lastIndexOf("RU=")+3,
-                        searchUrl.lastIndexOf("/RK")).replace("%2f","/").replace("%3a",":");
-               return news;
+        for (int i = 0; i < len; i++) {
+            if (href[i].contains("href")) {
+                String searchUrl = href[i + 1];
+                String news = searchUrl.substring(searchUrl.lastIndexOf("RU=") + 3,
+                        searchUrl.lastIndexOf("/RK")).replace("%2f", "/").replace("%3a", ":");
+                return news;
             }
         }
         return null;
@@ -683,26 +713,26 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Retrieves a link searched with Yahoo in the background.
      */
-    class YahooNews extends AsyncTask<Void,Void,Void>{
+    class YahooNews extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                Elements sections = Jsoup.connect(_searchUrl+getSearchTerms(_searchTerms))
+                Elements sections = Jsoup.connect(_searchUrl + getSearchTerms(_searchTerms))
                         .get().getElementsByTag("section");
                 for (Element section : sections) {
                     //Looks for first article.
-                    if(section.className().equals("dd algo fst NewsArticle")){
+                    if (section.className().equals("dd algo fst NewsArticle")) {
 
                         //Send article to the server as a system message.
                         AQuery aq = new AQuery(getApplicationContext());
                         Map<String, Object> params1 = setUpParams(new HashMap<String, Object>(),
-                                "post",null);
-                        String chatLine = "You might be interested in this article about"+
-                                _searchTerms+":"+
-                                "<br />"+" "+
+                                "post", null);
+                        String chatLine = "You might be interested in this article about" +
+                                _searchTerms + ":" +
+                                "<br />" + " " +
                                 extractUrl(section.child(0).child(0).html());
                         params1.put("chatLine", chatLine);
-                        params1.put("role","system");
+                        params1.put("role", "system");
                         aq.ajax(_chatUrl, params1, JSONObject.class, new AjaxCallback<JSONObject>());
                     }
                 }

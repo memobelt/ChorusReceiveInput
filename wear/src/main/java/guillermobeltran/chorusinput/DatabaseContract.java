@@ -13,5 +13,6 @@ public final class DatabaseContract {
         public static final String COLUMN_NAME_SIZE = "size";
         public static final String COLUMN_NAME_MSG = "message";
         public static final String COLUMN_NAME_CHATID = "chatid";
+        public static final String COLUMN_NAME_TIME = "time";
     }
 }
