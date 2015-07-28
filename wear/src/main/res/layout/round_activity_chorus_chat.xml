@@ -5,14 +5,17 @@
     android:layout_height="match_parent"
     tools:context="guillermobeltran.chorusinput.ChorusChat"
     tools:deviceIds="wear_round"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/dark_grey">
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Send"
         android:textSize="20sp"
         android:id="@+id/send_button"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_grey"
+        android:textColor="@color/black"/>
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="fill_parent"

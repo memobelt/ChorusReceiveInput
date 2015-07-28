@@ -54,8 +54,9 @@ public class MainActivity extends Activity {
                                 //down to up sweep. Answer: open on phone
                                 if (y2 < y1) {
                                     //Toast.makeText(getBaseContext(), "down to up swipe", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(MainActivity.this, OpenOnPhone.class);
-                                    intent.putExtra("caller", "MainActivity");
+                                    //Intent intent = new Intent(MainActivity.this, OpenOnPhone.class);
+                                    //intent.putExtra("caller", "MainActivity");
+                                    Intent intent = new Intent(MainActivity.this, AvailableChats.class);
                                     startActivity(intent);
                                     break;
                                 }

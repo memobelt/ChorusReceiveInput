@@ -123,13 +123,19 @@ public class ChorusChat extends Activity {
                 }
                 //Notification "Open" action
                 else if (getIntent().getStringExtra("caller").equals("Open")) {
+                    Log.i("test", "here1");
                     update();
+                } else if (getIntent().getStringExtra("caller").equals("Open2")) {
+                    _cli.set_task(getIntent().getStringExtra("ChatNum"));
+                    _task = getIntent().getStringExtra("ChatNum");
+                    Log.i("test", "here2");
+                    update();
+
                 }
                 //speech input from Microphone class
-                else if(getIntent().getStringExtra("caller").equals("Speech")) {
+                else if (getIntent().getStringExtra("caller").equals("Speech")) {
                     postData(getIntent().getStringExtra("Words"));
-                }
-                else {
+                } else {
                     if (c.getCount() > 0) {
                         //setChatLinesFromDB(c);
                         update();
