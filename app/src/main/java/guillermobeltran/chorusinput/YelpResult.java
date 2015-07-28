@@ -1,13 +1,9 @@
 package guillermobeltran.chorusinput;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +16,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.InputStream;
 /*
 Created by Summer
  */
@@ -131,32 +125,5 @@ public class YelpResult extends ActionBarActivity {
         intent.putExtra("ChatNum", getIntent().getStringExtra("ChatNum"));
         intent.putExtra("Role", "crowd");
         startActivity(intent);
-    }
-    class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-        final int scale;
-
-        public DownloadImageTask(ImageView bmImage, int scale) {
-            this.bmImage = bmImage;
-            this.scale = scale;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(Bitmap.createScaledBitmap(result, result.getWidth()*scale, result.getHeight()*scale,
-                    true));
-        }
     }
 }
