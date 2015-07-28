@@ -44,7 +44,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                     + "+=+" + getIntent().getStringExtra("Time") + "~" + getIntent().getStringExtra("ChatNum");
         }
         else {
-            //caller from notificatin. open Chorus Chat on watch.
+            //caller from notification. open Chorus Chat on watch.
             HELLO_WORLD = "/hello-world-open";
             message = "";
         }
@@ -110,6 +110,7 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
     @Override
     public void onConnectionSuspended(int i) {
         Log.i("test", "Connection suspended");
+        finish();
     }
 
     @Override

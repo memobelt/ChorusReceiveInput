@@ -170,7 +170,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             else if (getIntent().getExtras().getBoolean("Speech")) {
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
-            } else if (getIntent().getExtras().getBoolean("Yelp")) {
+            }
+            //post from Yelp
+            else if (getIntent().getExtras().getBoolean("Yelp")) {
                 _cli.set_role("crowd");
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
@@ -195,6 +197,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     /*
     Get the text from the _editText widget. Checks against empty input.
      */
+    //_crowdBtn's onClickListener to send text
     public void sendText(View v) {
         if (_editText.getText().length() == 0) {
             Toast.makeText(this, "Can't have empty input", Toast.LENGTH_SHORT).show();
@@ -336,11 +339,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void setUpArrayList(ChatLineInfo chatLineInfo) {
         _chatLineInfoArrayList.add(chatLineInfo);
         String temp = (chatLineInfo.get_chatLine()).toLowerCase();
-        if (_role.equals("crowd")) {
+        //whether the Yelp button should display to the crowd or not
+        if (_role.equals("crowd")) { //Yelp button will show
             if (temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant") ||
                     temp.contains(" eat"))
                 _yelpBtn.setVisibility(View.VISIBLE);
-            else {
+            else { //Yelp button will not show
                 _yelpBtn.setVisibility(View.GONE);
             }
         } else {
@@ -465,13 +469,13 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         } else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
         }
-
-        //ToDo: add time to cloud. need to input time from speaktome and wear
     }
 
     //for timestamp
     public String getDate(String s) {
-        //s = yyyy-MM-d H:m:s
+        /*s format is yyyy-MM-d H:m:s, it is either the String result of get_time() (crowd) or
+        get_acceptedTime() (requester) from chatLineInfo.
+          */
         if (s == null) {
             return "";
         } else {

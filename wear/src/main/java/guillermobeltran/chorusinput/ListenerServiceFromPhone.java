@@ -44,7 +44,9 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             nmc.notify(id++, notification.build()); */
 
             startActivity(intent);
-        } else if (messageEvent.getPath().equals("/hello-world-open")) {
+        }
+        //open notification on watch
+        else if (messageEvent.getPath().equals("/hello-world-open")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
             intent.putExtra("Foreground", appInForeground(getApplicationContext()));
             intent.putExtra("caller", "Open");
@@ -67,6 +69,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         super.onPeerDisconnected(peer);
         Log.i("test", peer.getDisplayName());
     }
+    //see if ChorusChat activity is running or not to determine if ChorusChat should open after updating message
     public boolean appInForeground(Context context) {
         boolean inForeground = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

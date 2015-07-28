@@ -29,6 +29,7 @@ public class YelpResult extends ActionBarActivity {
     ListView listView;
     Button send;
     ImageView image, rating;
+    TextView reviews;
     String message="";
     private ListAdapter mAdapter;
 
@@ -40,6 +41,8 @@ public class YelpResult extends ActionBarActivity {
         send = (Button) findViewById(R.id.send_button);
         image = (ImageView) findViewById(R.id.image);
         rating = (ImageView) findViewById(R.id.rating);
+        reviews = (TextView) findViewById(R.id.reviews);
+        reviews.setText(getIntent().getStringExtra("reviews"));
         String[] values = new String[] {getIntent().getStringExtra("name"), getIntent().getStringExtra("snippet"),
                 getIntent().getStringExtra("url"), getIntent().getStringExtra("location"),
                 getIntent().getStringExtra("phone"), getIntent().getStringExtra("deals")};
@@ -53,6 +56,7 @@ public class YelpResult extends ActionBarActivity {
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
 
                             /*YOUR CHOICE OF COLOR*/
+                //unselected
                 textView.setTextColor(Color.BLACK);
                 textView.setBackgroundColor(Color.WHITE);
 
@@ -65,13 +69,17 @@ public class YelpResult extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 if(textView.getCurrentTextColor()==Color.BLACK) {
+                    //unselected -> selected
                     textView.setTextColor(Color.WHITE);
                     textView.setBackgroundColor(Color.BLACK);
+                    //add selected information to message string
                     message = message + parent.getItemAtPosition(position)+ " ";
                 }
                 else {
+                    //selected -> unselected
                     textView.setTextColor(Color.BLACK);
                     textView.setBackgroundColor(Color.WHITE);
+                    //remove the unselected information from message string
                     message = message.replace((CharSequence) parent.getItemAtPosition(position), "");
                 }
             }
