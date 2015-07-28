@@ -27,13 +27,15 @@
             android:layout_row="0"
             android:layout_column="0"
             android:layout_columnWeight="5"
-            android:layout_weight="5" />
+            android:layout_weight="5"
+            android:background="#ff00f6ff" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="#ff00ecf5">
 
             <ImageButton
                 android:contentDescription="@string/mic"
@@ -41,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/imageButton3"
                 android:src="@mipmap/mic1"
-                android:background="@null"
+                android:background="#ff00ecf5"
                 android:scaleType="centerCrop"
                 android:layout_weight="1"
                 android:onClick="ChatSpeechInput"
@@ -58,13 +60,14 @@
                 android:layout_weight="6"
                 android:textColor="#ffffffff"
                 android:inputType=
-                    "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"/>
+                    "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                android:background="#ff00ecf5" />
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/yelp_button"
                 android:src="@drawable/yssdk_yelp_logo"
-                android:background="@null"
+                android:background="#ff00ecf5"
                 android:scaleType="centerInside"
                 android:text="Yelp"/>
             <Button
@@ -72,7 +75,8 @@
                 android:layout_height="match_parent"
                 android:text="Send"
                 android:id="@+id/CrowdSend"
-                android:onClick="sendText" />
+                android:onClick="sendText"
+                android:background="#ff00ecf5" />
         </LinearLayout>
 
     </LinearLayout>

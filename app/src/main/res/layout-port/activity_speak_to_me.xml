@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_floating_material_dark"
+    android:background="#ff00f6ff"
     android:debuggable="true"
     tools:context=".SpeakToMe">
 
@@ -67,7 +67,7 @@
             android:id="@+id/SendButton"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/holo_green_dark"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:textSize="45dp"
             android:onClick="sendButton" />
 

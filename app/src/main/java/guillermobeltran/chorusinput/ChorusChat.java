@@ -136,7 +136,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
                             /*YOUR CHOICE OF COLOR*/
-                textView.setTextColor(Color.WHITE);
+                textView.setTextColor(Color.BLACK);
                 textView.setAutoLinkMask(Linkify.ALL);
                 textView.setText(Html.fromHtml(_chatArrayList.get(position).replace("\\", "")));
 

@@ -20,7 +20,7 @@
             android:text="Hello! Welcome to Chorus. To get started hit the arrow on the top left and ask a question, review your questions or answer questions."
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal|top"
-            android:textColor="@color/background_material_light" />
+            android:textColor="#ff000000" />
 
         <Button
             android:layout_width="wrap_content"

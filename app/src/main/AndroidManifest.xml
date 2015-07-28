@@ -28,7 +28,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/mic"
         android:label="Chorus"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+
         <activity
             android:name=".SpeakToMe"
             android:label="@string/title_activity_speak_to_me"
