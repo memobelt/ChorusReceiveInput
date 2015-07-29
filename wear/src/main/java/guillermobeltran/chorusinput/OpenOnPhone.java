@@ -46,8 +46,8 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
         //open available chats page on phone to answer questions
         if (caller.equals("MainActivity")) {
             HELLO_WORLD_WEAR_PATH = "/main-activity-on-phone";
-            message = null;
-            open_on_phone_animation = true;
+            message = (getIntent().getStringExtra("ChatNum")).getBytes(Charset.forName("UTF-8"));
+            open_on_phone_animation = false;
         }
         //open camera on phone
         /*else if (caller.equals("Microphone")) {

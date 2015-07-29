@@ -129,7 +129,7 @@ public class ChorusChat extends Activity {
                     _cli.set_task(getIntent().getStringExtra("ChatNum"));
                     _task = getIntent().getStringExtra("ChatNum");
                     Log.i("test", "here2");
-                    update();
+                    //update();
 
                 }
                 //speech input from Microphone class

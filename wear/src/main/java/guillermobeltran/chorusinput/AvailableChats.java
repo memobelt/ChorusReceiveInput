@@ -50,9 +50,9 @@ public class AvailableChats extends Activity {
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
-                        intent.putExtra("ChatNum", position+1);
-                        intent.putExtra("caller", "Open2");
+                        Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
+                        intent.putExtra("ChatNum", Integer.toString(position+1));
+                        intent.putExtra("caller", "MainActivity");
                         startActivity(intent);
                     }
                 });
