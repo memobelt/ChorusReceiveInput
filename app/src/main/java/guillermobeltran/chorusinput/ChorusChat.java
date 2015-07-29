@@ -180,23 +180,67 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role("crowd");
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
+            //crowd answers from watch
             else if(getIntent().getExtras().getBoolean("Answer")) {
-                c.moveToLast();
-                String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                        .COLUMN_NAME_ROLE));
-                String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                        .COLUMN_NAME_MSG));
-                String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                        .COLUMN_NAME_CHATID));
-                String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
-                        .COLUMN_NAME_TIME));
+                final String[] role = {""};
+                final String[] msg = {""};
+                final String[] id = {""};
+                final String[] time = {""};
+                if(c.getCount() > 0) { //use database
+                    c.moveToLast();
+                    role[0] = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                            .COLUMN_NAME_ROLE));
+                    msg[0] = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                            .COLUMN_NAME_MSG));
+                    id[0] = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                            .COLUMN_NAME_CHATID));
+                    time[0] = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                            .COLUMN_NAME_TIME));
+                }
+                else { //pull from server
+                    AQuery aq = new AQuery(this);
+                    //Checks to see if there are more messages starting from last message.
+                    Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
+                            _chatLineInfoArrayList.get(_chatLineInfoArrayList.size() - 1).get_id());
+
+                    aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
+                        @Override
+                        public void callback(String url, JSONArray json, AjaxStatus status) {
+                            if (json != null) {
+                                if (json.length() > 0) {
+                                    try {
+                                        //More parseing of JSON
+                                        int chatLineStart = json.get(json.length() - 1).toString().indexOf("chatLine\":\"");
+                                        int roleStart = json.get(json.length() - 1).toString().indexOf("\",\"role");
+                                        String json_string = json.get(json.length() - 1).toString()
+                                                .substring(chatLineStart + 11, roleStart);
+                                        String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
+
+                                        ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
+                                        chatLineInfo.set_chatLine(json_string);
+
+                                        role[0] = chatLineInfo.get_role();
+                                        msg[0] = chatLineInfo.get_chatLine().replace("\\", "");
+                                        id[0] = chatLineInfo.get_id();
+                                        if (chatLineInfo.get_role().equals("requester")) {
+                                            time[0] = chatLineInfo.get_acceptedTime();
+                                        } else {
+                                            time[0] = chatLineInfo.get_time();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
                 Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
-                intent.putExtra("Role", role);
-                intent.putExtra("Message", msg);
-                intent.putExtra("ID", id);
-                intent.putExtra("Time", time);
+                intent.putExtra("Role", role[0]);
+                intent.putExtra("Message", msg[0]);
+                intent.putExtra("ID", id[0]);
+                intent.putExtra("Time", time[0]);
                 intent.putExtra("Text", true);
-                intent.putExtra("Post", false);
                 intent.putExtra("Answer", true);
                 startActivity(intent);
                 finish();
@@ -462,7 +506,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Text", true);
-                            intent.putExtra("Post", true);
                             intent.putExtra("Answer", false);
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
