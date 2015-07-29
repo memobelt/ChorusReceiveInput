@@ -695,10 +695,19 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         String[] s = search.split("\\s+");
         int len = s.length;
         String newSearch = "";
-        for (int i = 1; i < len; i++) {
-            newSearch = newSearch + s[i];
-            if (i != len - 1) {
-                newSearch = newSearch + "+";
+        if(s[0].equals("")){
+            for (int i = 1; i < len; i++) {
+                newSearch = newSearch + s[i];
+                if (i != len - 1) {
+                    newSearch = newSearch + "+";
+                }
+            }
+        }else{
+            for (int i = 0; i < len; i++) {
+                newSearch = newSearch + s[i];
+                if (i != len - 1) {
+                    newSearch = newSearch + "+";
+                }
             }
         }
         return newSearch;
@@ -710,12 +719,18 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public String extractUrl(String html) {
         String[] href = html.split("\"");
         int len = href.length;
+        String news;
         for (int i = 0; i < len; i++) {
             if (href[i].contains("href")) {
                 String searchUrl = href[i + 1];
-                String news = searchUrl.substring(searchUrl.lastIndexOf("RU=") + 3,
+                if(searchUrl.lastIndexOf("RU=")==-1){
+                    news = href[i+1];
+                    return news;
+                }else{
+                    news = searchUrl.substring(searchUrl.lastIndexOf("RU=") + 3,
                         searchUrl.lastIndexOf("/RK")).replace("%2f", "/").replace("%3a", ":");
-                return news;
+                    return news;
+                }
             }
         }
         return null;
@@ -738,7 +753,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                         AQuery aq = new AQuery(getApplicationContext());
                         Map<String, Object> params1 = setUpParams(new HashMap<String, Object>(),
                                 "post", null);
-                        String chatLine = "You might be interested in this article about" +
+                        String chatLine = "You might be interested in this article about " +
                                 _searchTerms + ":" +
                                 "<br />" + " " +
                                 extractUrl(section.child(0).child(0).html());

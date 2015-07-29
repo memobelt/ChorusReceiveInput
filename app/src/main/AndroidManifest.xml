@@ -26,7 +26,7 @@
     <application
         android:name=".ChorusApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/mic"
+        android:icon="@mipmap/ic_launcher"
         android:label="Chorus"
         android:theme="@style/AppTheme">
 
