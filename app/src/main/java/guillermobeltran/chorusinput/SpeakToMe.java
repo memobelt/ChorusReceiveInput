@@ -97,7 +97,7 @@ public class SpeakToMe extends Activity {
             intent.putExtra("Asking", true);
             intent.putExtra("Speech", false);
             intent.putExtra("Yelp", false);
-            intent.putExtra("ChatNum", "100");
+            intent.putExtra("ChatNum", "6");
             intent.putExtra("Role", "requester");
 
             HashMap<String, Object> params = new HashMap<String, Object>();

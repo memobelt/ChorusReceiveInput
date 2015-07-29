@@ -213,7 +213,7 @@ public class NavigationDrawerFragment extends Fragment {
             intent = new Intent(getActivity(), ChorusChat.class);
             intent.putExtra("Asking",false);
             intent.putExtra("Yelp", false);
-            intent.putExtra("ChatNum","100");//ChatNum should be changed for each user.
+            intent.putExtra("ChatNum","6");//ChatNum should be changed for each user.
             intent.putExtra("Role","requester");
             //WorkerId should also be put here.
         }

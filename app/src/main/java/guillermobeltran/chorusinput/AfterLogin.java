@@ -140,7 +140,7 @@ public class AfterLogin extends ActionBarActivity
     @Override
     public void onFragmentInteraction(String id) {
         Intent intent = new Intent(this, ChorusChat.class);
-        intent.putExtra("ChatNum","100");
+        intent.putExtra("ChatNum",id);
         intent.putExtra("Asking",false);
         intent.putExtra("Yelp", false);
         intent.putExtra("Role","crowd");
