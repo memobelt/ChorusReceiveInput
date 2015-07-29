@@ -180,6 +180,27 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _cli.set_role("crowd");
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
+            else if(getIntent().getExtras().getBoolean("Answer")) {
+                c.moveToLast();
+                String role = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_ROLE));
+                String msg = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_MSG));
+                String id = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_CHATID));
+                String time = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
+                        .COLUMN_NAME_TIME));
+                Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+                intent.putExtra("Role", role);
+                intent.putExtra("Message", msg);
+                intent.putExtra("ID", id);
+                intent.putExtra("Time", time);
+                intent.putExtra("Text", true);
+                intent.putExtra("Post", false);
+                intent.putExtra("Answer", true);
+                startActivity(intent);
+                finish();
+            }
             //If the cursor from above does have items then the chat has been opened and we don't
             //have to call the server.
             if (c.getCount() > 0) {
@@ -441,8 +462,11 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Text", true);
+                            intent.putExtra("Post", true);
+                            intent.putExtra("Answer", false);
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
+                            intent.putExtra("ID", chatLineInfo.get_id());
                             intent.putExtra("Message", chatLineInfo.get_chatLine().replace("\\", ""));
                             if (chatLineInfo.get_role().equals("requester")) {
                                 intent.putExtra("Time", chatLineInfo.get_acceptedTime());

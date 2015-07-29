@@ -21,16 +21,28 @@ public class ListenerServiceFromPhone extends WearableListenerService {
          */
         //open on phone was called from MainActivity to answer
         if (messageEvent.getPath().equals("/hello-world")) {
-            Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
+            //parse message
             String temp_message = new String(messageEvent.getData(), StandardCharsets.UTF_8);
             int role_message = temp_message.indexOf("|");
             int message_time = temp_message.indexOf("+=+");
             int time_chatNum = temp_message.indexOf("~");
-            intent.putExtra("Role", temp_message.substring(0, role_message));
+            int chatNum_ID = temp_message.indexOf("#|#");
+
+            Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
+            //Answer question Chorus Chat
+            if ((temp_message.substring(0, role_message)).startsWith("?")) {
+                intent.putExtra("Role", temp_message.substring(1, role_message));
+                intent.putExtra("Foreground", true);
+            }
+            //Post to Chorus Chat
+            else {
+                intent.putExtra("Role", temp_message.substring(0, role_message));
+                intent.putExtra("Foreground", appInForeground(getApplicationContext()));
+            }
             intent.putExtra("New Text", temp_message.substring(role_message + 1, message_time));
-            intent.putExtra("Time", temp_message.substring(message_time+3, time_chatNum));
-            intent.putExtra("ChatNum", temp_message.substring(time_chatNum+1));
-            intent.putExtra("Foreground", appInForeground(getApplicationContext()));
+            intent.putExtra("Time", temp_message.substring(message_time + 3, time_chatNum));
+            intent.putExtra("ChatNum", temp_message.substring(time_chatNum + 1, chatNum_ID));
+            intent.putExtra("ID", temp_message.substring(chatNum_ID + 3));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             /*final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
@@ -42,7 +54,6 @@ public class ListenerServiceFromPhone extends WearableListenerService {
                     .setContentText(temp_message.substring(0, temp_message.length()-1));
             NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
             nmc.notify(id++, notification.build()); */
-
             startActivity(intent);
         }
         //open notification on watch
@@ -69,6 +80,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         super.onPeerDisconnected(peer);
         Log.i("test", peer.getDisplayName());
     }
+
     //see if ChorusChat activity is running or not to determine if ChorusChat should open after updating message
     public boolean appInForeground(Context context) {
         boolean inForeground = false;

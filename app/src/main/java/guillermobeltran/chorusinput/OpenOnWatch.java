@@ -38,10 +38,15 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                 .build();
 
         if(getIntent().getExtras().getBoolean("Text")) {
-            //post message on Chorus Chat
+            //post message on Chorus Chat (new text or current database chatline)
             HELLO_WORLD = "/hello-world";
             message = getIntent().getStringExtra("Role")+ "|" + getIntent().getStringExtra("Message")
-                    + "+=+" + getIntent().getStringExtra("Time") + "~" + getIntent().getStringExtra("ChatNum");
+                    + "+=+" + getIntent().getStringExtra("Time") + "~" + getIntent().getStringExtra("ChatNum")
+                    + "#|#" + getIntent().getStringExtra("ID");
+            if(getIntent().getExtras().getBoolean("Answer")) {
+                //post current database chatline so crowd can answer from watch
+                message = "?" + message;
+            }
         }
         else {
             //caller from notification. open Chorus Chat on watch.

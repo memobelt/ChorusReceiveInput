@@ -3,11 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:orientation="vertical"
     tools:context=".MainActivity"
-    tools:deviceIds="wear_square">
+    tools:deviceIds="wear_square"
+    android:background="@color/white">
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/text"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:text="@string/review_string"
+        android:textColor="@color/black"
         android:gravity="center_vertical"
         android:layout_alignParentRight="true"
         android:id="@+id/review"/>
@@ -15,21 +21,25 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Ask"
+        android:textColor="@color/black"
         android:id="@+id/ask"
         android:layout_alignParentTop="true"
         android:gravity="center"/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="Answer"
         android:id="@+id/answer"
         android:layout_alignParentBottom="true"
         android:gravity="center"/>
-    <TextView android:id="@+id/text"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="@string/hello_square"
-        android:gravity="center"
-        />
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:id = "@+id/chorus_logo"
+        android:src="@mipmap/chorus_logo"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"/>
 
 </RelativeLayout>

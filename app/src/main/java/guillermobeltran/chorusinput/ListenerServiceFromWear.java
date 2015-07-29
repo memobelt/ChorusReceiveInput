@@ -24,9 +24,14 @@ public class ListenerServiceFromWear extends WearableListenerService {
          */
         //open on phone was called from MainActivity to answer
         if (messageEvent.getPath().equals("/main-activity-on-phone")) {
-            Intent startIntent = new Intent(this, AfterLogin.class);
+            Intent startIntent = new Intent(this, ChorusChat.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startIntent.putExtra("caller", "Listener");
+            startIntent.putExtra("ChatNum", new String(messageEvent.getData(), StandardCharsets.UTF_8));
+            startIntent.putExtra("Asking", false);
+            startIntent.putExtra("Speech", false);
+            startIntent.putExtra("Yelp", false);
+            startIntent.putExtra("Answer", true);
+            //startIntent.putExtra("caller", "Listener");
             startActivity(startIntent);
 
         }
