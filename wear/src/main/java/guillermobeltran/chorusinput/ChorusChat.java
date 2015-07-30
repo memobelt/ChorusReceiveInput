@@ -129,7 +129,21 @@ public class ChorusChat extends Activity {
                 //speech input from Microphone class
                 else if (getIntent().getStringExtra("caller").equals("Speech")) {
                     postData(getIntent().getStringExtra("Words"));
-                } else {
+                }
+                else if(getIntent().getStringExtra("caller").equals("MainActivity")) {
+                    if (c.getCount() > 0) {
+                        Log.i("test", "database mainactivity");
+                        update();
+                    }
+                    else {
+                        Log.i("test", "go to phone");
+                        Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
+                        intent.putExtra("ChatNum", getIntent().getStringExtra("ChatNum"));
+                        intent.putExtra("caller", "MainActivity");
+                        startActivity(intent);
+                    }
+                }
+                else {
                     if (c.getCount() > 0) {
                         update();
                     }
@@ -200,11 +214,13 @@ public class ChorusChat extends Activity {
     }*/
 
     public void setChatLinesFromPhone() {
+        //set chatlineinfo
         _cli.set_role(getIntent().getStringExtra("Role"));
         _cli.set_chatLine(getIntent().getStringExtra("New Text"));
         _task = getIntent().getStringExtra("ChatNum");
         _cli.set_task(getIntent().getStringExtra("ChatNum"));
 
+        //put new chatlineinfo into database
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, getIntent().getStringExtra("Role"));
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, getIntent().getStringExtra("New Text"));
@@ -219,6 +235,7 @@ public class ChorusChat extends Activity {
         if (newRowId == -1) {
             Toast.makeText(getApplicationContext(), "Oh no", Toast.LENGTH_SHORT).show();
         }
+        //change spinner of suggested responses is necessary
         if (chatText.getText().toString().contains("?")) {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                     R.array.question_array, android.R.layout.simple_spinner_item);
@@ -229,11 +246,14 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
+        //display new chat line info
         chatText.setText(getIntent().getStringExtra("Role") + " : " + getIntent().getStringExtra("New Text") +
                 " " + getDate(getIntent().getStringExtra("Time")));
         if (getIntent().getExtras().getBoolean("Foreground")) {
+            //if activity in foreground, keep ChorusChat open
             update();
         } else {
+            //finish activity if ChorusChat is not in the foreground
             finish();
         }
     }
