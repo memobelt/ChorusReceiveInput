@@ -10,6 +10,18 @@
 		<item>@string/yssdk_open</item>
         <item>@string/yssdk_copy</item>
     </string-array>
+    <!-- From: file:/Users/Jason/Documents/S15-project/ChorusReceiveInput/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
     <!-- From: file:/Users/Jason/Documents/S15-project/ChorusReceiveInput/app/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/res/values/arrays.xml -->
     <eat-comment/>
     <string-array name="safe_search_options">

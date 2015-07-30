@@ -62,6 +62,15 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
 
     public NavigationDrawerFragment() {
+
+    }
+
+    public static Fragment newInstance(int position) {
+        Fragment fragment = new NavigationDrawerFragment();
+        Bundle args = new Bundle();
+        args.putInt(NavigationDrawerFragment.STATE_SELECTED_POSITION, position);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override

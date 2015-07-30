@@ -136,6 +136,8 @@ public class LoginActivity extends Activity {
                     // Signup failed. Look at the ParseException to see what happened.
                     Toast.makeText(getApplicationContext(),
                             e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    inputEmail.setText("");
+                    inputPassword.setText("");
                 }
             }
         });
