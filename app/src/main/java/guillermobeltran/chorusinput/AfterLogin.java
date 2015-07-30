@@ -12,9 +12,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import guillermobeltran.chorusinput.UserManagement.LoginActivity;
+import guillermobeltran.chorusinput.UserManagement.SessionManager;
 
 /*
 Service would be after the user logs in. This is where the user chooses what he wants to do.
@@ -28,6 +32,7 @@ public class AfterLogin extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private SessionManager session;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -56,6 +61,9 @@ public class AfterLogin extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        // session manager
+        session = new SessionManager(getApplicationContext());
     }
 
     @Override
@@ -108,14 +116,18 @@ public class AfterLogin extends ActionBarActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.after_login, menu);
-            restoreActionBar();
-            return true;
-        }
+////        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+//            // Only show items in the action bar relevant to this screen
+//            // if the drawer is not showing. Otherwise, let the drawer
+//            // decide what to show in the action bar.
+//            getMenuInflater().inflate(R.menu.after_login, menu);
+//            restoreActionBar();
+////            return true;
+////        }
+//        return super.onCreateOptionsMenu(menu);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.after_login, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -128,6 +140,14 @@ public class AfterLogin extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_logout) {
+            session.setLogin(false);
+            Intent intent = new Intent(AfterLogin.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
             return true;
         }
 
