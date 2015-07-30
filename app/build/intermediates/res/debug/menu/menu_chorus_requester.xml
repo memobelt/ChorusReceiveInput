@@ -5,4 +5,4 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
-<!-- From: file:/E:/S15-PROJECT/ChorusReceiveInput/app/src/main/res/menu/menu_chorus_requester.xml -->
+<!-- From: file:/Users/Jason/Documents/S15-project/ChorusReceiveInput/app/src/main/res/menu/menu_chorus_requester.xml -->

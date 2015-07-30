@@ -32,6 +32,7 @@ public class LoginActivity extends Activity {
     // LogCat tag
     private static final String TAG = LoginActivity.class.getSimpleName();
     private Button btnLogin;
+    private Button btnTest;
     private Button btnLinkToRegister;
     private EditText inputEmail;
     private EditText inputPassword;
@@ -47,6 +48,7 @@ public class LoginActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLinkToRegister = (Button) findViewById(R.id.btnLinkToRegisterScreen);
+        btnTest = (Button) findViewById(R.id.testLogin);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -71,13 +73,13 @@ public class LoginActivity extends Activity {
                 String password = inputPassword.getText().toString();
 
                 // Check for empty data in the form
-                if (email.trim().length() > 0 && password.trim().length() > 0) {
+                if (email.trim().length() > 0 || password.trim().length() > 0) {
                     // login user
                     checkLogin(email, password);
                 } else {
                     // Prompt user to enter credentials
                     Toast.makeText(getApplicationContext(),
-                            "Please enter the credentials!", Toast.LENGTH_LONG)
+                            "Please enter valid credentials!", Toast.LENGTH_LONG)
                             .show();
                 }
             }
@@ -95,15 +97,25 @@ public class LoginActivity extends Activity {
             }
         });
 
+        btnTest.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                pDialog.setMessage("For test purpose ...");
+                showDialog();
+                session.setLogin(true);
+                Intent i = new Intent(getApplicationContext(),
+                        AfterLogin.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
     }
 
     /**
      * function to verify login details in mysql db
-     * */
+     */
     private void checkLogin(final String username, final String password) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
-
         pDialog.setMessage("Logging in ...");
         showDialog();
 
@@ -127,10 +139,6 @@ public class LoginActivity extends Activity {
                 }
             }
         });
-
-
-        // Adding request to request queue
-//        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
     private void showDialog() {

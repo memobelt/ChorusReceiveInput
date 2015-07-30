@@ -57,8 +57,6 @@ public class RegisterActivity extends Activity {
         // Session manager
         session = new SessionManager(getApplicationContext());
 
-        // SQLite database handler
-//        db = new SQLiteHandler(getApplicationContext());
 
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
@@ -96,7 +94,7 @@ public class RegisterActivity extends Activity {
                                 finish();
                             } else {
                                 Toast.makeText(getApplicationContext(),
-                                        e.getMessage(), Toast.LENGTH_LONG).show();
+                                        "Username already used!", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

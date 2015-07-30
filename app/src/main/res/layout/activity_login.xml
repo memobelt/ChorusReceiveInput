@@ -55,6 +55,16 @@
         <!-- Link to Login Screen -->
 
         <Button
+            android:id="@+id/testLogin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="@color/btn_login_bg"
+            android:text="@string/btn_login_test"
+            android:textColor="@color/btn_login"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
             android:id="@+id/btnLinkToRegisterScreen"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
