@@ -80,8 +80,9 @@ public class RegisterActivity extends Activity {
                     ParseUser user = new ParseUser();
                     user.setUsername(name);
                     user.setPassword(password);
-                    user.setEmail(email);
-
+                    if (!email.equals("")) {
+                        user.setEmail(email);
+                    }
                     user.signUpInBackground(new SignUpCallback() {
                         public void done(ParseException e) {
                             hideDialog();
@@ -93,8 +94,10 @@ public class RegisterActivity extends Activity {
                                 startActivity(intent);
                                 finish();
                             } else {
+//                                Toast.makeText(getApplicationContext(),
+//                                        "Username already used!", Toast.LENGTH_LONG).show();
                                 Toast.makeText(getApplicationContext(),
-                                        "Username already used!", Toast.LENGTH_LONG).show();
+                                        e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });

@@ -135,7 +135,7 @@ public class LoginActivity extends Activity {
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
                     Toast.makeText(getApplicationContext(),
-                            "Wrong username or password!", Toast.LENGTH_LONG).show();
+                            e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
