@@ -101,6 +101,7 @@
         <activity
             android:name="guillermobeltran.chorusinput.ChorusChat"
             android:label="@string/title_activity_chorus_chat"
+            android:launchMode="singleTask"
             android:parentActivityName="guillermobeltran.chorusinput.AfterLogin" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -129,17 +130,6 @@
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         </activity>
-        <activity
-            android:name="com.yahoo.mobile.client.share.search.ui.activity.SearchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name="com.yahoo.mobile.client.share.search.ui.activity.ImageGalleryActivity"
-            android:label="Chorus"
-            android:logo="@drawable/back_icon"
-            android:theme="@style/SearchToLink.Preview"
-            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="guillermobeltran.chorusinput.SearchBarActivity"
             android:label="@string/title_activity_search_bar" >

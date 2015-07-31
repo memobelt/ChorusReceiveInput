@@ -82,7 +82,8 @@
         <activity
             android:name=".ChorusChat"
             android:label="@string/title_activity_chorus_chat"
-            android:parentActivityName=".AfterLogin" >
+            android:parentActivityName=".AfterLogin"
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="guillermobeltran.chorusinput.AfterLogin" />
@@ -110,17 +111,6 @@
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
         </activity>
-        <activity
-            android:name="com.yahoo.mobile.client.share.search.ui.activity.SearchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name="com.yahoo.mobile.client.share.search.ui.activity.ImageGalleryActivity"
-            android:label="Chorus"
-            android:logo="@drawable/back_icon"
-            android:theme="@style/SearchToLink.Preview"
-            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".SearchBarActivity"
             android:label="@string/title_activity_search_bar" >

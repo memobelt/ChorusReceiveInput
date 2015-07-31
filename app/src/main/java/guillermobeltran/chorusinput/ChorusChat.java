@@ -181,12 +181,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
             //crowd answers from watch
-            else if(getIntent().getExtras().getBoolean("Answer")) {
+            else if (getIntent().getExtras().getBoolean("Answer")) {
                 final String[] role = {""};
                 final String[] msg = {""};
                 final String[] id = {""};
                 final String[] time = {""};
-                if(c.getCount() > 0) { //use database
+                if (c.getCount() > 0) { //use database
                     c.moveToLast();
                     role[0] = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                             .COLUMN_NAME_ROLE));
@@ -196,19 +196,17 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             .COLUMN_NAME_CHATID));
                     time[0] = c.getString(c.getColumnIndexOrThrow(DatabaseContract.DatabaseEntry
                             .COLUMN_NAME_TIME));
-                }
-                else { //pull from server
+                } else { //pull from server
                     AQuery aq = new AQuery(this);
                     //Checks to see if there are more messages starting from last message.
-                    Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester",
-                            _chatLineInfoArrayList.get(_chatLineInfoArrayList.size() - 1).get_id());
+                    Map<String, Object> params = setUpParams(new HashMap<String, Object>(), "fetchNewChatRequester", "-1");
 
                     aq.ajax(_chatUrl, params, JSONArray.class, new AjaxCallback<JSONArray>() {
                         @Override
                         public void callback(String url, JSONArray json, AjaxStatus status) {
                             if (json != null) {
-                                if (json.length() > 0) {
-                                    try {
+                                try {
+                                    for (int n = 0; n < json.length(); n++) {
                                         //More parseing of JSON
                                         int chatLineStart = json.get(json.length() - 1).toString().indexOf("chatLine\":\"");
                                         int roleStart = json.get(json.length() - 1).toString().indexOf("\",\"role");
@@ -227,9 +225,10 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                         } else {
                                             time[0] = chatLineInfo.get_time();
                                         }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
                                     }
+                                } catch (JSONException e) {
+                                    Log.e("ChorusChat", e.toString());
+                                    e.printStackTrace();
                                 }
                             }
                         }
@@ -243,7 +242,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 intent.putExtra("Text", true);
                 intent.putExtra("Answer", true);
                 startActivity(intent);
+                Log.i("test", "here1");
                 finish();
+                Log.i("test", "here2");
             }
             //If the cursor from above does have items then the chat has been opened and we don't
             //have to call the server.
@@ -273,7 +274,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         } else {
 
             String text = _editText.getText().toString();
-            postData("chatLine",text,"post");
+            postData("chatLine", text, "post");
 
             HashMap<String, Object> params = new HashMap<String, Object>();
             params.put("email", ParseUtils.customIdBuilder(_task));
@@ -293,13 +294,15 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 new YahooNews().execute();
             }
             _editText.setText("");
-            _chatList.setSelection(_chatList.getCount()-1);
+            _chatList.setSelection(_chatList.getCount() - 1);
         }
 //        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
 //                .showSoftInput(_editText, InputMethodManager.SHOW_FORCED);
     }
-    public void queuedMessages(){
+
+    public void queuedMessages() {
     }
+
     /*
     sets up the parameters to send to the server. Action is whether it's sending or fetching.
     LastChatId is for fetching messages.
@@ -417,7 +420,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         if (_role.equals("crowd")) { //Yelp button will show
             /*if (temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant") ||
                     temp.contains(" eat"))*/
-                _yelpBtn.setVisibility(View.VISIBLE);
+            _yelpBtn.setVisibility(View.VISIBLE);
             /*else { //Yelp button will not show
                 _yelpBtn.setVisibility(View.GONE);
             }*/
@@ -593,7 +596,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
     public void onStop() {//stops the recursion.
         super.onStop();
         _canUpdate = false;
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         //insertToDB();
 //        setAlarmManager();
@@ -762,14 +765,14 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         String[] s = search.split("\\s+");
         int len = s.length;
         String newSearch = "";
-        if(s[0].equals("")){
+        if (s[0].equals("")) {
             for (int i = 1; i < len; i++) {
                 newSearch = newSearch + s[i];
                 if (i != len - 1) {
                     newSearch = newSearch + "+";
                 }
             }
-        }else{
+        } else {
             for (int i = 0; i < len; i++) {
                 newSearch = newSearch + s[i];
                 if (i != len - 1) {
@@ -790,12 +793,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         for (int i = 0; i < len; i++) {
             if (href[i].contains("href")) {
                 String searchUrl = href[i + 1];
-                if(searchUrl.lastIndexOf("RU=")==-1){
-                    news = href[i+1];
+                if (searchUrl.lastIndexOf("RU=") == -1) {
+                    news = href[i + 1];
                     return news;
-                }else{
+                } else {
                     news = searchUrl.substring(searchUrl.lastIndexOf("RU=") + 3,
-                        searchUrl.lastIndexOf("/RK")).replace("%2f", "/").replace("%3a", ":");
+                            searchUrl.lastIndexOf("/RK")).replace("%2f", "/").replace("%3a", ":");
                     return news;
                 }
             }
