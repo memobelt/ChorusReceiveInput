@@ -65,8 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/yelp_button"
-                android:src="@drawable/yssdk_yelp_logo"
-                android:scaleType="centerInside"
+                android:src="@mipmap/yelp"
+                android:background="@null"
+                android:scaleType="fitCenter"
                 android:text="Yelp"/>
             <Button
                 android:layout_width="wrap_content"

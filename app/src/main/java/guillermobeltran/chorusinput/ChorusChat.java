@@ -1,8 +1,10 @@
 package guillermobeltran.chorusinput;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -59,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -242,9 +245,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 intent.putExtra("Text", true);
                 intent.putExtra("Answer", true);
                 startActivity(intent);
-                Log.i("test", "here1");
-                finish();
-                Log.i("test", "here2");
+                if(!appInForeground(getApplicationContext())) {
+                    finish();
+                }
             }
             //If the cursor from above does have items then the chat has been opened and we don't
             //have to call the server.
@@ -299,7 +302,18 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 //        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
 //                .showSoftInput(_editText, InputMethodManager.SHOW_FORCED);
     }
-
+    //see if ChorusChat activity is running or not to determine if ChorusChat should open after
+    //sending chatlineinfo to watch
+    public boolean appInForeground(Context context) {
+        boolean inForeground = false;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
+        ComponentName componentName = runningTaskInfoList.get(0).topActivity;
+        if (componentName.getClassName().contains("ChorusChat")) {
+            inForeground = true;
+        }
+        return inForeground;
+    }
     public void queuedMessages() {
     }
 

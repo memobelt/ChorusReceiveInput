@@ -96,7 +96,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.5.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.5.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services/7.5.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/yahoosearchsdk-0.6.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaResources" />
@@ -114,8 +113,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="android-query-full.0.26.8" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-7.5.0" level="project" />
+    <orderEntry type="library" exported="" name="android-query-full.0.26.8" level="project" />
     <orderEntry type="library" exported="" name="play-services-appinvite-7.5.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-panorama-7.5.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-drive-7.5.0" level="project" />
@@ -135,7 +134,6 @@
     <orderEntry type="library" exported="" name="play-services-wallet-7.5.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-identity-7.5.0" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.2.0" level="project" />
-    <orderEntry type="library" exported="" name="yahoosearchsdk-0.6.0-" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="jcommander-1.35" level="project" />

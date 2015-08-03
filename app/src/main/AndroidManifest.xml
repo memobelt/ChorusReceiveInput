@@ -29,7 +29,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Chorus"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".UserManagement.LoginActivity"
             android:label="@string/app_name"
@@ -88,11 +87,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="guillermobeltran.chorusinput.AfterLogin" />
         </activity>
-
         <receiver
             android:name=".AlarmUpdateChatList"
             android:enabled="true" />
-
         <service
             android:name=".UpdateService"
             android:enabled="true"
@@ -154,16 +151,13 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
                 <!-- IMPORTANT: Change "info.androidhive.parsenotifications" to match your app's package name. -->
                 <category android:name="guillermobeltran.chorusinput" />
             </intent-filter>
         </receiver>
-
         <activity
             android:name=".YelpResult"
             android:label="@string/title_activity_yelp_result" >
         </activity>
     </application>
-
 </manifest>
