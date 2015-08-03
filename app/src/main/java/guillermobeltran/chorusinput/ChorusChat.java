@@ -168,7 +168,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             webSettings.setJavaScriptEnabled(true);
 
             //This intent is if the Chat was opened from SpeakToMe so that means someone asked a
-            //question so the question gets sent to the server.
+            //the question gets sent to the server.
             if (getIntent().getExtras().getBoolean("Asking")) {
                 String words = getIntent().getStringExtra("Words");
                 postData("chatLine", words, "post");
@@ -210,7 +210,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             if (json != null) {
                                 try {
                                     for (int n = 0; n < json.length(); n++) {
-                                        //More parseing of JSON
+                                        //More parsing of JSON
                                         int chatLineStart = json.get(json.length() - 1).toString().indexOf("chatLine\":\"");
                                         int roleStart = json.get(json.length() - 1).toString().indexOf("\",\"role");
                                         String json_string = json.get(json.length() - 1).toString()
@@ -234,8 +234,19 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                     e.printStackTrace();
                                 }
                             }
+                            else {
+                                Log.e("ChorusChat", "JSON is null");
+                            }
                         }
                     });
+                }
+                if(time[0].length()==0) {
+                    role[0] = "system";
+                    msg[0] = "Error";
+                    id[0] = _cli.get_id();
+                    Date date = new Date(System.currentTimeMillis());
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-d H:mm:ss");
+                    time[0] = simpleDateFormat.format(date);
                 }
                 Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                 intent.putExtra("Role", role[0]);
@@ -279,25 +290,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             String text = _editText.getText().toString();
             postData("chatLine", text, "post");
 
-            HashMap<String, Object> params = new HashMap<String, Object>();
-            params.put("email", ParseUtils.customIdBuilder(_task));
-            params.put("role", _role);
-            params.put("task", _task);
-            params.put("message", text);
-            ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
-                public void done(String success, ParseException e) {
-                    if (e == null) {
-                        Log.e("ChorusChat", "Push sent successfully.");
-                    }
-                }
-            });
-            //To send relevant Yahoo article
-            if (text.toLowerCase().contains("news about")) {
-                _searchTerms = text.substring(text.indexOf("news about") + "news about".length() + 1);
-                new YahooNews().execute();
-            }
-            _editText.setText("");
-            _chatList.setSelection(_chatList.getCount() - 1);
         }
 //        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
 //                .showSoftInput(_editText, InputMethodManager.SHOW_FORCED);
@@ -561,7 +553,26 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     new AjaxCallback<JSONObject>());
         } else {
             aq.ajax(_chatUrl, params, JSONObject.class, new AjaxCallback<JSONObject>());
+            params.put("email", ParseUtils.customIdBuilder(_task));
+            params.put("role", _role);
+            params.put("task", _task);
+            params.put("message", words);
+            ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
+                public void done(String success, ParseException e) {
+                    if (e == null) {
+                        Log.e("ChorusChat", "Push sent successfully.");
+                    }
+                }
+            });
+            //To send relevant Yahoo article
+            if (words.toLowerCase().contains("news about")) {
+                _searchTerms = words.substring(words.indexOf("news about") + "news about".length() + 1);
+                new YahooNews().execute();
+            }
+            _editText.setText("");
+            _chatList.setSelection(_chatList.getCount() - 1);
         }
+        displayMessages();
     }
 
     //for timestamp

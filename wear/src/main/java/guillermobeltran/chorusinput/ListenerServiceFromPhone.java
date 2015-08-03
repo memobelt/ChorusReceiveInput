@@ -32,30 +32,20 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             //Answer question Chorus Chat
             if ((temp_message.substring(0, role_message)).startsWith("?")) {
                 intent.putExtra("Role", temp_message.substring(1, role_message));
-                Log.i("test", "ChatNum " + temp_message.substring(time_chatNum + 1, chatNum_ID));
                 intent.putExtra("Foreground", true);
             }
             //Post to Chorus Chat
             else {
-                Log.i("test", "no ?");
                 intent.putExtra("Role", temp_message.substring(0, role_message));
                 intent.putExtra("Foreground", appInForeground(getApplicationContext()));
             }
             intent.putExtra("New Text", temp_message.substring(role_message + 1, message_time));
             intent.putExtra("Time", temp_message.substring(message_time + 3, time_chatNum));
+            Log.i("test", "Time: "+temp_message.substring(message_time + 3, time_chatNum));
             intent.putExtra("ChatNum", temp_message.substring(time_chatNum + 1, chatNum_ID));
             intent.putExtra("ID", temp_message.substring(chatNum_ID + 3));
             intent.putExtra("caller", "ListenerServiceFromPhone");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            /*final PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
-                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext())
-                    .setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true)
-                    .setContentIntent(pendingIntent).setWhen(System.currentTimeMillis())
-                    .setGroup(NOTIFICATION_GROUP).setContentTitle("Chorus")
-                    .setContentText(temp_message.substring(0, temp_message.length()-1));
-            NotificationManagerCompat nmc = NotificationManagerCompat.from(getApplicationContext());
-            nmc.notify(id++, notification.build()); */
             startActivity(intent);
         }
         //open notification on watch

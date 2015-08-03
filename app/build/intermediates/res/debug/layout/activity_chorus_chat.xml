@@ -58,7 +58,7 @@
                 android:layout_columnWeight="5"
                 android:layout_weight="6"
                 android:background="@null"
-                android:textColor="#ff020202"
+                android:textColor="@color/white"
                 android:inputType=
                     "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine" />
             <ImageButton

@@ -31,6 +31,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Speech", false);
             startIntent.putExtra("Yelp", false);
             startIntent.putExtra("Answer", true);
+            startIntent.putExtra("Role", "crowd");
             startActivity(startIntent);
 
         }
