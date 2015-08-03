@@ -25,7 +25,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"/>
     <ImageView
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id = "@+id/chorus_logo"
         android:src="@mipmap/chorus_logo"

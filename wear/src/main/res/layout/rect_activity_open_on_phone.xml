@@ -5,6 +5,6 @@ android:layout_height="match_parent" android:orientation="vertical"
 tools:context="guillermobeltran.chorusinput.OpenOnPhone" tools:deviceIds="wear_square">
 
 <TextView android:id="@+id/text" android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:text="Click to open on phone"
+    android:layout_height="fill_parent"
     android:gravity="center"/>
 </LinearLayout>

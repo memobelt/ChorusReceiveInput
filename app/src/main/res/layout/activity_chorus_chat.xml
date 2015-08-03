@@ -28,7 +28,7 @@
             android:layout_column="0"
             android:layout_columnWeight="5"
             android:layout_weight="5"
-            android:background="#ff00f6ff" />
+            android:background="@color/chorus_blue" />
 
         <LinearLayout
             android:orientation="horizontal"

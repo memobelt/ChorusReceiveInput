@@ -41,7 +41,6 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             }
             intent.putExtra("New Text", temp_message.substring(role_message + 1, message_time));
             intent.putExtra("Time", temp_message.substring(message_time + 3, time_chatNum));
-            Log.i("test", "Time: "+temp_message.substring(message_time + 3, time_chatNum));
             intent.putExtra("ChatNum", temp_message.substring(time_chatNum + 1, chatNum_ID));
             intent.putExtra("ID", temp_message.substring(chatNum_ID + 3));
             intent.putExtra("caller", "ListenerServiceFromPhone");
@@ -57,20 +56,18 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             startActivity(intent);
         } else {
             super.onMessageReceived(messageEvent);
-            Log.i("test", "Message path does not match");
+            Log.e(ListenerServiceFromPhone.class.getSimpleName(), "Message path does not match");
         }
     }
 
     @Override
     public void onPeerConnected(Node peer) {
         super.onPeerConnected(peer);
-        Log.i("test", peer.getDisplayName());
     }
 
     @Override
     public void onPeerDisconnected(Node peer) {
         super.onPeerDisconnected(peer);
-        Log.i("test", peer.getDisplayName());
     }
 
     //see if ChorusChat activity is running or not to determine if ChorusChat should open after updating message

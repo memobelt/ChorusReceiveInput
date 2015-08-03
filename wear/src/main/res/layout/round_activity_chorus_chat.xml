@@ -6,7 +6,7 @@
     tools:context="guillermobeltran.chorusinput.ChorusChat"
     tools:deviceIds="wear_round"
     android:orientation="vertical"
-    android:background="#ff00ecf5">
+    android:background="@color/chorus_blue">
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -11,7 +11,7 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/chorus_blue"
         android:layout_weight="1"
-        android:background="@color/dark_grey"
         android:drawSelectorOnTop="false" />
 </LinearLayout>

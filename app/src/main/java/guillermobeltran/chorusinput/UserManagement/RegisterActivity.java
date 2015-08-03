@@ -1,17 +1,6 @@
 package guillermobeltran.chorusinput.UserManagement;
 
 import android.app.Activity;
-
-import guillermobeltran.chorusinput.AfterLogin;
-import guillermobeltran.chorusinput.R;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,11 +8,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import guillermobeltran.chorusinput.AfterLogin;
+import guillermobeltran.chorusinput.R;
 
 /**
  * Created by jason on 2015/7/29.
@@ -37,6 +30,7 @@ public class RegisterActivity extends Activity {
     private EditText inputPassword;
     private ProgressDialog pDialog;
     private SessionManager session;
+    private ImageView logo;
 //    private SQLiteHandler db;
 
     @Override
@@ -49,6 +43,7 @@ public class RegisterActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.password);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
+        logo = (ImageView) findViewById(R.id.logo);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);

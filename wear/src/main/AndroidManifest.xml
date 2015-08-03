@@ -58,7 +58,8 @@
         </activity>
         <activity
             android:name=".OpenOnPhone"
-            android:label="@string/title_activity_open_on_phone" >
+            android:label="@string/title_activity_open_on_phone"
+            android:theme="@style/Theme.Transparent" >
             <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="@integer/google_play_services_version" />
@@ -73,6 +74,16 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".UserManagement.Login"
+            android:label="@string/title_activity_login" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

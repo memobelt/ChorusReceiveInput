@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:debuggable="true"
+    android:background="@color/bg_register"
     tools:context=".SpeakToMe"
     tools:deviceIds="wear_round">
 <!--<LinearLayout
@@ -29,7 +30,8 @@
         android:layout_height="wrap_content"
         android:text="Send"
         android:id="@+id/SendButton"
-        android:background="@android:color/holo_green_dark"
+        android:background="@color/chorus_blue"
+        android:textColor="@color/black"
         android:visibility="visible"
         android:textSize="40dp"
         android:layout_alignParentBottom="true"

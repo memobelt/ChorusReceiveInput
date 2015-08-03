@@ -15,8 +15,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp" >
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_gravity="center"
             android:background="@null"
             android:id = "@+id/logo"
@@ -55,9 +55,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@color/btn_login_bg"
+            android:background="@color/chorus_blue"
             android:text="@string/btn_login"
-            android:textColor="@color/btn_login" />
+            android:textColor="@color/black" />
 
         <!-- Link to Login Screen -->
 
@@ -66,20 +66,20 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
-            android:background="@color/btn_login_bg"
+            android:background="@color/chorus_blue"
             android:text="@string/btn_login_test"
-            android:textColor="@color/btn_login"
+            android:textColor="@color/black"
             android:layout_gravity="center_horizontal" />
 
         <Button
             android:id="@+id/btnLinkToRegisterScreen"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dip"
-            android:background="@null"
+            android:layout_marginTop="60dip"
+            android:background="@color/chorus_blue"
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="15dp" />
     </LinearLayout>
 </LinearLayout>

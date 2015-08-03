@@ -2,8 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/btn_login_bg"
     android:debuggable="true"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="50dp"
     tools:context=".SpeakToMe">
 
     <EditText
@@ -12,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="normal"
         android:layout_marginBottom="50dp"
@@ -61,12 +64,13 @@
             android:visibility="gone" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:text="Send"
+            android:padding="20dp"
             android:id="@+id/SendButton"
             android:layout_gravity="center_horizontal"
-            android:background="#ff00f6ff"
+            android:background="@color/chorus_blue"
             android:visibility="visible"
             android:textSize="45dp"
             android:onClick="sendButton" />

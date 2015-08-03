@@ -4,6 +4,8 @@
     <color name="bg_gradient_start">#31244e</color>
     <color name="bg_gradient_end">#6b394c</color>
     <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="chorus_blue">#b3e7fb</color>
 
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#2e3237</color>

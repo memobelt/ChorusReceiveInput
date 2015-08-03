@@ -49,7 +49,7 @@ public class ChorusChat extends Activity {
         _task = getIntent().getStringExtra("ChatNum");
         //temporary for login
         if (_task == null) {
-            Log.i("test", "null task 1");
+            Log.i("test", "null task. setting to 6 (1)");
             _task = "6";
         }
         _cli.set_task(getIntent().getStringExtra("ChatNum"));
@@ -119,7 +119,6 @@ public class ChorusChat extends Activity {
                 });
                 //update from phone
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
-                    Log.i("test", "here1: "+_task);
                     setChatLinesFromPhone();
                 }
                 //Notification "Open" action
@@ -132,11 +131,9 @@ public class ChorusChat extends Activity {
                 }
                 else if(getIntent().getStringExtra("caller").equals("MainActivity")) {
                     if (c.getCount() > 0) {
-                        Log.i("test", "database mainactivity");
                         update();
                     }
                     else {
-                        Log.i("test", "go to phone");
                         Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
                         intent.putExtra("ChatNum", getIntent().getStringExtra("ChatNum"));
                         intent.putExtra("caller", "MainActivity");
@@ -341,7 +338,7 @@ public class ChorusChat extends Activity {
         intent.putExtra("Response", words);
         //temporary for login
         if (_task == null) {
-            Log.i("test", "null task 2");
+            Log.i("test", "null task. setting to 6 (2)");
             _task = "6";
         }
         intent.putExtra("ChatNum", _task);

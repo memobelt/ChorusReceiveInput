@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -69,7 +68,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
-                if (open_on_phone_animation) {
+                /*if (open_on_phone_animation) {
                     mTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -84,7 +83,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                             sendMessage();
                         }
                     });
-                }
+                }*/
             }
         });
     }
@@ -103,6 +102,11 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                             if (!sendMessageResult.getStatus().isSuccess()) {
                                 Log.e("TAG", "Failed to send message with status code: "
                                         + sendMessageResult.getStatus().getStatusCode());
+                                Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
+                                intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                                        ConfirmationActivity.FAILURE_ANIMATION);
+                                intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Message Send Failure");
+                                startActivity(intent);
                             } else {
                                 if (open_on_phone_animation) {
                                     //open on phone animation
@@ -111,14 +115,14 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                                             ConfirmationActivity.OPEN_ON_PHONE_ANIMATION);
                                     intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Opening on Phone");
                                     startActivity(intent);
-                                } else {
+                                } /*else {
                                     //success animation
                                     Intent intent = new Intent(getApplicationContext(), ConfirmationActivity.class);
                                     intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
                                             ConfirmationActivity.SUCCESS_ANIMATION);
                                     intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Message Sent");
                                     startActivity(intent);
-                                }
+                                }*/
                             }
                         }
                     }
@@ -153,6 +157,7 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
                 for (Node node : nodes.getNodes()) {
                     mNode = node;
                 }
+                sendMessage();
             }
         });
     }
@@ -165,13 +170,13 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i("test", "Connection suspended");
+        Log.e(OpenOnPhone.class.getSimpleName(), "Connection suspended");
         finish();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("test", "Connection failed");
+        Log.e(OpenOnPhone.class.getSimpleName(), "Connection failed");
         finish();
     }
 }

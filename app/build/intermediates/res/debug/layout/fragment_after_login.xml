@@ -12,6 +12,7 @@
             android:layout_height="100dp"
             android:id = "@+id/logo"
             android:scaleType="centerCrop"
+            android:layout_centerHorizontal="true"
             android:src="@mipmap/chorus_logo"/>
 
         <Button

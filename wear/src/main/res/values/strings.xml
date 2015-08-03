@@ -16,6 +16,8 @@
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="reply_prompt">Reply...</string>
+    <string name="btn_login">LOGIN ON PHONE</string>
+    <string name="btn_login_test">TEST</string>
     <string-array name="question_array">
         <item>Reply...</item>
         <item>Yes.</item>
@@ -32,4 +34,5 @@
         <item>Custom response</item>
     </string-array>
     <string name="title_activity_pull">Pull</string>
+    <string name="title_activity_login">Login</string>
 </resources>

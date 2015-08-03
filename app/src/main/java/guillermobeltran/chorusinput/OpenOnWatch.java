@@ -114,13 +114,13 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i("test", "Connection suspended");
+        Log.e(OpenOnWatch.class.getSimpleName(), "Connection suspended");
         finish();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("test", "Connection failed");
+        Log.e(OpenOnWatch.class.getSimpleName(), "Connection failed");
         finish();
     }
 }

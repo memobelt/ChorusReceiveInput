@@ -6,6 +6,5 @@
 
     <TextView android:id="@+id/text" android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:text="Click to open on phone"
         android:gravity="center"/>
 </RelativeLayout>

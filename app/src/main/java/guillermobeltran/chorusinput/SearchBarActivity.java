@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 /*
 Summer?
  */
@@ -14,6 +16,7 @@ public class SearchBarActivity extends Activity {
 
     private EditText mSearchTerm;
     private EditText mSearchLocation;
+    private ImageView logo;
     Button search;
 
     @Override
@@ -23,6 +26,7 @@ public class SearchBarActivity extends Activity {
         setTitle("Search Yelp");
         mSearchTerm = (EditText)findViewById(R.id.searchTerm);
         mSearchLocation = (EditText)findViewById(R.id.searchLocation);
+        logo = (ImageView) findViewById(R.id.logo);
         search = (Button) findViewById(R.id.button1);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
