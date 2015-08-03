@@ -62,6 +62,11 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             message = temp_message.getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         }
+        else if(caller.equals("Login")) {
+            HELLO_WORLD_WEAR_PATH = "/login-on-phone";
+            message = null;
+            open_on_phone_animation = true;
+        }
 
         final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {

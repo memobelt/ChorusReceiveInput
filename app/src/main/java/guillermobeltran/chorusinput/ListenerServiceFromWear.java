@@ -10,6 +10,9 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.nio.charset.StandardCharsets;
+
+import guillermobeltran.chorusinput.UserManagement.LoginActivity;
+
 /*
 Created by Summer.
  */
@@ -38,6 +41,11 @@ public class ListenerServiceFromWear extends WearableListenerService {
         //open on phone was called from microphone to take a picture
         else if (messageEvent.getPath().equals("/microphone-on-phone")) {
             Intent startIntent = new Intent(this, TakePicture.class);
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(startIntent);
+        }
+        else if (messageEvent.getPath().equals("/login-on-phone")) {
+            Intent startIntent = new Intent(this, LoginActivity.class);
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }

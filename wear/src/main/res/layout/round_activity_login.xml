@@ -6,22 +6,21 @@
     tools:context="guillermobeltran.chorusinput.UserManagement.Login" tools:deviceIds="wear_round">
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:id = "@+id/logo"
         android:background="@null"
         android:src="@mipmap/chorus_logo"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"/>
-
     <!-- Login Button -->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/btn_login_bg"
+        android:layout_height="35dp"
+        android:textSize="10dp"
+        android:background="@color/chorus_blue"
         android:text="@string/btn_login"
-        android:textColor="@color/btn_login"
+        android:textColor="@color/black"
         android:layout_above="@+id/testLogin"
         android:layout_alignParentStart="true" />
 
@@ -29,10 +28,12 @@
     <Button
         android:id="@+id/testLogin"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/btn_login_bg"
+        android:layout_height="35dp"
+        android:background="@color/chorus_blue"
         android:text="@string/btn_login_test"
-        android:textColor="@color/btn_login"
+        android:layout_marginTop="10dp"
+        android:textSize="10dp"
+        android:textColor="@color/black"
         android:layout_gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />

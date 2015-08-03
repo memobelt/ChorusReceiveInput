@@ -1,13 +1,23 @@
 package guillermobeltran.chorusinput.UserManagement;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import guillermobeltran.chorusinput.MainActivity;
+import guillermobeltran.chorusinput.OpenOnPhone;
+import guillermobeltran.chorusinput.R;
 
 public class Login extends Activity {
 
     private TextView mTextView;
+    ImageView logo;
+    Button login, test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +28,31 @@ public class Login extends Activity {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
                 mTextView = (TextView) stub.findViewById(R.id.text);
+                logo = (ImageView) findViewById(R.id.logo);
+                login = (Button) findViewById(R.id.btnLogin);
+                test = (Button) findViewById(R.id.testLogin);
+                login.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        login();
+                    }
+                });
+                test.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        test();
+                    }
+                });
             }
         });
+    }
+    private void login() {
+        Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
+        intent.putExtra("caller", "Login");
+        startActivity(intent);
+    }
+    private void test() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }
