@@ -55,10 +55,10 @@ public class OpenOnPhone extends Activity implements GoogleApiClient.ConnectionC
             open_on_phone_animation = true;
         }*/
         //send text to phone
-        else if (caller.equals("Speech") || caller.equals("Response")) {
+        else if (caller.equals("Response")) {
             HELLO_WORLD_WEAR_PATH = "/speech-on-phone";
-            String temp_message = getIntent().getStringExtra("Response") + "~" + getIntent().getStringExtra("Time")
-                    + "|" + getIntent().getStringExtra("ChatNum");
+            String temp_message = getIntent().getStringExtra("Role") + "%#" + getIntent().getStringExtra("Response")
+                    + "~" + getIntent().getStringExtra("Time") + "|" + getIntent().getStringExtra("ChatNum");
             message = temp_message.getBytes(Charset.forName("UTF-8"));
             open_on_phone_animation = false;
         }

@@ -344,10 +344,10 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        //update();
 
         //send new message to phone
         Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
+        intent.putExtra("Role", _role);
         intent.putExtra("Response", words);
         //temporary for login
         if (_task == null) {

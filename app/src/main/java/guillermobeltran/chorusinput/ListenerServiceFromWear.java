@@ -63,12 +63,13 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Update", false);
             startIntent.putExtra("Yelp", false);
 
+            int role_message = temp_message.indexOf("%#");
             int message_time = temp_message.indexOf("~");
             int time_chatNum = temp_message.indexOf("|");
-            startIntent.putExtra("ChatNum", temp_message.substring(time_chatNum+1));
-            startIntent.putExtra("Role", "requester");
-            startIntent.putExtra("Input", temp_message.substring(0, message_time));
+            startIntent.putExtra("Role", temp_message.substring(0, role_message));
+            startIntent.putExtra("Input", temp_message.substring(role_message + 2, message_time));
             startIntent.putExtra("Time", temp_message.substring(message_time+1, time_chatNum));
+            startIntent.putExtra("ChatNum", temp_message.substring(time_chatNum+1));
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }
