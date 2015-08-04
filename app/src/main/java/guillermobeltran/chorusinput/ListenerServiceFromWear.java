@@ -69,23 +69,6 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Role", "requester");
             startIntent.putExtra("Input", temp_message.substring(0, message_time));
             startIntent.putExtra("Time", temp_message.substring(message_time+1, time_chatNum));
-
-            //Intent viewIntent = new Intent(getApplicationContext(), ChorusChat.class);
-            //viewIntent.putExtra("ChatNum", temp_message.substring(temp_message.length()-1));
-            //viewIntent.putExtra("Role", "requester");
-
-            /*PendingIntent viewPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
-                    startIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
-                    .setSmallIcon(R.mipmap.ic_launcher).setContentTitle("Chorus").setAutoCancel(true)
-                    .setWhen(System.currentTimeMillis()).setContentIntent(viewPendingIntent)
-                    .setGroup(NOTIFICATION_GROUP);
-            //mBuilder.setContentText(Integer.toString(numNotifications) + " New Messages " +
-            //        "in Chat " + _task);
-            mBuilder.setContentText(temp_message.substring(0, temp_message.length()-1));
-            NotificationManager nmgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            nmgr.notify(id++, mBuilder.build());*/
-
             startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(startIntent);
         }

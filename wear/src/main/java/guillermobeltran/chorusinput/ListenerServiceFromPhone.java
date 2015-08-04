@@ -35,11 +35,13 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             //Answer question Chorus Chat
             if ((temp_message.substring(0, role_message)).startsWith("?")) {
                 intent.putExtra("Role", temp_message.substring(1, role_message));
+                intent.putExtra("Crowd", true);
                 intent.putExtra("Foreground", true);
             }
             //Post to Chorus Chat
             else {
                 intent.putExtra("Role", temp_message.substring(0, role_message));
+                intent.putExtra("Crowd", false);
                 intent.putExtra("Foreground", activityRunning(getApplicationContext(), "ChorusChat"));
             }
             intent.putExtra("New Text", temp_message.substring(role_message + 1, message_time));

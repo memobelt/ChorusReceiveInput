@@ -250,6 +250,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 intent.putExtra("Message", msg[0]);
                 intent.putExtra("ID", id[0]);
                 intent.putExtra("Time", time[0]);
+                intent.putExtra("ChatNum", _task);
                 intent.putExtra("Text", true);
                 intent.putExtra("Login", false);
                 intent.putExtra("Answer", true);
@@ -413,12 +414,12 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         String temp = (chatLineInfo.get_chatLine()).toLowerCase();
         //whether the Yelp button should display to the crowd or not
         if (_role.equals("crowd")) { //Yelp button will show
-            /*if (temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant") ||
-                    temp.contains(" eat"))*/
+            if (temp.contains("yelp") || temp.contains("food") || temp.contains("restaurant") ||
+                    temp.contains(" eat"))
             _yelpBtn.setVisibility(View.VISIBLE);
-            /*else { //Yelp button will not show
+            else { //Yelp button will not show
                 _yelpBtn.setVisibility(View.GONE);
-            }*/
+            }
         } else {
             _yelpBtn.setVisibility(View.GONE);
         }

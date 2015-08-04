@@ -52,7 +52,7 @@ public class ChorusChat extends Activity {
             Log.i("test", "null task. setting to 6 (1)");
             _task = "6";
         }
-        _cli.set_task(getIntent().getStringExtra("ChatNum"));
+        _cli.set_task(_task);
         _canUpdate = true;
         _DBtask = "CHAT" + _task;
         DbHelper = new DBHelper1(getApplicationContext(), _DBtask);
@@ -119,18 +119,27 @@ public class ChorusChat extends Activity {
                 });
                 //update from phone
                 if (getIntent().getStringExtra("caller").equals("ListenerServiceFromPhone")) {
+                    if(getIntent().getExtras().getBoolean("Crowd")) {
+                        _role = "crowd";
+                    }
+                    else {
+                        _role = "requester";
+                    }
                     setChatLinesFromPhone();
                 }
                 //Notification "Open" action
                 else if (getIntent().getStringExtra("caller").equals("Open")) {
+                    _role = "requester";
                     update();
                 }
                 //speech input from Microphone class
                 else if (getIntent().getStringExtra("caller").equals("Speech")) {
+                    _role = "requester";
                     postData(getIntent().getStringExtra("Words"));
                 }
                 else if(getIntent().getStringExtra("caller").equals("MainActivity")) {
                     if (c.getCount() > 0) {
+                        _role = "requester";
                         update();
                     }
                     else {
@@ -306,7 +315,11 @@ public class ChorusChat extends Activity {
     public void postData(String words) {
         _canUpdate = true;
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, "requester");
+        if(_role == null) {
+            Log.i("test", "null role");
+            _role = "requester";
+        }
+        values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_ROLE1, _role);
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_MSG, words);
         values.put(DatabaseContract.DatabaseEntry.COLUMN_NAME_CHATID, _cli.get_id());
 
@@ -331,7 +344,7 @@ public class ChorusChat extends Activity {
                     R.array.response_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
-        update();
+        //update();
 
         //send new message to phone
         Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
