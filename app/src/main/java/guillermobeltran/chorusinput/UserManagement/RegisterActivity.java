@@ -16,6 +16,7 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import guillermobeltran.chorusinput.AfterLogin;
+import guillermobeltran.chorusinput.OpenOnWatch;
 import guillermobeltran.chorusinput.R;
 
 /**
@@ -59,6 +60,7 @@ public class RegisterActivity extends Activity {
             Intent intent = new Intent(RegisterActivity.this,
                     AfterLogin.class);
             startActivity(intent);
+            loginWatch();
             finish();
         }
 
@@ -126,5 +128,11 @@ public class RegisterActivity extends Activity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+    private void loginWatch() {
+        Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+        intent.putExtra("Text", false);
+        intent.putExtra("Login", true);
+        startActivity(intent);
     }
 }

@@ -77,6 +77,8 @@ public class MainActivity extends Activity {
                 });
                 TextView tv = (TextView) stub.findViewById(R.id.review);
                 tv.setRotation(90);
+
+                Toast.makeText(getApplicationContext(), "Swipe to start", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -15,6 +15,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import guillermobeltran.chorusinput.AfterLogin;
+import guillermobeltran.chorusinput.OpenOnWatch;
 import guillermobeltran.chorusinput.R;
 
 
@@ -74,7 +75,7 @@ public class LoginActivity extends Activity {
                 } else {
                     // Prompt user to enter credentials
                     Toast.makeText(getApplicationContext(),
-                            "Please enter valid credentials!", Toast.LENGTH_LONG)
+                            "Please enter valid credentials", Toast.LENGTH_LONG)
                             .show();
                 }
             }
@@ -101,6 +102,7 @@ public class LoginActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(),
                         AfterLogin.class);
                 startActivity(i);
+                loginWatch();
                 finish();
             }
         });
@@ -126,6 +128,7 @@ public class LoginActivity extends Activity {
                     Intent intent = new Intent(LoginActivity.this,
                             AfterLogin.class);
                     startActivity(intent);
+                    loginWatch();
                     finish();
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
@@ -144,5 +147,12 @@ public class LoginActivity extends Activity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+    private void loginWatch() {
+        Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+        intent.putExtra("Text", false);
+        intent.putExtra("Login", true);
+        intent.putExtra("Logout", false);
+        startActivity(intent);
     }
 }

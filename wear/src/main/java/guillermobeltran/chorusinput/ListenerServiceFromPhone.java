@@ -13,6 +13,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import guillermobeltran.chorusinput.UserManagement.Login;
+
 public class ListenerServiceFromPhone extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
@@ -54,7 +56,18 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             intent.putExtra("caller", "Open");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        } else {
+        }
+        else if (messageEvent.getPath().equals("/hello-world-login")) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        else if (messageEvent.getPath().equals("/hello-world-logout")) {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        else {
             super.onMessageReceived(messageEvent);
             Log.e(ListenerServiceFromPhone.class.getSimpleName(), "Message path does not match");
         }

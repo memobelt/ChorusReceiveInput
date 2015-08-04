@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -41,6 +42,7 @@ public class AvailableChats extends Activity {
 
                             /*YOUR CHOICE OF COLOR*/
                         textView.setTextColor(Color.BLACK);
+                        textView.setGravity(Gravity.CENTER);
 
                         return view;
                     }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Chorus</string>
     <string name="hello_round">Welcome to\nChorus</string>
     <string name="hello_square">Welcome to\nChorus</string>
@@ -11,6 +10,7 @@
     <string name="title_activity_chorus_chat">ChorusChat</string>
     <string name="review_string">Review</string>
     <string name="title_activity_chat_list">ChatList</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_available_chats">AvailableChats</string>
     <string name="title_activity_open_on_phone">Click to open on phone</string>
     <string name="speech_prompt">Say something&#8230;</string>

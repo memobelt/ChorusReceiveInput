@@ -48,6 +48,16 @@ public class OpenOnWatch extends Activity implements GoogleApiClient.ConnectionC
                 message = "?" + message;
             }
         }
+        else if(getIntent().getExtras().getBoolean("Login")) {
+            //login verified on phone, open MainActivity on watch
+            HELLO_WORLD = "/hello-world-login";
+            message="";
+        }
+        else if(getIntent().getExtras().getBoolean("Logout")) {
+            //logged out on the phone. now need to logout on the watch
+            HELLO_WORLD = "/hello-world-logout";
+            message="";
+        }
         else {
             //caller from notification. open Chorus Chat on watch.
             HELLO_WORLD = "/hello-world-open";

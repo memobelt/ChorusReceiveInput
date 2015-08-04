@@ -147,6 +147,7 @@ public class AfterLogin extends ActionBarActivity
             session.setLogin(false);
             Intent intent = new Intent(AfterLogin.this, LoginActivity.class);
             startActivity(intent);
+            logoutWatch();
             finish();
             return true;
         }
@@ -208,5 +209,13 @@ public class AfterLogin extends ActionBarActivity
             ((AfterLogin) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+    }
+    //logout on the watch
+    private void logoutWatch() {
+        Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
+        intent.putExtra("Text", false);
+        intent.putExtra("Login", false);
+        intent.putExtra("Logout", true);
+        startActivity(intent);
     }
 }

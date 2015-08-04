@@ -254,7 +254,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 intent.putExtra("ID", id[0]);
                 intent.putExtra("Time", time[0]);
                 intent.putExtra("Text", true);
+                intent.putExtra("Login", false);
                 intent.putExtra("Answer", true);
+                intent.putExtra("Logout", false);
                 startActivity(intent);
                 if(!appInForeground(getApplicationContext())) {
                     finish();
@@ -515,6 +517,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
 
                             Intent intent = new Intent(getApplicationContext(), OpenOnWatch.class);
                             intent.putExtra("Text", true);
+                            intent.putExtra("Login", false);
                             intent.putExtra("Answer", false);
                             intent.putExtra("ChatNum", _task);
                             intent.putExtra("Role", chatLineInfo.get_role());
