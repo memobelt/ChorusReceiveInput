@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
@@ -39,7 +40,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             //Post to Chorus Chat
             else {
                 intent.putExtra("Role", temp_message.substring(0, role_message));
-                intent.putExtra("Foreground", appInForeground(getApplicationContext()));
+                intent.putExtra("Foreground", activityRunning(getApplicationContext(), "ChorusChat"));
             }
             intent.putExtra("New Text", temp_message.substring(role_message + 1, message_time));
             intent.putExtra("Time", temp_message.substring(message_time + 3, time_chatNum));
@@ -52,7 +53,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         //open notification on watch
         else if (messageEvent.getPath().equals("/hello-world-open")) {
             Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
-            intent.putExtra("Foreground", appInForeground(getApplicationContext()));
+            intent.putExtra("Foreground", activityRunning(getApplicationContext(), "ChorusChat"));
             intent.putExtra("caller", "Open");
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -60,11 +61,14 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         else if (messageEvent.getPath().equals("/hello-world-login")) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            if(appRunning(getApplicationContext())) {
+                startActivity(intent);
+            }
         }
         else if (messageEvent.getPath().equals("/hello-world-logout")) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            if(appRunning(getApplicationContext()))
             startActivity(intent);
         }
         else {
@@ -84,17 +88,17 @@ public class ListenerServiceFromPhone extends WearableListenerService {
     }
 
     //see if ChorusChat activity is running or not to determine if ChorusChat should open after updating message
-    public boolean appInForeground(Context context) {
+    public boolean activityRunning(Context context, String class_name) {
         boolean inForeground = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
         ComponentName componentName = runningTaskInfoList.get(0).topActivity;
-        if (componentName.getClassName().contains("ChorusChat")) {
+        if (componentName.getClassName().toLowerCase().contains(class_name.toLowerCase())) {
             inForeground = true;
         }
         return inForeground;
     }
-    /*public boolean appInForeground(Context context) {
+    public boolean appRunning(Context context) {
         boolean inForeground = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
@@ -103,26 +107,20 @@ public class ListenerServiceFromPhone extends WearableListenerService {
 
             for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcessInfoList) {
                 if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                    if(processInfo.processName.contains("ChorusChat")) {
-                        inForeground = true;
-                    }
-                    /*for (String activeProcess : processInfo.pkgList) {
+                    for (String activeProcess : processInfo.pkgList) {
                         if (activeProcess.equals(context.getPackageName())) {
                             inForeground = true;
                         }
-                    }*/
-                /*}
+                    }
+                }
             }
         } else {
             List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
             ComponentName componentName = runningTaskInfoList.get(0).topActivity;
-            /*if (componentName.getPackageName().equals(context.getPackageName())) {
-                inBackground = false;
-            }*/
-            /*if(componentName.getClassName().contains("ChorusChat")) {
+            if(componentName.getPackageName().equals(context.getPackageName())) {
                 inForeground = true;
             }
         }
         return inForeground;
-    }*/
+    }
 }

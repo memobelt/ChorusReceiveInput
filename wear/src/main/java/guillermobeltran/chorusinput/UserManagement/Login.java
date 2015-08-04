@@ -27,6 +27,8 @@ public class Login extends Activity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
+                login(true); //check to see if already logged in on phone
+
                 mTextView = (TextView) stub.findViewById(R.id.text);
                 logo = (ImageView) findViewById(R.id.logo);
                 login = (Button) findViewById(R.id.btnLogin);
@@ -34,7 +36,7 @@ public class Login extends Activity {
                 login.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        login();
+                        login(false);
                     }
                 });
                 test.setOnClickListener(new View.OnClickListener() {
@@ -46,9 +48,14 @@ public class Login extends Activity {
             }
         });
     }
-    private void login() {
+    private void login(boolean test) {
         Intent intent = new Intent(getApplicationContext(), OpenOnPhone.class);
-        intent.putExtra("caller", "Login");
+        if(test) {
+            intent.putExtra("caller", "LoginTest");
+        }
+        else {
+            intent.putExtra("caller", "Login");
+        }
         startActivity(intent);
     }
     private void test() {

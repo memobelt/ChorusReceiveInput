@@ -1,6 +1,9 @@
 package guillermobeltran.chorusinput;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
@@ -10,6 +13,7 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import guillermobeltran.chorusinput.UserManagement.LoginActivity;
 
@@ -35,6 +39,7 @@ public class ListenerServiceFromWear extends WearableListenerService {
             startIntent.putExtra("Yelp", false);
             startIntent.putExtra("Answer", true);
             startIntent.putExtra("Role", "crowd");
+            startIntent.putExtra("Foreground", activityRunning(getApplicationContext(), "ChorusChat"));
             startActivity(startIntent);
 
         }
@@ -97,5 +102,18 @@ public class ListenerServiceFromWear extends WearableListenerService {
     @Override
     public void onPeerDisconnected(Node peer) {
         super.onPeerDisconnected(peer);
+    }
+
+    //see if ChorusChat activity is running or not to determine if ChorusChat should open after
+    //sending chatlineinfo to watch
+    public boolean activityRunning(Context context, String class_name) {
+        boolean inForeground = false;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(1);
+        ComponentName componentName = runningTaskInfoList.get(0).topActivity;
+        if (componentName.getClassName().toLowerCase().contains(class_name.toLowerCase())) {
+            inForeground = true;
+        }
+        return inForeground;
     }
 }
