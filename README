@@ -1,0 +1,19 @@
+ChorusReceiveInput
+==================
+With the mobile and wear apps, users can take Chorus on the go. Information is pulled from the server
+and displayed on the phone. The phone then forwards the information to the watch. Users can ask,
+answer, and review their questions and responses.
+
+Features
+--------
+Mobile and wear apps:
+- Speech input
+- Login
+- Notifications
+Mobile app only:
+- Text-to-speech output
+
+Installation
+------------
+Code: https://github.com/memobelt/ChorusReceiveInput (master branch)
+Run the 'app' project on your Android mobile device and 'wear on your Android wear device.
