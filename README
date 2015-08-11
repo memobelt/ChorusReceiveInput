@@ -2,7 +2,10 @@ ChorusReceiveInput
 ==================
 With the mobile and wear apps, users can take Chorus on the go. Information is pulled from the server
 and displayed on the phone. The phone then forwards the information to the watch. Users can ask,
-answer, and review their questions and responses.
+answer, and review their questions and responses. If the requester asks a question where Yelp may be
+useful to answering it, a Yelp button will appear on the crowd side. If the requester asks a question
+involving the news, the system will automatically send a link to the first article on Yahoo News about
+that topic.
 
 Features
 --------
@@ -12,6 +15,8 @@ Mobile and wear apps:
 - Notifications
 Mobile app only:
 - Text-to-speech output
+- Access to Yelp
+- Yahoo News search
 
 Installation
 ------------
