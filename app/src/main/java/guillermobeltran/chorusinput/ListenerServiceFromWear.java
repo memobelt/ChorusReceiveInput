@@ -18,7 +18,8 @@ import java.util.List;
 import guillermobeltran.chorusinput.UserManagement.LoginActivity;
 
 /*
-Created by Summer.
+Created by Summer Kitahara
+This service receives messages from the watch.
  */
 public class ListenerServiceFromWear extends WearableListenerService {
     String NOTIFICATION_GROUP = "notification_group";

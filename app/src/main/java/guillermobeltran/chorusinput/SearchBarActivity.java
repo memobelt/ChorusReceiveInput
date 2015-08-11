@@ -10,7 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 /*
-Summer?
+created by Summer Kitahara
+The user inputs the search term and location. The input is then sent to the Yelp activity
  */
 public class SearchBarActivity extends Activity {
 

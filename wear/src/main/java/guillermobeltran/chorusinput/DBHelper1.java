@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
 /**
- * Created by Memo on 6/24/15.
+ * Created by Summer on 6/24/15. Database to store chat line information.
  */
 public class DBHelper1 extends SQLiteOpenHelper {
 

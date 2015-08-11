@@ -15,7 +15,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
+/*
+Created by Summer Kitahara.
+Users input speech and it will be transcribed to text and sent to the chat.
+ */
 public class Microphone extends Activity {
 
     private TextView _txtSpeechInput;

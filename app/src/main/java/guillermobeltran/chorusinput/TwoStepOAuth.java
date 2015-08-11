@@ -4,6 +4,7 @@ import org.scribe.model.Token;
 
 /**
  * Generic service provider for two-step OAuth10a.
+ * Used by the YelpAPI.
  */
 public class TwoStepOAuth extends DefaultApi10a {
 

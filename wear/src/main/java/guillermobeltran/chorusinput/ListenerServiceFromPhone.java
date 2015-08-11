@@ -15,7 +15,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import guillermobeltran.chorusinput.UserManagement.Login;
-
+/*
+Created by Summer Kitahara
+This service receives messages from the phone.
+ */
 public class ListenerServiceFromPhone extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
@@ -60,6 +63,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+        //logged in on phone, now can login on watch
         else if (messageEvent.getPath().equals("/hello-world-login")) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -67,6 +71,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
                 startActivity(intent);
             }
         }
+        //phone logged out, need to logout on watch too
         else if (messageEvent.getPath().equals("/hello-world-logout")) {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -100,6 +105,7 @@ public class ListenerServiceFromPhone extends WearableListenerService {
         }
         return inForeground;
     }
+    //check if Chorus app is open
     public boolean appRunning(Context context) {
         boolean inForeground = false;
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);

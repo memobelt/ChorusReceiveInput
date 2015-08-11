@@ -14,6 +14,11 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/*
+Created by Summer Kitahara.
+These are the available chats that the crowd can enter and answer questions.
+This is where the Chat numbers are populated. Right now it's just 1-20.
+ */
 public class AvailableChats extends Activity {
 
     private TextView mTextView;
@@ -62,12 +67,4 @@ public class AvailableChats extends Activity {
             }
         });
     }
-    /*@Override
-    protected void onListItemClick(ListView listView, View view, int position, long id) {
-        //listView.getItemAtPosition(position);
-        Intent intent = new Intent(getApplicationContext(), ChorusChat.class);
-        intent.putExtra("ChatNum", position+1);
-        intent.putExtra("caller", "Open");
-        startActivity(intent);
-    };*/
 }

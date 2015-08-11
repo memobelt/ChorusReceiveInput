@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 /*
-Created by Summer
+Created by Summer Kitahara
+In this activity, the Yelp API is queried with the search term and location from SearchBarActivity
  */
 public class Yelp extends ListActivity {
     @Override

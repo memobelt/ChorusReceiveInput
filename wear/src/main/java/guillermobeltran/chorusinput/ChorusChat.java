@@ -24,6 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+Created by Summer Kitahara.
+ChorusChat displays the last message in that chat number's page. Use the spinner to send a response.
+ */
 
 public class ChorusChat extends Activity {
     String _task, _role, _DBtask;

@@ -17,7 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 /*
-Created by Summer
+Created by Summer Kitahara
+This activity displays the Yelp results.
  */
 public class YelpResult extends ActionBarActivity {
     ListView listView;
