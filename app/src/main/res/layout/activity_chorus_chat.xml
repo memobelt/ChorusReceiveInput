@@ -33,12 +33,11 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="0dip"
             android:layout_weight="1">
-
             <ImageButton
                 android:contentDescription="@string/mic"
-                android:layout_width="0dp"
+                android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:id="@+id/imageButton3"
                 android:src="@mipmap/mic1"
@@ -49,15 +48,10 @@
                 android:nestedScrollingEnabled="true" />
 
             <EditText
-                android:layout_width="0dp"
+                android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:id="@+id/editText"
-                android:layout_column="0"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="5"
                 android:layout_weight="6"
-                android:background="@null"
                 android:textColor="@color/white"
                 android:inputType=
                     "textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine" />

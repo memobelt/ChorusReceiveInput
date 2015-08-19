@@ -44,7 +44,7 @@ stored.
 - Logout: Click the options in the upper right corner of AfterLogin activity and select 'Logout.'
 This will also log users out on the watch.
 Wear:
-- Login: Once a user logs in on the phone, they are also logged in on the watch. 
+- Login: Once a user logs in on the phone, they are also logged in on the watch.
 - Ask a question: Swipe up to down in MainActivity to open Microphone activity. Hit the microphone
 button and speak. Then the text will be transcribed. Click the send button to send text to chat.
 - Review questions: Swipe right to left in MainActivity to open the ChorusChat activity and show the
