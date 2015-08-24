@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>295E3444-6E53-4120-BD34-3FBBE6FD0872</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Chorus</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</key>
+		<string>https://github.com/memobelt/ChorusReceiveInput.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Chorus.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/memobelt/ChorusReceiveInput.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Chorus</string>
+		</dict>
+	</array>
+</dict>
+</plist>

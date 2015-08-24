@@ -37,13 +37,6 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         self.data.appendData(data)
     }
     
-    //MARK: Actions
-    @IBAction func handleTap(sender: UITapGestureRecognizer) {
-        //text to speech
-        vocalizer = SKVocalizer(language: "eng-USA", delegate: self)
-        //vocalizer?.speakString("test")
-    }
-    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let currentCell = tableView.cellForRowAtIndexPath(indexPath) as UITableViewCell!;
         var cellTitle = currentCell.textLabel!.text
@@ -87,11 +80,11 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject]
         if let results = fetchedResults {
             if(results.count == 0) { //empty core data -> pull from web
-                println("web")
+                println("web setup")
                 self.setChatLinesFromWeb()
             }
             else { //filled core data -> pull from core data
-                println("core data")
+                println("core data setup")
                 self.setChatLinesFromCD()
             }
         }
@@ -174,17 +167,6 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         }
     }
     //MARK: Alamofire
-    func parseCLI(lineInfo: [String], target: String) -> String {
-        for (var index = 1; index < lineInfo.count; index+=4)  {
-            switch lineInfo[index] {
-            case target:
-                return lineInfo[index+2]
-            default:
-                break
-            }
-        }
-        return ""
-    }
     func inputCoreData(_chatid: String, _message: String, _role: String, _task: String, _time: String) -> Void {
         //update ChatLineInfo Core Data
         //1. access NSManagedObjectContext
@@ -209,20 +191,19 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         //5. insert new managed object to core data
         cli_coredata.append(cli)
     }
-    func setChatInfo(data: String) -> Void {
+    func setChatInfoFromString(data: String) -> Void {
         //parsing results from server into chatLineInfo's
         let array = split(data){$0 == "}"}.map{String($0)}
         for (var i = 0; i < array.count-1; i++) {
             //add new chatLineInfo
-            //let lineInfo = split(array[array.count-2]){$0 == "\""}.map{String($0)}
+            //< array.count-1 because array[array.count-1] is "]"
             let lineInfo = split(array[i]){$0 == "\""}.map{String($0)}
-            let cli_temp: ChatLineInfo = chatLineInfo.setChatLineInfo(lineInfo, chatLineInfo: ChatLineInfo())
+            let cli_temp: ChatLineInfo = self.chatLineInfo.setChatLineInfo(lineInfo, chatLineInfo: ChatLineInfo())
     
             if let chatLineStart = array[i].rangeOfString("chatLine\":\"")?.startIndex {
                 if let roleStart = array[i].rangeOfString("\",\"role")?.startIndex {
                     let temp_chatLine = array[i].substringWithRange(Range<String.Index>(start: advance(chatLineStart, 11), end: roleStart))
-                    chatLineInfo.set_chatLine(temp_chatLine)
-                    
+                    cli_temp.set_chatLine(temp_chatLine) //allow for quotation marks
                 }
                 else {
                     error("Cannot find role.")
@@ -233,14 +214,40 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             }
             
             //fill chat list
-            cli_list.append(cli_temp)
+            self.cli_list.append(cli_temp)
             if(cli_temp.get_role() == "requester") {
                 self.chat_list.append("\(cli_temp.get_role()) : \(cli_temp.get_chatLine()) \(cli_temp.get_acceptedTime())")
-                self.inputCoreData(self.parseCLI(self.chat_list, target: "id"), _message: self.parseCLI(self.chat_list, target: "chatLine"), _role: self.parseCLI(self.chat_list, target: "role"), _task: self.parseCLI(self.chat_list, target: "task"), _time: self.parseCLI(self.chat_list, target: "time"))
+                self.inputCoreData(cli_temp.get_id(), _message: cli_temp.get_chatLine(), _role: cli_temp.get_role(), _task: cli_temp.get_task(), _time: cli_temp.get_acceptedTime())
             }
             else {
                 self.chat_list.append("\(cli_temp.get_role()) : \(cli_temp.get_chatLine()) \(cli_temp.get_time())")
-                self.inputCoreData(self.parseCLI(self.chat_list, target: "id"), _message: self.parseCLI(self.chat_list, target: "chatLine"), _role: self.parseCLI(self.chat_list, target: "role"), _task: self.parseCLI(self.chat_list, target: "task"), _time: self.parseCLI(self.chat_list, target: "time"))
+                self.inputCoreData(cli_temp.get_id(), _message: cli_temp.get_chatLine(), _role: cli_temp.get_role(), _task: cli_temp.get_task(), _time: cli_temp.get_time())
+            }
+        }
+        self.tableView.reloadData() //update tableview
+        self.scrollToBottom() //scroll to bottom of list
+    }
+    func setChatInfoFromData(data: [NSManagedObject]) -> Void {
+        for item in data {
+            var cli_temp: ChatLineInfo = ChatLineInfo()
+            cli_temp.set_id(item.valueForKey("chatid")!.description)
+            cli_temp.set_chatLine(item.valueForKey("message")!.description)
+            cli_temp.set_role(item.valueForKey("role")!.description)
+            cli_temp.set_task(item.valueForKey("task")!.description)
+            if(item.valueForKey("message")!.description == "requester") {
+                cli_temp.set_acceptedTime(item.valueForKey("time")!.description)
+            }
+            else {
+                cli_temp.set_time(item.valueForKey("time")!.description)
+            }
+            cli_temp.set_accepted("1")
+            cli_temp.set_workerId("qq9t3ktatncj66geme1vdo31u5")
+            self.cli_list.append(cli_temp)
+            if(cli_temp.get_role() == "requester") {
+                self.chat_list.append("\(cli_temp.get_role()) : \(cli_temp.get_chatLine()) \(cli_temp.get_acceptedTime())")
+            }
+            else {
+                self.chat_list.append("\(cli_temp.get_role()) : \(cli_temp.get_chatLine()) \(cli_temp.get_time())")
             }
         }
         self.tableView.reloadData() //update tableview
@@ -250,7 +257,11 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         //Pull from Chorus server and update chat page
         Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": self.role, "task": self.task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "-1"]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
             if(result != nil) {
-                self.setChatInfo(result!)
+                self.setChatInfoFromString(result!)
+                self.scrollToBottom() //scroll to bottom of list
+                if(self.can_update) {
+                    self.update()
+                }
             }
             
             //popup error alert
@@ -258,10 +269,6 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
                 self.error(error!.description)
             }
         })
-        self.scrollToBottom() //scroll to bottom of list
-        if(can_update) {
-            self.update()
-        }
     }
     func setChatLinesFromCD() {
         //1. access NSManagedObjectContext
@@ -274,15 +281,16 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as? [NSManagedObject]
         if let results = fetchedResults {
             self.cli_coredata = results
+            self.setChatInfoFromData(results)
+            self.scrollToBottom()
+            if(self.can_update) {
+                self.update()
+            }
         }
         else {
             if(error != nil) {
                 self.error(error!.description)
             }
-        }
-        self.scrollToBottom()
-        if(can_update) {
-            self.update()
         }
     }
     func postData(message: String, _task: String) -> Void {
@@ -290,26 +298,33 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         Alamofire.request(.POST, NSURL(string: chatURL)!, parameters: ["action" : "post", "role": "requester", "task": _task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "\0", "chatLine": message]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
             if(error != nil) {
                 self.error(error!.description)
-            }})
-        
-        //TO DO: FIX update tableview
-        if(self.role == "") {
-            self.role = "requester"
-        }
-        if(self.task == "") { //temporary for login
-            self.task = "6"
-        }
-        self.scrollToBottom()
-        if(can_update) {
-            self.update()
-        }
+            }
+            else {
+                //TO DO: FIX update tableview
+                if(self.role == "") {
+                    self.role = "requester"
+                }
+                if(self.task == "") { //temporary for login
+                    self.task = "6"
+                }
+                self.scrollToBottom()
+                if(self.can_update) {
+                    self.update()
+                }
+            }
+        })
     }
     func update() {
         //Pull from Chorus server and update chat page
-        Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": self.role, "task": self.task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": self.cli_list[self.cli_list.count-2].get_id()]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
+        println(self.cli_list.count)
+        Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": self.role, "task": self.task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": self.chatLineInfo.get_id()]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
             if(result != nil) {
                 if(result != "") {
-                    self.setChatInfo(result!)
+                    self.setChatInfoFromString(result!)
+                    self.scrollToBottom() //scroll to bottom of list
+                    if(self.can_update == true) {
+                        self.update()
+                    }
                 }
             }
             
@@ -318,10 +333,6 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
                 self.error(error!.description)
             }
         })
-        self.scrollToBottom() //scroll to bottom of list
-        if(can_update == true) {
-            update()
-        }
     }
     
     //MARK: SpeechKit (text to speech)
