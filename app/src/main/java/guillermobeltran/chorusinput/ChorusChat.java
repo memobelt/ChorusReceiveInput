@@ -222,7 +222,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                                         String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
 
                                         ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                                        chatLineInfo.set_chatLine(json_string);
+                                        _cli.set_chatLine(json_string);
 
                                         role[0] = chatLineInfo.get_role();
                                         msg[0] = chatLineInfo.get_chatLine().replace("\\", "");
@@ -383,7 +383,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             String[] lineInfo = json.get(n).toString().split("\"");
 
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                            chatLineInfo.set_chatLine(json_string);
+                            _cli.set_chatLine(json_string);
 
                             //Values to add to DB.
                             ContentValues values = new ContentValues();
@@ -480,7 +480,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                             String[] lineInfo = json.get(json.length() - 1).toString().split("\"");
 
                             ChatLineInfo chatLineInfo = _cli.setChatLineInfo(lineInfo, new ChatLineInfo());
-                            chatLineInfo.set_chatLine(json_string);
+                            _cli.set_chatLine(json_string);
 
                             //Add to db.
                             ContentValues values = new ContentValues();
