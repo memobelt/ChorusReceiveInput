@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="guillermobeltran.chorusinput.OrientPicture"
+    android:background="@color/background_floating_material_dark">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="visible"
+        android:id="@+id/frame">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/setPicture"
+            android:background="@null" />
+
+        <ImageButton
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:id="@+id/turn_left"
+            android:layout_gravity="right|center_vertical"
+            android:src="@mipmap/rotate_left"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:onClick="turnLeft" />
+
+        <ImageView
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:id="@+id/ok"
+            android:layout_gravity="center_horizontal|bottom"
+            android:src="@mipmap/check_mark"
+            android:onClick="ok" />
+
+        <ImageButton
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:id="@+id/turn_right"
+            android:layout_gravity="left|center_vertical"
+            android:src="@mipmap/rotate_right"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:onClick="turnRight" />
+
+        <ImageButton
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:id="@+id/cancel1"
+            android:layout_gravity="left|bottom"
+            android:src="@mipmap/cancel"
+            android:background="@null"
+            android:onClick="cancel" />
+
+        <ImageButton
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:id="@+id/cancel2"
+            android:layout_gravity="right|bottom"
+            android:src="@mipmap/cancel"
+            android:background="@null"
+            android:onClick="cancel" />
+
+    </FrameLayout>
+
+</RelativeLayout>
+<!-- From: file:/Users/sunnysummer5/ChorusReceiveInput/app/src/main/res/layout-land/activity_orient_picture.xml -->

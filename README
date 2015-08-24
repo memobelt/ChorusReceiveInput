@@ -1,0 +1,62 @@
+ChorusReceiveInput
+==================
+With the mobile and wear apps, users can take Chorus on the go. Users can ask, answer, and review their
+questions and responses. Information is pulled from the server and displayed on the phone (this happens
+in the ChorusChat activity). The phone then forwards the information to the watch. The phone and watch
+communicate using the WearableListenerService and the MessageAPI. If the requester asks a question where
+Yelp may be useful to answering it, a Yelp button will appear on the crowd side. If the requester asks
+a question involving the news, the system will automatically send a link to the first article on Yahoo
+News about that topic.
+
+Features
+--------
+Mobile and wear apps:
+- Speech input
+- Login
+- Notifications
+Mobile app only:
+- Text-to-speech output
+- Yelp Search API
+- Yahoo News search
+
+Installation
+------------
+Code: https://github.com/memobelt/ChorusReceiveInput (master branch)
+In Android Studio, run the 'app' project on your Android mobile device and 'wear on your Android wear device.
+
+Use
+---
+Mobile:
+- Get started (after login): Click on the <- on the top left to open a Navigation Drawer.
+- Ask a question: Select 'Ask a question' in the Navigation Drawer. This will open the SpeakToMe activity.
+Type in the textfield and hit send to submit the text. Alternatively, hit the microphone button and
+speak. The text will be transcribed and then the user can send it to the chat.
+- Review questions: Select 'Review questions' in the Navigation Drawer. This will open the ChorusChat
+activity. Requesters can click on a chat line to enable text-to-speech output and have it read to them.
+- Answer questions: Select 'Answer questions' in the Navigation Drawer. This will open the
+Available Chats activity. Select a chat number and input text into the textfield. Or, click the
+microphone button to use speech input.
+- Yelp: Crowd can click on the Yelp button (next to Send button) to open SearchBarActivity where they
+input a search term and location. These strings are queried in the Yelp Search API and results are
+displaced in the YelpResult activity. Crowd can click on any bit of information and it will be stored
+to send to the chat. They can unselect it if they no longer want to send it and it will no longer be
+stored.
+- Logout: Click the options in the upper right corner of AfterLogin activity and select 'Logout.'
+This will also log users out on the watch.
+Wear:
+- Login: Once a user logs in on the phone, they are also logged in on the watch.
+- Ask a question: Swipe up to down in MainActivity to open Microphone activity. Hit the microphone
+button and speak. Then the text will be transcribed. Click the send button to send text to chat.
+- Review questions: Swipe right to left in MainActivity to open the ChorusChat activity and show the
+last message in the chat page. Click the 'Reply...' spinner to open the drop-down menu. Select one of
+the suggested responses or hit 'Custom response' to open the Microphone activity and submit speech
+input to the chat.
+- Answer questions: Swipe down to up in MainActivity to open the AvailableChats activity. Click on a
+ chat number to see the last message in the chat page. Use the spinner to send a response.
+- Logout: Users must logout on the phone in order for the watch to be logged out.
+
+Contributors
+-------
+Guillermo Beltran
+Summer Kitahara
+Jason Song
