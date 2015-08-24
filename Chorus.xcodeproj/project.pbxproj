@@ -1,0 +1,661 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2709FA211B7BBFD9002D5FB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA201B7BBFD9002D5FB5 /* AppDelegate.swift */; };
+		2709FA241B7BBFD9002D5FB5 /* Chorus.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA221B7BBFD9002D5FB5 /* Chorus.xcdatamodeld */; };
+		2709FA2B1B7BBFD9002D5FB5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2709FA2A1B7BBFD9002D5FB5 /* Images.xcassets */; };
+		2709FA2E1B7BBFD9002D5FB5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2709FA2C1B7BBFD9002D5FB5 /* LaunchScreen.xib */; };
+		2709FA3A1B7BBFD9002D5FB5 /* ChorusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA391B7BBFD9002D5FB5 /* ChorusTests.swift */; };
+		2709FA4A1B7BDCC9002D5FB5 /* ChorusChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA491B7BDCC9002D5FB5 /* ChorusChat.swift */; };
+		2709FA4B1B7BDCC9002D5FB5 /* ChorusChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA491B7BDCC9002D5FB5 /* ChorusChat.swift */; };
+		2709FA811B7BEF68002D5FB5 /* MainActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA801B7BEF68002D5FB5 /* MainActivity.swift */; };
+		2709FA821B7BEF68002D5FB5 /* MainActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA801B7BEF68002D5FB5 /* MainActivity.swift */; };
+		2709FA841B7BF0E4002D5FB5 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA831B7BF0E4002D5FB5 /* Login.swift */; };
+		2709FA851B7BF0E4002D5FB5 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA831B7BF0E4002D5FB5 /* Login.swift */; };
+		2709FA871B7CF0DF002D5FB5 /* AvailableChats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA861B7CF0DF002D5FB5 /* AvailableChats.swift */; };
+		2709FA881B7CF0DF002D5FB5 /* AvailableChats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA861B7CF0DF002D5FB5 /* AvailableChats.swift */; };
+		2768C6441B88DB7A00970C55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2768C6431B88DB7A00970C55 /* Main.storyboard */; };
+		2768C6451B88DB7A00970C55 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2768C6431B88DB7A00970C55 /* Main.storyboard */; };
+		27730AD71B80E9A1003A0783 /* SpeechKitHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 27730AD61B80E9A1003A0783 /* SpeechKitHeader.m */; };
+		27730AD81B80E9A1003A0783 /* SpeechKitHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 27730AD61B80E9A1003A0783 /* SpeechKitHeader.m */; };
+		27730C571B823C69003A0783 /* SpeechKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27730C561B823C69003A0783 /* SpeechKit.framework */; };
+		27730C581B823C69003A0783 /* SpeechKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27730C561B823C69003A0783 /* SpeechKit.framework */; };
+		27730C5D1B839623003A0783 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27730C5C1B839623003A0783 /* AudioToolbox.framework */; };
+		27730C5F1B83964D003A0783 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27730C5E1B83964D003A0783 /* SystemConfiguration.framework */; };
+		27730C761B839B1C003A0783 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27730C751B839B1B003A0783 /* AVFoundation.framework */; };
+		277F40821B7D1B060052A4AE /* SpeakToMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277F40811B7D1B060052A4AE /* SpeakToMe.swift */; };
+		277F40831B7D1B060052A4AE /* SpeakToMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277F40811B7D1B060052A4AE /* SpeakToMe.swift */; };
+		277F40931B7D26BB0052A4AE /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 277F408C1B7D25A10052A4AE /* Alamofire.framework */; };
+		277F40941B7D26BB0052A4AE /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 277F408C1B7D25A10052A4AE /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		279774881B8ACDC600978436 /* EmbeddedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279774861B8ACDC500978436 /* EmbeddedVC.swift */; };
+		279774891B8ACDC600978436 /* EmbeddedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279774861B8ACDC500978436 /* EmbeddedVC.swift */; };
+		27CC8A991B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
+		27CC8A9A1B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2709FA341B7BBFD9002D5FB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2709FA131B7BBFD9002D5FB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2709FA1A1B7BBFD9002D5FB5;
+			remoteInfo = Chorus;
+		};
+		277F408B1B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
+		277F408D1B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DD67C0B1A5C55C900ED2280;
+			remoteInfo = "Alamofire OSX";
+		};
+		277F408F1B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS Tests";
+		};
+		277F40911B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F829C6B21A7A94F100A2CD59;
+			remoteInfo = "Alamofire OSX Tests";
+		};
+		277F40951B7D26BB0052A4AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		277F40801B7D0DF40052A4AE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				277F40941B7D26BB0052A4AE /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2709FA1B1B7BBFD9002D5FB5 /* Chorus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chorus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2709FA1F1B7BBFD9002D5FB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2709FA201B7BBFD9002D5FB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2709FA231B7BBFD9002D5FB5 /* Chorus.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Chorus.xcdatamodel; sourceTree = "<group>"; };
+		2709FA2A1B7BBFD9002D5FB5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2709FA2D1B7BBFD9002D5FB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		2709FA331B7BBFD9002D5FB5 /* ChorusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChorusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2709FA381B7BBFD9002D5FB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2709FA391B7BBFD9002D5FB5 /* ChorusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChorusTests.swift; sourceTree = "<group>"; };
+		2709FA491B7BDCC9002D5FB5 /* ChorusChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChorusChat.swift; sourceTree = "<group>"; };
+		2709FA801B7BEF68002D5FB5 /* MainActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainActivity.swift; sourceTree = "<group>"; };
+		2709FA831B7BF0E4002D5FB5 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		2709FA861B7CF0DF002D5FB5 /* AvailableChats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvailableChats.swift; sourceTree = "<group>"; };
+		2768C6431B88DB7A00970C55 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		27730AD61B80E9A1003A0783 /* SpeechKitHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SpeechKitHeader.m; sourceTree = "<group>"; };
+		27730AD91B80E9B4003A0783 /* SpeechKitHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechKitHeader.h; sourceTree = "<group>"; };
+		27730ADA1B80E9D5003A0783 /* Bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		27730C561B823C69003A0783 /* SpeechKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpeechKit.framework; sourceTree = "<group>"; };
+		27730C5C1B839623003A0783 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		27730C5E1B83964D003A0783 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		27730C751B839B1B003A0783 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		277F40811B7D1B060052A4AE /* SpeakToMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakToMe.swift; sourceTree = "<group>"; };
+		277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../Desktop/Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
+		279774861B8ACDC500978436 /* EmbeddedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedVC.swift; sourceTree = "<group>"; };
+		27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLineInfo.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2709FA181B7BBFD9002D5FB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27730C761B839B1C003A0783 /* AVFoundation.framework in Frameworks */,
+				27730C5F1B83964D003A0783 /* SystemConfiguration.framework in Frameworks */,
+				27730C5D1B839623003A0783 /* AudioToolbox.framework in Frameworks */,
+				277F40931B7D26BB0052A4AE /* Alamofire.framework in Frameworks */,
+				27730C571B823C69003A0783 /* SpeechKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2709FA301B7BBFD9002D5FB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				27730C581B823C69003A0783 /* SpeechKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2709FA121B7BBFD9002D5FB5 = {
+			isa = PBXGroup;
+			children = (
+				27730C751B839B1B003A0783 /* AVFoundation.framework */,
+				27730C5E1B83964D003A0783 /* SystemConfiguration.framework */,
+				27730C5C1B839623003A0783 /* AudioToolbox.framework */,
+				27730C561B823C69003A0783 /* SpeechKit.framework */,
+				277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */,
+				2709FA1D1B7BBFD9002D5FB5 /* Chorus */,
+				2709FA361B7BBFD9002D5FB5 /* ChorusTests */,
+				2709FA1C1B7BBFD9002D5FB5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2709FA1C1B7BBFD9002D5FB5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2709FA1B1B7BBFD9002D5FB5 /* Chorus.app */,
+				2709FA331B7BBFD9002D5FB5 /* ChorusTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2709FA1D1B7BBFD9002D5FB5 /* Chorus */ = {
+			isa = PBXGroup;
+			children = (
+				2768C6431B88DB7A00970C55 /* Main.storyboard */,
+				2709FA201B7BBFD9002D5FB5 /* AppDelegate.swift */,
+				2709FA2A1B7BBFD9002D5FB5 /* Images.xcassets */,
+				2709FA2C1B7BBFD9002D5FB5 /* LaunchScreen.xib */,
+				2709FA1E1B7BBFD9002D5FB5 /* Supporting Files */,
+				2709FA221B7BBFD9002D5FB5 /* Chorus.xcdatamodeld */,
+				2709FA491B7BDCC9002D5FB5 /* ChorusChat.swift */,
+				2709FA801B7BEF68002D5FB5 /* MainActivity.swift */,
+				2709FA831B7BF0E4002D5FB5 /* Login.swift */,
+				2709FA861B7CF0DF002D5FB5 /* AvailableChats.swift */,
+				277F40811B7D1B060052A4AE /* SpeakToMe.swift */,
+				27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */,
+				27730AD61B80E9A1003A0783 /* SpeechKitHeader.m */,
+				27730AD91B80E9B4003A0783 /* SpeechKitHeader.h */,
+				27730ADA1B80E9D5003A0783 /* Bridge.h */,
+				279774861B8ACDC500978436 /* EmbeddedVC.swift */,
+			);
+			path = Chorus;
+			sourceTree = "<group>";
+		};
+		2709FA1E1B7BBFD9002D5FB5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2709FA1F1B7BBFD9002D5FB5 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2709FA361B7BBFD9002D5FB5 /* ChorusTests */ = {
+			isa = PBXGroup;
+			children = (
+				2709FA391B7BBFD9002D5FB5 /* ChorusTests.swift */,
+				2709FA371B7BBFD9002D5FB5 /* Supporting Files */,
+			);
+			path = ChorusTests;
+			sourceTree = "<group>";
+		};
+		2709FA371B7BBFD9002D5FB5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2709FA381B7BBFD9002D5FB5 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		277F40851B7D25A10052A4AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				277F408C1B7D25A10052A4AE /* Alamofire.framework */,
+				277F408E1B7D25A10052A4AE /* Alamofire.framework */,
+				277F40901B7D25A10052A4AE /* Alamofire iOS Tests.xctest */,
+				277F40921B7D25A10052A4AE /* Alamofire OSX Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2709FA1A1B7BBFD9002D5FB5 /* Chorus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2709FA3D1B7BBFD9002D5FB5 /* Build configuration list for PBXNativeTarget "Chorus" */;
+			buildPhases = (
+				2709FA171B7BBFD9002D5FB5 /* Sources */,
+				2709FA181B7BBFD9002D5FB5 /* Frameworks */,
+				2709FA191B7BBFD9002D5FB5 /* Resources */,
+				277F40801B7D0DF40052A4AE /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				277F40961B7D26BB0052A4AE /* PBXTargetDependency */,
+			);
+			name = Chorus;
+			productName = Chorus;
+			productReference = 2709FA1B1B7BBFD9002D5FB5 /* Chorus.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2709FA321B7BBFD9002D5FB5 /* ChorusTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2709FA401B7BBFD9002D5FB5 /* Build configuration list for PBXNativeTarget "ChorusTests" */;
+			buildPhases = (
+				2709FA2F1B7BBFD9002D5FB5 /* Sources */,
+				2709FA301B7BBFD9002D5FB5 /* Frameworks */,
+				2709FA311B7BBFD9002D5FB5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2709FA351B7BBFD9002D5FB5 /* PBXTargetDependency */,
+			);
+			name = ChorusTests;
+			productName = ChorusTests;
+			productReference = 2709FA331B7BBFD9002D5FB5 /* ChorusTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2709FA131B7BBFD9002D5FB5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "Summer Kitahara";
+				TargetAttributes = {
+					2709FA1A1B7BBFD9002D5FB5 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					2709FA321B7BBFD9002D5FB5 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 2709FA1A1B7BBFD9002D5FB5;
+					};
+				};
+			};
+			buildConfigurationList = 2709FA161B7BBFD9002D5FB5 /* Build configuration list for PBXProject "Chorus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2709FA121B7BBFD9002D5FB5;
+			productRefGroup = 2709FA1C1B7BBFD9002D5FB5 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 277F40851B7D25A10052A4AE /* Products */;
+					ProjectRef = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				2709FA1A1B7BBFD9002D5FB5 /* Chorus */,
+				2709FA321B7BBFD9002D5FB5 /* ChorusTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		277F408C1B7D25A10052A4AE /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 277F408B1B7D25A10052A4AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		277F408E1B7D25A10052A4AE /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = 277F408D1B7D25A10052A4AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		277F40901B7D25A10052A4AE /* Alamofire iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire iOS Tests.xctest";
+			remoteRef = 277F408F1B7D25A10052A4AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		277F40921B7D25A10052A4AE /* Alamofire OSX Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Alamofire OSX Tests.xctest";
+			remoteRef = 277F40911B7D25A10052A4AE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2709FA191B7BBFD9002D5FB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2768C6441B88DB7A00970C55 /* Main.storyboard in Resources */,
+				2709FA2E1B7BBFD9002D5FB5 /* LaunchScreen.xib in Resources */,
+				2709FA2B1B7BBFD9002D5FB5 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2709FA311B7BBFD9002D5FB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2768C6451B88DB7A00970C55 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2709FA171B7BBFD9002D5FB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2709FA811B7BEF68002D5FB5 /* MainActivity.swift in Sources */,
+				277F40821B7D1B060052A4AE /* SpeakToMe.swift in Sources */,
+				2709FA841B7BF0E4002D5FB5 /* Login.swift in Sources */,
+				2709FA211B7BBFD9002D5FB5 /* AppDelegate.swift in Sources */,
+				279774881B8ACDC600978436 /* EmbeddedVC.swift in Sources */,
+				2709FA241B7BBFD9002D5FB5 /* Chorus.xcdatamodeld in Sources */,
+				2709FA4A1B7BDCC9002D5FB5 /* ChorusChat.swift in Sources */,
+				27730AD71B80E9A1003A0783 /* SpeechKitHeader.m in Sources */,
+				27CC8A991B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */,
+				2709FA871B7CF0DF002D5FB5 /* AvailableChats.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2709FA2F1B7BBFD9002D5FB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2709FA3A1B7BBFD9002D5FB5 /* ChorusTests.swift in Sources */,
+				27CC8A9A1B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */,
+				2709FA4B1B7BDCC9002D5FB5 /* ChorusChat.swift in Sources */,
+				2709FA821B7BEF68002D5FB5 /* MainActivity.swift in Sources */,
+				277F40831B7D1B060052A4AE /* SpeakToMe.swift in Sources */,
+				279774891B8ACDC600978436 /* EmbeddedVC.swift in Sources */,
+				2709FA851B7BF0E4002D5FB5 /* Login.swift in Sources */,
+				27730AD81B80E9A1003A0783 /* SpeechKitHeader.m in Sources */,
+				2709FA881B7CF0DF002D5FB5 /* AvailableChats.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2709FA351B7BBFD9002D5FB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2709FA1A1B7BBFD9002D5FB5 /* Chorus */;
+			targetProxy = 2709FA341B7BBFD9002D5FB5 /* PBXContainerItemProxy */;
+		};
+		277F40961B7D26BB0052A4AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = 277F40951B7D26BB0052A4AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2709FA2C1B7BBFD9002D5FB5 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2709FA2D1B7BBFD9002D5FB5 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2709FA3B1B7BBFD9002D5FB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2709FA3C1B7BBFD9002D5FB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2709FA3E1B7BBFD9002D5FB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEFINES_MODULE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/sunnysummer5/Desktop/DragonMobileSDK_1.4.19/SpeechKit.framework,
+					/Users/sunnysummer5/Desktop/DragonMobileSDK_1.4.19,
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileRecognizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileVocalizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = Chorus/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Chorus/Bridge.h;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "arm64 armv7 armv7s";
+			};
+			name = Debug;
+		};
+		2709FA3F1B7BBFD9002D5FB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEFINES_MODULE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/sunnysummer5/Desktop/DragonMobileSDK_1.4.19/SpeechKit.framework,
+					/Users/sunnysummer5/Desktop/DragonMobileSDK_1.4.19,
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileRecognizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileVocalizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = Chorus/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Chorus/Bridge.h;
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = "arm64 armv7 armv7s";
+			};
+			name = Release;
+		};
+		2709FA411B7BBFD9002D5FB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileRecognizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileVocalizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = ChorusTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Chorus/Bridge.h;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chorus.app/Chorus";
+			};
+			name = Debug;
+		};
+		2709FA421B7BBFD9002D5FB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileRecognizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19/DragonMobileVocalizer",
+					"$(PROJECT_DIR)/DragonMobileSDK_1.4.19",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = ChorusTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = Chorus/Bridge.h;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Chorus.app/Chorus";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2709FA161B7BBFD9002D5FB5 /* Build configuration list for PBXProject "Chorus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2709FA3B1B7BBFD9002D5FB5 /* Debug */,
+				2709FA3C1B7BBFD9002D5FB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2709FA3D1B7BBFD9002D5FB5 /* Build configuration list for PBXNativeTarget "Chorus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2709FA3E1B7BBFD9002D5FB5 /* Debug */,
+				2709FA3F1B7BBFD9002D5FB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2709FA401B7BBFD9002D5FB5 /* Build configuration list for PBXNativeTarget "ChorusTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2709FA411B7BBFD9002D5FB5 /* Debug */,
+				2709FA421B7BBFD9002D5FB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2709FA221B7BBFD9002D5FB5 /* Chorus.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2709FA231B7BBFD9002D5FB5 /* Chorus.xcdatamodel */,
+			);
+			currentVersion = 2709FA231B7BBFD9002D5FB5 /* Chorus.xcdatamodel */;
+			path = Chorus.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 2709FA131B7BBFD9002D5FB5 /* Project object */;
+}
