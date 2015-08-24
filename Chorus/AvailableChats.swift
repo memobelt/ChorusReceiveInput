@@ -21,6 +21,8 @@ class AvailableChats: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        self.navigationController?.setToolbarHidden(true, animated: false) //hide bottom toolbar
     }
     
     override func viewDidAppear(animated: Bool) {
