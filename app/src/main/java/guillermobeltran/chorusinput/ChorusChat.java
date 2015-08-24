@@ -95,6 +95,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         //initializations
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chorus_chat);
+        Log.i("test", "intent: "+getIntent().getExtras().toString());
 
         //get all the intents
         //workerId should be retrieved from intent here.
@@ -111,6 +112,7 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                 Intent yelp = new Intent(getApplicationContext(), SearchBarActivity.class);
                 yelp.putExtra("taskId", _task);
                 startActivity(yelp);
+                finish();
             }
         });
         _yelpBtn.setVisibility(View.GONE);
@@ -163,25 +165,30 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
             webview.loadUrl(url + "chat-demo.php?task=" + _task);
             WebSettings webSettings = webview.getSettings();
             webSettings.setJavaScriptEnabled(true);
+            Log.i("test", "here");
 
             //This intent is if the Chat was opened from SpeakToMe so that means someone asked a
             //the question gets sent to the server.
             if (getIntent().getExtras().getBoolean("Asking")) {
+                Log.i("test", "asking");
                 String words = getIntent().getStringExtra("Words");
                 postData("chatLine", words, "post");
             }
             //intent from watch
             else if (getIntent().getExtras().getBoolean("Speech")) {
+                Log.i("test", "speech");
                 _cli.set_role("requester");
                 postData("chatLine", getIntent().getStringExtra("Input"), "post");
             }
             //post from Yelp
             else if (getIntent().getExtras().getBoolean("Yelp")) {
+                Log.i("test", "yelp");
                 _cli.set_role("crowd");
                 _editText.setText(getIntent().getStringExtra("Words"));
             }
             //crowd answers from watch
             else if (getIntent().getExtras().getBoolean("Answer")) {
+                Log.i("test", "answer");
                 final String[] role = {""};
                 final String[] msg = {""};
                 final String[] id = {""};
@@ -262,6 +269,9 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
                     finish();
                 }
             }
+            else {
+                Log.i("test", "else");
+            }
             //If the cursor from above does have items then the chat has been opened and we don't
             //have to call the server.
             if (c.getCount() > 0) {
@@ -295,8 +305,6 @@ public class ChorusChat extends ActionBarActivity implements OnInitListener {
         }
 //        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
 //                .showSoftInput(_editText, InputMethodManager.SHOW_FORCED);
-    }
-    public void queuedMessages() {
     }
 
     /*
