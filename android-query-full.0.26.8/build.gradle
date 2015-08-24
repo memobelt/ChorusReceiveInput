@@ -1,2 +1,0 @@
-configurations.create("default")
-artifacts.add("default", file('android-query-full.0.26.8.jar'))
