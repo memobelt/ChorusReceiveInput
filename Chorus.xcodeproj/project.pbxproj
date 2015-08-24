@@ -37,6 +37,7 @@
 		279774891B8ACDC600978436 /* EmbeddedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279774861B8ACDC500978436 /* EmbeddedVC.swift */; };
 		27CC8A991B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
 		27CC8A9A1B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
+		27F395911B8B8A58004002D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA201B7BBFD9002D5FB5 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,6 +398,7 @@
 				279774891B8ACDC600978436 /* EmbeddedVC.swift in Sources */,
 				2709FA851B7BF0E4002D5FB5 /* Login.swift in Sources */,
 				27730AD81B80E9A1003A0783 /* SpeechKitHeader.m in Sources */,
+				27F395911B8B8A58004002D2 /* AppDelegate.swift in Sources */,
 				2709FA881B7CF0DF002D5FB5 /* AvailableChats.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
