@@ -161,7 +161,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="micButton:" destination="uk8-fA-WWQ" eventType="touchUpInside" id="Qrb-vW-0dH"/>
+                                    <action selector="micButton:" destination="uk8-fA-WWQ" eventType="touchUpInside" id="R7m-a4-d93"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N2i-Gc-0Xa">
@@ -170,7 +170,8 @@
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Send"/>
                                 <connections>
-                                    <action selector="sendButton:" destination="uk8-fA-WWQ" eventType="touchUpInside" id="bnL-lG-izC"/>
+                                    <action selector="sendButton:" destination="uk8-fA-WWQ" eventType="touchUpInside" id="ebf-NO-wwB"/>
+                                    <segue destination="t4y-tK-MOk" kind="show" id="YxH-3b-KOR"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Click microphone or type here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AE6-uQ-XG8">
@@ -183,7 +184,7 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="textField" destination="AE6-uQ-XG8" id="fZQ-jf-W8y"/>
+                        <outlet property="textField" destination="AE6-uQ-XG8" id="ok3-AK-FcN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LYl-CB-mWp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -195,7 +196,7 @@
             <objects>
                 <tableViewController id="t4y-tK-MOk" customClass="ChorusChat" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bEd-Yp-Xl3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <containerView key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="QQF-Fo-8LK">
@@ -323,6 +324,6 @@
         <image name="Microphone" width="72" height="72"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="67h-xw-cxL"/>
+        <segue reference="YxH-3b-KOR"/>
     </inferredMetricsTieBreakers>
 </document>

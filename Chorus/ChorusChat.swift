@@ -21,6 +21,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
     var cli_list: [ChatLineInfo] = [ChatLineInfo]()
     var chat_list: [String] = [String]()
     var task: String = String()
+    var role: String = String() //who is looking at Chorus Chat
     var chatLine: String = String()
     
     required init!(coder aDecoder: NSCoder!) {
@@ -66,7 +67,10 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         if(self.task == "") { //temporary for login
             self.task = "6"
         }
-        self.setChatLinesFromWeb()
+        if(self.role == "") {
+            self.role = "requester"
+        }
+        self.setChatLinesFromWeb(self.role, _task: self.task)
         
         //SpeechKit setup
         //NON SSL Host: sandbox.nmdp.nuancemobility.net, Port: 443
@@ -75,9 +79,9 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         /*AppKey: 0x1e 0x51 0xa4 0x95 0xa0 0x4d 0x90 0xaf 0x14 0xad 0x42 0xd6 0xba 0x28 0x03 0x83 0xb8 0x14 0x4e 0x15 0xc7 0xdb 0x2f 0xc8 0x6d 0xcc 0x97 0x5a 0x60 0xed 0x97 0x7e 0x3f 0x3c 0x13 0xdf 0x89 0xa3 0x8e 0x9e 0x51 0xd0 0x74 0x0b 0xf8 0x77 0x8f 0xb0 0x8b 0xdd 0xc5 0x53 0xb9 0xf4 0x1b 0x26 0xc0 0xb2 0x80 0x20 0x9f 0x18 0x9f 0xde
         */
         SpeechKit.setupWithID("NMDPTRIAL_sckpeace519_gmail_com20150816112650", host: "sandbox.nmdp.nuancemobility.net", port: 443, useSSL: false, delegate: self)
-        
+
         if(caller == "embedded" || caller == "speech") {
-            self.postData(self.chatLine)
+            self.postData(self.chatLine, _task: self.task)
         }
     }
     
@@ -186,9 +190,9 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         self.tableView.reloadData() //update tableview
         self.scrollToBottom() //scroll to bottom of list
     }
-    func setChatLinesFromWeb() {
+    func setChatLinesFromWeb(_role: String, _task: String) {
         //Pull from Chorus server and update chat page
-        Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": "requester", "task": "6", "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "-1"]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
+        Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": _role, "task": _task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "-1"]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
             if(result != nil) {
                 self.setChatInfo(result!)
             }
@@ -198,19 +202,17 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
                 self.error(error!.description)
             }
         })
-        
-        //update();
+        self.scrollToBottom() //scroll to bottom of list
     }
-    func postData(message: String) -> Void {
-        //Post data to Chorus server
-        Alamofire.request(.POST, NSURL(string: chatURL)!, parameters: ["action" : "post", "role": "requester", "task": "6", "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "\0", "chatLine": message]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
+    func postData(message: String, _task: String) -> Void {
+        //Post data to Chorus server. role = "requester"
+        Alamofire.request(.POST, NSURL(string: chatURL)!, parameters: ["action" : "post", "role": "requester", "task": _task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "\0", "chatLine": message]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
             if(error != nil) {
                 self.error(error!.description)
             }})
         
         //TO DO: FIX update tableview
-        self.setChatLinesFromWeb()
-        self.scrollToBottom() //scroll to bottom of list
+        self.setChatLinesFromWeb("requester", _task: _task)
     }
     
     //MARK: SpeechKit (text to speech)
