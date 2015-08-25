@@ -60,7 +60,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         
         self.navigationController?.setToolbarHidden(true, animated: false) //hide bottom toolbar
         self.can_update = true //will recursively update
-
+        
         if(self.task == "") { //temporary for login
             self.task = "6"
         }
@@ -101,9 +101,16 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         /*AppKey: 0x1e 0x51 0xa4 0x95 0xa0 0x4d 0x90 0xaf 0x14 0xad 0x42 0xd6 0xba 0x28 0x03 0x83 0xb8 0x14 0x4e 0x15 0xc7 0xdb 0x2f 0xc8 0x6d 0xcc 0x97 0x5a 0x60 0xed 0x97 0x7e 0x3f 0x3c 0x13 0xdf 0x89 0xa3 0x8e 0x9e 0x51 0xd0 0x74 0x0b 0xf8 0x77 0x8f 0xb0 0x8b 0xdd 0xc5 0x53 0xb9 0xf4 0x1b 0x26 0xc0 0xb2 0x80 0x20 0x9f 0x18 0x9f 0xde
         */
         SpeechKit.setupWithID("NMDPTRIAL_sckpeace519_gmail_com20150816112650", host: "sandbox.nmdp.nuancemobility.net", port: 443, useSSL: false, delegate: self)
-
-        if(caller == "embedded" || caller == "speech") {
+        
+        if(caller == "embedded") {
             self.postData(self.chatLine, _task: self.task)
+        }
+        else if(caller == "speech") {
+            self.chatLineInfo.set_role("requester")
+            self.postData(self.chatLine, _task: self.task)
+        }
+        else if(caller == "AvailableChats") {
+            self.chatLineInfo.set_role("crowd")
         }
     }
     
@@ -150,6 +157,16 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         let cell = tableView.dequeueReusableCellWithIdentifier("ChatLine", forIndexPath: indexPath) as! UITableViewCell
         cell.textLabel?.text = self.chat_list[indexPath.row]
         return cell
+    }
+    
+    // MARK: Notification
+    func notification(message: String) {
+        var notification: UILocalNotification = UILocalNotification()
+        notification.alertAction = "View"
+        notification.alertBody = message
+        notification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        notification.fireDate = NSDate(timeIntervalSinceNow: 1)
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
     }
     
     func error(message: String) -> Void {
@@ -199,7 +216,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             //< array.count-1 because array[array.count-1] is "]"
             let lineInfo = split(array[i]){$0 == "\""}.map{String($0)}
             let cli_temp: ChatLineInfo = self.chatLineInfo.setChatLineInfo(lineInfo, chatLineInfo: ChatLineInfo())
-    
+            
             if let chatLineStart = array[i].rangeOfString("chatLine\":\"")?.startIndex {
                 if let roleStart = array[i].rangeOfString("\",\"role")?.startIndex {
                     let temp_chatLine = array[i].substringWithRange(Range<String.Index>(start: advance(chatLineStart, 11), end: roleStart))
@@ -301,11 +318,12 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             }
             else {
                 //TO DO: FIX update tableview
-                if(self.role == "") {
-                    self.role = "requester"
+                self.setChatInfoFromString(result!)
+                if(self.chatLineInfo.get_role() == "requester") {
+                    self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.chatLineInfo.get_acceptedTime())
                 }
-                if(self.task == "") { //temporary for login
-                    self.task = "6"
+                else {
+                    self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.chatLineInfo.get_time())
                 }
                 self.scrollToBottom()
                 if(self.can_update) {
@@ -316,15 +334,15 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
     }
     func update() {
         //Pull from Chorus server and update chat page
-        println(self.cli_list.count)
         Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": self.role, "task": self.task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": self.chatLineInfo.get_id()]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
             if(result != nil) {
-                if(result != "") {
+                if(result != "") { //new chat line
                     self.setChatInfoFromString(result!)
                     self.scrollToBottom() //scroll to bottom of list
                     if(self.can_update == true) {
                         self.update()
                     }
+                    self.notification(self.chatLineInfo.get_chatLine())
                 }
             }
             
@@ -387,10 +405,10 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+        // Get the new view controller using [segue destinationViewController].
+        // Pass the selected object to the new view controller.
         self.can_update = false //stop recursive updating
     }
-
+    
     
 }
