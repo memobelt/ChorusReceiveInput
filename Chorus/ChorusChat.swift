@@ -310,22 +310,22 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             }
         }
     }
+    func getCurrentTime(nothing: Void) -> String {
+        var todaysDate:NSDate = NSDate()
+        var dateFormatter:NSDateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+        return dateFormatter.stringFromDate(todaysDate)
+    }
     //Post data to Chorus server. role = "requester"
     func postData(message: String, _task: String) -> Void {
         Alamofire.request(.POST, NSURL(string: chatURL)!, parameters: ["action" : "post", "role": "requester", "task": _task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "\0", "chatLine": message]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
             if(error != nil) {
                 self.error(error!.description)
             }
-                //TO DO: Fix time (Current time)
             else {
                 //TO DO: FIX update tableview
                 self.setChatInfoFromString(result!)
-                if(self.chatLineInfo.get_role() == "requester") {
-                    self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.chatLineInfo.get_acceptedTime())
-                }
-                else {
-                    self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.chatLineInfo.get_time())
-                }
+                self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.getCurrentTime())
                 if let initial = message.rangeOfString("news about ") {
                     //chat lines contains 'news about' and system returns first YahooNews link
                     self.chat_list.append(self.yahooNews(message.substringFromIndex(initial.endIndex)))
@@ -371,8 +371,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
                         return_string = x.substringWithRange(Range<String.Index>(start: advance(x.startIndex, 2), end: target_tag))
 
                         //input into core data
-                        //TO DO: Fix time (current time)
-                        self.inputCoreData(self.chatLineInfo.get_id(), _message: "You might be interested in this article " + return_string, _role: "system", _task: self.task, _time: self.chatLineInfo.get_time())
+                        self.inputCoreData(self.chatLineInfo.get_id(), _message: "You might be interested in this article " + return_string, _role: "system", _task: self.task, _time: self.getCurrentTime())
                         break
                     }
                 }

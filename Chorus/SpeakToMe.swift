@@ -117,6 +117,4 @@ class SpeakToMe: UIViewController, SpeechKitDelegate, SKRecognizerDelegate, UITe
         destViewController.chatLine = textField.text
         destViewController.caller = "speech"
     }
-
-
 }
