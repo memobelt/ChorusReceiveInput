@@ -366,9 +366,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             if(result != nil) {
                 var split_array = result!.componentsSeparatedByString("href")
                 for x in split_array {
-                    println("testing: "+x+"\n")
                     if let first = x.rangeOfString("dd algo NewsArticle") {
-                        println("HERE*")
                         var target_tag = x.rangeOfString("\" target=")!.startIndex
                         return_string = x.substringWithRange(Range<String.Index>(start: advance(x.startIndex, 2), end: target_tag))
 
