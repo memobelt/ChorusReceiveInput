@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="bottom" id="9Bd-VE-PeL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JSs-8p-r3W">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Ap-gw-3kk">
@@ -136,7 +136,14 @@
                             <outlet property="delegate" destination="KjV-0J-HrT" id="z1o-L3-oCP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="arl-8p-DMd"/>
+                    <navigationItem key="navigationItem" id="arl-8p-DMd">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="c6l-aw-Smy">
+                            <connections>
+                                <action selector="logout:" destination="KjV-0J-HrT" id="xQ7-q1-hcO"/>
+                                <segue destination="2G2-Nh-LZC" kind="show" id="IOD-fx-aT8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m40-Fd-LZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -207,15 +214,14 @@
                             </connections>
                         </containerView>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatLine" textLabel="1Fb-cc-1ck" style="IBUITableViewCellStyleDefault" id="6Zy-Qq-sH3">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatLine" textLabel="e2n-f9-teX" style="IBUITableViewCellStyleDefault" id="6Zy-Qq-sH3">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Zy-Qq-sH3" id="YGh-Rf-M2D">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Fb-cc-1ck">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e2n-f9-teX">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <gestureRecognizers/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -248,6 +254,9 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7kx-Jw-Kdu" id="IEH-cb-dM7">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="t4y-tK-MOk" kind="show" id="B7r-oa-khp"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -318,12 +327,114 @@
             </objects>
             <point key="canvasLocation" x="1094" y="541"/>
         </scene>
+        <!--Yelp Search-->
+        <scene sceneID="4Cn-LT-QHL">
+            <objects>
+                <viewController storyboardIdentifier="Yelp Search" title="Yelp Search" id="Ym1-ud-tJE" customClass="YelpSearchUI" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Iv9-N6-2nx"/>
+                        <viewControllerLayoutGuide type="bottom" id="vWw-7x-ucG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="frL-5m-Zt7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="tacos, cheap dinner, Max's..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eSP-gB-80J">
+                                <rect key="frame" x="16" y="247" width="288" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Find:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wUX-pY-PsP">
+                                <rect key="frame" x="16" y="218" width="39" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="address, neighborhood, city, state, zip..." minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CqF-83-BNg">
+                                <rect key="frame" x="16" y="331" width="288" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Near:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1io-ph-uGe">
+                                <rect key="frame" x="16" y="302" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Yelp" translatesAutoresizingMaskIntoConstraints="NO" id="Tb4-rR-m09">
+                                <rect key="frame" x="100" y="43" width="120" height="120"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xiz-tD-5rc">
+                                <rect key="frame" x="214" y="421" width="90" height="39"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitButton:" destination="Ym1-ud-tJE" eventType="touchUpInside" id="rM6-FG-Hx3"/>
+                                    <segue destination="3AQ-bm-Fsy" kind="show" id="oKB-gw-DXf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="findLabel" destination="wUX-pY-PsP" id="f2K-8z-7QA"/>
+                        <outlet property="findText" destination="eSP-gB-80J" id="OzB-Uj-WJl"/>
+                        <outlet property="nearLabel" destination="1io-ph-uGe" id="fuN-TH-zlU"/>
+                        <outlet property="nearText" destination="CqF-83-BNg" id="kXC-gn-xfB"/>
+                        <outlet property="yelpLogo" destination="Tb4-rR-m09" id="Gqe-6B-0As"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sXw-UT-3kD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1474" y="745"/>
+        </scene>
+        <!--Yelp-->
+        <scene sceneID="Egh-VT-aNp">
+            <objects>
+                <tableViewController storyboardIdentifier="Yelp" title="Yelp" id="3AQ-bm-Fsy" customClass="YelpUI" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="BTw-Vy-vOT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="business" textLabel="SGd-hK-wp9" style="IBUITableViewCellStyleDefault" id="Xsz-WP-0If">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xsz-WP-0If" id="Pzl-qD-rkp">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SGd-hK-wp9">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="3AQ-bm-Fsy" id="4QV-cq-TPE"/>
+                            <outlet property="delegate" destination="3AQ-bm-Fsy" id="YXU-gv-rB9"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gJc-tv-0gQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1978" y="745"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ChorusLogo" width="98" height="29"/>
         <image name="Microphone" width="72" height="72"/>
+        <image name="Yelp" width="112" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YxH-3b-KOR"/>
+        <segue reference="B7r-oa-khp"/>
     </inferredMetricsTieBreakers>
 </document>

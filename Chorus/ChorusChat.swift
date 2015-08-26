@@ -111,6 +111,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         }
         else if(caller == "AvailableChats") {
             self.chatLineInfo.set_role("crowd")
+            self.setChatLinesFromWeb()
         }
     }
     
@@ -270,6 +271,27 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         self.tableView.reloadData() //update tableview
         self.scrollToBottom() //scroll to bottom of list
     }
+    
+    //TO DO: Finish http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
+    //gets all attrbutes of a certain task number in the ChatLineInfo entity
+    func fetchChatLinesFromCD() {
+        //when fetch request is ready to execute, give it an array containing Strings and NSExpressionDescriptions
+        var expressionDescriptions = [AnyObject]()
+        expressionDescriptions.append("task")
+        
+        //create an expression description for 'task' column
+        var expressionDescription = NSExpressionDescription()
+        //name the column
+        expressionDescription.name = "Task"
+        //use expression to specify what aggregate action and on which column
+        //TO DO: expressionDescription.expression
+        //specify return type
+        expressionDescription.expressionResultType = NSAttributeType.StringAttributeType
+        
+        //add description to array
+        expressionDescriptions.append(expressionDescription)
+        
+    }
     func setChatLinesFromWeb() {
         //Pull from Chorus server and update chat page
         Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": self.role, "task": self.task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "-1"]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
@@ -310,8 +332,14 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             }
         }
     }
+    func getCurrentTime(nothing: Void) -> String {
+        var todaysDate:NSDate = NSDate()
+        var dateFormatter:NSDateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm:ss"
+        return dateFormatter.stringFromDate(todaysDate)
+    }
+    //Post data to Chorus server. role = "requester"
     func postData(message: String, _task: String) -> Void {
-        //Post data to Chorus server. role = "requester"
         Alamofire.request(.POST, NSURL(string: chatURL)!, parameters: ["action" : "post", "role": "requester", "task": _task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "\0", "chatLine": message]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
             if(error != nil) {
                 self.error(error!.description)
@@ -319,12 +347,12 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             else {
                 //TO DO: FIX update tableview
                 self.setChatInfoFromString(result!)
-                if(self.chatLineInfo.get_role() == "requester") {
-                    self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.chatLineInfo.get_acceptedTime())
+                self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.getCurrentTime())
+                if let initial = message.rangeOfString("news about ") {
+                    //chat lines contains 'news about' and system returns first YahooNews link
+                    self.chat_list.append(self.yahooNews(message.substringFromIndex(initial.endIndex)))
                 }
-                else {
-                    self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.chatLineInfo.get_time())
-                }
+                self.tableView.reloadData()
                 self.scrollToBottom()
                 if(self.can_update) {
                     self.update()
@@ -332,13 +360,13 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
             }
         })
     }
+    //Pull from Chorus server and update chat page
     func update() {
-        //Pull from Chorus server and update chat page
         Alamofire.request(.GET, NSURL(string: chatURL)!, parameters: ["action" : "fetchNewChatRequester", "role": self.role, "task": self.task, "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": self.chatLineInfo.get_id()]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (_, _, result, error) in
             if(result != nil) {
                 if(result != "") { //new chat line
                     self.setChatInfoFromString(result!)
-                    self.scrollToBottom() //scroll to bottom of list
+                    //self.scrollToBottom() //scroll to bottom of list
                     if(self.can_update == true) {
                         self.update()
                     }
@@ -351,6 +379,30 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
                 self.error(error!.description)
             }
         })
+    }
+    
+    //MARK: YahooNews (parse html)
+    func yahooNews(searchTerm: String) -> String {
+        var return_string: String = String()
+        Alamofire.request(Method.GET, NSURL(string: "https://news.search.yahoo.com/search?p=\(searchTerm)")!).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
+            if(result != nil) {
+                var split_array = result!.componentsSeparatedByString("href")
+                for x in split_array {
+                    if let first = x.rangeOfString("dd algo NewsArticle") {
+                        var target_tag = x.rangeOfString("\" target=")!.startIndex
+                        return_string = x.substringWithRange(Range<String.Index>(start: advance(x.startIndex, 2), end: target_tag))
+
+                        //input into core data
+                        self.inputCoreData(self.chatLineInfo.get_id(), _message: "You might be interested in this article " + return_string, _role: "system", _task: self.task, _time: self.getCurrentTime())
+                        break
+                    }
+                }
+            }
+            if(error != nil) {
+                self.error(error!.description)
+            }
+        })
+        return "system : You might be interested in this article " + return_string
     }
     
     //MARK: SpeechKit (text to speech)

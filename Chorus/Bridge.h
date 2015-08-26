@@ -9,6 +9,7 @@
 #ifndef Chorus_Bridge_h
 #define Chorus_Bridge_h
 
+//SPEECHKIT
 #import <SpeechKit/SpeechKit.h>
 #import "SpeechKitHeader.h"
 

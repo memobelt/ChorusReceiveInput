@@ -115,7 +115,7 @@ class AvailableChats: UITableViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         var destViewController: ChorusChat = segue.destinationViewController as! ChorusChat
-        destViewController.task = self.tableView.indexPathForCell(sender as! UITableViewCell)!.item.description
+        destViewController.task = (self.tableView.indexPathForCell(sender as! UITableViewCell)!.item + 1).description
         destViewController.caller = "AvailableChats"
     }
 }

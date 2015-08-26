@@ -33,6 +33,11 @@
 		277F40831B7D1B060052A4AE /* SpeakToMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277F40811B7D1B060052A4AE /* SpeakToMe.swift */; };
 		277F40931B7D26BB0052A4AE /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 277F408C1B7D25A10052A4AE /* Alamofire.framework */; };
 		277F40941B7D26BB0052A4AE /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 277F408C1B7D25A10052A4AE /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		27843D061B8E1EF20058768A /* YelpUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27843D051B8E1EF20058768A /* YelpUI.swift */; };
+		27843D071B8E1EF20058768A /* YelpUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27843D051B8E1EF20058768A /* YelpUI.swift */; };
+		27843D641B8E36BC0058768A /* YelpSearchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27843D631B8E36BC0058768A /* YelpSearchUI.swift */; };
+		27843D651B8E36BC0058768A /* YelpSearchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27843D631B8E36BC0058768A /* YelpSearchUI.swift */; };
+		27843D731B8E4E6F0058768A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27843D721B8E4E6F0058768A /* Foundation.framework */; };
 		279774881B8ACDC600978436 /* EmbeddedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279774861B8ACDC500978436 /* EmbeddedVC.swift */; };
 		279774891B8ACDC600978436 /* EmbeddedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279774861B8ACDC500978436 /* EmbeddedVC.swift */; };
 		27CC8A991B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
@@ -123,6 +128,10 @@
 		27730C751B839B1B003A0783 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		277F40811B7D1B060052A4AE /* SpeakToMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakToMe.swift; sourceTree = "<group>"; };
 		277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../Desktop/Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
+		27843D051B8E1EF20058768A /* YelpUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpUI.swift; sourceTree = "<group>"; };
+		27843D5E1B8E34740058768A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		27843D631B8E36BC0058768A /* YelpSearchUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpSearchUI.swift; sourceTree = "<group>"; };
+		27843D721B8E4E6F0058768A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		279774861B8ACDC500978436 /* EmbeddedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedVC.swift; sourceTree = "<group>"; };
 		27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLineInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27843D731B8E4E6F0058768A /* Foundation.framework in Frameworks */,
 				27730C761B839B1C003A0783 /* AVFoundation.framework in Frameworks */,
 				27730C5F1B83964D003A0783 /* SystemConfiguration.framework in Frameworks */,
 				27730C5D1B839623003A0783 /* AudioToolbox.framework in Frameworks */,
@@ -154,6 +164,8 @@
 		2709FA121B7BBFD9002D5FB5 = {
 			isa = PBXGroup;
 			children = (
+				27843D721B8E4E6F0058768A /* Foundation.framework */,
+				27843D5E1B8E34740058768A /* Security.framework */,
 				27730C751B839B1B003A0783 /* AVFoundation.framework */,
 				27730C5E1B83964D003A0783 /* SystemConfiguration.framework */,
 				27730C5C1B839623003A0783 /* AudioToolbox.framework */,
@@ -181,18 +193,20 @@
 				2709FA201B7BBFD9002D5FB5 /* AppDelegate.swift */,
 				2709FA2A1B7BBFD9002D5FB5 /* Images.xcassets */,
 				2709FA2C1B7BBFD9002D5FB5 /* LaunchScreen.xib */,
-				2709FA1E1B7BBFD9002D5FB5 /* Supporting Files */,
 				2709FA221B7BBFD9002D5FB5 /* Chorus.xcdatamodeld */,
+				2709FA1E1B7BBFD9002D5FB5 /* Supporting Files */,
 				2709FA491B7BDCC9002D5FB5 /* ChorusChat.swift */,
+				279774861B8ACDC500978436 /* EmbeddedVC.swift */,
 				2709FA801B7BEF68002D5FB5 /* MainActivity.swift */,
 				2709FA831B7BF0E4002D5FB5 /* Login.swift */,
 				2709FA861B7CF0DF002D5FB5 /* AvailableChats.swift */,
-				277F40811B7D1B060052A4AE /* SpeakToMe.swift */,
 				27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */,
+				277F40811B7D1B060052A4AE /* SpeakToMe.swift */,
 				27730AD61B80E9A1003A0783 /* SpeechKitHeader.m */,
 				27730AD91B80E9B4003A0783 /* SpeechKitHeader.h */,
 				27730ADA1B80E9D5003A0783 /* Bridge.h */,
-				279774861B8ACDC500978436 /* EmbeddedVC.swift */,
+				27843D051B8E1EF20058768A /* YelpUI.swift */,
+				27843D631B8E36BC0058768A /* YelpSearchUI.swift */,
 			);
 			path = Chorus;
 			sourceTree = "<group>";
@@ -379,8 +393,10 @@
 				2709FA211B7BBFD9002D5FB5 /* AppDelegate.swift in Sources */,
 				279774881B8ACDC600978436 /* EmbeddedVC.swift in Sources */,
 				2709FA241B7BBFD9002D5FB5 /* Chorus.xcdatamodeld in Sources */,
+				27843D061B8E1EF20058768A /* YelpUI.swift in Sources */,
 				2709FA4A1B7BDCC9002D5FB5 /* ChorusChat.swift in Sources */,
 				27730AD71B80E9A1003A0783 /* SpeechKitHeader.m in Sources */,
+				27843D641B8E36BC0058768A /* YelpSearchUI.swift in Sources */,
 				27CC8A991B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */,
 				2709FA871B7CF0DF002D5FB5 /* AvailableChats.swift in Sources */,
 			);
@@ -390,6 +406,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27843D071B8E1EF20058768A /* YelpUI.swift in Sources */,
+				27843D651B8E36BC0058768A /* YelpSearchUI.swift in Sources */,
 				2709FA3A1B7BBFD9002D5FB5 /* ChorusTests.swift in Sources */,
 				27CC8A9A1B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */,
 				2709FA4B1B7BDCC9002D5FB5 /* ChorusChat.swift in Sources */,
