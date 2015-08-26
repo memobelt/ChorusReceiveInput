@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Summer Kitahara. All rights reserved.
 //
 
+import Foundation
 import WatchKit
 
 class ChatRow: NSObject {

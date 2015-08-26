@@ -44,11 +44,11 @@
         <!--Chat-->
         <scene sceneID="Rwk-9Q-fmj">
             <objects>
-                <controller id="aQd-aT-hry" userLabel="Chat" customClass="ChatInterfaceController" customModule="Chorus_WatchKit_Extension">
+                <controller id="aQd-aT-hry" customClass="ChatInterfaceController" customModule="Chorus_WatchKit_Extension" customModuleProvider="target">
                     <items>
                         <table alignment="left" id="cXc-9g-ffJ">
                             <items>
-                                <tableRow identifier="ChatRow" id="hyA-q1-R4L" userLabel="ChatRow" customClass="ChatRow">
+                                <tableRow identifier="chatRow" id="hyA-q1-R4L" customClass="ChatRow" customModule="Chorus_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="wq9-KX-vdQ">
                                         <items>
                                             <label alignment="left" text="Side" id="GbO-qx-4v9">
@@ -66,7 +66,7 @@
                         </table>
                     </items>
                     <connections>
-                        <outlet property="chatRowTable" destination="cXc-9g-ffJ" id="i8U-8d-5pG"/>
+                        <outlet property="chatRowTable" destination="cXc-9g-ffJ" id="kqK-ut-QvZ"/>
                     </connections>
                 </controller>
             </objects>
