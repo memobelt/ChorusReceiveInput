@@ -10,6 +10,10 @@ import UIKit
 
 class MainActivity: UITableViewController {
     
+    //MARK: Actions
+    @IBAction func logout(sender: UIBarButtonItem) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

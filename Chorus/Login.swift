@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class Login: UIViewController, UITextFieldDelegate {
     
@@ -19,7 +20,7 @@ class Login: UIViewController, UITextFieldDelegate {
     @IBAction func login(sender: UIButton) {
         //TO DO: setup login
         println(username.text)
-        println(password.text)        
+        println(password.text)
     }
     
     @IBAction func testButton(sender: UIButton) {

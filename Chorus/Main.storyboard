@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="bottom" id="9Bd-VE-PeL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JSs-8p-r3W">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Ap-gw-3kk">
@@ -136,7 +136,14 @@
                             <outlet property="delegate" destination="KjV-0J-HrT" id="z1o-L3-oCP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="arl-8p-DMd"/>
+                    <navigationItem key="navigationItem" id="arl-8p-DMd">
+                        <barButtonItem key="rightBarButtonItem" title="Logout" id="c6l-aw-Smy">
+                            <connections>
+                                <action selector="logout:" destination="KjV-0J-HrT" id="xQ7-q1-hcO"/>
+                                <segue destination="2G2-Nh-LZC" kind="show" id="IOD-fx-aT8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m40-Fd-LZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -324,6 +331,6 @@
         <image name="Microphone" width="72" height="72"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YxH-3b-KOR"/>
+        <segue reference="sTE-Y2-Thr"/>
     </inferredMetricsTieBreakers>
 </document>
