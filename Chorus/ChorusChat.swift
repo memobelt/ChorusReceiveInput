@@ -111,6 +111,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         }
         else if(caller == "AvailableChats") {
             self.chatLineInfo.set_role("crowd")
+            self.setChatLinesFromWeb()
         }
     }
     
@@ -269,6 +270,27 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         }
         self.tableView.reloadData() //update tableview
         self.scrollToBottom() //scroll to bottom of list
+    }
+    
+    //TO DO: Finish http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
+    //gets all attrbutes of a certain task number in the ChatLineInfo entity
+    func fetchChatLinesFromCD() {
+        //when fetch request is ready to execute, give it an array containing Strings and NSExpressionDescriptions
+        var expressionDescriptions = [AnyObject]()
+        expressionDescriptions.append("task")
+        
+        //create an expression description for 'task' column
+        var expressionDescription = NSExpressionDescription()
+        //name the column
+        expressionDescription.name = "Task"
+        //use expression to specify what aggregate action and on which column
+        //TO DO: expressionDescription.expression
+        //specify return type
+        expressionDescription.expressionResultType = NSAttributeType.StringAttributeType
+        
+        //add description to array
+        expressionDescriptions.append(expressionDescription)
+        
     }
     func setChatLinesFromWeb() {
         //Pull from Chorus server and update chat page
