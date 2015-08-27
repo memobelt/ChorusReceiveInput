@@ -13,17 +13,43 @@ class ChatInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var chatRowTable: WKInterfaceTable!
     
+    var side: String = "crowd";
     
     var chatLines = [["Taylor","25"], ["Katy","30"], ["Ellie","28"]]
     
     func reloadTable() {
-        print(chatLines.count)
-        chatRowTable.setNumberOfRows(chatLines.count, withRowType: "chatRow");
+        var rowTypes = [String]()
+        
         for var i = 0; i < chatLines.count; i++ {
             let chatLine = chatLines[i]
-            let cr = chatRowTable.rowControllerAtIndex(i) as! ChatRow
-            cr.titleLabel.setText(chatLine[0])
-            cr.detailLabel.setText(chatLine[1])
+            if side == "crowd" && chatLine[0] == "requester" {
+                rowTypes.append("chatRowLeft")
+            } else if side == "crowd" && chatLine[0] == "crowd" {
+                rowTypes.append("chatRowRight")
+            } else {
+                rowTypes.append("chatRowLeft")
+            }
+
+        }
+        
+        chatRowTable.setRowTypes(rowTypes);
+        
+        
+        
+        for var i = 0; i < chatLines.count; i++ {
+            println(i)
+            let chatLine = chatLines[i]
+            if rowTypes[i] == "chatRowLeft" {
+                let cr = chatRowTable.rowControllerAtIndex(i) as! ChatRowLeft
+                cr.titleLabel.setText(chatLine[0])
+                cr.detailLabel.setText(chatLine[1])
+            }
+            else if rowTypes[i] == "chatRowRight" {
+                let cr = chatRowTable.rowControllerAtIndex(i) as! ChatRowRight
+                cr.titleLabel.setText(chatLine[0])
+                cr.detailLabel.setText(chatLine[1])
+
+            }
         }
         
         
@@ -48,7 +74,6 @@ class ChatInterfaceController: WKInterfaceController {
         super.awakeWithContext(context)
         
         // Configure interface objects here.
-        reloadTable()
         getDataFromParentApp("reviewChat")
     
     }
