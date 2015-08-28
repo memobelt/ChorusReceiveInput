@@ -18,10 +18,21 @@ class InterfaceController: WKInterfaceController {
         // Configure interface objects here.
     }
     
+    func sendChat(message: String) {
+        WKInterfaceController.openParentApplication(["request": "send", "message":message],
+            reply: { (replyInfo, error) -> Void in
+                // TODO: process reply data
+                
+        })
+        
+    }
+    
     @IBAction func askQuestion() {
         presentTextInputControllerWithSuggestions(["What's the weather today?", "Today's news"], allowedInputMode: .AllowEmoji)
             { (input) -> Void in
-                println("INPUT: \(input)")
+                if input != nil {
+                    self.sendChat("\(input)")
+                }
         }
     }
 

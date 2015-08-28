@@ -52,11 +52,20 @@
                                 <tableRow identifier="chatRowLeft" id="hyA-q1-R4L" customClass="ChatRowLeft" customModule="Chorus_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="wq9-KX-vdQ">
                                         <items>
-                                            <label alignment="left" text="Side" id="GbO-qx-4v9">
-                                                <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                                            </label>
-                                            <label alignment="left" text="Message" textAlignment="left" id="sOB-Ma-eW9"/>
+                                            <group alignment="left" layout="vertical" radius="3" spacing="0.0" id="cb8-n0-9Vw">
+                                                <items>
+                                                    <label alignment="left" text="Side" id="GbO-qx-4v9">
+                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    </label>
+                                                    <label alignment="left" text="Message" textAlignment="left" id="sOB-Ma-eW9">
+                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
+                                                    </label>
+                                                </items>
+                                                <color key="backgroundColor" red="0.088371696282830148" green="0.73323908851689779" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </group>
                                         </items>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </group>
                                     <connections>
                                         <outlet property="detailLabel" destination="sOB-Ma-eW9" id="eWT-O3-fNH"/>
@@ -66,9 +75,20 @@
                                 <tableRow identifier="chatRowRight" id="XbO-Ef-gnc" customClass="ChatRowRight" customModule="Chorus_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="Tyl-os-Wrs">
                                         <items>
-                                            <label alignment="right" text="Side" id="AUn-rk-0Mo"/>
-                                            <label alignment="right" text="Message" textAlignment="left" id="1WY-PN-CkW"/>
+                                            <group alignment="right" layout="vertical" radius="3" spacing="0.0" id="SEz-xB-v2Y">
+                                                <items>
+                                                    <label alignment="right" text="Side" textAlignment="left" id="AUn-rk-0Mo">
+                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
+                                                        <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                                    </label>
+                                                    <label alignment="right" text="Message" textAlignment="center" id="1WY-PN-CkW">
+                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
+                                                    </label>
+                                                </items>
+                                                <color key="backgroundColor" red="0.088371696282830148" green="0.73323908851689779" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            </group>
                                         </items>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </group>
                                     <connections>
                                         <outlet property="detailLabel" destination="1WY-PN-CkW" id="dS8-qb-uoq"/>
@@ -77,6 +97,15 @@
                                 </tableRow>
                             </items>
                         </table>
+                        <group width="1" height="40" alignment="left" verticalAlignment="bottom" id="lOW-sr-nxI">
+                            <items>
+                                <button width="1" alignment="left" title="Ask Chorus" id="z7C-x0-HDZ">
+                                    <connections>
+                                        <action selector="askChorus" destination="aQd-aT-hry" id="k74-7d-DXm"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
                     </items>
                     <connections>
                         <outlet property="chatRowTable" destination="cXc-9g-ffJ" id="YQF-Gv-T3J"/>

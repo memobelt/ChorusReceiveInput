@@ -7,7 +7,7 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>295E3444-6E53-4120-BD34-3FBBE6FD0872</string>
 	<key>IDESourceControlProjectName</key>
-	<string>Chorus</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
@@ -16,11 +16,11 @@
 		<string>https://github.com/memobelt/ChorusReceiveInput.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Chorus.xcodeproj</string>
+	<string>Chorus.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
-		<string>../..ReceiveInput/Alamofire</string>
+		<string>../..Alamofire/</string>
 		<key>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</key>
 		<string>../..</string>
 	</dict>
@@ -46,7 +46,7 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Chorus</string>
+			<string>ChorusReceiveInput</string>
 		</dict>
 	</array>
 </dict>

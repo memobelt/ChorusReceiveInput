@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import Alamofire
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -133,7 +135,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                 reply(["chatData": NSKeyedArchiver.archivedDataWithRootObject(chat)])
                 return
+            } else if request == "send" {
+                let message = userInfo?["message"] as! String
+                let chatURL = "https://talkingtothecrowd.org/Chorus/Chorus-New/php/chatProcess.php"
+                Alamofire.request(.POST, NSURL(string: chatURL)!, parameters: ["action" : "post", "role": "requester", "task": "6", "workerId": "qq9t3ktatncj66geme1vdo31u5", "lastChatId": "\0", "chatLine": message]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
+                    if(error != nil) {
+                        println("Error in appdelegete")
+                    }
+                    else {
+                        
+                    }
+                })
             }
+            
         }
         
         reply([:])
