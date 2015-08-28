@@ -68,7 +68,7 @@ class SpeakToMe: UIViewController, SpeechKitDelegate, SKRecognizerDelegate, UITe
     func recognizerDidBeginRecording(recognizer: SKRecognizer!) {
         //the recording has started
         var alert = UIAlertController(title: "", message: "Speak into microphone", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)    }
     func recognizerDidFinishRecording(recognizer: SKRecognizer!) {
         //the recording has stopped

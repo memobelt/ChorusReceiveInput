@@ -274,7 +274,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
     
     //TO DO: Finish http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
     //gets all attrbutes of a certain task number in the ChatLineInfo entity
-    func fetchChatLinesFromCD() {
+    func fetchChatLinesFromCD(task: String) -> [[String:AnyObject]]? {
         //when fetch request is ready to execute, give it an array containing Strings and NSExpressionDescriptions
         var expressionDescriptions = [AnyObject]()
         expressionDescriptions.append("task")
@@ -291,6 +291,27 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         //add description to array
         expressionDescriptions.append(expressionDescription)
         
+        //build fetch request
+        let request = NSFetchRequest(entityName: "ChatLineInfo")
+        //this is the column to be grouped by and the only non-aggregate column
+        request.propertiesToGroupBy = ["task"]
+        //speciy that dictionaries will be returned
+        request.resultType = .DictionaryResultType
+        //specify sorter
+        request.sortDescriptors = [NSSortDescriptor(key: "time", ascending: true)]
+        //give expression descriptions to propertiesToFetch field
+        request.propertiesToFetch = expressionDescriptions
+        
+        //set result to return (array of dictionaries)
+        //perform the fetch
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        if let results = managedContext.executeFetchRequest(request, error: nil) as? [[String:AnyObject]] {
+            return results
+        }
+        else {
+            return nil
+        }
     }
     func setChatLinesFromWeb() {
         //Pull from Chorus server and update chat page
