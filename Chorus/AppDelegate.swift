@@ -115,6 +115,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    
+    // For watch
+    
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        if let request = userInfo?["request"] as? String {
+            if request == "reviewChat" {
+                let fetchRequest = NSFetchRequest(entityName: "ChatLineInfo")
+                var error: NSError?
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                let managedContext = appDelegate.managedObjectContext!
+                let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]
+                var chat : [[String]] = []
+                for item in fetchedResults[fetchedResults.endIndex-10...fetchedResults.endIndex-1] {
+                    chat.append([item.valueForKey("role")!.description,item.valueForKey("message")!.description])
+                }
+
+                reply(["chatData": NSKeyedArchiver.archivedDataWithRootObject(chat)])
+                return
+            }
+        }
+        
+        reply([:])
+    }
+    
 
 }
 

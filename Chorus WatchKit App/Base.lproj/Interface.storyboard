@@ -41,32 +41,44 @@
             </objects>
             <point key="canvasLocation" x="235" y="347"/>
         </scene>
-        <!--Chat-->
+        <!--Chat Interface Controller-->
         <scene sceneID="Rwk-9Q-fmj">
             <objects>
-                <controller id="aQd-aT-hry" userLabel="Chat" customClass="ChatInterfaceController" customModule="Chorus_WatchKit_Extension">
+                <controller id="aQd-aT-hry" customClass="ChatInterfaceController" customModule="Chorus_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <table alignment="left" id="cXc-9g-ffJ">
+                        <table alignment="left" id="cXc-9g-ffJ" userLabel="Table1">
                             <items>
-                                <tableRow identifier="ChatRow" id="hyA-q1-R4L" userLabel="ChatRow" customClass="ChatRow">
+                                <tableRow identifier="chatRowLeft" id="hyA-q1-R4L" customClass="ChatRowLeft" customModule="Chorus_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="wq9-KX-vdQ">
                                         <items>
                                             <label alignment="left" text="Side" id="GbO-qx-4v9">
                                                 <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
                                             </label>
-                                            <label alignment="left" text="Message" id="sOB-Ma-eW9"/>
+                                            <label alignment="left" text="Message" textAlignment="left" id="sOB-Ma-eW9"/>
                                         </items>
                                     </group>
                                     <connections>
-                                        <outlet property="detailLabel" destination="sOB-Ma-eW9" id="ZAS-58-DRY"/>
-                                        <outlet property="titleLabel" destination="GbO-qx-4v9" id="zPG-VI-Lym"/>
+                                        <outlet property="detailLabel" destination="sOB-Ma-eW9" id="eWT-O3-fNH"/>
+                                        <outlet property="titleLabel" destination="GbO-qx-4v9" id="HT2-6G-fuz"/>
+                                    </connections>
+                                </tableRow>
+                                <tableRow identifier="chatRowRight" id="XbO-Ef-gnc" customClass="ChatRowRight" customModule="Chorus_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="Tyl-os-Wrs">
+                                        <items>
+                                            <label alignment="right" text="Side" id="AUn-rk-0Mo"/>
+                                            <label alignment="right" text="Message" textAlignment="left" id="1WY-PN-CkW"/>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="detailLabel" destination="1WY-PN-CkW" id="dS8-qb-uoq"/>
+                                        <outlet property="titleLabel" destination="AUn-rk-0Mo" id="Mhr-WB-YJZ"/>
                                     </connections>
                                 </tableRow>
                             </items>
                         </table>
                     </items>
                     <connections>
-                        <outlet property="chatRowTable" destination="cXc-9g-ffJ" id="i8U-8d-5pG"/>
+                        <outlet property="chatRowTable" destination="cXc-9g-ffJ" id="YQF-Gv-T3J"/>
                     </connections>
                 </controller>
             </objects>
