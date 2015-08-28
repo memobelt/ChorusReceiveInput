@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import Alamofire
 
 class YelpUI: UITableViewController {
     var searchTerm: String = String()
     var searchLocation: String = String()
     //var businesses: [Business]!
+    
+    let api_host: String = "api.yelp.com"
+    let search_limit: Int = 20
+    let search_path: String = "/v2/search"
+    let business_path:String = "v2/business"
+    
+    let CONSUMER_KEY: String = "g5lvlciNbRFKlJv7A2qE2Q";
+    let CONSUMER_SECRET: String = "3iHz_eXvupX6PUNWcd_RL6CPR-g";
+    let TOKEN: String = "qJGrPQomr7PFVEaS5HEesEGLwvBlb9lX";
+    let TOKEN_SECRET: String = "MNJJ19-g1oq8RwID6IwejuxRPrA";
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +34,25 @@ class YelpUI: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         // MARK: Query Yelp
+        self.query()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func query() {
+        Alamofire.request(Method.GET, NSURL(string: "http://"+api_host+search_path)!, parameters: ["term":self.searchTerm, "location": self.searchLocation, "limit": self.search_limit, "oauth_consumer_key":self.CONSUMER_KEY, "oauth_consumer_secret":self.CONSUMER_SECRET, "oauth_token":self.TOKEN, "oauth_token_oauth_consumer_secret": self.TOKEN_SECRET]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
+            if (result != nil) {
+                println("result \(result)")
+            }
+            else {
+                println("null result")
+            }
+            if (error != nil) {
+                println(error!.description)
+            }})
     }
 
     // MARK: - Table view data source

@@ -35,6 +35,7 @@
                                 </state>
                                 <connections>
                                     <action selector="login:" destination="2G2-Nh-LZC" eventType="touchUpInside" id="VXn-Db-73n"/>
+                                    <segue destination="Ym1-ud-tJE" kind="show" id="3BW-Md-0HV"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="18E-I7-nNf">
