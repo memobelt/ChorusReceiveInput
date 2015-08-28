@@ -10,8 +10,8 @@
 	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>A65BCAA9B7A77500BBF95593800C3F1B9D215F5E</key>
-		<string>https://github.com/dongri/OAuthSwift.git</string>
+		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
+		<string>https://github.com/Alamofire/Alamofire.git</string>
 		<key>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</key>
 		<string>https://github.com/memobelt/ChorusReceiveInput.git</string>
 	</dict>
@@ -19,8 +19,8 @@
 	<string>Chorus.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>A65BCAA9B7A77500BBF95593800C3F1B9D215F5E</key>
-		<string>../..OAuthSwift/</string>
+		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
+		<string>../..Alamofire/</string>
 		<key>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</key>
 		<string>../..</string>
 	</dict>
@@ -36,17 +36,17 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</string>
+			<string>67620B5EFA902936DF04070AF595B76AB0333747</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Chorus</string>
+			<string>Alamofire</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>A65BCAA9B7A77500BBF95593800C3F1B9D215F5E</string>
+			<string>FB160930AF3CCF604CA1E5F18682E9B752F4ABB2</string>
 			<key>IDESourceControlWCCName</key>
-			<string>OAuthSwift</string>
+			<string>ChorusReceiveInput</string>
 		</dict>
 	</array>
 </dict>

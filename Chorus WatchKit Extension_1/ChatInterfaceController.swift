@@ -14,8 +14,8 @@ class ChatInterfaceController: WKInterfaceController {
     @IBOutlet weak var chatRowTable: WKInterfaceTable!
     
     var side: String = "crowd";
-    
-    var chatLines = [["Taylor","25"], ["Katy","30"], ["Ellie","28"]]
+    var spacing: String = "  "
+    var chatLines = [["Nodata", "Nodata"]]
     
     func reloadTable() {
         var rowTypes = [String]()
@@ -32,25 +32,24 @@ class ChatInterfaceController: WKInterfaceController {
 
         }
         
-        chatRowTable.setRowTypes(rowTypes);
-        
-        
+        chatRowTable.setRowTypes(rowTypes)
         
         for var i = 0; i < chatLines.count; i++ {
-            println(i)
             let chatLine = chatLines[i]
             if rowTypes[i] == "chatRowLeft" {
                 let cr = chatRowTable.rowControllerAtIndex(i) as! ChatRowLeft
-                cr.titleLabel.setText(chatLine[0])
-                cr.detailLabel.setText(chatLine[1])
+                cr.titleLabel.setText(spacing + chatLine[0] + spacing)
+                cr.detailLabel.setText(spacing + chatLine[1] + spacing)
             }
             else if rowTypes[i] == "chatRowRight" {
                 let cr = chatRowTable.rowControllerAtIndex(i) as! ChatRowRight
-                cr.titleLabel.setText(chatLine[0])
-                cr.detailLabel.setText(chatLine[1])
+                cr.titleLabel.setText(spacing + chatLine[0] + spacing)
+                cr.titleLabel.setText(spacing + chatLine[1] + spacing)
 
             }
         }
+        
+        chatRowTable.scrollToRowAtIndex(chatLines.count-1)
         
         
     }
@@ -91,5 +90,24 @@ class ChatInterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
     
+    func sendChat(message: String) {
+        WKInterfaceController.openParentApplication(["request": "send", "message":message],
+            reply: { (replyInfo, error) -> Void in
+                // TODO: process reply data
+                
+        })
+        
+    }
     
+    
+    @IBAction func askChorus() {
+        presentTextInputControllerWithSuggestions(["What's the weather today?", "Today's news"], allowedInputMode: .AllowEmoji)
+            { (input) -> Void in
+                if input != nil {
+                    self.sendChat("\(input)")
+                }
+        }
+        getDataFromParentApp("reviewChat")
+        reloadTable()
+    }
 }

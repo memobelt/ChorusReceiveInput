@@ -16,13 +16,12 @@
                         </label>
                         <button width="1" alignment="left" title="Ask Question" id="zvD-Hf-yV4">
                             <connections>
-                                <action selector="askQuestion" destination="AgC-eL-Hgc" id="2J4-IF-MgK"/>
+                                <action selector="askQuestionBtn" destination="AgC-eL-Hgc" id="KlJ-CF-vyi"/>
                             </connections>
                         </button>
                         <button width="1" alignment="left" title="Answer Question" id="QVI-31-5Dn">
                             <connections>
                                 <action selector="answerQuestionBtn" destination="AgC-eL-Hgc" id="kCi-D0-LTz"/>
-                                <segue destination="ctL-uA-0Jg" kind="push" id="gh9-Rc-02o"/>
                             </connections>
                         </button>
                         <button width="1" alignment="left" title="Review Question" id="eaN-0o-wDK">
@@ -52,20 +51,11 @@
                                 <tableRow identifier="chatRowLeft" id="hyA-q1-R4L" customClass="ChatRowLeft" customModule="Chorus_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="wq9-KX-vdQ">
                                         <items>
-                                            <group alignment="left" layout="vertical" radius="3" spacing="0.0" id="cb8-n0-9Vw">
-                                                <items>
-                                                    <label alignment="left" text="Side" id="GbO-qx-4v9">
-                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                                                    </label>
-                                                    <label alignment="left" text="Message" textAlignment="left" id="sOB-Ma-eW9">
-                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
-                                                    </label>
-                                                </items>
-                                                <color key="backgroundColor" red="0.088371696282830148" green="0.73323908851689779" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </group>
+                                            <label alignment="left" text="Side" id="GbO-qx-4v9">
+                                                <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
+                                            </label>
+                                            <label alignment="left" text="Message" textAlignment="left" id="sOB-Ma-eW9"/>
                                         </items>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </group>
                                     <connections>
                                         <outlet property="detailLabel" destination="sOB-Ma-eW9" id="eWT-O3-fNH"/>
@@ -75,20 +65,9 @@
                                 <tableRow identifier="chatRowRight" id="XbO-Ef-gnc" customClass="ChatRowRight" customModule="Chorus_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="Tyl-os-Wrs">
                                         <items>
-                                            <group alignment="right" layout="vertical" radius="3" spacing="0.0" id="SEz-xB-v2Y">
-                                                <items>
-                                                    <label alignment="right" text="Side" textAlignment="left" id="AUn-rk-0Mo">
-                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
-                                                        <fontDescription key="font" style="UICTFontTextStyleHeadline"/>
-                                                    </label>
-                                                    <label alignment="right" text="Message" textAlignment="center" id="1WY-PN-CkW">
-                                                        <accessibilityTraits key="accessibilityTraits" none="YES" staticText="YES" updatesFrequently="YES"/>
-                                                    </label>
-                                                </items>
-                                                <color key="backgroundColor" red="0.088371696282830148" green="0.73323908851689779" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            </group>
+                                            <label alignment="right" text="Side" id="AUn-rk-0Mo"/>
+                                            <label alignment="right" text="Message" textAlignment="left" id="1WY-PN-CkW"/>
                                         </items>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </group>
                                     <connections>
                                         <outlet property="detailLabel" destination="1WY-PN-CkW" id="dS8-qb-uoq"/>
@@ -97,49 +76,13 @@
                                 </tableRow>
                             </items>
                         </table>
-                        <group width="1" height="40" alignment="left" verticalAlignment="bottom" id="lOW-sr-nxI">
-                            <items>
-                                <button width="1" alignment="left" title="Ask Chorus" id="z7C-x0-HDZ">
-                                    <connections>
-                                        <action selector="askChorus" destination="aQd-aT-hry" id="k74-7d-DXm"/>
-                                    </connections>
-                                </button>
-                            </items>
-                        </group>
                     </items>
                     <connections>
                         <outlet property="chatRowTable" destination="cXc-9g-ffJ" id="YQF-Gv-T3J"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="519" y="230"/>
-        </scene>
-        <!--Available Chat Interface Controller-->
-        <scene sceneID="Sxh-ce-cxE">
-            <objects>
-                <controller id="ctL-uA-0Jg" customClass="AvailableChatInterfaceController" customModule="Chorus_WatchKit_Extension">
-                    <items>
-                        <table alignment="left" id="N7s-vs-JX1">
-                            <items>
-                                <tableRow identifier="chatRoomRow" id="0Si-kN-WXV" customClass="ChatRoomRow" customModule="Chorus_WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="7v9-SE-llz">
-                                        <items>
-                                            <label alignment="left" text="ChatRoom" id="h7H-GE-eJO"/>
-                                        </items>
-                                    </group>
-                                    <connections>
-                                        <outlet property="chatRoom" destination="h7H-GE-eJO" id="kEr-Gy-GIX"/>
-                                    </connections>
-                                </tableRow>
-                            </items>
-                        </table>
-                    </items>
-                    <connections>
-                        <outlet property="chatRoomTable" destination="N7s-vs-JX1" id="dMF-LN-k2R"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="504" y="606"/>
+            <point key="canvasLocation" x="535" y="354"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
