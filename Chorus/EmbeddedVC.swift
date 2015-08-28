@@ -29,7 +29,13 @@ class EmbeddedVC: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        //hide the keyboard
+        textField.resignFirstResponder();
+        //text field should respond to the user pressing the Return key by dismissing the keyboard
+        return true;
+    }
     
     // MARK: - Navigation
 

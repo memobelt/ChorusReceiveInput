@@ -15,7 +15,7 @@ class YelpUI: UITableViewController {
     //var businesses: [Business]!
     
     let api_host: String = "api.yelp.com"
-    let search_limit: Int = 20
+    let search_limit: String = "20"
     let search_path: String = "/v2/search"
     let business_path:String = "v2/business"
     
@@ -23,6 +23,9 @@ class YelpUI: UITableViewController {
     let CONSUMER_SECRET: String = "3iHz_eXvupX6PUNWcd_RL6CPR-g";
     let TOKEN: String = "qJGrPQomr7PFVEaS5HEesEGLwvBlb9lX";
     let TOKEN_SECRET: String = "MNJJ19-g1oq8RwID6IwejuxRPrA";
+    let SIGNATURE_METHOD: String = "HMAC-SHA1";
+    let SIGNATURE:String = "u0026http%3A%2F%2Fapi.yelp.com%2Fv2%2Fsearch\\u0026limit%3D20%26location%3Dnew%2520york%26oauth_consumer_key%3Dg5lvlciNbRFKlJv7A2qE2Q%26oauth_nonce%3Dasdfghjkl%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1440780169%26oauth_token%3DqJGrPQomr7PFVEaS5HEesEGLwvBlb9lX%26term%3Dtacos";
+    let NONCE:String = "asdfghjkl";
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +36,9 @@ class YelpUI: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        // MARK: Query Yelp
-        self.query()
+        self.navigationController?.setToolbarHidden(true, animated: false) //hide bottom toolbar
+        
+        self.searchForBusinessesByLocation(self.searchTerm, location: self.searchLocation)
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,17 +46,28 @@ class YelpUI: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func query() {
-        Alamofire.request(Method.GET, NSURL(string: "http://"+api_host+search_path)!, parameters: ["term":self.searchTerm, "location": self.searchLocation, "limit": self.search_limit, "oauth_consumer_key":self.CONSUMER_KEY, "oauth_consumer_secret":self.CONSUMER_SECRET, "oauth_token":self.TOKEN, "oauth_token_oauth_consumer_secret": self.TOKEN_SECRET]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_, _, result, error) in
-            if (result != nil) {
+    func timestamp(nothing:Void) -> String {
+        let time:Int = Int(NSDate().timeIntervalSince1970)
+        println(time.description)
+        return time.description
+    }
+    
+    // MARK: Query Yelp
+    func searchForBusinessesByLocation(term: String, location: String) {
+        Alamofire.request(Method.GET, NSURL(string: "http://\(self.api_host)\(self.search_path)")!, parameters: ["term":self.searchTerm, "location":self.searchLocation,"limit":self.search_limit, "oauth_consumer_key":self.CONSUMER_KEY, "oauth_token":self.TOKEN, "oauth_signature_method":self.SIGNATURE_METHOD, "oauth_signature":self.SIGNATURE, "oauth_timestamp":self.timestamp(), "oauth_nonce":self.NONCE]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_,_,result, error) in
+            if(result != nil) {
                 println("result \(result)")
             }
             else {
-                println("null result")
+                println("no result")
             }
-            if (error != nil) {
-                println(error!.description)
-            }})
+            if(error != nil) {
+                println("error \(error)")
+            }
+            else {
+                println("no error")
+            }
+        })
     }
 
     // MARK: - Table view data source

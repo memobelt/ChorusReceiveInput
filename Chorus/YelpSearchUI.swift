@@ -24,6 +24,7 @@ class YelpSearchUI: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController?.setToolbarHidden(true, animated: false) //hide bottom toolbar
         // Do any additional setup after loading the view.
         self.findText.delegate = self
         self.nearText.delegate = self
@@ -32,6 +33,14 @@ class YelpSearchUI: UIViewController, UITextFieldDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: UITextFieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        //hide the keyboard
+        textField.resignFirstResponder();
+        //text field should respond to the user pressing the Return key by dismissing the keyboard
+        return true;
     }
     
     // MARK: - Navigation
