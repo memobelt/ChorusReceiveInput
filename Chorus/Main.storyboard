@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2G2-Nh-LZC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9D4-jN-gZr">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="bottom" id="9Bd-VE-PeL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JSs-8p-r3W">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Ap-gw-3kk">
@@ -26,20 +26,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0k-T8-fcH">
-                                <rect key="frame" x="121" y="298" width="79" height="36"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Login">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="login:" destination="2G2-Nh-LZC" eventType="touchUpInside" id="VXn-Db-73n"/>
-                                    <segue destination="Ym1-ud-tJE" kind="show" id="3BW-Md-0HV"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="18E-I7-nNf">
-                                <rect key="frame" x="121" y="348" width="79" height="36"/>
+                                <rect key="frame" x="121" y="345" width="79" height="36"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Test">
@@ -50,12 +38,38 @@
                                     <segue destination="DUg-lE-oPP" kind="show" id="BiG-cR-4SH"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zs2-ZW-6mj">
+                                <rect key="frame" x="121" y="389" width="79" height="36"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="register:" destination="2G2-Nh-LZC" eventType="touchUpInside" id="V22-Wj-ppH"/>
+                                    <action selector="testButton:" destination="2G2-Nh-LZC" eventType="touchUpInside" id="225-XG-Zyb"/>
+                                    <segue destination="i94-CU-yuB" kind="show" id="rQj-zt-AFO"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ChorusLogo" translatesAutoresizingMaskIntoConstraints="NO" id="hJ2-px-4YD">
                                 <rect key="frame" x="35" y="117" width="240" height="69"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0k-T8-fcH">
+                                <rect key="frame" x="121" y="301" width="79" height="36"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="login:" destination="2G2-Nh-LZC" eventType="touchUpInside" id="VXn-Db-73n"/>
+                                    <segue destination="KjV-0J-HrT" kind="show" identifier="toMainActivity" id="iO1-iQ-cnD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="XOg-ym-PCi"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="ChorusLogo" destination="hJ2-px-4YD" id="0Mk-c6-xDP"/>
@@ -65,14 +79,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZLA-PH-oZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-292" y="-162"/>
+            <point key="canvasLocation" x="240" y="-162"/>
         </scene>
         <!--MainActivity-->
         <scene sceneID="ifo-Lf-Yde">
             <objects>
-                <tableViewController storyboardIdentifier="MainActivity" title="MainActivity" id="KjV-0J-HrT" customClass="MainActivity" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="MainActivity" storyboardIdentifier="MainActivity" title="MainActivity" id="KjV-0J-HrT" customClass="MainActivity" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="dpE-n1-aMC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -141,7 +155,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Logout" id="c6l-aw-Smy">
                             <connections>
                                 <action selector="logout:" destination="KjV-0J-HrT" id="xQ7-q1-hcO"/>
-                                <segue destination="2G2-Nh-LZC" kind="show" id="IOD-fx-aT8"/>
+                                <segue destination="9D4-jN-gZr" kind="show" id="IOD-fx-aT8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -149,7 +163,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m40-Fd-LZH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="760" y="99"/>
+            <point key="canvasLocation" x="1292" y="99"/>
         </scene>
         <!--SpeakToMe-->
         <scene sceneID="Hbr-86-grA">
@@ -160,7 +174,7 @@
                         <viewControllerLayoutGuide type="bottom" id="XWR-08-dsP"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MIe-fL-Zan">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faJ-us-t93">
@@ -204,7 +218,7 @@
             <objects>
                 <tableViewController id="t4y-tK-MOk" customClass="ChorusChat" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bEd-Yp-Xl3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <containerView key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="QQF-Fo-8LK">
@@ -246,7 +260,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="AvailableChats" title="AvailableChats" id="ibU-5R-xc2" customClass="AvailableChats" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="cFY-5F-sAA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -269,7 +283,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPV-ES-viC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1220" y="105"/>
+            <point key="canvasLocation" x="1752" y="105"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="edP-nQ-7zU">
@@ -287,7 +301,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vd5-85-CfB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="228" y="99"/>
+            <point key="canvasLocation" x="760" y="99"/>
         </scene>
         <!--EmbeddedVC-->
         <scene sceneID="bHg-h1-0hZ">
@@ -429,6 +443,84 @@
             </objects>
             <point key="canvasLocation" x="1978" y="745"/>
         </scene>
+        <!--Register-->
+        <scene sceneID="oc5-gO-LvZ">
+            <objects>
+                <viewController storyboardIdentifier="Register" title="Register" id="i94-CU-yuB" customClass="Register" customModule="Chorus" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HYA-vR-63c"/>
+                        <viewControllerLayoutGuide type="bottom" id="dHg-qU-jjR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="T2D-eh-iQy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gg6-26-0nQ">
+                                <rect key="frame" x="35" y="263" width="250" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="i5v-DO-9ES">
+                                <rect key="frame" x="35" y="219" width="250" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XHw-23-Bik">
+                                <rect key="frame" x="78" y="374" width="165" height="36"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="register:" destination="i94-CU-yuB" eventType="touchUpInside" id="Mzp-Wp-wxV"/>
+                                    <action selector="registerButton:" destination="i94-CU-yuB" eventType="touchUpInside" id="Ve9-62-bY8"/>
+                                    <action selector="testButton:" destination="i94-CU-yuB" eventType="touchUpInside" id="m49-T7-s8g"/>
+                                    <segue destination="9D4-jN-gZr" kind="show" identifier="toLogin" id="JRN-B6-Vy4"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CKC-AK-cce">
+                                <rect key="frame" x="35" y="307" width="250" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ChorusLogo" translatesAutoresizingMaskIntoConstraints="NO" id="SmG-q7-Ub4">
+                                <rect key="frame" x="59" y="100" width="203" height="52"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="ChorusLogo" destination="SmG-q7-Ub4" id="2Hs-Zn-P5l"/>
+                        <outlet property="chorusLogo" destination="SmG-q7-Ub4" id="qBx-JJ-zJ7"/>
+                        <outlet property="email" destination="i5v-DO-9ES" id="Fnl-FR-ijg"/>
+                        <outlet property="password" destination="CKC-AK-cce" id="oTP-te-AG5"/>
+                        <outlet property="username" destination="gg6-26-0nQ" id="0fK-ah-rxl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Syy-Am-oRH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-372" y="568"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iOI-pd-VN2">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9D4-jN-gZr" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pBJ-fd-3Zn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2G2-Nh-LZC" kind="relationship" relationship="rootViewController" id="2ep-gH-alN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6md-tf-hw9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-292" y="-162"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ChorusLogo" width="98" height="29"/>
@@ -436,6 +528,8 @@
         <image name="Yelp" width="112" height="112"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="B7r-oa-khp"/>
+        <segue reference="sTE-Y2-Thr"/>
+        <segue reference="iO1-iQ-cnD"/>
+        <segue reference="JRN-B6-Vy4"/>
     </inferredMetricsTieBreakers>
 </document>

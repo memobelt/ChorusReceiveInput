@@ -15,8 +15,17 @@ class EmbeddedVC: UIViewController, UITextFieldDelegate {
     
     //MARK: Actions
     @IBAction func send(sender: UIButton) {
+        if(self.text.text.isEmpty) {
+            self.error("Please type something")
+        }
     }
-
+    
+    func error(message: String) -> Void {
+        var alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

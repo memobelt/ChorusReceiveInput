@@ -40,6 +40,10 @@
 		27843D731B8E4E6F0058768A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27843D721B8E4E6F0058768A /* Foundation.framework */; };
 		279774881B8ACDC600978436 /* EmbeddedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279774861B8ACDC500978436 /* EmbeddedVC.swift */; };
 		279774891B8ACDC600978436 /* EmbeddedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279774861B8ACDC500978436 /* EmbeddedVC.swift */; };
+		27BBAD631B90D05E00973B73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 27BBAD621B90D05E00973B73 /* README */; };
+		27BBAD641B90D05E00973B73 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 27BBAD621B90D05E00973B73 /* README */; };
+		27BBAD661B90DC3200973B73 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BBAD651B90DC3200973B73 /* Register.swift */; };
+		27BBAD671B90DC3200973B73 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BBAD651B90DC3200973B73 /* Register.swift */; };
 		27CC8A991B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
 		27CC8A9A1B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
 		27F395911B8B8A58004002D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA201B7BBFD9002D5FB5 /* AppDelegate.swift */; };
@@ -133,6 +137,8 @@
 		27843D631B8E36BC0058768A /* YelpSearchUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpSearchUI.swift; sourceTree = "<group>"; };
 		27843D721B8E4E6F0058768A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		279774861B8ACDC500978436 /* EmbeddedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedVC.swift; sourceTree = "<group>"; };
+		27BBAD621B90D05E00973B73 /* README */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; name = README; path = Chorus/README; sourceTree = "<group>"; };
+		27BBAD651B90DC3200973B73 /* Register.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
 		27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLineInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -174,6 +180,7 @@
 				2709FA1D1B7BBFD9002D5FB5 /* Chorus */,
 				2709FA361B7BBFD9002D5FB5 /* ChorusTests */,
 				2709FA1C1B7BBFD9002D5FB5 /* Products */,
+				27BBAD621B90D05E00973B73 /* README */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,6 +206,7 @@
 				279774861B8ACDC500978436 /* EmbeddedVC.swift */,
 				2709FA801B7BEF68002D5FB5 /* MainActivity.swift */,
 				2709FA831B7BF0E4002D5FB5 /* Login.swift */,
+				27BBAD651B90DC3200973B73 /* Register.swift */,
 				2709FA861B7CF0DF002D5FB5 /* AvailableChats.swift */,
 				27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */,
 				277F40811B7D1B060052A4AE /* SpeakToMe.swift */,
@@ -367,6 +375,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27BBAD631B90D05E00973B73 /* README in Resources */,
 				2768C6441B88DB7A00970C55 /* Main.storyboard in Resources */,
 				2709FA2E1B7BBFD9002D5FB5 /* LaunchScreen.xib in Resources */,
 				2709FA2B1B7BBFD9002D5FB5 /* Images.xcassets in Resources */,
@@ -377,6 +386,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27BBAD641B90D05E00973B73 /* README in Resources */,
 				2768C6451B88DB7A00970C55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,6 +402,7 @@
 				277F40821B7D1B060052A4AE /* SpeakToMe.swift in Sources */,
 				2709FA841B7BF0E4002D5FB5 /* Login.swift in Sources */,
 				2709FA211B7BBFD9002D5FB5 /* AppDelegate.swift in Sources */,
+				27BBAD661B90DC3200973B73 /* Register.swift in Sources */,
 				279774881B8ACDC600978436 /* EmbeddedVC.swift in Sources */,
 				2709FA241B7BBFD9002D5FB5 /* Chorus.xcdatamodeld in Sources */,
 				27843D061B8E1EF20058768A /* YelpUI.swift in Sources */,
@@ -411,6 +422,7 @@
 				27843D651B8E36BC0058768A /* YelpSearchUI.swift in Sources */,
 				2709FA3A1B7BBFD9002D5FB5 /* ChorusTests.swift in Sources */,
 				27CC8A9A1B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */,
+				27BBAD671B90DC3200973B73 /* Register.swift in Sources */,
 				2709FA4B1B7BDCC9002D5FB5 /* ChorusChat.swift in Sources */,
 				2709FA821B7BEF68002D5FB5 /* MainActivity.swift in Sources */,
 				277F40831B7D1B060052A4AE /* SpeakToMe.swift in Sources */,

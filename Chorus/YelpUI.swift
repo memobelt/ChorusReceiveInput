@@ -54,7 +54,8 @@ class YelpUI: UITableViewController {
     
     // MARK: Query Yelp
     func searchForBusinessesByLocation(term: String, location: String) {
-        Alamofire.request(Method.GET, NSURL(string: "http://\(self.api_host)\(self.search_path)")!, parameters: ["term":self.searchTerm, "location":self.searchLocation,"limit":self.search_limit, "oauth_consumer_key":self.CONSUMER_KEY, "oauth_token":self.TOKEN, "oauth_signature_method":self.SIGNATURE_METHOD, "oauth_signature":self.SIGNATURE, "oauth_timestamp":self.timestamp(), "oauth_nonce":self.NONCE]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_,_,result, error) in
+        //@TO DO: get oauth_signature
+        Alamofire.request(Method.GET, NSURL(string: "http://\(self.api_host)\(self.search_path)")!, parameters: ["term":self.searchTerm, "location":self.searchLocation,"limit":self.search_limit, "oauth_consumer_key":self.CONSUMER_KEY, "oauth_token":self.TOKEN, "oauth_signature_method":self.SIGNATURE_METHOD, "oauth_signature":self.SIGNATURE, "oauth_timestamp":self.timestamp(), "oauth_nonce":self.NONCE, "oauth_version":"1.0"]).responseString(encoding: NSUTF8StringEncoding, completionHandler: {(_,_,result, error) in
             if(result != nil) {
                 println("result \(result)")
             }

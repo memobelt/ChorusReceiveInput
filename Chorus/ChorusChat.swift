@@ -272,7 +272,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         self.scrollToBottom() //scroll to bottom of list
     }
     
-    //TO DO: Finish http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
+    //@TO DO: Finish http://www.cimgf.com/2015/06/25/core-data-and-aggregate-fetches-in-swift/
     //gets all attrbutes of a certain task number in the ChatLineInfo entity
     func fetchChatLinesFromCD(task: String) -> [[String:AnyObject]]? {
         //when fetch request is ready to execute, give it an array containing Strings and NSExpressionDescriptions
@@ -284,7 +284,7 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
         //name the column
         expressionDescription.name = "Task"
         //use expression to specify what aggregate action and on which column
-        //TO DO: expressionDescription.expression
+        expressionDescription.expression = NSExpression(format: "@sum.returned")
         //specify return type
         expressionDescription.expressionResultType = NSAttributeType.StringAttributeType
         
@@ -366,7 +366,6 @@ class ChorusChat: UITableViewController, NSURLConnectionDelegate, SpeechKitDeleg
                 self.error(error!.description)
             }
             else {
-                //TO DO: FIX update tableview
                 self.setChatInfoFromString(result!)
                 self.inputCoreData(self.chatLineInfo.get_id(), _message: message, _role: self.role, _task: _task, _time: self.getCurrentTime())
                 if let initial = message.rangeOfString("news about ") {

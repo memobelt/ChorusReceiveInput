@@ -16,15 +16,47 @@ class Login: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var ChorusLogo: UIImageView!
     
+    var isLoggedIn:Bool = false
+    
     //MARK: Actions
     @IBAction func login(sender: UIButton) {
-        //TO DO: setup login
-        println(username.text)
-        println(password.text)
+        if(isLoggedIn == false) {
+            //check login credentials
+            self.checkLogin(self.username.text, _password: self.password.text)
+        }
+        else {
+            //go to Main Activity
+            self.performSegueWithIdentifier("toMainActivity", sender: self)
+        }
+    }
+    
+    //MARK: Handle login
+    func error(message: String) -> Void {
+        var alert = UIAlertController(title: "Error", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func checkLogin(_username: String, _password: String) {
+        if((_username.isEmpty)) {
+            self.error("Please enter your username")
+        }
+        else if((_password.isEmpty)) {
+            self.error("Please enter you password")
+        }
+        else {
+            self.isLoggedIn = true
+            //go to Main Activity
+            self.performSegueWithIdentifier("toMainActivity", sender: self)
+        }
     }
     
     @IBAction func testButton(sender: UIButton) {
         //goes to MainActivity
+    }
+    
+    @IBAction func register(sender: UIButton) {
+        //goes to RegisterActivity
     }
     
     // MARK: UITextFieldDelegate
