@@ -32,13 +32,11 @@ class ChatInterfaceController: WKInterfaceController {
 
         }
         
-        chatRowTable.setRowTypes(rowTypes);
-        
-        
+        chatRowTable.setRowTypes(rowTypes)
         
         for var i = 0; i < chatLines.count; i++ {
-            println(i)
             let chatLine = chatLines[i]
+//            println(chatLine[1])
             if rowTypes[i] == "chatRowLeft" {
                 let cr = chatRowTable.rowControllerAtIndex(i) as! ChatRowLeft
                 cr.titleLabel.setText(chatLine[0])

@@ -16,13 +16,12 @@
                         </label>
                         <button width="1" alignment="left" title="Ask Question" id="zvD-Hf-yV4">
                             <connections>
-                                <action selector="askQuestion" destination="AgC-eL-Hgc" id="2J4-IF-MgK"/>
+                                <action selector="askQuestionBtn" destination="AgC-eL-Hgc" id="KlJ-CF-vyi"/>
                             </connections>
                         </button>
                         <button width="1" alignment="left" title="Answer Question" id="QVI-31-5Dn">
                             <connections>
                                 <action selector="answerQuestionBtn" destination="AgC-eL-Hgc" id="kCi-D0-LTz"/>
-                                <segue destination="ctL-uA-0Jg" kind="push" id="gh9-Rc-02o"/>
                             </connections>
                         </button>
                         <button width="1" alignment="left" title="Review Question" id="eaN-0o-wDK">
@@ -83,34 +82,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="519" y="230"/>
-        </scene>
-        <!--Available Chat Interface Controller-->
-        <scene sceneID="Sxh-ce-cxE">
-            <objects>
-                <controller id="ctL-uA-0Jg" customClass="AvailableChatInterfaceController" customModule="Chorus_WatchKit_Extension">
-                    <items>
-                        <table alignment="left" id="N7s-vs-JX1">
-                            <items>
-                                <tableRow identifier="chatRoomRow" id="0Si-kN-WXV" customClass="ChatRoomRow" customModule="Chorus_WatchKit_Extension">
-                                    <group key="rootItem" width="1" height="0.0" alignment="left" id="7v9-SE-llz">
-                                        <items>
-                                            <label alignment="left" text="ChatRoom" id="h7H-GE-eJO"/>
-                                        </items>
-                                    </group>
-                                    <connections>
-                                        <outlet property="chatRoom" destination="h7H-GE-eJO" id="kEr-Gy-GIX"/>
-                                    </connections>
-                                </tableRow>
-                            </items>
-                        </table>
-                    </items>
-                    <connections>
-                        <outlet property="chatRoomTable" destination="N7s-vs-JX1" id="dMF-LN-k2R"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="504" y="606"/>
+            <point key="canvasLocation" x="535" y="354"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">

@@ -31,8 +31,6 @@
 		27730C761B839B1C003A0783 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27730C751B839B1B003A0783 /* AVFoundation.framework */; };
 		277F40821B7D1B060052A4AE /* SpeakToMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277F40811B7D1B060052A4AE /* SpeakToMe.swift */; };
 		277F40831B7D1B060052A4AE /* SpeakToMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277F40811B7D1B060052A4AE /* SpeakToMe.swift */; };
-		277F40931B7D26BB0052A4AE /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 277F408C1B7D25A10052A4AE /* Alamofire.framework */; };
-		277F40941B7D26BB0052A4AE /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 277F408C1B7D25A10052A4AE /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		27843D061B8E1EF20058768A /* YelpUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27843D051B8E1EF20058768A /* YelpUI.swift */; };
 		27843D071B8E1EF20058768A /* YelpUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27843D051B8E1EF20058768A /* YelpUI.swift */; };
 		27843D641B8E36BC0058768A /* YelpSearchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27843D631B8E36BC0058768A /* YelpSearchUI.swift */; };
@@ -43,6 +41,20 @@
 		27CC8A991B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
 		27CC8A9A1B7E89CE007F0AB4 /* ChatLineInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */; };
 		27F395911B8B8A58004002D2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2709FA201B7BBFD9002D5FB5 /* AppDelegate.swift */; };
+		96A879291B9061AB00D20727 /* AvailableChatInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A879281B9061AB00D20727 /* AvailableChatInterfaceController.swift */; };
+		96A8792E1B90626A00D20727 /* ChatRoomRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A8792D1B90626A00D20727 /* ChatRoomRow.swift */; };
+		96D7A8CE1B9004F100DCA01C /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D7A8CD1B9004F100DCA01C /* NotificationController.swift */; };
+		96D7A8D01B9004F100DCA01C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96D7A8CF1B9004F100DCA01C /* Images.xcassets */; };
+		96D7A8D41B9004F100DCA01C /* Chorus WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = 96D7A8D31B9004F100DCA01C /* Chorus WatchKit App.app */; };
+		96D7A8DC1B9004F100DCA01C /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96D7A8DA1B9004F100DCA01C /* Interface.storyboard */; };
+		96D7A8DE1B9004F100DCA01C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96D7A8DD1B9004F100DCA01C /* Images.xcassets */; };
+		96D7A8E11B9004F100DCA01C /* Chorus WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 96D7A8C61B9004F100DCA01C /* Chorus WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		96D7A8F81B90055200DCA01C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96D7A8F11B90053700DCA01C /* Alamofire.framework */; };
+		96D7A8F91B90055200DCA01C /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 96D7A8F11B90053700DCA01C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		96D7A9001B90057A00DCA01C /* ChatInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D7A8FC1B90057A00DCA01C /* ChatInterfaceController.swift */; };
+		96D7A9011B90057A00DCA01C /* ChatRowLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D7A8FD1B90057A00DCA01C /* ChatRowLeft.swift */; };
+		96D7A9021B90057A00DCA01C /* ChatRowRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D7A8FE1B90057A00DCA01C /* ChatRowRight.swift */; };
+		96D7A9031B90057A00DCA01C /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D7A8FF1B90057A00DCA01C /* InterfaceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,37 +65,51 @@
 			remoteGlobalIDString = 2709FA1A1B7BBFD9002D5FB5;
 			remoteInfo = Chorus;
 		};
-		277F408B1B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+		96D7A8D51B9004F100DCA01C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			containerPortal = 2709FA131B7BBFD9002D5FB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96D7A8D21B9004F100DCA01C;
+			remoteInfo = "Chorus WatchKit App";
+		};
+		96D7A8DF1B9004F100DCA01C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2709FA131B7BBFD9002D5FB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96D7A8C51B9004F100DCA01C;
+			remoteInfo = "Chorus WatchKit Extension";
+		};
+		96D7A8F01B90053700DCA01C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
 			remoteInfo = "Alamofire iOS";
 		};
-		277F408D1B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+		96D7A8F21B90053700DCA01C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			containerPortal = 96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4DD67C0B1A5C55C900ED2280;
 			remoteInfo = "Alamofire OSX";
 		};
-		277F408F1B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+		96D7A8F41B90053700DCA01C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			containerPortal = 96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
 			remoteInfo = "Alamofire iOS Tests";
 		};
-		277F40911B7D25A10052A4AE /* PBXContainerItemProxy */ = {
+		96D7A8F61B90053700DCA01C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			containerPortal = 96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F829C6B21A7A94F100A2CD59;
 			remoteInfo = "Alamofire OSX Tests";
 		};
-		277F40951B7D26BB0052A4AE /* PBXContainerItemProxy */ = {
+		96D7A8FA1B90055200DCA01C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+			containerPortal = 96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
 			remoteInfo = "Alamofire iOS";
@@ -97,9 +123,20 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				277F40941B7D26BB0052A4AE /* Alamofire.framework in Embed Frameworks */,
+				96D7A8F91B90055200DCA01C /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96D7A8E81B9004F100DCA01C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				96D7A8E11B9004F100DCA01C /* Chorus WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -127,13 +164,28 @@
 		27730C5E1B83964D003A0783 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		27730C751B839B1B003A0783 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		277F40811B7D1B060052A4AE /* SpeakToMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakToMe.swift; sourceTree = "<group>"; };
-		277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "../Desktop/Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		27843D051B8E1EF20058768A /* YelpUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpUI.swift; sourceTree = "<group>"; };
 		27843D5E1B8E34740058768A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		27843D631B8E36BC0058768A /* YelpSearchUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YelpSearchUI.swift; sourceTree = "<group>"; };
 		27843D721B8E4E6F0058768A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		279774861B8ACDC500978436 /* EmbeddedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedVC.swift; sourceTree = "<group>"; };
 		27CC8A981B7E89CE007F0AB4 /* ChatLineInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLineInfo.swift; sourceTree = "<group>"; };
+		96A879281B9061AB00D20727 /* AvailableChatInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvailableChatInterfaceController.swift; sourceTree = "<group>"; };
+		96A8792D1B90626A00D20727 /* ChatRoomRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomRow.swift; sourceTree = "<group>"; };
+		96D7A8C61B9004F100DCA01C /* Chorus WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Chorus WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96D7A8C91B9004F100DCA01C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96D7A8CA1B9004F100DCA01C /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		96D7A8CD1B9004F100DCA01C /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		96D7A8CF1B9004F100DCA01C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		96D7A8D31B9004F100DCA01C /* Chorus WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Chorus WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		96D7A8D91B9004F100DCA01C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96D7A8DB1B9004F100DCA01C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		96D7A8DD1B9004F100DCA01C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		96D7A8FC1B90057A00DCA01C /* ChatInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatInterfaceController.swift; path = "Chorus WatchKit Extension_1/ChatInterfaceController.swift"; sourceTree = SOURCE_ROOT; };
+		96D7A8FD1B90057A00DCA01C /* ChatRowLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRowLeft.swift; path = "Chorus WatchKit Extension_1/ChatRowLeft.swift"; sourceTree = SOURCE_ROOT; };
+		96D7A8FE1B90057A00DCA01C /* ChatRowRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRowRight.swift; path = "Chorus WatchKit Extension_1/ChatRowRight.swift"; sourceTree = SOURCE_ROOT; };
+		96D7A8FF1B90057A00DCA01C /* InterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterfaceController.swift; path = "Chorus WatchKit Extension_1/InterfaceController.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,10 +194,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				27843D731B8E4E6F0058768A /* Foundation.framework in Frameworks */,
+				96D7A8F81B90055200DCA01C /* Alamofire.framework in Frameworks */,
 				27730C761B839B1C003A0783 /* AVFoundation.framework in Frameworks */,
 				27730C5F1B83964D003A0783 /* SystemConfiguration.framework in Frameworks */,
 				27730C5D1B839623003A0783 /* AudioToolbox.framework in Frameworks */,
-				277F40931B7D26BB0052A4AE /* Alamofire.framework in Frameworks */,
 				27730C571B823C69003A0783 /* SpeechKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,21 +210,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96D7A8C31B9004F100DCA01C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2709FA121B7BBFD9002D5FB5 = {
 			isa = PBXGroup;
 			children = (
+				96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */,
 				27843D721B8E4E6F0058768A /* Foundation.framework */,
 				27843D5E1B8E34740058768A /* Security.framework */,
 				27730C751B839B1B003A0783 /* AVFoundation.framework */,
 				27730C5E1B83964D003A0783 /* SystemConfiguration.framework */,
 				27730C5C1B839623003A0783 /* AudioToolbox.framework */,
 				27730C561B823C69003A0783 /* SpeechKit.framework */,
-				277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */,
 				2709FA1D1B7BBFD9002D5FB5 /* Chorus */,
 				2709FA361B7BBFD9002D5FB5 /* ChorusTests */,
+				96D7A8C71B9004F100DCA01C /* Chorus WatchKit Extension */,
+				96D7A8D71B9004F100DCA01C /* Chorus WatchKit App */,
 				2709FA1C1B7BBFD9002D5FB5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -182,6 +243,8 @@
 			children = (
 				2709FA1B1B7BBFD9002D5FB5 /* Chorus.app */,
 				2709FA331B7BBFD9002D5FB5 /* ChorusTests.xctest */,
+				96D7A8C61B9004F100DCA01C /* Chorus WatchKit Extension.appex */,
+				96D7A8D31B9004F100DCA01C /* Chorus WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -236,13 +299,56 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		277F40851B7D25A10052A4AE /* Products */ = {
+		96D7A8C71B9004F100DCA01C /* Chorus WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				277F408C1B7D25A10052A4AE /* Alamofire.framework */,
-				277F408E1B7D25A10052A4AE /* Alamofire.framework */,
-				277F40901B7D25A10052A4AE /* Alamofire iOS Tests.xctest */,
-				277F40921B7D25A10052A4AE /* Alamofire OSX Tests.xctest */,
+				96D7A8FC1B90057A00DCA01C /* ChatInterfaceController.swift */,
+				96D7A8FD1B90057A00DCA01C /* ChatRowLeft.swift */,
+				96D7A8FE1B90057A00DCA01C /* ChatRowRight.swift */,
+				96D7A8FF1B90057A00DCA01C /* InterfaceController.swift */,
+				96D7A8CD1B9004F100DCA01C /* NotificationController.swift */,
+				96D7A8CF1B9004F100DCA01C /* Images.xcassets */,
+				96D7A8C81B9004F100DCA01C /* Supporting Files */,
+				96A879281B9061AB00D20727 /* AvailableChatInterfaceController.swift */,
+				96A8792D1B90626A00D20727 /* ChatRoomRow.swift */,
+			);
+			path = "Chorus WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		96D7A8C81B9004F100DCA01C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				96D7A8C91B9004F100DCA01C /* Info.plist */,
+				96D7A8CA1B9004F100DCA01C /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96D7A8D71B9004F100DCA01C /* Chorus WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				96D7A8DA1B9004F100DCA01C /* Interface.storyboard */,
+				96D7A8DD1B9004F100DCA01C /* Images.xcassets */,
+				96D7A8D81B9004F100DCA01C /* Supporting Files */,
+			);
+			path = "Chorus WatchKit App";
+			sourceTree = "<group>";
+		};
+		96D7A8D81B9004F100DCA01C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				96D7A8D91B9004F100DCA01C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		96D7A8EA1B90053700DCA01C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				96D7A8F11B90053700DCA01C /* Alamofire.framework */,
+				96D7A8F31B90053700DCA01C /* Alamofire.framework */,
+				96D7A8F51B90053700DCA01C /* Alamofire iOS Tests.xctest */,
+				96D7A8F71B90053700DCA01C /* Alamofire OSX Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -258,11 +364,13 @@
 				2709FA181B7BBFD9002D5FB5 /* Frameworks */,
 				2709FA191B7BBFD9002D5FB5 /* Resources */,
 				277F40801B7D0DF40052A4AE /* Embed Frameworks */,
+				96D7A8E81B9004F100DCA01C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				277F40961B7D26BB0052A4AE /* PBXTargetDependency */,
+				96D7A8E01B9004F100DCA01C /* PBXTargetDependency */,
+				96D7A8FB1B90055200DCA01C /* PBXTargetDependency */,
 			);
 			name = Chorus;
 			productName = Chorus;
@@ -287,6 +395,39 @@
 			productReference = 2709FA331B7BBFD9002D5FB5 /* ChorusTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		96D7A8C51B9004F100DCA01C /* Chorus WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96D7A8E71B9004F100DCA01C /* Build configuration list for PBXNativeTarget "Chorus WatchKit Extension" */;
+			buildPhases = (
+				96D7A8C21B9004F100DCA01C /* Sources */,
+				96D7A8C31B9004F100DCA01C /* Frameworks */,
+				96D7A8C41B9004F100DCA01C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				96D7A8D61B9004F100DCA01C /* PBXTargetDependency */,
+			);
+			name = "Chorus WatchKit Extension";
+			productName = "Chorus WatchKit Extension";
+			productReference = 96D7A8C61B9004F100DCA01C /* Chorus WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		96D7A8D21B9004F100DCA01C /* Chorus WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96D7A8E61B9004F100DCA01C /* Build configuration list for PBXNativeTarget "Chorus WatchKit App" */;
+			buildPhases = (
+				96D7A8D11B9004F100DCA01C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Chorus WatchKit App";
+			productName = "Chorus WatchKit App";
+			productReference = 96D7A8D31B9004F100DCA01C /* Chorus WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -303,6 +444,12 @@
 						CreatedOnToolsVersion = 6.4;
 						TestTargetID = 2709FA1A1B7BBFD9002D5FB5;
 					};
+					96D7A8C51B9004F100DCA01C = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					96D7A8D21B9004F100DCA01C = {
+						CreatedOnToolsVersion = 6.4;
+					};
 				};
 			};
 			buildConfigurationList = 2709FA161B7BBFD9002D5FB5 /* Build configuration list for PBXProject "Chorus" */;
@@ -318,45 +465,47 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 277F40851B7D25A10052A4AE /* Products */;
-					ProjectRef = 277F40841B7D25A10052A4AE /* Alamofire.xcodeproj */;
+					ProductGroup = 96D7A8EA1B90053700DCA01C /* Products */;
+					ProjectRef = 96D7A8E91B90053700DCA01C /* Alamofire.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				2709FA1A1B7BBFD9002D5FB5 /* Chorus */,
 				2709FA321B7BBFD9002D5FB5 /* ChorusTests */,
+				96D7A8C51B9004F100DCA01C /* Chorus WatchKit Extension */,
+				96D7A8D21B9004F100DCA01C /* Chorus WatchKit App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		277F408C1B7D25A10052A4AE /* Alamofire.framework */ = {
+		96D7A8F11B90053700DCA01C /* Alamofire.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Alamofire.framework;
-			remoteRef = 277F408B1B7D25A10052A4AE /* PBXContainerItemProxy */;
+			remoteRef = 96D7A8F01B90053700DCA01C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		277F408E1B7D25A10052A4AE /* Alamofire.framework */ = {
+		96D7A8F31B90053700DCA01C /* Alamofire.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Alamofire.framework;
-			remoteRef = 277F408D1B7D25A10052A4AE /* PBXContainerItemProxy */;
+			remoteRef = 96D7A8F21B90053700DCA01C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		277F40901B7D25A10052A4AE /* Alamofire iOS Tests.xctest */ = {
+		96D7A8F51B90053700DCA01C /* Alamofire iOS Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "Alamofire iOS Tests.xctest";
-			remoteRef = 277F408F1B7D25A10052A4AE /* PBXContainerItemProxy */;
+			remoteRef = 96D7A8F41B90053700DCA01C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		277F40921B7D25A10052A4AE /* Alamofire OSX Tests.xctest */ = {
+		96D7A8F71B90053700DCA01C /* Alamofire OSX Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "Alamofire OSX Tests.xctest";
-			remoteRef = 277F40911B7D25A10052A4AE /* PBXContainerItemProxy */;
+			remoteRef = 96D7A8F61B90053700DCA01C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -377,6 +526,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				2768C6451B88DB7A00970C55 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96D7A8C41B9004F100DCA01C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96D7A8D41B9004F100DCA01C /* Chorus WatchKit App.app in Resources */,
+				96D7A8D01B9004F100DCA01C /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		96D7A8D11B9004F100DCA01C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96D7A8DC1B9004F100DCA01C /* Interface.storyboard in Resources */,
+				96D7A8DE1B9004F100DCA01C /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +588,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		96D7A8C21B9004F100DCA01C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96D7A9001B90057A00DCA01C /* ChatInterfaceController.swift in Sources */,
+				96A8792E1B90626A00D20727 /* ChatRoomRow.swift in Sources */,
+				96D7A9021B90057A00DCA01C /* ChatRowRight.swift in Sources */,
+				96D7A8CE1B9004F100DCA01C /* NotificationController.swift in Sources */,
+				96D7A9031B90057A00DCA01C /* InterfaceController.swift in Sources */,
+				96D7A9011B90057A00DCA01C /* ChatRowLeft.swift in Sources */,
+				96A879291B9061AB00D20727 /* AvailableChatInterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -429,10 +610,20 @@
 			target = 2709FA1A1B7BBFD9002D5FB5 /* Chorus */;
 			targetProxy = 2709FA341B7BBFD9002D5FB5 /* PBXContainerItemProxy */;
 		};
-		277F40961B7D26BB0052A4AE /* PBXTargetDependency */ = {
+		96D7A8D61B9004F100DCA01C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96D7A8D21B9004F100DCA01C /* Chorus WatchKit App */;
+			targetProxy = 96D7A8D51B9004F100DCA01C /* PBXContainerItemProxy */;
+		};
+		96D7A8E01B9004F100DCA01C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96D7A8C51B9004F100DCA01C /* Chorus WatchKit Extension */;
+			targetProxy = 96D7A8DF1B9004F100DCA01C /* PBXContainerItemProxy */;
+		};
+		96D7A8FB1B90055200DCA01C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Alamofire iOS";
-			targetProxy = 277F40951B7D26BB0052A4AE /* PBXContainerItemProxy */;
+			targetProxy = 96D7A8FA1B90055200DCA01C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -443,6 +634,14 @@
 				2709FA2D1B7BBFD9002D5FB5 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		96D7A8DA1B9004F100DCA01C /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				96D7A8DB1B9004F100DCA01C /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -628,6 +827,62 @@
 			};
 			name = Release;
 		};
+		96D7A8E21B9004F100DCA01C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Chorus WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		96D7A8E31B9004F100DCA01C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "Chorus WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		96D7A8E41B9004F100DCA01C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IBSC_MODULE = Chorus_WatchKit_Extension;
+				INFOPLIST_FILE = "Chorus WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		96D7A8E51B9004F100DCA01C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				IBSC_MODULE = Chorus_WatchKit_Extension;
+				INFOPLIST_FILE = "Chorus WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -654,6 +909,24 @@
 			buildConfigurations = (
 				2709FA411B7BBFD9002D5FB5 /* Debug */,
 				2709FA421B7BBFD9002D5FB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96D7A8E61B9004F100DCA01C /* Build configuration list for PBXNativeTarget "Chorus WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96D7A8E41B9004F100DCA01C /* Debug */,
+				96D7A8E51B9004F100DCA01C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96D7A8E71B9004F100DCA01C /* Build configuration list for PBXNativeTarget "Chorus WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96D7A8E21B9004F100DCA01C /* Debug */,
+				96D7A8E31B9004F100DCA01C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
